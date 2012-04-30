@@ -1,0 +1,161 @@
+
+$menu_width: 250px;
+$border: 1px solid rgba(white, 0.2);
+
+p {
+  -webkit-margin-before: 0;
+  -webkit-margin-after: 0;
+  -webkit-margin-start: 0;
+  -webkit-margin-end: 0;    
+}
+
+#container {
+  position: relative;
+}
+
+#images_container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  div {
+    position: absolute;
+    visibility: hidden;
+    &.highlight {
+      background: red;
+      opacity: 1;
+      img {
+        opacity: .7;
+      }
+    }
+    &:hover {
+      cursor: move;
+    }
+  }
+  img {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+}
+
+#dev-tools-menu {
+  position: absolute;
+  z-index: 5;
+
+  .drag-me {
+    display: block;
+    text-shadow: black 1px 1px -1px;
+    color: white;
+    font-size: 0.7em;    
+    text-align: center;
+
+    &:hover {
+      cursor: move;
+    }
+
+    // awesome stripes effect - http://westciv.com/tools/radialgradients/index.html
+    background-color:rgba(207, 207, 207, 0.6);
+    background-image: -moz-repeating-radial-gradient(-100% -151%, ellipse farthest-corner, rgba(207, 207, 207, 0.6), #454545 3%);
+    background-image: -webkit-repeating-radial-gradient(-100% -151%, ellipse farthest-corner, rgba(207, 207, 207, 0.6), #454545 3%);
+    background-image: -o-repeating-radial-gradient(-100% -151%, ellipse farthest-corner, rgba(207, 207, 207, 0.6), #454545 3%);
+    background-image: -ms-repeating-radial-gradient(-100% -151%, ellipse farthest-corner, rgba(207, 207, 207, 0.6), #454545 3%);
+    background-image: repeating-radial-gradient(-100% -151%, ellipse farthest-corner, rgba(207, 207, 207, 0.6), #454545 3%)
+
+  }
+
+  ul {
+    list-style: none;
+
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+  }
+}
+
+.menu-item {
+  background-color: rgba(#AAA, .8);
+  border: $border;
+  width: $menu_width;
+  a.collaps-button {
+    cursor: pointer;
+    position: absolute;
+    padding-top: 9px;
+    padding-left: 5px;
+    width: 13px;
+    height: 9px;
+    background: url("/assets/webdev_toolbox/arrowDown.png") no-repeat center center;
+    span {
+      display: none;
+      color: yellow;
+      &:hover {
+        color: yellow;
+      }
+    }
+  }
+  label.title { 
+    padding-left: 20px;
+    color: white;
+    cursor: pointer;
+    width: $menu_width - 13px;
+    line-height: 1.1em;
+  }
+  &.collapsed {
+    .item-content { display: none; }
+    a.collaps-button {
+      background: url("/assets/webdev_toolbox/arrowRight.png") no-repeat center center;
+    }
+  }
+}
+
+#images_mgnt {
+  padding: 0px 5px 5px 5px;
+  label {
+    margin-right: 5px;
+  }
+}
+
+#overlay_panel {
+
+  .content-mgnt-block {
+    #contentSlider {
+      -webkit-appearance: slider-vertical;
+      height: 35px;
+      width: 40px;
+      margin: 0 0 10px 0;
+    }
+  }
+
+  .overlay-image-block {
+    width: $menu_width - 7px; // menu_width - padding - border
+    padding: 2px 4px;
+    border: $border;
+    border-right: none;
+    border-left: none;    
+    &.hovered {
+      background-color: rgba(yellow, 0.5);
+    }
+  }
+
+  input[type=checkbox], label,
+  #contentSlider, .zindex-switch {
+    display: inline;
+  }
+
+  .zindex-switch {
+    display: inline-block;
+    margin-left: -5px;
+  }
+
+  input[type=checkbox] {
+    vertical-align: middle;
+    margin: -3px 5px 0 0;
+  }
+
+  input[type=range] {
+    display: block;
+  }
+}
+
