@@ -8,32 +8,40 @@ We were struggling to see the gap between designers photoshop files and our HTML
 Features
 --------
 - images overlay with images position/opacity retention
+- layout resizing (to switch between pre-recorded devices format)
 
 Todo
 ----
-- include the (already developed) layout resizer block (to switch between pre-recorded devices format layouts)
 - add a way to dynamically add new images (by absolute url) to the overlay system
 - images sub-sets (directories) should appear as nested blocks
+- add some appealing screenshots on this repo :)
 
 How to use
 ----------
 - Load the compiled plugins.js in your page
 
-  * for us, in haml, using middleman:
-
-    > if "#{Middleman.server.environment}" == 'development'
-    > %script{ :src => '/javascripts/webdev_toolbox/plugins.js', :type => 'text/javascript', :charset => 'utf-8' }
-    
   * under a rails app:
 
-    > = javascript_include_tag 'webdev_toolbox/plugins.js'
+    = javascript_include_tag 'webdev_toolbox/plugins.js'
 
+  * or in a simpler project, (we are using [middleman](http://middlemanapp.com/))
+  
+    if "#{Middleman.server.environment}" == 'development'
+    %script{ :src => '/javascripts/webdev_toolbox/plugins.js', :type => 'text/javascript', :charset => 'utf-8' }
+    
 - Then add initialisers variables
 
-   * for rails:
+  * for rails:
+  
+    WebdevToolbox.root_dir = Dir[Rails.root.join("public")].to_s
+    WebdevToolbox.overlays_directory = 'images/dev_overlays' 
 
-    > WebdevToolbox.root_dir = Dir[Rails.root.join("public")].to_s
-    > WebdevToolbox.overlays_directory = 'images/dev_overlays' 
+- And add some images in that directory !
+
+Plug
+----
+
+You can add some app specific toolbar menu by project.. Have a look at layout_resizer.coffee to have a pretty simple vision of how to use DevTools.Menu and DevTools.MenuItem
     
 
 Known problems

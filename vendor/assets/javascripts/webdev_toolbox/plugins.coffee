@@ -1,5 +1,6 @@
 #= require 'webdev_toolbox/basics'
 #= require 'webdev_toolbox/overlays'
+#= require 'webdev_toolbox/layout_resizer'
 
 createTag = (tagName, attributes) ->
   tag = document.createElement(tagName)
