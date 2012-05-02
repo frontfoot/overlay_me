@@ -49,4 +49,5 @@ Known problems
 - it's version 0.9 as checkboxes and localStorage retention may fail..
 - the overlays management system needs your page content to be in a #content or #container div
 - when you can't find the panel, it's maybe hidden aside (previous bigger screen location) or hidden (press 'H')
+- not a big deal, I tried to bend middleman sprockets configuration to load the stylesheets into /assets but failed... so we try loading both path (see plugins.coffee)
 
