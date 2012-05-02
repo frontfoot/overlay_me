@@ -8,7 +8,7 @@ Features
 - images overlay with images position/opacity retention
 - addon layout resizing, to switch between pre-recorded devices format
 
-see [screenshot](screenshot_frontfoot_website.jpg)
+see [screenshot](http://github.com/frontfoot/overlayme/raw/master/screenshot_frontfoot_website.jpg)
 
 Todo
 ----
