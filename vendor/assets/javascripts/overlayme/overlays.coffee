@@ -18,12 +18,6 @@ if !navigator.userAgent.match /(iPhone|iPod|iPad|Android)/
   # adding image management block
   overlay_panel.append new Overlayme.Overlays.ImagesManagementDiv().render()
 
-  dyn_manager = new Overlayme.Overlays.DynamicManager()
-  dyn_manager.loadAll()
-
-  dyn_image = dyn_manager.addImage('https://a248.e.akamai.net/assets.github.com/images/modules/about_page/octocat.png')
-  overlay_panel.append dyn_image.render()
-
   # adding all overlay images
   $.getJSON '/overlay_images', (data) ->
     $.each data, (index, img_path) ->
@@ -31,11 +25,18 @@ if !navigator.userAgent.match /(iPhone|iPod|iPad|Android)/
 
   # add the panel to the page menu
   $(Overlayme.Menu).append overlay_panel.render()
-
+  
   $(window).trigger 'images_should_be_rendred'
 
   # repeating original window#mousemove event
   $(window).bind('mousemove', (event) ->
     $(window).trigger('mymousemove', event)
   )
+
+  # once everything rendered, load dynamicly added images
+  dyn_manager = new Overlayme.Overlays.DynamicManager()
+  dyn_manager.loadAll()
+
+  dyn_image = dyn_manager.addImage('https://a248.e.akamai.net/assets.github.com/images/modules/about_page/octocat.png')
+
 

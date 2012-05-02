@@ -15,7 +15,9 @@ class Overlayme.Overlays.Image extends Backbone.View
       $('body').append (new Backbone.View).make 'div', { id: 'images_container' }
       @images_container = $('#images_container')
 
-    $(@images_container).append @image()
+    unless $("##{@image_id}", @images_container).length > 0
+      $(@images_container).append @image()
+
     $(@el).append @checkbox()
     $(@el).append @label()
     $(@el).append @slider()
