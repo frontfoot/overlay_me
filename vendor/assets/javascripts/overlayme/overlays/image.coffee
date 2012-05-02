@@ -26,8 +26,8 @@ class Overlayme.Overlays.Image extends Backbone.View
 
   checkbox: ->
     @checkbox = @make 'input', { type: "checkbox" }
-    # if $(@image.el).css('visibility') == 'visible'
-    #   @checkbox.checked = true
+    if $(@image.el).css('visibility') == 'visible'
+      @checkbox.checked = true
     $(@checkbox).bind 'change', (event) =>
       @flickVisibility()
     @checkbox
