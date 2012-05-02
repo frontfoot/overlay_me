@@ -1,5 +1,6 @@
-#= require 'webdev_toolbox/menu'
-#= require 'webdev_toolbox/menu_item'
+## require menu.coffee and menu_item.coffee to be loaded first !!
+# Need the page content to be in #content
+
 
 # available layouts
 layouts = {
@@ -27,16 +28,16 @@ window.resize_page = (width) ->
 #load previous state (or null if empty)
 window.resize_page parseInt(localStorage.getItem("layout-width"))
 
-# add the buttons in the body
-layout_buttons = new DevTools.MenuItem({id: "layout-buttons", title: "Layout Resizing" })
+# add the buttons to the menu_item
+layout_menu = new DevTools.MenuItem({id: "layout-buttons", title: "Layout Resizing" })
 _.each(layouts, (width, name) ->
   button = (new Backbone.View).make 'button', {}, name
   $(button).addClass name
   $(button).bind 'click', (e) ->
     window.resize_page "#{width}"
-  layout_buttons.append button
+  layout_menu.append button
 )
 # add the element to the page menu
-$(DevTools.Menu).append layout_buttons.render()
+$(DevTools.Menu).append layout_menu.render()
 
 
