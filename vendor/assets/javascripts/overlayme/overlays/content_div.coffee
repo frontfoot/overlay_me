@@ -4,12 +4,14 @@ class Overlayme.Overlays.ContentDivManagementBlock extends Backbone.View
   className: 'content-mgnt-block'
 
   container_id: 'container'
+  normal_zindex: 0
+  over_zindex: 5
 
   initialize: ->
 
-    @container_id = 'content' if $('#content')
+    @container_id = 'content' unless $('#content').length == 0
 
-    $("##{@container_id}").css({'z-index': '0'})
+    $("##{@container_id}").css({'z-index': @normal_zindex})
     if ( contentCss = localStorage.getItem("##{@container_id}") )
       #console.log 'load content:', contentCss
       $("##{@container_id}").css(JSON.parse(contentCss))
@@ -27,7 +29,7 @@ class Overlayme.Overlays.ContentDivManagementBlock extends Backbone.View
     }
     $(block).append @zIndexSwitch
 
-    if $("##{@container_id}").css('z-index') == '1'
+    if $("##{@container_id}").css('z-index') == @over_zindex
       @zIndexSwitch.checked = true
 
     label = this.make 'label', {}, 'HTML ON TOP'
@@ -52,9 +54,9 @@ class Overlayme.Overlays.ContentDivManagementBlock extends Backbone.View
     )
     $(@zIndexSwitch).bind('change', (event) =>
       if @zIndexSwitch.checked
-        $("##{@container_id}").css({'z-index': '1'})
+        $("##{@container_id}").css({'z-index': @over_zindex})
       else
-        $("##{@container_id}").css({'z-index': '0'})
+        $("##{@container_id}").css({'z-index': @normal_zindex})
       @saveContentCss()
     )
     # if click is kind of boring
