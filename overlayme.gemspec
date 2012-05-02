@@ -14,7 +14,8 @@ Gem::Specification.new do |s|
   s.add_dependency('rack') 
   s.add_dependency('json') 
 
-  s.files        = Dir.glob("vendor/assets/{images,javascripts,stylesheets}/**/*") + %w(README.md LICENSE)
+  s.files         = `git ls-files | grep -v 'jpg$'`.split("\n")
+  s.require_paths = ["lib"]  
 end
 
 
