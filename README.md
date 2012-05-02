@@ -1,5 +1,3 @@
-WebDev Toolbar
-==============
 
 The original purpose of this tool is to help the developer to meet designers requirements by overlaying images on the page.
 
@@ -18,32 +16,47 @@ Todo
 
 How to use
 ----------
-- Load the compiled plugins.js in your page
+- Load the compiled plugins.js
 
   * under a rails app:
 
-    = javascript_include_tag 'webdev_toolbox/plugins.js'
+      = javascript_include_tag 'webdev_toolbox/plugins.js'
 
   * or in a simpler project, (we are using [middleman](http://middlemanapp.com/))
   
-    if "#{Middleman.server.environment}" == 'development'
-    %script{ :src => '/javascripts/webdev_toolbox/plugins.js', :type => 'text/javascript', :charset => 'utf-8' }
-    
-- Then add initialisers variables
+      %script{ :src => '/javascripts/webdev_toolbox/plugins.js', :type => 'text/javascript', :charset => 'utf-8' }
 
-  * for rails:
+- Initialise path variables and overlay images feed route:
+
+  * rails
+
+      #config/initializers/webdev_toolbox.rb
+      
+      WebdevToolbox.root_dir = Dir[Rails.root.join("public")].to_s
+      WebdevToolbox.overlays_directory = 'images/dev_overlays' 
+
+      #config/routes.rb
+
+      if ["development", "test"].include? Rails.env
+        match "/overlay_images" => WebdevToolbox::App
+      end
+
+  * using middleman, in config.rb:
+
+      WebdevToolbox.root_dir = Dir.pwd + '/source'
+      WebdevToolbox.overlays_directory = 'images/overlays'
+
+      map "/overlay_images" do
+        run WebdevToolbox::App
+      end
   
-    WebdevToolbox.root_dir = Dir[Rails.root.join("public")].to_s
-    WebdevToolbox.overlays_directory = 'images/dev_overlays' 
 
-- And add some images in that directory !
+- And add some images in that overlays directory !
 
-Plug
-----
-
-You can add some app specific toolbar menu by project.. Have a look at layout_resizer.coffee to have a pretty simple vision of how to use DevTools.Menu and DevTools.MenuItem
+Plug on!
+--------
+You can add some app specific menu for specific project.. Have a look at layout_resizer.coffee addon to have a quick view of how to use DevTools.Menu and DevTools.MenuItem
     
-
 Known problems
 --------------
 - it's version 0.9 as checkboxes and localStorage retention may fail..

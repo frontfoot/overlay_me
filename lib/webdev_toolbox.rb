@@ -1,7 +1,7 @@
 module WebdevToolbox
   
   mattr_accessor :root_dir, :overlays_directory
-  self.root_dir = 'public'
+  self.root_dir = ''
   self.overlays_directory = 'images/overlays'
 
   class App
@@ -13,7 +13,9 @@ module WebdevToolbox
   end
 
   module Rails
-    class Engine < ::Rails::Engine
+    if defined? ::Rails
+      class Engine < ::Rails::Engine
+      end
     end
   end
 end
