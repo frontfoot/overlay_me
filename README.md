@@ -8,6 +8,8 @@ Features
 - images overlay with images position/opacity retention
 - layout resizing (to switch between pre-recorded devices format)
 
+see [screenshot](screenshot_frontfoot_website.jpg)
+
 Todo
 ----
 - add a way to dynamically add new images (by absolute url) to the overlay system
