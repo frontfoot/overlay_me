@@ -1,6 +1,6 @@
-#= require 'webdev_toolbox/draggable'
+#= require 'overlayme/draggable'
 
-class DevTools.Overlays.DraggableImage extends DevTools.Draggable
+class Overlayme.Overlays.DraggableImage extends Overlayme.Draggable
 
   initialize: (attributes, options) ->
     super(attributes, options)

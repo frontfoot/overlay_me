@@ -29,7 +29,7 @@ window.resize_page = (width) ->
 window.resize_page parseInt(localStorage.getItem("layout-width"))
 
 # add the buttons to the menu_item
-layout_menu = new DevTools.MenuItem({id: "layout-buttons", title: "Layout Resizing" })
+layout_menu = new Overlayme.MenuItem({id: "layout-buttons", title: "Layout Resizing" })
 _.each(layouts, (width, name) ->
   button = (new Backbone.View).make 'button', {}, name
   $(button).addClass name
@@ -38,6 +38,6 @@ _.each(layouts, (width, name) ->
   layout_menu.append button
 )
 # add the element to the page menu
-$(DevTools.Menu).append layout_menu.render()
+$(Overlayme.Menu).append layout_menu.render()
 
 

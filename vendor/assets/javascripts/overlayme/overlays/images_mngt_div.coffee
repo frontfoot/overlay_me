@@ -1,4 +1,4 @@
-class DevTools.Overlays.ImagesManagementDiv extends Backbone.View
+class Overlayme.Overlays.ImagesManagementDiv extends Backbone.View
 
   tagName: 'div'
   id: 'images_mgnt'

@@ -1,5 +1,5 @@
-#= require 'webdev_toolbox/menu'
-#= require 'webdev_toolbox/menu_item'
+#= require 'overlayme/menu'
+#= require 'overlayme/menu_item'
 
 # only non tactile devices
 if !navigator.userAgent.match /(iPhone|iPod|iPad|Android)/
@@ -13,7 +13,7 @@ if !navigator.userAgent.match /(iPhone|iPod|iPad|Android)/
     $(menu).css(css)
     $(window).trigger 'save:menu'
 
-  basics_panel = new DevTools.MenuItem({id: "bacis-options", title: "Basics" })
+  basics_panel = new Overlayme.MenuItem({id: "bacis-options", title: "Basics" })
 
   clear_all_button = (new Backbone.View).make 'button', { onClick: "javascript: localStorage.clear(); window.location.reload()" }, 'Reset All'
   basics_panel.append clear_all_button
@@ -22,7 +22,7 @@ if !navigator.userAgent.match /(iPhone|iPod|iPad|Android)/
   basics_panel.append hide_button
 
   # add the element to the page menu
-  $(DevTools.Menu).append basics_panel.render()
+  $(Overlayme.Menu).append basics_panel.render()
 
   # add listener for keypress
   $(window).bind('keypress', (event) =>

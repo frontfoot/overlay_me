@@ -1,6 +1,6 @@
-#= require 'webdev_toolbox/overlays/draggable_image'
+#= require 'overlayme/overlays/draggable_image'
 
-class DevTools.Overlays.Image extends Backbone.View
+class Overlayme.Overlays.Image extends Backbone.View
 
   tagName: 'div'
   className: 'overlay-image-block'
@@ -21,7 +21,7 @@ class DevTools.Overlays.Image extends Backbone.View
     $(@el).append @slider()
 
   image: ->
-    @image = new DevTools.Overlays.DraggableImage { id: @image_id }, { image_src: @image_src, default_css: {visibility: 'hidden'} }
+    @image = new Overlayme.Overlays.DraggableImage { id: @image_id }, { image_src: @image_src, default_css: {visibility: 'hidden'} }
     @image.render()
 
   checkbox: ->

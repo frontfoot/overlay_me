@@ -1,4 +1,4 @@
-module WebdevToolbox
+module Overlayme
   
   mattr_accessor :root_dir, :overlays_directory
   self.root_dir = ''
@@ -6,8 +6,8 @@ module WebdevToolbox
 
   class App
     def self.call(env)
-      Dir.chdir WebdevToolbox.root_dir if Dir[WebdevToolbox.root_dir]
-      images_urls = Dir[ WebdevToolbox.overlays_directory + '/*.*' ].map{|path| '/'+path}
+      Dir.chdir Overlayme.root_dir if Dir[Overlayme.root_dir]
+      images_urls = Dir[ Overlayme.overlays_directory + '/*.*' ].map{|path| '/'+path}
       [200, {"Content-Type" => "text/html"}, images_urls.to_json]
     end
   end

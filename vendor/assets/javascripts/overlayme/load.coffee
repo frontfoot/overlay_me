@@ -1,5 +1,5 @@
-#= require 'webdev_toolbox/basics'
-#= require 'webdev_toolbox/overlays'
+#= require 'overlayme/basics'
+#= require 'overlayme/overlays'
 
 createTag = (tagName, attributes) ->
   tag = document.createElement(tagName)
@@ -10,5 +10,5 @@ head = document.getElementsByTagName('head')[0]
 
 # the dirty way: couldn't find a way to force middleman sprockets conf to use /assets for all (as Rails do) 
 # so loading both (and always 1 fail)
-head.appendChild(createTag('link', {type:'text/css', href:'/assets/webdev_toolbox/style.css', media:'only screen', rel:'stylesheet'}))
-head.appendChild(createTag('link', {type:'text/css', href:'/stylesheets/webdev_toolbox/style.css', media:'only screen', rel:'stylesheet'}))
+head.appendChild(createTag('link', {type:'text/css', href:'/assets/overlayme/style.css', media:'only screen', rel:'stylesheet'}))
+head.appendChild(createTag('link', {type:'text/css', href:'/stylesheets/overlayme/style.css', media:'only screen', rel:'stylesheet'}))
