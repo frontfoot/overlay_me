@@ -2,6 +2,7 @@
 #= require 'overlayme/menu_item'
 #= require 'overlayme/overlays/init'
 #= require 'overlayme/overlays/image'
+#= require 'overlayme/overlays/dynamic_image'
 #= require 'overlayme/overlays/content_div'
 #= require 'overlayme/overlays/images_mngt_div'
 
@@ -16,6 +17,8 @@ if !navigator.userAgent.match /(iPhone|iPod|iPad|Android)/
 
   # adding image management block
   overlay_panel.append new Overlayme.Overlays.ImagesManagementDiv().render()
+
+  overlay_panel.append new Overlayme.Overlays.DynamicImage('https://a248.e.akamai.net/assets.github.com/images/modules/about_page/octocat.png').render()
 
   # adding all overlay images
   $.getJSON '/overlay_images', (data) ->
