@@ -11,7 +11,7 @@ We were struggling to see the gap between designers photoshop files and our HTML
 
 - addon layout_resizer, to switch between pre-recorded devices format
 
-see [screenshot](http://github.com/frontfoot/overlayme/raw/master/screenshot_frontfoot_website.jpg)
+see [screenshot](http://github.com/frontfoot/overlay_me/raw/master/screenshot_frontfoot_website.jpg)
 
 
 ## Todo
@@ -29,18 +29,18 @@ The project is available as a Ruby gem, so if you too use bundler
 
     # Gemfile
     
-    gem "overlayme", :git => "git://github.com/frontfoot/overlayme.git"
+    gem "overlay_me", :git => "git://github.com/frontfoot/overlay_me.git"
 
 
 ### Load the compiled load.js
 
 under a rails app:
 
-    = javascript_include_tag 'overlayme/load.js'
+    = javascript_include_tag 'overlay_me/load.js'
 
 or in a simpler project, (we are using [middleman](http://middlemanapp.com/))
   
-    %script{ :src => '/javascripts/overlayme/load.js', :type => 'text/javascript', :charset => 'utf-8' }
+    %script{ :src => '/javascripts/overlay_me/load.js', :type => 'text/javascript', :charset => 'utf-8' }
 
 And that's it ! Reload your page :)
 
@@ -67,35 +67,35 @@ Here is how to initialise the path and the feed route
 
 using rails
 
-    #config/initializers/overlayme.rb
+    #config/initializers/overlay_me.rb
     
-    Overlayme.root_dir = Dir[Rails.root.join("public")].to_s
-    Overlayme.overlays_directory = 'images/overlays' 
+    OverlayMe.root_dir = Dir[Rails.root.join("public")].to_s
+    OverlayMe.overlays_directory = 'images/overlays' 
 
     #config/routes.rb
 
     if ["development", "test"].include? Rails.env
-      match "/overlay_images" => Overlayme::App
+      match "/overlay_images" => OverlayMe::App
     end
 
 using middleman
 
     #config.rb:
     
-    Overlayme.root_dir = Dir.pwd + '/source'
-    Overlayme.overlays_directory = 'images/overlays'
+    OverlayMe.root_dir = Dir.pwd + '/source'
+    OverlayMe.overlays_directory = 'images/overlays'
 
     map "/overlay_images" do
-      run Overlayme::App
+      run OverlayMe::App
     end
 
 
 
 ## Plug on!
 
-You can add some app specific menu for specific project.. Have a look at layout_resizer.coffee addon to have a quick view of how to use Overlayme.Menu and Overlayme.MenuItem
+You can add some app specific menu for specific project.. Have a look at layout_resizer.coffee addon to have a quick view of how to use OverlayMe.Menu and OverlayMe.MenuItem
 
-    = javascript_include_tag 'overlayme/addons/layout_resizer.js'
+    = javascript_include_tag 'overlay_me/addons/layout_resizer.js'
 
     
 

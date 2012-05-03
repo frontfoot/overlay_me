@@ -1,4 +1,4 @@
-class Overlayme.MenuItem extends Backbone.View
+class OverlayMe.MenuItem extends Backbone.View
 
   tagName: 'li'
   className: 'menu-item'

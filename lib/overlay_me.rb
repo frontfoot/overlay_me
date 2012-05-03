@@ -1,4 +1,4 @@
-module Overlayme
+module OverlayMe
   
   mattr_accessor :root_dir, :overlays_directory
   self.root_dir = ''
@@ -6,8 +6,8 @@ module Overlayme
 
   class App
     def self.call(env)
-      Dir.chdir Overlayme.root_dir if Dir[Overlayme.root_dir]
-      images_urls = Dir[ Overlayme.overlays_directory + '/*.*' ].map{|path| '/'+path}
+      Dir.chdir OverlayMe.root_dir if Dir[OverlayMe.root_dir]
+      images_urls = Dir[ OverlayMe.overlays_directory + '/*.*' ].map{|path| '/'+path}
       [200, {"Content-Type" => "text/html"}, images_urls.to_json]
     end
   end

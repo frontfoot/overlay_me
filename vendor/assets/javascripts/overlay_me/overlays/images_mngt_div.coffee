@@ -1,4 +1,4 @@
-class Overlayme.Overlays.ImagesManagementDiv extends Backbone.View
+class OverlayMe.Overlays.ImagesManagementDiv extends Backbone.View
 
   tagName: 'div'
   id: 'images_mgnt'
@@ -30,7 +30,7 @@ class Overlayme.Overlays.ImagesManagementDiv extends Backbone.View
     @dynamicAddsBlock.appendChild image_text_input
     $(image_text_input).bind 'keypress', (e) =>
       if e.keyCode == 13
-        Overlayme.dyn_manager.addImage e.target.value
+        OverlayMe.dyn_manager.addImage e.target.value
         e.target.value = ''
     @dynamicAddsBlock
 
