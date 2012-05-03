@@ -7,29 +7,38 @@ class Overlayme.Overlays.DynamicManager extends Backbone.Model
       @list = JSON.parse(listJSON)
     else
       @list = []
-    @images_mgnt_div = $('#images_mgnt')
-    console.log 'init dynImages', listJSON
 
-  isPresent: (_id) ->
+  isPresent: (image_id) ->
     for saved in @list
-      return true if saved.id == _id
+      return true if saved.id == image_id
     return false
 
   addImage: (src) ->
-    new_image = new Overlayme.Overlays.Image(src)
-    if @isPresent new_image.image_id
-      console.log new_image.image_id, 'already in the panel'
-    else
+    new_image = @loadImage(src)
+    unless @isPresent new_image.image_id
       @list.push { id: new_image.image_id, src: new_image.image_src }
-      @images_mgnt_div.append new_image.render()
       @saveList()
+    new_image
+
+  loadImage: (src) ->
+    image = undefined
+    unless $("#images_container ##{@image_id}").length > 0
+      image = new Overlayme.Overlays.Image(src, { destroyable: true, default_css: {visibility: 'visible'} })
+      Overlayme.images_management_div.append image.render()
+    image
+
+  delImage: (image_id) ->
+    for image in @list
+      if image.id == image_id
+        @list.splice(@list.indexOf(image), 1)
+        @saveList()
+        break
+    Overlayme.images_management_div.del image_id
 
   loadAll: () ->
     for image in @list
-      reloaded_image = new Overlayme.Overlays.Image(image.src)
-      @images_mgnt_div.append reloaded_image.render()
+      @addImage(image.src)
 
   saveList: ->
-    console.log 'saving list', @list, @list.length
     localStorage.setItem('dyn_image_list', JSON.stringify(@list))
 

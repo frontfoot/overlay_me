@@ -4,10 +4,35 @@ class Overlayme.Overlays.ImagesManagementDiv extends Backbone.View
   id: 'images_mgnt'
 
   initialize: ->
-    $(@el).append @checkAllbox()
-    $(@el).append @make 'label', {}, 'All/None'
-    $(@el).append @hideInactiveBox()
-    $(@el).append @make 'label', {}, 'Hide Inactives'
+    @controlBlock = @make 'div', { class: 'controls' }
+    $(@el).append @controlBlock
+    @controlBlock.appendChild @checkAllbox()
+    @controlBlock.appendChild @make 'label', {}, 'All/None'
+    @controlBlock.appendChild @hideInactiveBox()
+    @controlBlock.appendChild @make 'label', {}, 'Hide Inactives'
+
+    @overlaysListBlock = @make 'div', { class: 'overlays-list' }
+    $(@el).append @overlaysListBlock
+
+    $(@el).append @dynamicAddsBlock()
+
+  append: (block) ->
+    @overlaysListBlock.appendChild block
+
+  del: (image_id) ->
+    $(".overlay-image-block[data-img-id=#{image_id}]", @el).remove()
+    $("#images_container ##{image_id}").remove()
+
+  dynamicAddsBlock: ->
+    @dynamicAddsBlock = @make 'div', { class: 'dynamic-adds' }
+    @dynamicAddsBlock.appendChild @make 'label', {}, 'Add an image'
+    image_text_input = @make 'input', { type: 'text', placeholder: "http://" }
+    @dynamicAddsBlock.appendChild image_text_input
+    $(image_text_input).bind 'keypress', (e) =>
+      if e.keyCode == 13
+        Overlayme.dyn_manager.addImage e.target.value
+        e.target.value = ''
+    @dynamicAddsBlock
 
   hideInactiveBox: ->
     @hideInactiveBox = @make 'input', { type: "checkbox", class: 'hide-inactive' }
