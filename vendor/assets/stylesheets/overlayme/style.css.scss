@@ -13,32 +13,6 @@ p {
   position: relative;
 }
 
-#images_container {
-  position: absolute;
-  z-index: 4; // same than the caroussel images
-  top: 0;
-  left: 0;
-  div {
-    position: absolute;
-    visibility: hidden;
-    &.highlight {
-      background: red;
-      opacity: 1;
-      img {
-        opacity: .7;
-      }
-    }
-    &:hover {
-      cursor: move;
-    }
-  }
-  img {
-    position: absolute;
-    top: 0;
-    left: 0;
-  }
-}
-
 #dev-tools-menu {
   position: absolute;
   z-index: 6;
@@ -111,13 +85,6 @@ p {
   }
 }
 
-#images_mgnt {
-  padding: 0px 5px 5px 5px;
-  label {
-    margin-right: 5px;
-  }
-}
-
 #overlay_panel {
 
   .content-mgnt-block {
@@ -127,27 +94,57 @@ p {
       width: 40px;
       margin: 0 0 10px 0;
     }
-  }
-
-  .overlay-image-block {
-    width: $menu_width - 7px; // menu_width - padding - border
-    padding: 2px 4px;
-    border: $border;
-    border-right: none;
-    border-left: none;    
-    &.hovered {
-      background-color: rgba(yellow, 0.5);
+    .zindex-switch {
+      display: inline-block;
+      margin-left: -5px;
     }
   }
 
-  input[type=checkbox], label,
-  #contentSlider, .zindex-switch {
-    display: inline;
+  #images_mgnt {
+    padding: 0px 5px 5px 5px;
+    label {
+      margin-right: 5px;
+    }
+    .controls {
+      padding-bottom: 5px;
+    }
+
+    .overlay-image-block {
+      position: relative;
+      width: $menu_width - 7px; // menu_width - padding - border
+      border: $border;
+      border-right: none;
+      border-left: none;    
+      &.hovered {
+        background-color: rgba(yellow, 0.5);
+      }
+      .del-button {
+        position: absolute;
+        right: 0;
+        top: 0;
+        margin: 3px;
+        cursor: pointer;
+        border: 1px #AAA solid;
+        font-size: 80%;
+        background-color: #444;
+        color: white;
+        font-weight: bold;
+        padding: 0 4px 2px 4px;
+      }
+    }
+
+    .dynamic-adds {
+      label {
+        font-size: 75%;
+      }
+      input {
+        width: 150px;
+      }
+    }
   }
 
-  .zindex-switch {
-    display: inline-block;
-    margin-left: -5px;
+  input[type=checkbox], label, #contentSlider, .zindex-switch {
+    display: inline;
   }
 
   input[type=checkbox] {
@@ -156,7 +153,35 @@ p {
   }
 
   input[type=range] {
+    margin: 0;
     display: block;
+  }
+  
+}
+
+#images_container {
+  position: absolute;
+  z-index: 4; // same than the caroussel images
+  top: 0;
+  left: 0;
+  div {
+    position: absolute;
+    visibility: hidden;
+    &.highlight {
+      background: red;
+      opacity: 1;
+      img {
+        opacity: .7;
+      }
+    }
+    &:hover {
+      cursor: move;
+    }
+  }
+  img {
+    position: absolute;
+    top: 0;
+    left: 0;
   }
 }
 
