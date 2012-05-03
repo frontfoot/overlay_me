@@ -1,4 +1,4 @@
-class Overlayme.Draggable extends Backbone.View
+class OverlayMe.Draggable extends Backbone.View
 
   tagName: 'div'
 

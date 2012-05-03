@@ -1,4 +1,4 @@
-class Overlayme.Overlays.ContentDivManagementBlock extends Backbone.View
+class OverlayMe.Overlays.ContentDivManagementBlock extends Backbone.View
 
   tagName: 'div'
   className: 'content-mgnt-block'

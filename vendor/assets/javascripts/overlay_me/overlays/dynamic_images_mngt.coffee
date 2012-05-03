@@ -1,6 +1,6 @@
-#= require 'overlayme/overlays/image'
+#= require 'overlay_me/overlays/image'
 
-class Overlayme.Overlays.DynamicManager extends Backbone.Model
+class OverlayMe.Overlays.DynamicManager extends Backbone.Model
   
   initialize: () ->
     if ( listJSON = localStorage.getItem('dyn_image_list') )
@@ -23,8 +23,8 @@ class Overlayme.Overlays.DynamicManager extends Backbone.Model
   loadImage: (src) ->
     image = undefined
     unless $("#images_container ##{@image_id}").length > 0
-      image = new Overlayme.Overlays.Image(src, { destroyable: true, default_css: {visibility: 'visible'} })
-      Overlayme.images_management_div.append image.render()
+      image = new OverlayMe.Overlays.Image(src, { destroyable: true, default_css: {visibility: 'visible'} })
+      OverlayMe.images_management_div.append image.render()
     image
 
   delImage: (image_id) ->
@@ -33,7 +33,7 @@ class Overlayme.Overlays.DynamicManager extends Backbone.Model
         @list.splice(@list.indexOf(image), 1)
         @saveList()
         break
-    Overlayme.images_management_div.del image_id
+    OverlayMe.images_management_div.del image_id
 
   loadAll: () ->
     for image in @list

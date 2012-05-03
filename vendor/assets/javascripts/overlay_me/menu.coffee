@@ -1,17 +1,17 @@
-#= require 'overlayme/init'
-#= require 'overlayme/draggable'
+#= require 'overlay_me/init'
+#= require 'overlay_me/draggable'
 
 # only non tactile devices
 if !navigator.userAgent.match /(iPhone|iPod|iPad|Android)/
 
   # create elements
-  menu_box = new Overlayme.Draggable { id: 'dev-tools-menu' }, { default_css: { left: document.documentElement.clientWidth-300+'px', top: '0px' }, events_to_save_on: ['save:menu']}
+  menu_box = new OverlayMe.Draggable { id: 'dev-tools-menu' }, { default_css: { left: document.documentElement.clientWidth-300+'px', top: '0px' }, events_to_save_on: ['save:menu']}
   drag_me_line = (new Backbone.View).make 'div', { class: 'drag-me' }, 'Drag me'
-  Overlayme.Menu = (new Backbone.View).make 'ul'
+  OverlayMe.Menu = (new Backbone.View).make 'ul'
 
   # stack them together
   $(menu_box.el).append drag_me_line
-  $(menu_box.el).append Overlayme.Menu
+  $(menu_box.el).append OverlayMe.Menu
 
   # add it to the page
   $('body').append menu_box.render()

@@ -1,6 +1,6 @@
-#= require 'overlayme/draggable'
+#= require 'overlay_me/draggable'
 
-class Overlayme.Overlays.DraggableImage extends Overlayme.Draggable
+class OverlayMe.Overlays.DraggableImage extends OverlayMe.Draggable
 
   initialize: (attributes, options) ->
     super(attributes, options)

@@ -1,6 +1,6 @@
-#= require 'overlayme/overlays/draggable_image'
+#= require 'overlay_me/overlays/draggable_image'
 
-class Overlayme.Overlays.Image extends Backbone.View
+class OverlayMe.Overlays.Image extends Backbone.View
 
   tagName: 'div'
   className: 'overlay-image-block'
@@ -26,7 +26,7 @@ class Overlayme.Overlays.Image extends Backbone.View
     $(@el).append @delButton() if options.destroyable
 
   image: ->
-    @image = new Overlayme.Overlays.DraggableImage { id: @image_id }, { image_src: @image_src, default_css: @default_css }
+    @image = new OverlayMe.Overlays.DraggableImage { id: @image_id }, { image_src: @image_src, default_css: @default_css }
     @image.render()
 
   checkbox: ->
@@ -40,7 +40,7 @@ class Overlayme.Overlays.Image extends Backbone.View
   delButton: ->
     @delButton = @make 'button', { class: 'del-button', title: 'Delete' }, 'x'
     $(@delButton).bind 'click', (e) =>
-      Overlayme.dyn_manager.delImage @image_id
+      OverlayMe.dyn_manager.delImage @image_id
     @delButton
 
   flickCheckbox: ->
