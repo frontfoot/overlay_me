@@ -1,3 +1,7 @@
+### coming up
+- a bit of styling
+- bookmarklet access ?
+
 ### 0.91
 - added the global image dynamic add/remove/storing
 - rename the project to overlay_me

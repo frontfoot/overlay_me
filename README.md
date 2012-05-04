@@ -8,10 +8,13 @@ We were struggling to see the gap between designers photoshop files and our HTML
 - overlay images over a web page saving their position/opacity locally (using HTML5 localStorage)
   * images can be loaded from a local directory
   * any image can also be manually added on the fly with its absolute url
-
+- allow you to bring back your HTML on top of these overlays (asssuming the content of the page is in a #content or #container div)
+  * control the opacity of your full page content
+  * keep on playing with the CSS while having the overlay there
+  * reload the page, settings remain (localStorage)
 - addon layout_resizer, to switch between pre-recorded devices format
 
-Try it live by loading it right now [here](javascript:(function(){document.body.appendChild(document.createElement('script')).src='https://raw.github.com/frontfoot/overlay_me/feature/bookmarklet/overlay_me.js';})();) or look at that [screenshot](http://github.com/frontfoot/overlay_me/raw/master/screenshot_frontfoot_website.jpg)
+Try it live [here](https://raw.github.com/frontfoot/overlay_me/feature/bookmarklet/bookmarklet_link.html) or look at that [screenshot](http://github.com/frontfoot/overlay_me/raw/master/screenshot_frontfoot_website.jpg)
 
 
 ## Todo
@@ -68,9 +71,11 @@ Here is how to initialise the path and the feed route
 using rails
 
     #config/initializers/overlay_me.rb
-    
-    OverlayMe.root_dir = Dir[Rails.root.join("public")].to_s
-    OverlayMe.overlays_directory = 'images/overlays' 
+
+    if defined?(OverlayMe)
+      OverlayMe.root_dir = Dir[Rails.root.join("public")].to_s
+      OverlayMe.overlays_directory = 'images/overlays' 
+    end
 
     #config/routes.rb
 

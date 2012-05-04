@@ -2828,7 +2828,7 @@
 
   head.appendChild(createTag('link', {
     type: 'text/css',
-    href: 'https://raw.github.com/frontfoot/overlay_me/feature/bookmarklet/overlay_me.css',
+    href: 'http://dev.frontfoot.com.au/overlay_me.css',
     media: 'only screen',
     rel: 'stylesheet'
   }));
