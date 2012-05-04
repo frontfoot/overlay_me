@@ -23,7 +23,7 @@ p {
 
 #dev-tools-menu {
   position: absolute;
-  z-index: 6;
+  z-index: 990; //to pass over Google Toolbar ;)
 
   .drag-me {
     display: block;
@@ -84,6 +84,8 @@ p {
     cursor: pointer;
     width: $menu_width - 13px;
     line-height: 1.1em;
+    font-size: 100%;
+    background: none;
   }
   &.collapsed {
     .item-content { display: none; }
@@ -96,10 +98,11 @@ p {
 #overlay_panel {
 
   label {
-    margin-right: 5px;
+    margin: 0 5px 0 0;
   }
 
   .content-mgnt-block, #images_mgnt {
+    text-align: left;
     padding: 3px 4px;
     margin: 2px;
     border: 1px #777 solid;
@@ -113,6 +116,9 @@ p {
 
   .content-mgnt-block {
     .zindex-switch {
+      p {
+        font-size: 90%;
+      }
     }
   }
 
@@ -135,6 +141,7 @@ p {
     }
 
     .overlay-image-block {
+      text-align: left;
       position: relative;
       width: $menu_width - 7px; // menu_width - padding - border
       border: $border;
