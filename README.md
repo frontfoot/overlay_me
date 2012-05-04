@@ -11,7 +11,7 @@ We were struggling to see the gap between designers photoshop files and our HTML
 
 - addon layout_resizer, to switch between pre-recorded devices format
 
-see [screenshot](http://github.com/frontfoot/overlay_me/raw/master/screenshot_frontfoot_website.jpg)
+Try it live by loading it right now [here](javascript:(function(){document.body.appendChild(document.createElement('script')).src='https://raw.github.com/frontfoot/overlay_me/feature/bookmarklet/overlay_me.js';})();) or look at that [screenshot](http://github.com/frontfoot/overlay_me/raw/master/screenshot_frontfoot_website.jpg)
 
 
 ## Todo
