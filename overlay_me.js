@@ -2826,9 +2826,10 @@
 
   head = document.getElementsByTagName('head')[0];
 
+    //href: 'http://dev.frontfoot.com.au/overlay_me.css',
   head.appendChild(createTag('link', {
     type: 'text/css',
-    href: 'http://dev.frontfoot.com.au/overlay_me.css',
+    href: 'https://raw.github.com/frontfoot/overlay_me/feature/bookmarklet/overlay_me.css',
     media: 'only screen',
     rel: 'stylesheet'
   }));
