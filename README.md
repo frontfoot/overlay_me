@@ -16,9 +16,9 @@ see [screenshot](http://github.com/frontfoot/overlay_me/raw/master/screenshot_fr
 
 ## Todo
 
-- make the script to be usage for non Ruby coders - a precompiled js/css
+- make the script to be usable by non Ruby coders
   * serve a pre-compiled (and even minified) js/css archive
-  * make that archive accessible as a bookmarklet style download
+  * make it accessible as a bookmarklet - that would be just awesome
 - images sub-sets (directories) should appear as nested blocks
 - work on design to make it appealing
 
@@ -47,7 +47,7 @@ And that's it ! Reload your page :)
 
 ### Extended use - share overlay images to your work team, keep images sets per project
 
-The script will load the list of images from /overlay_images
+By default the script will try to load the list of images from /overlay_images
 
 List your images in JSON, simply:
 
@@ -106,4 +106,11 @@ You can add some app specific menu for specific project.. Have a look at layout_
 - when you can't find the panel, it's maybe hidden aside (previous bigger screen location) or hidden (press 'H')
 - not a big deal, I tried to bend middleman sprockets configuration to load the stylesheets into /assets but failed... so we try loading both path (see load.coffee)
 
+
+
+## Contributors
+
+- Rufus Post - the former working mate who founded the ovelaying concept
+- Joseph Boiteau - taking Rufus's idea to 11 (and loving it) - FrontFoot Media Solutions
+- Dan Smith - User Experience Strategist and Califloridian - FrontFoot Media Solutions
 

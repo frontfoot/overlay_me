@@ -1,9 +1,10 @@
 class OverlayMe.Overlays.ImagesManagementDiv extends Backbone.View
 
-  tagName: 'div'
+  tagName: 'fieldset'
   id: 'images_mgnt'
 
   initialize: ->
+    $(@el).append @make 'legend', {}, 'Overlaying images'
     @controlBlock = @make 'div', { class: 'controls' }
     $(@el).append @controlBlock
     @controlBlock.appendChild @checkAllbox()

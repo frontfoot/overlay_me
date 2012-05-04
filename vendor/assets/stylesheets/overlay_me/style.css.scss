@@ -1,6 +1,14 @@
+@import "compass/css3";
 
 $menu_width: 250px;
 $border: 1px solid rgba(white, 0.2);
+
+@mixin rounded-corners($radius: 5px) {
+  @include border-top-left-radius($radius);
+  @include border-top-right-radius($radius);
+  @include border-bottom-left-radius($radius);
+  @include border-bottom-right-radius($radius);
+}
 
 p {
   -webkit-margin-before: 0;
@@ -87,24 +95,41 @@ p {
 
 #overlay_panel {
 
-  .content-mgnt-block {
-    #contentSlider {
-      -webkit-appearance: slider-vertical;
-      height: 35px;
-      width: 40px;
-      margin: 0 0 10px 0;
+  label {
+    margin-right: 5px;
+  }
+
+  .content-mgnt-block, #images_mgnt {
+    padding: 3px 4px;
+    margin: 2px;
+    border: 1px #777 solid;
+    @include rounded-corners();
+    legend {
+      font-size: 70%;
+      padding: 0 3px;
+      margin-left: 10px;
     }
+  }
+
+  .content-mgnt-block {
     .zindex-switch {
-      display: inline-block;
-      margin-left: -5px;
+    }
+  }
+
+  .slider-block {
+    display: block;
+    label {
+      font-size: 70%;
+      vertical-align: top;
+    }
+    input[type=range] {
+      margin: 0;
     }
   }
 
   #images_mgnt {
-    padding: 0px 5px 5px 5px;
-    label {
-      margin-right: 5px;
-    }
+    width: 236px;
+
     .controls {
       padding-bottom: 5px;
     }
@@ -138,7 +163,7 @@ p {
         font-size: 75%;
       }
       input {
-        width: 150px;
+        width: 145px;
       }
     }
   }
@@ -152,11 +177,6 @@ p {
     margin: -3px 5px 0 0;
   }
 
-  input[type=range] {
-    margin: 0;
-    display: block;
-  }
-  
 }
 
 #images_container {

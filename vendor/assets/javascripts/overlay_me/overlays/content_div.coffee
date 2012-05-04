@@ -1,6 +1,6 @@
 class OverlayMe.Overlays.ContentDivManagementBlock extends Backbone.View
 
-  tagName: 'div'
+  tagName: 'fieldset'
   className: 'content-mgnt-block'
 
   container_id: 'container'
@@ -16,15 +16,19 @@ class OverlayMe.Overlays.ContentDivManagementBlock extends Backbone.View
       #console.log 'load content:', contentCss
       $("##{@container_id}").css(JSON.parse(contentCss))
 
-    $(this.el).append @contentSlider()
-    $(this.el).append @zIndexSwitch()
+    $(@el).append @make 'legend', {}, 'Page content'
+    slider_block = @make 'div', { class: 'slider-block' }
+    $(@el).append slider_block
+    slider_block.appendChild @make 'label', {}, 'Opacity'
+    slider_block.appendChild @contentSlider()
+    $(@el).append @zIndexSwitch()
     @bindEvents()
 
   # adding a checkbox to flip HTML over images
   zIndexSwitch: ->
-    block = this.make 'div', { class: 'zindex-switch' }
+    block = @make 'div', { class: 'zindex-switch' }
 
-    @zIndexSwitch = this.make 'input', {
+    @zIndexSwitch = @make 'input', {
       type: "checkbox",
     }
     $(block).append @zIndexSwitch
@@ -32,14 +36,14 @@ class OverlayMe.Overlays.ContentDivManagementBlock extends Backbone.View
     if $("##{@container_id}").css('z-index') == @over_zindex
       @zIndexSwitch.checked = true
 
-    label = this.make 'label', {}, 'HTML ON TOP'
-    dToSwap = this.make 'p', {}, 'Hit D to swap'
+    label = @make 'label', {}, 'HTML on top (touch "D")'
+    dToSwap = @make 'p', {}, 'Will swap the z-index of the main content'
     $(block).append label
     $(block).append dToSwap
 
 
   contentSlider: ->
-    @contentSlider = this.make 'input', {
+    @contentSlider = @make 'input', {
       id: "contentSlider",
       type: "range",
       value: $("##{@container_id}").css('opacity')*100
@@ -47,9 +51,7 @@ class OverlayMe.Overlays.ContentDivManagementBlock extends Backbone.View
 
   bindEvents: ->
     $(@contentSlider).bind('change', =>
-      $("##{@container_id}").css({
-        opacity: $('#contentSlider')[0].value/100
-      })
+      $("##{@container_id}").css('opacity', $(@contentSlider)[0].value/100)
       @saveContentCss()
     )
     $(@zIndexSwitch).bind('change', (event) =>
@@ -68,7 +70,7 @@ class OverlayMe.Overlays.ContentDivManagementBlock extends Backbone.View
 
 
   render: ->
-    this.el
+    @el
 
   # adding some retention for #container
   saveContentCss: ->

@@ -18,7 +18,7 @@ if !navigator.userAgent.match /(iPhone|iPod|iPad|Android)/
   clear_all_button = (new Backbone.View).make 'button', { onClick: "javascript: localStorage.clear(); window.location.reload()" }, 'Reset All'
   basics_panel.append clear_all_button
 
-  hide_button = (new Backbone.View).make 'button', { onClick: "javascript: toggle_menu_visibility()" }, 'Hide menu (H)'
+  hide_button = (new Backbone.View).make 'button', { onClick: "javascript: toggle_menu_visibility()" }, 'Hide menu (touch "H")'
   basics_panel.append hide_button
 
   # add the element to the page menu

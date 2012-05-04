@@ -15,14 +15,17 @@ class OverlayMe.Overlays.Image extends Backbone.View
       $('body').append (new Backbone.View).make 'div', { id: 'images_container' }
       @images_container = $('#images_container')
 
-    @default_css = $.extend {visibility: 'hidden'}, options.default_css
+    @default_css = $.extend {visibility: 'hidden', opacity: 0.5}, options.default_css
 
     unless $("##{@image_id}", @images_container).length > 0
       $(@images_container).append @image()
 
     $(@el).append @checkbox()
     $(@el).append @label()
-    $(@el).append @slider()
+    slider_block = @make 'div', { class: 'slider-block' }
+    $(@el).append slider_block
+    slider_block.appendChild @make 'label', {}, 'Opacity'
+    slider_block.appendChild @slider()
     $(@el).append @delButton() if options.destroyable
 
   image: ->
@@ -71,7 +74,6 @@ class OverlayMe.Overlays.Image extends Backbone.View
       value: $(@image.el).css('opacity')*100
     }
     $(@slider).bind 'change', =>
-      debugger
       $(@image.el).css('opacity', $(@slider)[0].value/100)
       @image.saveCss()
     @slider
