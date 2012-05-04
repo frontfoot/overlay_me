@@ -14,7 +14,7 @@ We were struggling to see the gap between designers photoshop files and our HTML
   * reload the page, settings remain (localStorage)
 - addon layout_resizer, to switch between pre-recorded devices format
 
-Try it live [here](https://raw.github.com/frontfoot/overlay_me/feature/bookmarklet/bookmarklet_link.html) or look at that [screenshot](http://github.com/frontfoot/overlay_me/raw/master/screenshot_frontfoot_website.jpg)
+Try it live [here](http://dev.frontfoot.com.au/overlay_me_demo_page.html) or look at that [screenshot](http://github.com/frontfoot/overlay_me/raw/master/screenshot_frontfoot_website.jpg)
 
 
 ## Todo
