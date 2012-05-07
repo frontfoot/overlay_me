@@ -3,6 +3,8 @@ require 'sprockets'
 require 'sprockets-sass'
 require 'compass'
 require 'rake/sprocketstask'
+require 'jsmin'
+require 'yui/compressor'
 
 desc "default sprockets [:assets] compiling"
 Rake::SprocketsTask.new do |t|
@@ -50,8 +52,37 @@ task :change_css_local_link_to_online_server do
   File.open(js_file, 'w') {|f| f.write(tmp_string) } 
 end
 
+desc "minify the assets"
+task :minify_js do
+  js_file = "overlay_me/load.js"
+  puts "\n** Minify JS file #{js_file} **"
+  tmp_string = ""
+
+  File.open(js_file, "r+") do |f|
+    while(!f.eof?)
+      tmp_string += f.readline
+    end
+  end
+
+  File.open(js_file, 'w') {|f| f.write(JSMin.minify(tmp_string)) } 
+end
+task :minify_css do
+  css_file = "overlay_me/style.css"
+  puts "\n** Minify CSS file #{css_file} **"
+  tmp_string = ""
+
+  File.open(css_file, "r+") do |f|
+    while(!f.eof?)
+      tmp_string += f.readline
+    end
+  end
+
+  File.open(css_file, 'w') {|f| f.write(YUI::CssCompressor.new.compress(tmp_string)) } 
+end
+task :minify => [:minify_js, :minify_css]
+
 desc "push files on a public accessible server"
-task :publish => [:compile, :change_css_local_link_to_online_server] do
+task :publish => [:compile, :change_css_local_link_to_online_server, :minify] do
   pub = YAML.load_file(File.join("config", "publishing_server.yml"))
 
   puts "\n** Push files to server #{pub['server']} **"
