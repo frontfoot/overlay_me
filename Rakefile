@@ -36,21 +36,15 @@ task :change_css_local_link_to_online_server do
   puts "\n** Change CSS href link to our online file [#{online_css_url}] **"
 
   js_file = "overlay_me/load.js"
-  tmp_string = ""
-
-  File.open(js_file, "r+") do |f|
-    while(!f.eof?)
-      tmp_string += f.readline
-    end
-  end
+  js_string = File.read(js_file)
 
   # stripping out duplicity of createTag
-  tmp_string = tmp_string.gsub(/createTag\(.*createTag\(/m, 'createTag(')
+  js_string = js_string.gsub(/createTag\(.*createTag\(/m, 'createTag(')
 
   # then replacing css href with the online url
-  tmp_string = tmp_string.gsub(/(createTag\(.*href: *)'[^']+'/m, "\\1 '#{online_css_url}'")
+  js_string = js_string.gsub(/(createTag\(.*href: *)'[^']+'/m, "\\1 '#{online_css_url}'")
 
-  File.open(js_file, 'w') {|f| f.write(tmp_string) } 
+  File.open(js_file, 'w') {|f| f.write(js_string) } 
 end
 
 namespace :minify do

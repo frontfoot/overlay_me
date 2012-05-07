@@ -18,14 +18,23 @@ if OverlayMe.mustLoad()
   OverlayMe.images_management_div = new OverlayMe.Overlays.ImagesManagementDiv()
   overlay_panel.append OverlayMe.images_management_div.render()
 
+  OverlayMe.loadDefaultImage = ->
+    # double check that the dynamic loading list is also empty
+    if OverlayMe.dyn_manager.isEmpty()
+      OverlayMe.dyn_manager.addImage('https://a248.e.akamai.net/assets.github.com/images/modules/about_page/octocat.png')
+
   # adding all overlay images
-  $.getJSON '/overlay_images', (data) =>
-    if data.length == 0 # in case all is empty (default for newcomers)
-      if OverlayMe.dyn_manager.isEmpty() # double check that the dynamic loading list is also empty
-        OverlayMe.dyn_manager.addImage('https://a248.e.akamai.net/assets.github.com/images/modules/about_page/octocat.png')
-    else
-      $.each data, (index, img_path) ->
-        OverlayMe.images_management_div.append new OverlayMe.Overlays.Image(img_path).render()
+  $.ajax
+    url: '/overlay_images'
+    dataType: 'json'
+    success: (data) ->
+      if data.length == 0 # in case all is empty (default for newcomers)
+        OverlayMe.loadDefaultImage()
+      else
+        $.each data, (index, img_path) ->
+          OverlayMe.images_management_div.append new OverlayMe.Overlays.Image(img_path).render()
+    error: ->
+      OverlayMe.loadDefaultImage()
 
   # add the panel to the page menu
   $(OverlayMe.Menu).append overlay_panel.render()
@@ -33,9 +42,8 @@ if OverlayMe.mustLoad()
   $(window).trigger 'images_should_be_rendred'
 
   # repeating original window#mousemove event
-  $(window).bind('mousemove', (event) ->
+  $(window).bind 'mousemove', (event) ->
     $(window).trigger('mymousemove', event)
-  )
 
   # once everything rendered, load dynamicly added images
   OverlayMe.dyn_manager = new OverlayMe.Overlays.DynamicManager()
