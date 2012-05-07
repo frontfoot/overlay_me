@@ -13,6 +13,9 @@ class OverlayMe.Overlays.DynamicManager extends Backbone.Model
       return true if saved.id == image_id
     return false
 
+  isEmpty: ->
+    return @list.length == 0
+
   addImage: (src) ->
     new_image = @loadImage(src)
     unless @isPresent new_image.image_id

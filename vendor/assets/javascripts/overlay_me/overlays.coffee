@@ -19,9 +19,13 @@ if OverlayMe.mustLoad()
   overlay_panel.append OverlayMe.images_management_div.render()
 
   # adding all overlay images
-  $.getJSON '/overlay_images', (data) ->
-    $.each data, (index, img_path) ->
-      OverlayMe.images_management_div.append new OverlayMe.Overlays.Image(img_path).render()
+  $.getJSON '/overlay_images', (data) =>
+    if data.length == 0 # in case all is empty (default for newcomers)
+      if OverlayMe.dyn_manager.isEmpty() # double check that the dynamic loading list is also empty
+        OverlayMe.dyn_manager.addImage('https://a248.e.akamai.net/assets.github.com/images/modules/about_page/octocat.png')
+    else
+      $.each data, (index, img_path) ->
+        OverlayMe.images_management_div.append new OverlayMe.Overlays.Image(img_path).render()
 
   # add the panel to the page menu
   $(OverlayMe.Menu).append overlay_panel.render()
@@ -36,8 +40,6 @@ if OverlayMe.mustLoad()
   # once everything rendered, load dynamicly added images
   OverlayMe.dyn_manager = new OverlayMe.Overlays.DynamicManager()
   OverlayMe.dyn_manager.loadAll()
-
-  #OverlayMe.dyn_manager.addImage('https://a248.e.akamai.net/assets.github.com/images/modules/about_page/octocat.png')
 
   # tag OverlayMe as loaded
   window.overlay_me_loaded = true
