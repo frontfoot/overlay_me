@@ -17,6 +17,11 @@ We were struggling to see the gap between designers photoshop files and our HTML
 Try it live on any site (bookmarklet available [here](http://dev.frontfoot.com.au/overlay_me/demo_page.html)) or look at that [screenshot](http://github.com/frontfoot/overlay_me/raw/master/screenshot_frontfoot_website.jpg)
 
 
+## Screenshot
+
+![Screenshot](http://github.com/frontfoot/overlay_me/raw/master/screenshot_frontfoot_website.jpg)
+
+
 ## Todo
 
 - ACTUAL BUG: check if the toolbar is already loaded before adding a new one to the DOM :)
