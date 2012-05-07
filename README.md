@@ -27,9 +27,7 @@ Try it live on any site (bookmarklet available [here](http://dev.frontfoot.com.a
   - overlay images sub-sets (sub-directories) should appear as nested blocks
   - work on design to make it appealing
   - make another version of the toolbar fixed on top of the screen
-  - details
-    - make full cell clickable to switch image on/off (not only text)
-    - 
+  - detail: make full cell clickable to switch image on/off (not only text)
 
 
 ## Usage

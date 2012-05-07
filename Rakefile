@@ -28,7 +28,9 @@ end
 desc "strip out local css loading blocks and replace it with online one"
 task :change_css_local_link_to_online_server do
 
-  puts "\n** Change CSS href link to our online file **"
+  online_css_url = 'http://dev.frontfoot.com.au/overlay_me/style.css'
+
+  puts "\n** Change CSS href link to our online file [#{online_css_url}] **"
 
   js_file = "overlay_me/load.js"
   tmp_string = ""
@@ -43,7 +45,7 @@ task :change_css_local_link_to_online_server do
   tmp_string = tmp_string.gsub(/createTag\(.*createTag\(/m, 'createTag(')
 
   # then replacing css href with the online url
-  tmp_string = tmp_string.gsub(/(createTag\(.*href: )'[^']+'/m, '\1 \'http://dev.frontfoot.com.au/overlay_me/style.css\'')
+  tmp_string = tmp_string.gsub(/(createTag\(.*href: *)'[^']+'/m, "\\1 '#{online_css_url}'")
 
   File.open(js_file, 'w') {|f| f.write(tmp_string) } 
 end
