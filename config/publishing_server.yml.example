@@ -1,0 +1,3 @@
+user: <USER>
+server: <SERVER_NAME>
+public_dir: <DIR_TO_PUBLISH_TO>
