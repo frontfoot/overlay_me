@@ -14,7 +14,10 @@ We were struggling to see the gap between designers photoshop files and our HTML
   - reload the page, settings remain (localStorage)
 - addon layout_resizer, to switch between pre-recorded devices format
 
-Try it live on any site (bookmarklet available [here](http://dev.frontfoot.com.au/overlay_me/demo_page.html)) or look at that [screenshot](http://github.com/frontfoot/overlay_me/raw/master/screenshot_frontfoot_website.jpg)
+
+## Use it now !
+
+You can try it live on any site by loading the javascript on top of any page (a handy bookmarklet link is available [on this page](http://dev.frontfoot.com.au/overlay_me/demo_page.html)).
 
 
 ## Screenshot
@@ -24,9 +27,12 @@ Try it live on any site (bookmarklet available [here](http://dev.frontfoot.com.a
 
 ## Todo
 
-- ACTUAL BUG: check if the toolbar is already loaded before adding a new one to the DOM :)
+- Make it fully working under Firefox (dev and tested on Google Chrome)
 - add version, license and project homepage to the header of compiled load.js dynamically at build
 - minify the compiled js
+
+- content opacity
+  - add parent container div dynamically (at the moment the toolbar is looking for a #content or #container element)
 
 - overlays
   - overlay images sub-sets (sub-directories) should appear as nested blocks

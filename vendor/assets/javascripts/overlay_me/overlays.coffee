@@ -6,8 +6,7 @@
 #= require 'overlay_me/overlays/content_div'
 #= require 'overlay_me/overlays/images_mngt_div'
 
-# only non tactile devices
-if !navigator.userAgent.match /(iPhone|iPod|iPad|Android)/
+if OverlayMe.mustLoad()
 
   # creating a overlay_panel
   overlay_panel = new OverlayMe.MenuItem({id: "overlay_panel", title: "Overlays" })
@@ -40,4 +39,6 @@ if !navigator.userAgent.match /(iPhone|iPod|iPad|Android)/
 
   #OverlayMe.dyn_manager.addImage('https://a248.e.akamai.net/assets.github.com/images/modules/about_page/octocat.png')
 
+  # tag OverlayMe as loaded
+  window.overlay_me_loaded = true
 

@@ -1980,6 +1980,18 @@
 
   window.OverlayMe = {};
 
+  OverlayMe.isLoaded = function() {
+    return window.overlay_me_loaded;
+  };
+
+  OverlayMe.isMobile = function() {
+    return navigator.userAgent.match(/(iPhone|iPod|iPad|Android)/);
+  };
+
+  OverlayMe.mustLoad = function() {
+    return !OverlayMe.isLoaded() && !OverlayMe.isMobile();
+  };
+
 }).call(this);
 (function() {
   var __hasProp = {}.hasOwnProperty,
@@ -2079,7 +2091,7 @@
   var drag_me_line, menu_box,
     _this = this;
 
-  if (!navigator.userAgent.match(/(iPhone|iPod|iPad|Android)/)) {
+  if (OverlayMe.mustLoad()) {
     menu_box = new OverlayMe.Draggable({
       id: 'dev-tools-menu'
     }, {
@@ -2188,7 +2200,7 @@
   var basics_panel, clear_all_button, hide_button,
     _this = this;
 
-  if (!navigator.userAgent.match(/(iPhone|iPod|iPad|Android)/)) {
+  if (OverlayMe.mustLoad()) {
     window.toggle_menu_visibility = function() {
       var css, menu;
       menu = $('#dev-tools-menu');
@@ -2789,7 +2801,7 @@
 (function() {
   var overlay_panel;
 
-  if (!navigator.userAgent.match(/(iPhone|iPod|iPad|Android)/)) {
+  if (OverlayMe.mustLoad()) {
     overlay_panel = new OverlayMe.MenuItem({
       id: "overlay_panel",
       title: "Overlays"
@@ -2809,6 +2821,7 @@
     });
     OverlayMe.dyn_manager = new OverlayMe.Overlays.DynamicManager();
     OverlayMe.dyn_manager.loadAll();
+    window.overlay_me_loaded = true;
   }
 
 }).call(this);

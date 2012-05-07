@@ -14,7 +14,7 @@ p {
 /* line 17, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
 #dev-tools-menu {
   position: absolute;
-  z-index: 6;
+  z-index: 990;
 }
 /* line 21, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
 #dev-tools-menu .drag-me {
@@ -77,22 +77,25 @@ p {
   cursor: pointer;
   width: 237px;
   line-height: 1.1em;
+  font-size: 100%;
+  background: none;
 }
-/* line 82, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
+/* line 84, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
 .menu-item.collapsed .item-content {
   display: none;
 }
-/* line 83, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
+/* line 85, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
 .menu-item.collapsed a.collaps-button {
   background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAANCAYAAAB7AEQGAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAKtJREFUeNpiuHz5ctD///+lgJgBF2Z68uRJOgMDw0EgNmTAAZiA4AeQVgHiA0CchFUREpsPiOcCjZ8NZWNVBAaMjIwpQGofEOvjVAQFxkATDwJxMkgNCy7HAk3kB1KzgApf4DIJBD4CcRpQ8TZcJp2D+vQiVjcBjZ8HpBxhCtAVfQbiVKDxIMd+QtbI8u/fP04gfQ+Iw4D4LDa7WSQlJUGBdxyIn+DyAUCAAQDxsEXD9kreLQAAAABJRU5ErkJggg==) no-repeat center center;
 }
 
-/* line 91, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
+/* line 93, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
 #overlay_panel label {
-  margin-right: 5px;
+  margin: 0 5px 0 0;
 }
-/* line 95, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
+/* line 97, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
 #overlay_panel .content-mgnt-block, #overlay_panel #images_mgnt {
+  text-align: left;
   padding: 3px 4px;
   margin: 2px;
   border: 1px #777 solid;
@@ -102,46 +105,51 @@ p {
   -o-border-radius: 5px;
   border-radius: 5px;
 }
-/* line 101, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
+/* line 104, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
 #overlay_panel .content-mgnt-block legend, #overlay_panel #images_mgnt legend {
   font-size: 70%;
   padding: 0 3px;
   margin-left: 10px;
 }
 /* line 113, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
+#overlay_panel .content-mgnt-block .zindex-switch p {
+  font-size: 90%;
+}
+/* line 119, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
 #overlay_panel .slider-block {
   display: block;
 }
-/* line 115, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
+/* line 121, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
 #overlay_panel .slider-block label {
   font-size: 70%;
   vertical-align: top;
 }
-/* line 119, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
+/* line 125, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
 #overlay_panel .slider-block input[type=range] {
   margin: 0;
 }
-/* line 124, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
+/* line 130, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
 #overlay_panel #images_mgnt {
   width: 236px;
 }
-/* line 127, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
+/* line 133, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
 #overlay_panel #images_mgnt .controls {
   padding-bottom: 5px;
 }
-/* line 131, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
+/* line 137, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
 #overlay_panel #images_mgnt .overlay-image-block {
+  text-align: left;
   position: relative;
   width: 243px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-right: none;
   border-left: none;
 }
-/* line 137, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
+/* line 144, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
 #overlay_panel #images_mgnt .overlay-image-block.hovered {
   background-color: rgba(255, 255, 0, 0.5);
 }
-/* line 140, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
+/* line 147, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
 #overlay_panel #images_mgnt .overlay-image-block .del-button {
   position: absolute;
   right: 0;
@@ -155,50 +163,50 @@ p {
   font-weight: bold;
   padding: 0 4px 2px 4px;
 }
-/* line 156, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
+/* line 163, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
 #overlay_panel #images_mgnt .dynamic-adds label {
   font-size: 75%;
 }
-/* line 159, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
+/* line 166, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
 #overlay_panel #images_mgnt .dynamic-adds input {
   width: 145px;
 }
-/* line 165, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
+/* line 172, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
 #overlay_panel input[type=checkbox], #overlay_panel label, #overlay_panel #contentSlider, #overlay_panel .zindex-switch {
   display: inline;
 }
-/* line 169, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
+/* line 176, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
 #overlay_panel input[type=checkbox] {
   vertical-align: middle;
   margin: -3px 5px 0 0;
 }
 
-/* line 176, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
+/* line 183, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
 #images_container {
   position: absolute;
   z-index: 4;
   top: 0;
   left: 0;
 }
-/* line 181, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
+/* line 188, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
 #images_container div {
   position: absolute;
   visibility: hidden;
 }
-/* line 184, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
+/* line 191, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
 #images_container div.highlight {
   background: red;
   opacity: 1;
 }
-/* line 187, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
+/* line 194, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
 #images_container div.highlight img {
   opacity: .7;
 }
-/* line 191, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
+/* line 198, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
 #images_container div:hover {
   cursor: move;
 }
-/* line 195, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
+/* line 202, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
 #images_container img {
   position: absolute;
   top: 0;

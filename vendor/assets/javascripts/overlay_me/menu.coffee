@@ -1,8 +1,6 @@
-#= require 'overlay_me/init'
 #= require 'overlay_me/draggable'
 
-# only non tactile devices
-if !navigator.userAgent.match /(iPhone|iPod|iPad|Android)/
+if OverlayMe.mustLoad()
 
   # create elements
   menu_box = new OverlayMe.Draggable { id: 'dev-tools-menu' }, { default_css: { left: document.documentElement.clientWidth-300+'px', top: '0px' }, events_to_save_on: ['save:menu']}

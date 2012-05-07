@@ -1,8 +1,7 @@
 #= require 'overlay_me/menu'
 #= require 'overlay_me/menu_item'
 
-# only non tactile devices
-if !navigator.userAgent.match /(iPhone|iPod|iPad|Android)/
+if OverlayMe.mustLoad()
 
   window.toggle_menu_visibility = ->
     menu = $('#dev-tools-menu')
