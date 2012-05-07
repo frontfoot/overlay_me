@@ -1,2 +1,5 @@
 .DS_Store
 *.gem
+.sass-cache
+config/publishing_server.yml
+manifest.json

@@ -3,13 +3,6 @@
 $menu_width: 250px;
 $border: 1px solid rgba(white, 0.2);
 
-@mixin rounded-corners($radius: 5px) {
-  @include border-top-left-radius($radius);
-  @include border-top-right-radius($radius);
-  @include border-bottom-left-radius($radius);
-  @include border-bottom-right-radius($radius);
-}
-
 p {
   -webkit-margin-before: 0;
   -webkit-margin-after: 0;
@@ -106,7 +99,8 @@ p {
     padding: 3px 4px;
     margin: 2px;
     border: 1px #777 solid;
-    @include rounded-corners();
+
+    @include border-radius(5px);
     legend {
       font-size: 70%;
       padding: 0 3px;

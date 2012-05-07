@@ -6,21 +6,28 @@ We were struggling to see the gap between designers photoshop files and our HTML
 ## Features
 
 - overlay images over a web page saving their position/opacity locally (using HTML5 localStorage)
-  * images can be loaded from a local directory
-  * any image can also be manually added on the fly with its absolute url
-
+  - images can be loaded from a local directory
+  - any image can also be manually added on the fly with its absolute url
+- allow you to bring back your HTML on top of these overlays (asssuming the content of the page is in a #content or #container div)
+  - control the opacity of your full page content
+  - keep on playing with the CSS while having the overlay there
+  - reload the page, settings remain (localStorage)
 - addon layout_resizer, to switch between pre-recorded devices format
 
-see [screenshot](http://github.com/frontfoot/overlay_me/raw/master/screenshot_frontfoot_website.jpg)
+Try it live on any site (bookmarklet available [here](http://dev.frontfoot.com.au/overlay_me/demo_page.html)) or look at that [screenshot](http://github.com/frontfoot/overlay_me/raw/master/screenshot_frontfoot_website.jpg)
 
 
 ## Todo
 
-- make the script to be usable by non Ruby coders
-  * serve a pre-compiled (and even minified) js/css archive
-  * make it accessible as a bookmarklet - that would be just awesome
-- images sub-sets (directories) should appear as nested blocks
-- work on design to make it appealing
+- ACTUAL BUG: check if the toolbar is already loaded before adding a new one to the DOM :)
+- add version, license and project homepage to the header of compiled load.js dynamically at build
+- minify the compiled js
+
+- overlays
+  - overlay images sub-sets (sub-directories) should appear as nested blocks
+  - work on design to make it appealing
+  - make another version of the toolbar fixed on top of the screen
+  - detail: make full cell clickable to switch image on/off (not only text)
 
 
 ## Usage
@@ -68,9 +75,11 @@ Here is how to initialise the path and the feed route
 using rails
 
     #config/initializers/overlay_me.rb
-    
-    OverlayMe.root_dir = Dir[Rails.root.join("public")].to_s
-    OverlayMe.overlays_directory = 'images/overlays' 
+
+    if defined?(OverlayMe)
+      OverlayMe.root_dir = Dir[Rails.root.join("public")].to_s
+      OverlayMe.overlays_directory = 'images/overlays' 
+    end
 
     #config/routes.rb
 
@@ -112,5 +121,6 @@ You can add some app specific menu for specific project.. Have a look at layout_
 
 - Rufus Post - the former working mate who founded the ovelaying concept
 - Joseph Boiteau - taking Rufus's idea to 11 (and loving it) - FrontFoot Media Solutions
+- Lachlan Sylvester - Ruby advisor - Frontfoot Media Solutions
 - Dan Smith - User Experience Strategist and Califloridian - FrontFoot Media Solutions
 
