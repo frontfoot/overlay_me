@@ -1,9 +1,10 @@
 # -*- encoding: utf-8 -*-
- 
+
+require File.expand_path('../lib/overlay_me/version', __FILE__)
+
 Gem::Specification.new do |s|
   s.name        = "overlay_me"
-  s.version     = 0.91
-  s.date        = '2012-05-03'
+  s.version     = OverlayMe::VERSION
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Rufus Post", "Joseph Boiteau"]
   s.email       = ["joseph.b@frontfoot.com.au"]
@@ -11,7 +12,7 @@ Gem::Specification.new do |s|
   s.summary     = "A handy toolbox for your web development"
   s.description = "loaded dynamically over any web page, this will help you to overlay designer's work on your DOM rendering"
 
-  ['rack', 'json', 'haml', 'coffee-script', 'sprockets-sass'].each do |dep|
+  ['rake', 'rack', 'json', 'haml', 'coffee-script', 'sprockets-sass', 'compass'].each do |dep|
     s.add_dependency(dep)
   end
 

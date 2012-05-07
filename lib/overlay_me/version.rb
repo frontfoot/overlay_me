@@ -1,0 +1,7 @@
+module OverlayMe
+  MAJOR_VERSION = 0
+  MINOR_VERSION = 9
+  PATCH_LEVEL = 2
+
+  VERSION = [MAJOR_VERSION, MINOR_VERSION, PATCH_LEVEL].join '.'
+end

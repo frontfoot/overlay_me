@@ -1,4 +1,5 @@
 require 'rubygems'
+require "bundler/setup"
 require 'sprockets'
 require 'sprockets-sass'
 require 'compass'
@@ -52,37 +53,50 @@ task :change_css_local_link_to_online_server do
   File.open(js_file, 'w') {|f| f.write(tmp_string) } 
 end
 
-desc "minify the assets"
-task :minify_js do
+namespace :minify do
+  desc "minify the assets"
+  task :js do
+    js_file = "overlay_me/load.js"
+    puts "\n** Minify JS file #{js_file} **"
+
+    js_string = File.read(js_file)
+    File.open(js_file, 'w') {|f| f.write(JSMin.minify(js_string)) } 
+  end
+
+  task :css do
+    css_file = "overlay_me/style.css"
+    puts "\n** Minify CSS file #{css_file} **"
+
+    css_string = File.read(css_file)
+    File.open(css_file, 'w') {|f| f.write(YUI::CssCompressor.new.compress(css_string)) } 
+  end
+
+  task :all => [:js, :css]
+end
+
+desc "add a header on the minified js file to properly redirect curious"
+task :prepend_header do
   js_file = "overlay_me/load.js"
-  puts "\n** Minify JS file #{js_file} **"
-  tmp_string = ""
+  puts "\n** Prepend header to JS file **"
 
-  File.open(js_file, "r+") do |f|
-    while(!f.eof?)
-      tmp_string += f.readline
-    end
+  js_header  = "// OverlayMe v#{OverlayMe::VERSION}\n"
+  js_header += "//\n"
+  js_header += "// #{File.open('LICENSE'){|f| f.readline().chomp() }}\n"
+  js_header += "// OverlayMe is freely distributable under the MIT license.\n"
+  js_header += "// http://github.com/frontfoot/overlay_me\n\n"
+
+  puts js_header
+
+  original_content = File.read(js_file)
+  File.open(js_file, 'w') do |f|
+    f.write(js_header)
+    f.write(original_content)
   end
 
-  File.open(js_file, 'w') {|f| f.write(JSMin.minify(tmp_string)) } 
 end
-task :minify_css do
-  css_file = "overlay_me/style.css"
-  puts "\n** Minify CSS file #{css_file} **"
-  tmp_string = ""
-
-  File.open(css_file, "r+") do |f|
-    while(!f.eof?)
-      tmp_string += f.readline
-    end
-  end
-
-  File.open(css_file, 'w') {|f| f.write(YUI::CssCompressor.new.compress(tmp_string)) } 
-end
-task :minify => [:minify_js, :minify_css]
 
 desc "push files on a public accessible server"
-task :publish => [:compile, :change_css_local_link_to_online_server, :minify] do
+task :publish => [:compile, :change_css_local_link_to_online_server, 'minify:all', :prepend_header] do
   pub = YAML.load_file(File.join("config", "publishing_server.yml"))
 
   puts "\n** Push files to server #{pub['server']} **"
