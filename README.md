@@ -6,12 +6,11 @@ We were struggling to see the gap between designers photoshop files and our HTML
 ## Features
 
 - overlay images over a web page saving their position/opacity locally (using HTML5 localStorage)
-  - images can be loaded from a local directory
-  - any image can also be manually added on the fly with its absolute url
-- allow you to bring back your HTML on top of these overlays (asssuming the content of the page is in a #content or #container div)
-  - control the opacity of your full page content
-  - keep on playing with the CSS while having the overlay there
-  - reload the page, settings remain (localStorage)
+  - images can be loaded from a project local directory (see Project base use)
+  - an image can be added on the fly with its absolute url
+- bring back your HTML on top of the overlays (page content will need to be in a #container div)
+  - control the opacity of the page content
+  - keep on playing with the CSS while having with a visual overlay
 - addon layout_resizer, to switch between pre-recorded devices format
 
 
@@ -27,23 +26,23 @@ You can try it live on any site by loading the javascript on top of any page (a 
 
 ## Todo
 
-- Make it fully working under Firefox (dev and tested on Google Chrome)
-- add version, license and project homepage to the header of compiled load.js dynamically at build
-- minify the compiled js
-
 - content opacity
   - add parent container div dynamically (at the moment the toolbar is looking for a #content or #container element)
 
 - overlays
   - overlay images sub-sets (sub-directories) should appear as nested blocks
-  - work on design to make it appealing
   - make another version of the toolbar fixed on top of the screen
   - detail: make full cell clickable to switch image on/off (not only text)
 
 
 ## Usage
 
-The project is available as a Ruby gem, so if you too use bundler
+2 options for your project:
+
+- The script is precompiled (overlay_me/load.js)
+  - Add the minified load.js to your header
+
+- The project is available as a Ruby gem, so if you too use bundler
 
     # Gemfile
     
@@ -121,10 +120,10 @@ You can add some app specific menu for specific project.. Have a look at layout_
 
 ## Known problems
 
-- it's version 0.9x as checkboxes and localStorage retention may be a bit buggy...
-- the overlays management system needs your page content to be in a #content or #container div
-- when you can't find the panel, it's maybe hidden aside (previous bigger screen location) or hidden (press 'H')
-- not a big deal, I tried to bend middleman sprockets configuration to load the stylesheets into /assets but failed... so we try loading both path (see load.coffee)
+- the content management bit needs the page content to be in a #container div (will upgrade that soon)
+- you can't find the panel? it's probably hidden aside (previous bigger screen location) or hidden (press 'H')
+- you see the overlay but can't drag it? the 'Content on Top' option is probably on (press 'C')
+- not a big deal: I tried to bend middleman sprockets configuration to load the stylesheets into /assets but failed... so we try loading both local paths for stylesheets (/assets/xx.css and /stylesheets/xx.css - see load.coffee)
 
 
 

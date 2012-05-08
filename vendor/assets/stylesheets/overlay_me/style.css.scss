@@ -13,15 +13,13 @@ $border: 1px solid rgba(white, 0.2);
 
   .drag-me {
     display: block;
-    text-shadow: black 0px 0px 5px;;
-    color: white;
+    color: black;
     font-size: 0.7em;    
     text-align: center;
     &:hover {
       cursor: move;
     }
     @include background-image(linear-gradient(0deg, #999999, #DDD 30%,#DDD 70%,#999999 100.0%));
-    border-top: 1px solid #999999;
     padding: 1px;
   }
 
@@ -37,7 +35,7 @@ $border: 1px solid rgba(white, 0.2);
 }
 
 .menu-item {
-  background-color: rgba(#AAA, .8);
+  background-color: #CCC;
   border: $border;
   width: $menu_width;
   a.collaps-button {
@@ -93,16 +91,6 @@ $border: 1px solid rgba(white, 0.2);
     }
   }
 
-  .content-mgnt-block {
-    .zindex-switch {
-      p {
-        font-size: 90%;
-        -webkit-margin-before: 0;
-        -webkit-margin-after: 0;
-      }
-    }
-  }
-
   .slider-block {
     display: block;
     label {
@@ -136,7 +124,7 @@ $border: 1px solid rgba(white, 0.2);
         position: absolute;
         right: 0;
         top: 0;
-        margin: 3px;
+        margin: 3px 7px;
         cursor: pointer;
         border: 1px #AAA solid;
         font-size: 80%;
