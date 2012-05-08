@@ -26,6 +26,8 @@ You can try it live on any site by loading the javascript on top of any page (a 
 
 ## Todo
 
+- allow local image uploading (a temporary hosting on amazon s3 ?)
+
 - content opacity
   - add parent container div dynamically (at the moment the toolbar is looking for a #content or #container element)
 
@@ -39,8 +41,9 @@ You can try it live on any site by loading the javascript on top of any page (a 
 
 2 options for your project:
 
-- The script is precompiled (overlay_me/load.js)
-  - Add the minified load.js to your header
+- The precompiled/minified script (overlay_me/overlay_me.min.js)
+  - Load it manually using the bookmarklet link
+  - Or add it to your site (at the end of the body tag)
 
 - The project is available as a Ruby gem, so if you too use bundler
 

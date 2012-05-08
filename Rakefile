@@ -7,6 +7,11 @@ require 'rake/sprocketstask'
 require 'jsmin'
 require 'yui/compressor'
 
+ENV['js_file'] = "overlay_me/load.js"
+ENV['js_minified'] = "overlay_me/overlay_me.min.js"
+ENV['css_file'] = "overlay_me/style.css"
+ENV['css_minified'] = "overlay_me/style.min.css"
+
 desc "default sprockets [:assets] compiling"
 Rake::SprocketsTask.new do |t|
   environment = Sprockets::Environment.new
@@ -28,69 +33,59 @@ task :compile => [:assets] do
   end
 end
 
-desc "strip out local css loading blocks and replace it with online one"
-task :change_css_local_link_to_online_server do
-
-  online_css_url = 'http://dev.frontfoot.com.au/overlay_me/style.css'
-
-  puts "\n** Change CSS href link to our online file [#{online_css_url}] **"
-
-  js_file = "overlay_me/load.js"
-  js_string = File.read(js_file)
-
-  # stripping out duplicity of createTag
-  js_string = js_string.gsub(/createTag\(.*createTag\(/m, 'createTag(')
-
-  # then replacing css href with the online url
-  js_string = js_string.gsub(/(createTag\(.*href: *)'[^']+'/m, "\\1 '#{online_css_url}'")
-
-  File.open(js_file, 'w') {|f| f.write(js_string) } 
-end
-
+desc "minify the assets"
 namespace :minify do
-  desc "minify the assets"
-  task :js do
-    js_file = "overlay_me/load.js"
-    puts "\n** Minify JS file #{js_file} **"
-
-    js_string = File.read(js_file)
-    File.open(js_file, 'w') {|f| f.write(JSMin.minify(js_string)) } 
-  end
 
   task :css do
-    css_file = "overlay_me/style.css"
-    puts "\n** Minify CSS file #{css_file} **"
-
-    css_string = File.read(css_file)
-    File.open(css_file, 'w') {|f| f.write(YUI::CssCompressor.new.compress(css_string)) } 
+    puts "\n** Minify CSS file #{ENV['css_file']} -> #{ENV['css_minified']} **"
+    File.open(ENV['css_minified'], 'w') {|f| f.write(YUI::CssCompressor.new.compress(File.read(ENV['css_file']))) }
+    `rm #{ENV['css_file']}` # remove original
   end
 
-  task :all => [:js, :css]
-end
+  task :add_minified_css_to_js do
+    puts "\n** Add CSS minified blob inline in the javascript :! **"
 
-desc "add a header on the minified js file to properly redirect curious"
-task :prepend_header do
-  js_file = "overlay_me/load.js"
-  puts "\n** Prepend header to JS file **"
+    js_string = File.read(ENV['js_file'])
+    css_append = 'style = $(\'<style type="text/css" rel="stylesheet"></style>\');
+                  style.html(\''+File.read(ENV['css_minified'])+'\');
+                  $("head").append(style);'
 
-  js_header  = "// OverlayMe v#{OverlayMe::VERSION}\n"
-  js_header += "//\n"
-  js_header += "// #{File.open('LICENSE'){|f| f.readline().chomp() }}\n"
-  js_header += "// OverlayMe is freely distributable under the MIT license.\n"
-  js_header += "// http://github.com/frontfoot/overlay_me\n\n"
+    # stripping out the createTag block for the CSS blob
+    js_string = js_string.gsub(/var createTag.*createTag\([^\(]*\)\);/m, css_append)
 
-  puts js_header
-
-  original_content = File.read(js_file)
-  File.open(js_file, 'w') do |f|
-    f.write(js_header)
-    f.write(original_content)
+    File.open(ENV['js_file'], 'w') {|f| f.write(js_string) }
+    `rm #{ENV['css_minified']}` # remove blob
   end
 
+  task :js do
+    puts "\n** Minify JS file #{ENV['js_file']} -> #{ENV['js_minified']} **"
+    File.open(ENV['js_minified'], 'w') {|f| f.write(JSMin.minify(File.read(ENV['js_file']))) }
+    `rm #{ENV['js_file']}` # remove original
+  end
+
+  desc "add a header on the minified js file to properly redirect curious"
+  task :prepend_header do
+    puts "\n** Prepend header to compiled files **"
+
+    header  = "// OverlayMe v#{OverlayMe::VERSION}\n"
+    header += "//\n"
+    header += "// #{File.open('LICENSE'){|f| f.readline().chomp() }}\n"
+    header += "// OverlayMe is freely distributable under the MIT license.\n"
+    header += "// http://github.com/frontfoot/overlay_me\n\n"
+    puts header
+
+    original_content = File.read(ENV['js_minified'])
+    File.open(ENV['js_minified'], 'w') do |f|
+      f.write(header)
+      f.write(original_content)
+    end
+  end
+
+  task :all_in_one => [:css, :add_minified_css_to_js, :js, :prepend_header]
 end
 
 desc "push files on a public accessible server"
-task :publish => [:compile, :change_css_local_link_to_online_server, 'minify:all', :prepend_header] do
+task :publish => [:compile, 'minify:all_in_one'] do
   pub = YAML.load_file(File.join("config", "publishing_server.yml"))
 
   puts "\n** Push files to server #{pub['server']} **"

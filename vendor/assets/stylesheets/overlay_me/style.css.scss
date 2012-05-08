@@ -12,6 +12,7 @@ $border: 1px solid rgba(white, 0.2);
   z-index: 990; //to pass over Google Toolbar ;)
 
   .drag-me {
+    line-height: 100%;
     display: block;
     color: black;
     font-size: 0.7em;    
@@ -35,6 +36,7 @@ $border: 1px solid rgba(white, 0.2);
 }
 
 .menu-item {
+  text-align: left;
   background-color: #CCC;
   border: $border;
   width: $menu_width;

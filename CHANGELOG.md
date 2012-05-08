@@ -1,8 +1,15 @@
-### coming up
+### Coming up
 - a bit of styling
-- bookmarklet access ?
+- fix style and events for Firefox
+- load an image by default at first use
+- js + css all in one minified overlay_me.min.js file
 
-### 0.91
+### 0.9.2
+- bookmarklet access
+- load only once
+- minified assets available
+
+### 0.9.1
 - added the global image dynamic add/remove/storing
 - rename the project to overlay_me
 
