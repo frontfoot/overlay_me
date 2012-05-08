@@ -36,10 +36,8 @@ class OverlayMe.Overlays.ContentDivManagementBlock extends Backbone.View
     if $("##{@container_id}").css('z-index') == @over_zindex
       @zIndexSwitch.checked = true
 
-    label = @make 'label', {}, 'HTML on top (touch "D")'
-    dToSwap = @make 'p', {}, 'Will swap the z-index of the main content'
+    label = @make 'label', {}, 'Content on top (touch "C")'
     $(block).append label
-    $(block).append dToSwap
 
 
   contentSlider: ->
@@ -63,8 +61,8 @@ class OverlayMe.Overlays.ContentDivManagementBlock extends Backbone.View
     )
     # if click is kind of boring
     $(window).bind('keypress', (event) =>
-      #console.log event.keyCode, $("##{@container_id}").css('display')
-      if event.keyCode == 100 # D
+      #console.log event.keyCode, event.charCode
+      if event.charCode == 99 # C
         $(@zIndexSwitch).trigger('click')
     )
 

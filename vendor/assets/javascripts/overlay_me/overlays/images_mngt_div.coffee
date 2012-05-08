@@ -30,7 +30,7 @@ class OverlayMe.Overlays.ImagesManagementDiv extends Backbone.View
     image_text_input = @make 'input', { type: 'text', placeholder: "http://" }
     @dynamicAddsBlock.appendChild image_text_input
     $(image_text_input).bind 'keypress', (e) =>
-      if e.keyCode == 13
+      if e.charCode == 13
         OverlayMe.dyn_manager.addImage e.target.value
         e.target.value = ''
     @dynamicAddsBlock

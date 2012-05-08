@@ -25,8 +25,8 @@ if OverlayMe.mustLoad()
 
   # add listener for keypress
   $(window).bind('keypress', (event) =>
-    #console.log event.keyCode
-    if event.keyCode == 104 # H
+    #console.log event.keyCode, event.charCode
+    if event.charCode == 104 # H
       toggle_menu_visibility()
   )
 
