@@ -2,12 +2,19 @@
 <head>
   <style type="text/css">
     a.this_link {
-      background: url("this_link.gif") no-repeat;
       display: inline-block;
-      width: 100px;
+      width: 75px;
       vertical-align: bottom;      
-      height: 30px;
-      text-indent: -3000px;
+      height: 18px;
+    }
+    a.this_link:before {
+      content: "this link";
+      text-align: center;
+      text-decoration: underline;
+      background: white;
+      width: 75px;
+      height: 18px;
+      position: absolute;
     }
   </style>  
 </head>
