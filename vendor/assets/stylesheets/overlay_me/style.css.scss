@@ -115,7 +115,8 @@ $border: 1px solid rgba(white, 0.2);
   }
 
   #images_mgnt {
-    width: 236px;
+    $image_mgnt_width: $menu_width - 14px;
+    width: $image_mgnt_width;
 
     .controls {
       padding-bottom: 5px;
@@ -124,7 +125,7 @@ $border: 1px solid rgba(white, 0.2);
     .overlay-image-block {
       text-align: left;
       position: relative;
-      width: $menu_width - 7px; // menu_width - padding - border
+      width: $image_mgnt_width;
       border: $border;
       border-right: none;
       border-left: none;    

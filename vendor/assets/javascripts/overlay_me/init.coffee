@@ -1,6 +1,7 @@
 #= require 'lib/jquery.min.js'
 #= require 'lib/underscore.js'
 #= require 'lib/backbone.js'
+#= require 'lib/html5slider.js'
 
 window.OverlayMe = {}
 
