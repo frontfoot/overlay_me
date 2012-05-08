@@ -46,14 +46,14 @@ namespace :minify do
     puts "\n** Add CSS minified blob inline in the javascript :! **"
 
     js_string = File.read(ENV['js_file'])
-    css_append = 'var style = $(\'<style type="text/css" rel="stylesheet"></style>\');
+    css_append = 'style = $(\'<style type="text/css" rel="stylesheet"></style>\');
                   style.html(\''+File.read(ENV['css_minified'])+'\');
                   $("head").append(style);'
 
     # stripping out the createTag block for the CSS blob
     js_string = js_string.gsub(/var createTag.*createTag\([^\(]*\)\);/m, css_append)
 
-    File.open(ENV['js_minified'], 'w') {|f| f.write(js_string) }
+    File.open(ENV['js_file'], 'w') {|f| f.write(js_string) }
     `rm #{ENV['css_minified']}` # remove blob
   end
 
