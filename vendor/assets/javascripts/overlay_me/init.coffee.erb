@@ -1,0 +1,32 @@
+#= require 'lib/jquery.min.js'
+#= require 'lib/underscore.js'
+#= require 'lib/backbone.js'
+#= require 'lib/html5slider.js'
+
+<% if ENV['minifying'] %>
+  # if building the minified version, we insert the minified CSS directly there
+  # dirty but so convenient!
+  $('head').append('<style rel="stylesheet" type="text/css">#CSS_BLOB#</style>')
+<% else %>
+  # add the project css the dirty way: 
+  #  couldn't find a way to force middleman sprockets conf to use /assets for all (as Rails do) 
+  #  so try loading both (and always 1 fail)
+  $('head').append('<link rel="stylesheet" href="/assets/overlay_me/style.css" type="text/css" />')
+  $('head').append('<link rel="stylesheet" href="/stylesheets/overlay_me/style.css" type="text/css" />')
+<% end   %>
+
+# initialize Models/Views namespace
+window.OverlayMe = {}
+
+# add a flag to stop crazy bookmarklet clicking
+OverlayMe.isLoaded = ->
+  window.overlay_me_loaded
+
+# check if browser is a mobile device
+OverlayMe.isMobile = ->
+  return navigator.userAgent.match /(iPhone|iPod|iPad|Android)/
+
+# give a shortName method for checks in the app
+OverlayMe.mustLoad = ->
+  return !OverlayMe.isLoaded() && !OverlayMe.isMobile()
+

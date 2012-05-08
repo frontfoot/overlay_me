@@ -1,0 +1,204 @@
+/* line 6, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
+#container {
+  position: relative;
+}
+
+/* line 10, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
+#dev-tools-menu {
+  position: absolute;
+  z-index: 990;
+}
+/* line 14, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
+#dev-tools-menu .drag-me {
+  line-height: 100%;
+  display: block;
+  color: black;
+  font-size: 0.7em;
+  text-align: center;
+  background-image: -webkit-gradient(linear, 0deg, 0deg, color-stop(0%, #999999), color-stop(30%, #dddddd), color-stop(70%, #dddddd), color-stop(100%, #999999));
+  background-image: -webkit-linear-gradient(0deg, #999999, #dddddd 30%, #dddddd 70%, #999999 100%);
+  background-image: -moz-linear-gradient(0deg, #999999, #dddddd 30%, #dddddd 70%, #999999 100%);
+  background-image: -o-linear-gradient(0deg, #999999, #dddddd 30%, #dddddd 70%, #999999 100%);
+  background-image: -ms-linear-gradient(0deg, #999999, #dddddd 30%, #dddddd 70%, #999999 100%);
+  background-image: linear-gradient(0deg, #999999, #dddddd 30%, #dddddd 70%, #999999 100%);
+  padding: 1px;
+}
+/* line 20, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
+#dev-tools-menu .drag-me:hover {
+  cursor: move;
+}
+/* line 27, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
+#dev-tools-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+/* line 38, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
+.menu-item {
+  text-align: left;
+  background-color: #CCC;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  width: 250px;
+}
+/* line 43, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
+.menu-item a.collaps-button {
+  cursor: pointer;
+  position: absolute;
+  padding-top: 9px;
+  padding-left: 5px;
+  width: 13px;
+  height: 9px;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAJCAYAAADpeqZqAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAIlJREFUeNpivHDhQujz589TmZiYvjMQAP/+/eOQkZGZyfD//38ZIL77nzhwG4ilQJpA2BiIPxHQ8BGIDUHqYZpAOIWApiSYWmRNIDfPxaYaKD4bWR2KJiDmA+KzaHrOQMVxagJhfSD+ALXhA5TPQEgTCCcD8V+gpmRs8rg0MQI1eANpJmzyAAEGAKD/bax/HrzbAAAAAElFTkSuQmCC) no-repeat center center;
+}
+/* line 51, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
+.menu-item a.collaps-button span {
+  display: none;
+  color: yellow;
+}
+/* line 54, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
+.menu-item a.collaps-button span:hover {
+  color: yellow;
+}
+/* line 59, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
+.menu-item label.title {
+  padding-left: 20px;
+  color: white;
+  cursor: pointer;
+  width: 237px;
+  line-height: 1.1em;
+  font-size: 14px;
+  background: none;
+}
+/* line 69, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
+.menu-item.collapsed .item-content {
+  display: none;
+}
+/* line 70, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
+.menu-item.collapsed a.collaps-button {
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAANCAYAAAB7AEQGAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAKtJREFUeNpiuHz5ctD///+lgJgBF2Z68uRJOgMDw0EgNmTAAZiA4AeQVgHiA0CchFUREpsPiOcCjZ8NZWNVBAaMjIwpQGofEOvjVAQFxkATDwJxMkgNCy7HAk3kB1KzgApf4DIJBD4CcRpQ8TZcJp2D+vQiVjcBjZ8HpBxhCtAVfQbiVKDxIMd+QtbI8u/fP04gfQ+Iw4D4LDa7WSQlJUGBdxyIn+DyAUCAAQDxsEXD9kreLQAAAABJRU5ErkJggg==) no-repeat center center;
+}
+
+/* line 78, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
+#overlay_panel label {
+  margin: 0 5px 0 0;
+}
+/* line 82, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
+#overlay_panel .content-mgnt-block, #overlay_panel #images_mgnt {
+  text-align: left;
+  padding: 3px 4px;
+  margin: 2px;
+  border: 1px #777 solid;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+}
+/* line 89, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
+#overlay_panel .content-mgnt-block legend, #overlay_panel #images_mgnt legend {
+  font-size: 70%;
+  padding: 0 3px;
+  margin-left: 10px;
+}
+/* line 96, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
+#overlay_panel .slider-block {
+  display: block;
+}
+/* line 98, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
+#overlay_panel .slider-block label {
+  font-size: 70%;
+  vertical-align: top;
+}
+/* line 102, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
+#overlay_panel .slider-block input[type=range] {
+  margin: 0;
+}
+/* line 107, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
+#overlay_panel #images_mgnt {
+  width: 236px;
+}
+/* line 111, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
+#overlay_panel #images_mgnt .controls {
+  padding-bottom: 5px;
+}
+/* line 115, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
+#overlay_panel #images_mgnt .overlay-image-block {
+  text-align: left;
+  position: relative;
+  width: 236px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-right: none;
+  border-left: none;
+}
+/* line 122, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
+#overlay_panel #images_mgnt .overlay-image-block.hovered {
+  background-color: rgba(255, 255, 0, 0.5);
+}
+/* line 125, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
+#overlay_panel #images_mgnt .overlay-image-block .del-button {
+  position: absolute;
+  right: 0;
+  top: 0;
+  margin: 3px 7px;
+  cursor: pointer;
+  border: 1px #AAA solid;
+  font-size: 80%;
+  background-color: #444;
+  color: white;
+  font-weight: bold;
+  padding: 0 4px 2px 4px;
+}
+/* line 141, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
+#overlay_panel #images_mgnt .dynamic-adds label {
+  font-size: 75%;
+}
+/* line 144, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
+#overlay_panel #images_mgnt .dynamic-adds input {
+  width: 145px;
+}
+/* line 150, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
+#overlay_panel input[type=checkbox], #overlay_panel label, #overlay_panel #contentSlider, #overlay_panel .zindex-switch {
+  display: inline;
+}
+/* line 154, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
+#overlay_panel input[type=checkbox] {
+  vertical-align: middle;
+  margin: -3px 5px 0 0;
+}
+
+/* line 161, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
+#images_container {
+  position: absolute;
+  z-index: 4;
+  top: 0;
+  left: 0;
+}
+/* line 166, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
+#images_container div {
+  position: absolute;
+  visibility: hidden;
+}
+/* line 169, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
+#images_container div.highlight {
+  background: red;
+  opacity: 1;
+}
+/* line 172, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
+#images_container div.highlight img {
+  opacity: .7;
+}
+/* line 176, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
+#images_container div:hover {
+  cursor: move;
+}
+/* line 180, /Users/ffmini/Programming/overlay_me/vendor/assets/stylesheets/overlay_me/style.css.scss */
+#images_container img {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
