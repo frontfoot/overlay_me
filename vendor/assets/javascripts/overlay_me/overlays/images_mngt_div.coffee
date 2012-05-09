@@ -25,15 +25,22 @@ class OverlayMe.Overlays.ImagesManagementDiv extends Backbone.View
     $("#images_container ##{image_id}").remove()
 
   dynamicAddsBlock: ->
-    @dynamicAddsBlock = @make 'div', { class: 'dynamic-adds' }
-    @dynamicAddsBlock.appendChild @make 'label', {}, 'Add an image'
-    image_text_input = @make 'input', { type: 'text', placeholder: "http://" }
-    @dynamicAddsBlock.appendChild image_text_input
-    $(image_text_input).bind 'keypress', (e) =>
-      if e.keyCode == 13
-        OverlayMe.dyn_manager.addImage e.target.value
-        e.target.value = ''
-    @dynamicAddsBlock
+    dynamicAddsBlock = @make 'div', { class: 'dynamic-adds' }
+    dynamicAddsBlock.appendChild @make 'label', {}, 'Add an image'
+    @image_url_input = @make 'input', { type: 'text', placeholder: "http://" }
+    dynamicAddsBlock.appendChild @image_url_input
+    push_image_button = @make 'button', {}, 'Push'
+    dynamicAddsBlock.appendChild push_image_button
+    $(@image_url_input).bind 'keypress', (e) =>
+      @pushImage() if e.keyCode == 13
+    $(push_image_button).bind 'click', (e) =>
+      @pushImage()
+    dynamicAddsBlock
+
+  pushImage: ->
+    OverlayMe.dyn_manager.addImage @image_url_input.value
+    @image_url_input.value = ''
+
 
   hideInactiveBox: ->
     @hideInactiveBox = @make 'input', { type: "checkbox", class: 'hide-inactive' }
