@@ -51,6 +51,7 @@ class OverlayMe.Overlays.Image extends Backbone.View
     @flickVisibility()
 
   flickVisibility: ->
+    @image.fitDivToImage()
     if @checkbox.checked
       $(@image.el).css('visibility', 'visible')
     else

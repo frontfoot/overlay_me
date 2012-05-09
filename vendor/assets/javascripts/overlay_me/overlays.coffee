@@ -39,8 +39,6 @@ if OverlayMe.mustLoad()
   # add the panel to the page menu
   $(OverlayMe.Menu).append overlay_panel.render()
   
-  $(window).trigger 'images_should_be_rendred'
-
   # repeating original window#mousemove event
   $(window).bind 'mousemove', (event) ->
     $(window).trigger('mymousemove', event)

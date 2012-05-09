@@ -26,12 +26,6 @@ class OverlayMe.Overlays.DraggableImage extends OverlayMe.Draggable
     $(@el).bind 'mouseout', (event) =>
       $(".overlay-image-block[data-img-id=#{@id}]").removeClass 'hovered'
 
-
-    $(window).bind 'images_should_be_rendred', (event) =>
-      setTimeout =>
-        @fitDivToImage()
-      , 500
-	
   fitDivToImage: ->
     if @image.width > 0
       $(@el).css('width', @image.width)
