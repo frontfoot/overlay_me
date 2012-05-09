@@ -16,7 +16,7 @@ We were struggling to see the gap between designers photoshop files and our HTML
 
 ## Use it now !
 
-You can try it live on any site by loading the javascript on top of any page (a handy bookmarklet link is available [on this page](http://dev.frontfoot.com.au/overlay_me/demo_page.html)).
+You can try it live by loading overlay_me.min.js javascript file on top of any web page (a handy bookmarklet link is available [on this page](http://dev.frontfoot.com.au/overlay_me/demo_page.html)).
 
 
 ## Screenshot
@@ -26,7 +26,7 @@ You can try it live on any site by loading the javascript on top of any page (a 
 
 ## Todo
 
-- allow local image uploading (a temporary hosting on amazon s3 ?)
+- allow local image uploading (a temporary hosting on amazon s3 ?), [makiapp.com](http://makiapp.com/) does it!
 
 - content
   - add parent container div dynamically (at the moment the toolbar is looking for a #content or #container element)
@@ -38,13 +38,11 @@ You can try it live on any site by loading the javascript on top of any page (a 
 
 ## Usage
 
-2 options for your project:
-
-- The precompiled/minified script (overlay_me/overlay_me.min.js)
+- Either you can use the precompiled/minified script (overlay_me/overlay_me.min.js)
   - Load it manually using the bookmarklet link
   - Or add it to your site (at the end of the body tag)
 
-- The project is available as a Ruby gem, so if you too use bundler
+- Either you can load the Ruby gem :) If you too use bundler:
 
     # Gemfile
     
@@ -80,7 +78,7 @@ List your images in JSON, simply:
       "/images/overlays/Home_768r_1.png"
     ]
 
-I made a simple Rack app to build that JSON list for you
+If you're using the gem, I made a simple Rack app to build that JSON list for you
 
 Here is how to initialise the path and the feed route
 
