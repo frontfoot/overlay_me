@@ -7,10 +7,18 @@ class OverlayMe.Overlays.ImagesManagementDiv extends Backbone.View
     $(@el).append @make 'legend', {}, 'Overlaying images'
     @controlBlock = @make 'div', { class: 'controls' }
     $(@el).append @controlBlock
+
     @controlBlock.appendChild @checkAllbox()
-    @controlBlock.appendChild @make 'label', {}, 'All/None'
-    @controlBlock.appendChild @hideInactiveBox()
-    @controlBlock.appendChild @make 'label', {}, 'Hide Inactives'
+    check_all_label = @make 'label', {}, 'All/None'
+    $(check_all_label).bind 'click', =>
+      $(@checkAllBox).trigger 'click'
+    @controlBlock.appendChild check_all_label
+
+    @controlBlock.appendChild @hideInactivesBox()
+    hide_inactives_label = @make 'label', {}, 'Hide Inactives'
+    @controlBlock.appendChild hide_inactives_label
+    $(hide_inactives_label).bind 'click', =>
+      $(@hideInactivesBox).trigger 'click'
 
     @overlaysListBlock = @make 'div', { class: 'overlays-list' }
     $(@el).append @overlaysListBlock
@@ -41,29 +49,29 @@ class OverlayMe.Overlays.ImagesManagementDiv extends Backbone.View
     OverlayMe.dyn_manager.addImage @image_url_input.value
     @image_url_input.value = ''
 
-
-  hideInactiveBox: ->
-    @hideInactiveBox = @make 'input', { type: "checkbox", class: 'hide-inactive' }
+  hideInactivesBox: ->
+    @hideInactivesBox = @make 'input', { type: "checkbox", class: 'hide-inactive' }
     # if ( data = localStorage.getItem(@id) )
     #   console.log 'load:', data
-    #   $(@hideInactiveBox).css(JSON.parse(data))
-    if $(@hideInactiveBox).css('visibility') == 'visible'
-      @hideInactiveBox.checked = true
-    $(@hideInactiveBox).bind 'change', (event) =>
-      @hideInactive @hideInactiveBox.checked
-      @saveState()
-    @hideInactiveBox
+    #   $(@hideInactivesBox).css(JSON.parse(data))
+    if $(@hideInactivesBox).css('visibility') == 'visible'
+      @hideInactivesBox.checked = true
+    $(@hideInactivesBox).bind 'change', (event) =>
+      @hideInactives()
+    @hideInactivesBox
 
-  hideInactive: (state) ->
+  hideInactives: ->
+    checkbox_state = @hideInactivesBox.checked
     _.each $('.overlay-image-block'), (img_block) ->
       checkbox = $('input[type=checkbox]', img_block)
       img_id = $(img_block).attr 'data-img-id'
-      if state and !checkbox.first()[0].checked
+      if checkbox_state and !checkbox.first()[0].checked
         $(img_block).hide()
         $("##{img_id}").hide()
       else
         $(img_block).show()
         $("##{img_id}").show()
+    @saveState()
 
   checkAllbox: ->
     @checkAllBox = @make 'input', { type: "checkbox", class: 'check-all' }
@@ -73,17 +81,18 @@ class OverlayMe.Overlays.ImagesManagementDiv extends Backbone.View
     if $(@checkAllBox).css('visibility') == 'visible'
       @checkAllBox.checked = true
     $(@checkAllBox).bind 'change', (event) =>
-      @checkAll @checkAllBox.checked
-      @saveState()
+      @checkAll()
     @checkAllBox
 
-  checkAll: (state) ->
+  checkAll: ->
+    checkbox_state = @checkAllBox.checked
     for checkbox in $('.overlay-image-block input[type=checkbox]')
-      if checkbox.checked != state
+      if checkbox.checked != checkbox_state
         $(checkbox).trigger 'click'
+    @saveState()
 
 
-  # adding some retention
+  # adding some retention (or not)
   saveState: ->
     # localStorage.setItem(@id, JSON.stringify({
     #   visibility:$(@checkbox).css('visibility')

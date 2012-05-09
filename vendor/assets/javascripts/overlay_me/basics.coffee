@@ -17,7 +17,7 @@ if OverlayMe.mustLoad()
   clear_all_button = (new Backbone.View).make 'button', { onClick: "javascript: localStorage.clear(); window.location.reload()" }, 'Reset All'
   basics_panel.append clear_all_button
 
-  hide_button = (new Backbone.View).make 'button', { onClick: "javascript: toggle_menu_visibility()" }, 'Hide menu (touch "H")'
+  hide_button = (new Backbone.View).make 'button', { onClick: "javascript: toggle_menu_visibility()" }, 'Hide menu (touch "h")'
   basics_panel.append hide_button
 
   # add the element to the page menu

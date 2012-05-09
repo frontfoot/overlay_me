@@ -28,15 +28,14 @@ class OverlayMe.Overlays.ContentDivManagementBlock extends Backbone.View
   zIndexSwitch: ->
     block = @make 'div', { class: 'zindex-switch' }
 
-    @zIndexSwitch = @make 'input', {
-      type: "checkbox",
-    }
+    @zIndexSwitch = @make 'input', { type: "checkbox" }
     $(block).append @zIndexSwitch
 
-    if $("##{@container_id}").css('z-index') == @over_zindex
-      @zIndexSwitch.checked = true
+    @zIndexSwitch.checked = true if $("##{@container_id}").css('z-index') == @over_zindex
 
-    label = @make 'label', {}, 'Content on top (touch "C")'
+    label = @make 'label', {}, 'Content on top (touch "c")'
+    $(label).bind 'click', =>
+      $(@zIndexSwitch).trigger 'click'
     $(block).append label
 
 
