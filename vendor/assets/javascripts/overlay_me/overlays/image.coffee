@@ -27,6 +27,17 @@ class OverlayMe.Overlays.Image extends Backbone.View
     slider_block.appendChild @make 'label', {}, 'Opacity'
     slider_block.appendChild @slider()
     $(@el).append @delButton() if options.destroyable
+    $(@el).bind 'click', (event) =>
+      @flickCheckbox()
+    $(@el).bind 'mouseover', (event) =>
+      $(@image.el).css('opacity', 1)
+      $(@image.el).addClass 'highlight'
+      $(@el).addClass 'hovered'
+    $(@el).bind 'mouseout', (event) =>
+      $(@image.el).removeClass 'highlight'
+      $(@el).removeClass 'hovered'
+      $(@image.el).css('opacity', $(@slider)[0].value/100)
+
 
   image: ->
     @image = new OverlayMe.Overlays.DraggableImage { id: @image_id }, { image_src: @image_src, default_css: @default_css }
@@ -36,7 +47,11 @@ class OverlayMe.Overlays.Image extends Backbone.View
     @checkbox = @make 'input', { type: "checkbox" }
     if $(@image.el).css('visibility') == 'visible'
       @checkbox.checked = true
-    $(@checkbox).bind 'change', (event) =>
+    $(@checkbox).bind 'click', (e) =>
+      e.stopPropagation()
+      @flickVisibility()
+    $(@checkbox).bind 'change', (e) =>
+      e.stopPropagation()
       @flickVisibility()
     @checkbox
 
@@ -60,23 +75,22 @@ class OverlayMe.Overlays.Image extends Backbone.View
 
   label: ->
     @label = @make 'label', {}, @image_src.replace(/.*\//, '')
-    $(@label).bind 'mouseover', (event) =>
-      $(@image.el).css('opacity', 1)
-      $(@image.el).addClass 'highlight'
-    $(@label).bind 'mouseout', (event) =>
-      $(@image.el).removeClass 'highlight'
-      $(@image.el).css('opacity', $(@slider)[0].value/100)
-    $(@label).bind 'click', (event) =>
-      @flickCheckbox()
-
   slider: ->
     @slider = @make 'input', {
       type: "range",
       value: $(@image.el).css('opacity')*100
     }
-    $(@slider).bind 'change', =>
+    $(@slider).bind 'click', (e) =>
+      e.stopPropagation()
+    $(@slider).bind 'change', (e) =>
       $(@image.el).css('opacity', $(@slider)[0].value/100)
       @image.saveCss()
+    $(@slider).bind 'mouseover', (e) =>
+      e.stopPropagation()
+      $(@el).addClass 'hovered'
+    $(@slider).bind 'mouseout', (e) =>
+      e.stopPropagation()
+      $(@el).removeClass 'hovered'
     @slider
 
   render: ->
