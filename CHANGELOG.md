@@ -1,8 +1,8 @@
 ### Coming up
-..
+..?
 
 ### 0.11.0
-- moving the original page content in a div to control its opacity
+- moving the original page content in a controlled div
 
 ### 0.10.1
 - improved usability: image cells clickable, display mouseovers
