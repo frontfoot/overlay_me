@@ -18,6 +18,13 @@ class OverlayMe.Overlays.ContentDivManagementBlock extends Backbone.View
     if ( contentCss = localStorage.getItem("#overlay_me_page_container") )
       $("#overlay_me_page_container").css(JSON.parse(contentCss))
 
+    # adding a hidden unicorny button
+    unicorn_button = @make 'div', { class: 'unicorns', title: 'Feeling corny?' }
+    $(unicorn_button).bind 'click', ->
+      $(OverlayMe.unicorns).each (ind, img) ->
+        OverlayMe.dyn_manager.addImage(img)
+    $(@el).append unicorn_button
+
     $(@el).append @make 'legend', {}, 'Page content'
     slider_block = @make 'div', { class: 'slider-block' }
     $(@el).append slider_block
