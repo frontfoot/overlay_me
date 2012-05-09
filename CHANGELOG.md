@@ -1,8 +1,11 @@
 ### Coming up
+- cleaned the minifying/merging tasks
+
+### 0.10.0
+- js + css all in one UNIQUE minified overlay_me.min.js file
 - a bit of styling
 - fix style and events for Firefox
 - load an image by default at first use
-- js + css all in one minified overlay_me.min.js file
 
 ### 0.9.2
 - bookmarklet access
