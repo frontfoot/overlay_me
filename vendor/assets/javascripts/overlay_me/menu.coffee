@@ -3,7 +3,7 @@
 if OverlayMe.mustLoad()
 
   # create elements
-  menu_box = new OverlayMe.Draggable { id: 'dev-tools-menu' }, { default_css: { left: document.documentElement.clientWidth-300+'px', top: '0px' }, events_to_save_on: ['save:menu']}
+  menu_box = new OverlayMe.Draggable { id: 'overlay_me_dev_tools_menu' }, { default_css: { left: document.documentElement.clientWidth-300+'px', top: '0px' }, events_to_save_on: ['save:menu']}
   drag_me_line = (new Backbone.View).make 'div', { class: 'drag-me' }, 'Drag me'
   OverlayMe.Menu = (new Backbone.View).make 'ul'
 

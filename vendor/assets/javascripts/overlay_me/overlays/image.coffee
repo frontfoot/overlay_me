@@ -10,10 +10,10 @@ class OverlayMe.Overlays.Image extends Backbone.View
     @image_id = image_src.replace(/[.:\/]/g, '_').replace(/[^a-zA-Z0-9_\-]/g, '')
     $(@el).attr 'data-img-id', @image_id
 
-    @images_container = $('#images_container')
+    @images_container = $('#overlay_me_images_container')
     if @images_container.length < 1
-      $('body').append (new Backbone.View).make 'div', { id: 'images_container' }
-      @images_container = $('#images_container')
+      $('body').append (new Backbone.View).make 'div', { id: 'overlay_me_images_container' }
+      @images_container = $('#overlay_me_images_container')
 
     @default_css = $.extend {visibility: 'hidden', opacity: 0.5}, options.default_css
 

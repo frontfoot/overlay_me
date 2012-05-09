@@ -8,7 +8,7 @@ We were struggling to see the gap between designers photoshop files and our HTML
 - overlay images over a web page saving their position/opacity locally (using HTML5 localStorage)
   - images can be loaded from a project local directory (see Project base use)
   - an image can be added on the fly with its absolute url
-- bring back your HTML on top of the overlays (page content will need to be in a #container div)
+- bring back your HTML on top of the overlays
   - control the opacity of the page content
   - keep on playing with the CSS while having with a visual overlay
 - addon layout_resizer, to switch between pre-recorded devices format
@@ -26,11 +26,8 @@ You can try it live by loading overlay_me.min.js javascript file on top of any w
 
 ## Todo
 
+- clean the minifying/merging tasks (load.js should be )
 - allow local image uploading (a temporary hosting on amazon s3 ?), [makiapp.com](http://makiapp.com/) does it!
-
-- content
-  - add parent container div dynamically (at the moment the toolbar is looking for a #content or #container element)
-
 - overlays
   - overlay images sub-sets (sub-directories) should appear as nested blocks
   - make another version of the toolbar fixed on top of the screen
@@ -120,7 +117,6 @@ You can add some app specific menu for specific project.. Have a look at layout_
 
 ## Known problems
 
-- the content management bit needs the page content to be in a #container div (will upgrade that soon)
 - you can't find the panel? it's probably hidden aside (previous bigger screen location) or hidden (press 'H')
 - you see the overlay but can't drag it? the 'Content on Top' option is probably on (press 'C')
 - not a big deal: I tried to bend middleman sprockets configuration to load the stylesheets into /assets but failed... so we try loading both local paths for stylesheets (/assets/xx.css and /stylesheets/xx.css - see load.coffee)

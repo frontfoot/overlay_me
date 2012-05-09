@@ -1,5 +1,8 @@
 ### Coming up
-- cleaned the minifying/merging tasks
+..
+
+### 0.11.0
+- moving the original page content in a div to control its opacity
 
 ### 0.10.1
 - improved usability: image cells clickable, display mouseovers

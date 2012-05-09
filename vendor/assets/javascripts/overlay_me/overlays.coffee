@@ -2,8 +2,8 @@
 #= require 'overlay_me/menu_item'
 #= require 'overlay_me/overlays/init'
 #= require 'overlay_me/overlays/image'
-#= require 'overlay_me/overlays/dynamic_images_mngt'
-#= require 'overlay_me/overlays/content_div'
+#= require 'overlay_me/overlays/dynamic_images_mngmt'
+#= require 'overlay_me/overlays/content_div_mngmt'
 #= require 'overlay_me/overlays/images_mngt_div'
 
 if OverlayMe.mustLoad()
@@ -26,9 +26,6 @@ if OverlayMe.mustLoad()
         "http://fc07.deviantart.net/fs49/f/2009/200/b/3/Fat_Unicorn_and_the_Rainbow_by_la_ratta.jpg",
         "http://www.deviantart.com/download/126388773/Unicorn_Pukes_Rainbow_by_Angel35W.jpg",
         "http://macmcrae.com/wp-content/uploads/2010/02/unicorn.jpg",
-        "http://www.deviantart.com/download/195169729/rainbow_farting_unicorn_by_hi_my_name_is_light-d3875xd.jpg",
-        "http://edwardhotspur.files.wordpress.com/2012/01/rainbowunicorn.jpg",
-        "https://s.deviantart.com/th/fs18/f/2007/220/1/3/Unicorn_Vomit___Finished___by_Rainbow_Colors_Club.jpg",
         "http://4.bp.blogspot.com/-uPLiez-m9vY/TacC_Bmsn3I/AAAAAAAAAyg/jusQIA8aAME/s1600/Behold_A_Rainbow_Unicorn_Ninja_by_Jess4921.jpg",
         "http://www.everquestdragon.com/everquestdragon/main/image.axd?picture=2009%2F9%2FPaperPaperNewrainbow.png"
       ]

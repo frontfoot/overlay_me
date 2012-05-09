@@ -4,7 +4,7 @@
 if OverlayMe.mustLoad()
 
   window.toggle_menu_visibility = ->
-    menu = $('#dev-tools-menu')
+    menu = $('#overlay_me_dev_tools_menu')
     if $(menu).css('visibility') == 'visible'
       css = { visibility: 'hidden' }
     else

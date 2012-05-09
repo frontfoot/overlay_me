@@ -30,14 +30,14 @@ class OverlayMe.Overlays.ImagesManagementDiv extends Backbone.View
 
   del: (image_id) ->
     $(".overlay-image-block[data-img-id=#{image_id}]", @el).remove()
-    $("#images_container ##{image_id}").remove()
+    $("#overlay_me_images_container ##{image_id}").remove()
 
   dynamicAddsBlock: ->
     dynamicAddsBlock = @make 'div', { class: 'dynamic-adds' }
     dynamicAddsBlock.appendChild @make 'label', {}, 'Add an image'
     @image_url_input = @make 'input', { type: 'text', placeholder: "http://" }
     dynamicAddsBlock.appendChild @image_url_input
-    push_image_button = @make 'button', {}, 'Push'
+    push_image_button = @make 'button', {}, 'Add'
     dynamicAddsBlock.appendChild push_image_button
     $(@image_url_input).bind 'keypress', (e) =>
       @pushImage() if e.keyCode == 13

@@ -3,11 +3,17 @@
 $menu_width: 250px;
 $border: 1px solid rgba(white, 0.2);
 
-#container {
+button {
+  font-size: 10px;
+  margin: 0 5px;    
+  padding: 0px 5px;
+}
+
+#overlay_me_page_container {
   position: relative;
 }
 
-#dev-tools-menu {
+#overlay_me_dev_tools_menu {
   position: absolute;
   z-index: 990; //to pass over Google Toolbar ;)
 
@@ -70,13 +76,6 @@ $border: 1px solid rgba(white, 0.2);
     a.collaps-button {
       background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAANCAYAAAB7AEQGAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAKtJREFUeNpiuHz5ctD///+lgJgBF2Z68uRJOgMDw0EgNmTAAZiA4AeQVgHiA0CchFUREpsPiOcCjZ8NZWNVBAaMjIwpQGofEOvjVAQFxkATDwJxMkgNCy7HAk3kB1KzgApf4DIJBD4CcRpQ8TZcJp2D+vQiVjcBjZ8HpBxhCtAVfQbiVKDxIMd+QtbI8u/fP04gfQ+Iw4D4LDa7WSQlJUGBdxyIn+DyAUCAAQDxsEXD9kreLQAAAABJRU5ErkJggg==) no-repeat center center;
     }
-  }
-}
-
-#bacis-options {
-  button {
-    font-size: 10px;
-    margin: 0 5px;    
   }
 }
 
@@ -149,8 +148,7 @@ $border: 1px solid rgba(white, 0.2);
         font-size: 75%;
       }
       input {
-        width: 100px;
-        margin-right: 3px;
+        width: 105px;
         font-size: 10px;
       }
     }
@@ -167,7 +165,7 @@ $border: 1px solid rgba(white, 0.2);
 
 }
 
-#images_container {
+#overlay_me_images_container {
   position: absolute;
   z-index: 4; // same than the caroussel images
   top: 0;
