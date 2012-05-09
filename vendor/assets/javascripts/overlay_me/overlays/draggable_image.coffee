@@ -7,9 +7,6 @@ class OverlayMe.Overlays.DraggableImage extends OverlayMe.Draggable
     @image = (new Backbone.View).make 'img', { src: options.image_src }
     $(@el).append @image
 
-    # apply default_css if existing
-    $(@el).css options.default_css if options.default_css
-
     # force positioning to 0 by default
     $(@el).css('left', '0px') if $(@el).css('left') == 'auto' || $(@el).css('left') == ''
     $(@el).css('top', '0px') if $(@el).css('top') == 'auto' || $(@el).css('top') == ''

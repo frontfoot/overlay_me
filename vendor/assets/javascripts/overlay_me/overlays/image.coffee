@@ -74,7 +74,9 @@ class OverlayMe.Overlays.Image extends Backbone.View
     @image.saveCss()
 
   label: ->
-    @label = @make 'label', {}, @image_src.replace(/.*\//, '')
+    # keep only 22 characters
+    @label = @make 'label', {}, @image_src.replace(/.*\//, '').slice(-22)
+
   slider: ->
     @slider = @make 'input', {
       type: "range",
