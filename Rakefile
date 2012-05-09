@@ -8,7 +8,7 @@ require 'jsmin'
 require 'yui/compressor'
 
 ENV['js_file'] = "overlay_me/load.js"
-ENV['js_minified'] = "overlay_me/overlay_me.min.js"
+ENV['js_minified'] = "overlay_me.min.js"
 ENV['css_file'] = "overlay_me/style.css"
 ENV['css_minified'] = "overlay_me/style.min.css"
 
@@ -84,14 +84,6 @@ namespace :minify do
   task :all_in_one => [:css, :add_minified_css_to_js, :js, :prepend_header]
 end
 
-desc "push files on a public accessible server"
-task :publish => [:compile, 'minify:all_in_one'] do
-  pub = YAML.load_file(File.join("config", "publishing_server.yml"))
-
-  puts "\n** Push files to server #{pub['server']} **"
-
-  cmd = "scp -r overlay_me #{pub['user']}@#{pub['server']}:#{pub['public_dir']}/"
-  puts cmd
-  system cmd
-end
+desc "package, aka prepare the minified .js"
+task :package => [:compile, 'minify:all_in_one']
 

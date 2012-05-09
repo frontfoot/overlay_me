@@ -28,13 +28,12 @@ You can try it live on any site by loading the javascript on top of any page (a 
 
 - allow local image uploading (a temporary hosting on amazon s3 ?)
 
-- content opacity
+- content
   - add parent container div dynamically (at the moment the toolbar is looking for a #content or #container element)
 
 - overlays
   - overlay images sub-sets (sub-directories) should appear as nested blocks
   - make another version of the toolbar fixed on top of the screen
-  - detail: make full cell clickable to switch image on/off (not only text)
 
 
 ## Usage

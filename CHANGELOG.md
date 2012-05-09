@@ -1,6 +1,10 @@
 ### Coming up
 - cleaned the minifying/merging tasks
 
+### 0.10.1
+- improved usability: image cells clickable, display mouseovers
+- some design
+
 ### 0.10.0
 - js + css all in one UNIQUE minified overlay_me.min.js file
 - a bit of styling
