@@ -73,6 +73,13 @@ $border: 1px solid rgba(white, 0.2);
   }
 }
 
+#bacis-options {
+  button {
+    font-size: 10px;
+    margin: 0 5px;    
+  }
+}
+
 #overlay_panel {
 
   label {
@@ -144,6 +151,7 @@ $border: 1px solid rgba(white, 0.2);
       input {
         width: 100px;
         margin-right: 3px;
+        font-size: 10px;
       }
     }
   }

@@ -3,3 +3,4 @@
 .sass-cache
 config/publishing_server.yml
 manifest.json
+overlay_me/local.html
