@@ -1,7 +1,9 @@
 OverlayMe.Overlays = {}
 
+OverlayMe.Overlays.urlToId = (url) ->
+  return url.replace(/[.:\/]/g, '_').replace(/[^a-zA-Z0-9_\-]/g, '')
+
 OverlayMe.unicorns = [
-  "http://img.photobucket.com/albums/v629/Master_Becca/unicorn.png",
   "http://fc07.deviantart.net/fs49/f/2009/200/b/3/Fat_Unicorn_and_the_Rainbow_by_la_ratta.jpg",
   "http://www.deviantart.com/download/126388773/Unicorn_Pukes_Rainbow_by_Angel35W.jpg",
   "http://macmcrae.com/wp-content/uploads/2010/02/unicorn.jpg",

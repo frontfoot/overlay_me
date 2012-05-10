@@ -7,7 +7,7 @@ class OverlayMe.Overlays.Image extends Backbone.View
 
   initialize: (image_src, options = { destroyable: false }) ->
     @image_src = image_src
-    @image_id = image_src.replace(/[.:\/]/g, '_').replace(/[^a-zA-Z0-9_\-]/g, '')
+    @image_id = OverlayMe.Overlays.urlToId(image_src)
     $(@el).attr 'data-img-id', @image_id
 
     @images_container = $('#overlay_me_images_container')

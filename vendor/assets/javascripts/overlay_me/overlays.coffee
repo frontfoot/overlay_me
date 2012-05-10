@@ -18,6 +18,17 @@ if OverlayMe.mustLoad()
   OverlayMe.images_management_div = new OverlayMe.Overlays.ImagesManagementDiv()
   overlay_panel.append OverlayMe.images_management_div.render()
 
+  # add the panel to the page menu
+  $(OverlayMe.Menu).append overlay_panel.render()
+  
+  # repeating original window#mousemove event
+  $(window).bind 'mousemove', (event) ->
+    $(window).trigger('mymousemove', event)
+
+  # once everything rendered, load dynamicly added images
+  OverlayMe.dyn_manager = new OverlayMe.Overlays.DynamicManager()
+  OverlayMe.dyn_manager.loadAll()
+
   OverlayMe.loadDefaultImage = ->
     # double check that the dynamic loading list is also empty
     if OverlayMe.dyn_manager.isEmpty()
@@ -35,18 +46,4 @@ if OverlayMe.mustLoad()
           OverlayMe.images_management_div.append new OverlayMe.Overlays.Image(img_path).render()
     error: ->
       OverlayMe.loadDefaultImage()
-
-  # add the panel to the page menu
-  $(OverlayMe.Menu).append overlay_panel.render()
-  
-  # repeating original window#mousemove event
-  $(window).bind 'mousemove', (event) ->
-    $(window).trigger('mymousemove', event)
-
-  # once everything rendered, load dynamicly added images
-  OverlayMe.dyn_manager = new OverlayMe.Overlays.DynamicManager()
-  OverlayMe.dyn_manager.loadAll()
-
-  # tag OverlayMe as loaded
-  window.overlay_me_loaded = true
 

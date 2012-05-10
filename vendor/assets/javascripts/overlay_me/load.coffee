@@ -9,7 +9,11 @@ createTag = (tagName, attributes) ->
 
 head = document.getElementsByTagName('head')[0]
 
-# the dirty way: couldn't find a way to force middleman sprockets conf to use /assets for all (as Rails do) 
+# the dirty way: couldn't find a way to force middleman sprockets conf to use /assets for all (as Rails do)
 # so loading both (and always 1 fail)
 head.appendChild(createTag('link', {type:'text/css', href:'/assets/overlay_me/style.css', media:'only screen', rel:'stylesheet'}))
 head.appendChild(createTag('link', {type:'text/css', href:'/stylesheets/overlay_me/style.css', media:'only screen', rel:'stylesheet'}))
+
+# tag OverlayMe as loaded
+window.overlay_me_loaded = true
+

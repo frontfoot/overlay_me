@@ -21,8 +21,7 @@ class OverlayMe.Overlays.ContentDivManagementBlock extends Backbone.View
     # adding a hidden unicorny button
     unicorn_button = @make 'div', { class: 'unicorns', title: 'Feeling corny?' }
     $(unicorn_button).bind 'click', ->
-      $(OverlayMe.unicorns).each (ind, img) ->
-        OverlayMe.dyn_manager.addImage(img)
+      OverlayMe.dyn_manager.addImage(OverlayMe.unicorns[Math.floor(Math.random()*OverlayMe.unicorns.length)])
     $(@el).append unicorn_button
 
     $(@el).append @make 'legend', {}, 'Page content'

@@ -18,14 +18,14 @@ class OverlayMe.Overlays.DynamicManager extends Backbone.Model
 
   addImage: (src) ->
     new_image = @loadImage(src)
-    unless @isPresent new_image.image_id
+    if new_image && !@isPresent(new_image.image_id)
       @list.push { id: new_image.image_id, src: new_image.image_src }
       @saveList()
     new_image
 
   loadImage: (src) ->
-    image = undefined
-    unless $("#overlay_me_images_container ##{@image_id}").length > 0
+    image_id = OverlayMe.Overlays.urlToId(src)
+    unless $("#overlay_me_images_container ##{image_id}").length > 0
       image = new OverlayMe.Overlays.Image(src, { destroyable: true, default_css: {visibility: 'visible'} })
       OverlayMe.images_management_div.append image.render()
     image
