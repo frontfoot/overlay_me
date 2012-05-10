@@ -26,15 +26,12 @@ You can try it live by loading overlay_me.min.js javascript file on top of any w
 
 ## Todo
 
-- clean the minifying/merging tasks (load.js should be )
+- clean the minifying/merging tasks (load.js should be a kind of template)
 - allow local image uploading (a temporary hosting on amazon s3 ?), [makiapp.com](http://makiapp.com/) does it!
-- content management
-  - if 'Content on top' selected, after reload, it should be checked back again
 - overlays
   - an existing url shouldn't try to load twice and fail
   - overlay images sub-sets (sub-directories) should appear as nested blocks
   - make another version of the toolbar fixed on top of the screen
-- update header of minified file to include sub-projects copyrights
 
 
 ## Usage

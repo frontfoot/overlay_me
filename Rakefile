@@ -68,10 +68,17 @@ namespace :minify do
     puts "\n** Prepend header to compiled files **"
 
     header  = "// OverlayMe v#{OverlayMe::VERSION}\n"
+    header += "// http://github.com/frontfoot/overlay_me\n"
     header += "//\n"
     header += "// #{File.open('LICENSE'){|f| f.readline().chomp() }}\n"
     header += "// OverlayMe is freely distributable under the MIT license.\n"
-    header += "// http://github.com/frontfoot/overlay_me\n\n"
+    header += "//\n"
+    header += "// Includes:\n"
+    header += "// - jQuery - http://jquery.com/ - Copyright 2011, John Resig\n"
+    header += "// - Backbone.js - http://documentcloud.github.com/backbone - (c) 2010 Jeremy Ashkenas, DocumentCloud Inc.\n"
+    header += "// - Underscore.js - http://documentcloud.github.com/underscore - (c) 2011 Jeremy Ashkenas, DocumentCloud Inc.\n"
+    header += "// - html5slider - https://github.com/fryn/html5slider - Copyright (c) 2010-2011 Frank Yan\n"
+    header += "\n"
     puts header
 
     original_content = File.read(ENV['js_minified'])

@@ -1,6 +1,11 @@
 ### Coming up
 ..?
 
+### 0.11.1
+- fix dynamic images duplication bug
+- fix hidden menu and content on top retention bug
+- update header of minified file to include sub-projects
+
 ### 0.11.0
 - moving the original page content in a controlled div
 
