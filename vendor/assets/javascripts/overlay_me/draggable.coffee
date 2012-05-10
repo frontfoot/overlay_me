@@ -9,10 +9,6 @@ class OverlayMe.Draggable extends Backbone.View
     else
       $(@el).css(options.default_css) unless options.default_css == undefined
 
-    _.each options.events_to_save_on, (event_name) =>
-      $(window).bind event_name, =>
-        @saveCss()
-
   engageMove: (event) ->
     event.preventDefault()
     @moving = true

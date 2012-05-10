@@ -3,21 +3,14 @@
 
 if OverlayMe.mustLoad()
 
-  window.toggle_menu_visibility = ->
-    menu = $('#overlay_me_dev_tools_menu')
-    if $(menu).css('visibility') == 'visible'
-      css = { visibility: 'hidden' }
-    else
-      css = { visibility: 'visible' }
-    $(menu).css(css)
-    $(window).trigger 'save:menu'
-
   basics_panel = new OverlayMe.MenuItem({id: "bacis-options", title: "Basics" })
 
   clear_all_button = (new Backbone.View).make 'button', { onClick: "javascript: localStorage.clear(); window.location.reload()" }, 'Reset All'
   basics_panel.append clear_all_button
 
-  hide_button = (new Backbone.View).make 'button', { onClick: "javascript: toggle_menu_visibility()" }, 'Hide menu (touch "h")'
+  hide_button = (new Backbone.View).make 'button', {}, 'Hide menu (touch "h")'
+  $(hide_button).bind 'click', (event) =>
+    $(OverlayMe.menu_box).trigger 'toggle:visibility'
   basics_panel.append hide_button
 
   # add the element to the page menu
@@ -27,6 +20,6 @@ if OverlayMe.mustLoad()
   $(window).bind('keypress', (event) =>
     #console.log event.keyCode, event.charCode
     if event.charCode == 104 # H
-      toggle_menu_visibility()
+      $(OverlayMe.menu_box).trigger 'toggle:visibility'
   )
 
