@@ -1,4 +1,4 @@
-#= require 'overlay_me/draggable'
+#= require 'draggable'
 
 class OverlayMe.Overlays.DraggableImage extends OverlayMe.Draggable
 

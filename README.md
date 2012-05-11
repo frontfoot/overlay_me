@@ -1,6 +1,14 @@
-The original purpose of this tool is to help the developer to meet designers requirements by overlaying images on the page.
+## Use it now!
 
-We were struggling to see the gap between designers photoshop files and our HTML/CSS implementation, the best way to figure it out was to load their rendered work in the page and play with opacity to see the differences, that's what this tool facilitate.
+Store the bookmarklet from [this page](http://dev.frontfoot.com.au/overlay_me/demo_page.html) and load OverlayMe on top of any web page!
+
+If you just want download the compiled, minified archive: [vendor/assets/overlay_me.min.js]() (it includes the CSS !!)
+
+note: overlay_me.js and overlay_me.css are both generated unminified archives, source are in javascripts/ and stylesheets/ folders
+
+## Screenshot
+
+![Screenshot](http://github.com/frontfoot/overlay_me/raw/master/screenshot_frontfoot_website.jpg)
 
 
 ## Features
@@ -14,14 +22,11 @@ We were struggling to see the gap between designers photoshop files and our HTML
 - addon layout_resizer, to switch between pre-recorded devices format
 
 
-## Use it now !
+## Why
 
-You can try it live by loading overlay_me.min.js javascript file on top of any web page (a handy bookmarklet link is available [on this page](http://dev.frontfoot.com.au/overlay_me/demo_page.html)).
+The purpose of this tool is to help the developer to meet designers requirements by overlaying images on the page.
 
-
-## Screenshot
-
-![Screenshot](http://github.com/frontfoot/overlay_me/raw/master/screenshot_frontfoot_website.jpg)
+We were struggling to see the gap between designers photoshop files and our HTML/CSS implementation, the best way to figure it out was to load their rendered work in the page and play with opacity to see the differences, that's what this tool facilitate.
 
 
 ## Todo
@@ -29,7 +34,7 @@ You can try it live by loading overlay_me.min.js javascript file on top of any w
 - clean the minifying/merging tasks (load.js should be a kind of template)
 - allow local image uploading (a temporary hosting on amazon s3 ?), [makiapp.com](http://makiapp.com/) does it!
 - overlays
-  - an existing url shouldn't try to load twice and fail
+  - make a cycling system, by click or keypress, to iterate through overlays one by one
   - overlay images sub-sets (sub-directories) should appear as nested blocks
   - make another version of the toolbar fixed on top of the screen
 

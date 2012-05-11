@@ -4,4 +4,4 @@ gemspec
 
 gem 'jsmin'
 gem 'yui-compressor'
-
+gem 'listen'

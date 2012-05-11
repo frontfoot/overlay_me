@@ -1,4 +1,4 @@
-#= require 'overlay_me/overlays/image'
+#= require 'overlays/image'
 
 class OverlayMe.Overlays.DynamicManager extends Backbone.Model
   
