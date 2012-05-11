@@ -2,7 +2,7 @@
 
 Store the bookmarklet from [this page](http://dev.frontfoot.com.au/overlay_me/demo_page.html) and load OverlayMe on top of any web page!
 
-If you just want download the compiled, minified archive: [vendor/assets/overlay_me.min.js](https://raw.github.com/frontfoot/overlay_me/master/vendor/assets/overlay_me.min.js) (CSS embedded!)
+If you just want download the compiled, minified archive: [overlay_me.min.js](https://raw.github.com/frontfoot/overlay_me/master/vendor/assets/javascripts/overlay_me/overlay_me.min.js) (CSS embedded!)
 
 note: overlay_me.js and overlay_me.css are both generated unminified archives, original source code is in javascripts/ and stylesheets/ folders
 
@@ -42,7 +42,7 @@ We were struggling to see the gap between designers photoshop files and our HTML
 
 - You can use this tool on the go, over any site, via [the bookmarket](http://dev.frontfoot.com.au/overlay_me/demo_page.html)
 
-- If you want to include it in a non-Ruby project, use the precompiled/minified script ([vendor/assets/overlay_me.min.js](https://raw.github.com/frontfoot/overlay_me/master/vendor/assets/overlay_me.min.js))
+- If you want to include it in a non-Ruby project, use the precompiled/minified script ([overlay_me.min.js](https://raw.github.com/frontfoot/overlay_me/master/vendor/assets/javascripts/overlay_me/overlay_me.min.js))
   
 - And if you're using Ruby, install the gem :)
 

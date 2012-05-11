@@ -48,7 +48,9 @@ namespace :minify do
 
   task :css do
     puts "\n** Minify CSS file #{ENV['css_sprocket']} -> #{ENV['css_minified']} **"
-    File.open(ENV['css_minified'], 'w') {|f| f.write(YUI::CssCompressor.new.compress(File.read(ENV['css_sprocket']))) }
+    File.open(ENV['css_minified'], 'w') do |file|
+      file.write(YUI::CssCompressor.new.compress(File.read(ENV['css_sprocket'])))
+    end
   end
 
   task :add_minified_css_to_js do
@@ -56,13 +58,15 @@ namespace :minify do
 
     css_blob = File.read(ENV['css_minified'])
     js_string = File.read(ENV['js_sprocket']).gsub(/#CSS_BLOB#/, css_blob)
-    File.open(ENV['js_sprocket'], 'w') {|f| f.write(js_string) }
+    File.open(ENV['js_sprocket'], 'w') { |f| f.write(js_string) }
     `rm #{ENV['css_minified']}` # remove minified css file
   end
 
   task :js do
     puts "\n** Minify JS file #{ENV['js_sprocket']} -> #{ENV['js_minified']} **"
-    File.open(ENV['js_minified'], 'w') {|f| f.write(JSMin.minify(File.read(ENV['js_sprocket']))) }
+    File.open(ENV['js_minified'], 'w') do |file|
+      file.write(JSMin.minify(File.read(ENV['js_sprocket'])))
+    end
   end
 
   desc "add a header on the minified js file to properly redirect curious"
