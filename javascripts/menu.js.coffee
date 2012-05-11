@@ -1,4 +1,4 @@
-#= require 'overlay_me/draggable'
+#= require 'draggable'
 
 if OverlayMe.mustLoad()
 

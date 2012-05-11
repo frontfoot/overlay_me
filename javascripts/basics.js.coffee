@@ -1,5 +1,5 @@
-#= require 'overlay_me/menu'
-#= require 'overlay_me/menu_item'
+#= require 'menu'
+#= require 'menu_item'
 
 if OverlayMe.mustLoad()
 

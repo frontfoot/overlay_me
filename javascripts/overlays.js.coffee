@@ -1,10 +1,10 @@
-#= require 'overlay_me/menu'
-#= require 'overlay_me/menu_item'
-#= require 'overlay_me/overlays/init'
-#= require 'overlay_me/overlays/image'
-#= require 'overlay_me/overlays/dynamic_images_mngmt'
-#= require 'overlay_me/overlays/content_div_mngmt'
-#= require 'overlay_me/overlays/images_mngt_div'
+#= require 'menu'
+#= require 'menu_item'
+#= require 'overlays/init'
+#= require 'overlays/image'
+#= require 'overlays/dynamic_images_mngmt'
+#= require 'overlays/content_div_mngmt'
+#= require 'overlays/images_mngt_div'
 
 if OverlayMe.mustLoad()
 

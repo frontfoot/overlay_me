@@ -1,4 +1,4 @@
-#= require 'overlay_me/overlays/draggable_image'
+#= require 'overlays/draggable_image'
 
 class OverlayMe.Overlays.Image extends Backbone.View
 

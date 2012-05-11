@@ -6,61 +6,63 @@ require 'compass'
 require 'rake/sprocketstask'
 require 'jsmin'
 require 'yui/compressor'
+require 'listen'
 
-ENV['js_file'] = "overlay_me/load.js"
-ENV['js_minified'] = "overlay_me.min.js"
-ENV['css_file'] = "overlay_me/style.css"
-ENV['css_minified'] = "overlay_me/style.min.css"
+ENV['js_sprocket'] = "overlay_me.js"
+ENV['js_minified'] = "vendor/assets/javascripts/overlay_me/overlay_me.min.js"
+ENV['css_sprocket'] = "overlay_me.css"
+ENV['css_minified'] = "style.min.css"
+
+ENV['addon_layout_resizer'] = "addons/layout_resizer.js"
 
 desc "default sprockets [:assets] compiling"
 Rake::SprocketsTask.new do |t|
   environment = Sprockets::Environment.new
-  environment.append_path 'vendor/assets/javascripts'
-  environment.append_path 'vendor/assets/stylesheets'
+  environment.append_path 'javascripts'
+  environment.append_path 'stylesheets'
 
   t.environment = environment
   t.output      = "./"
-  t.assets      = %w( overlay_me/load.js overlay_me/style.css )
+  t.assets      = [ ENV['js_sprocket'], ENV['css_sprocket'], ENV['addon_layout_resizer'] ]
 end
 
-desc "compile coffeescript/sass files using Sprockets and remove DIGEST"
-task :compile => [:assets] do
+desc "remove DIGEST from filenames"
+task :remove_digest do
   puts "\n** Rename compiled files without generated DIGEST **"
-  Dir["overlay_me/*-*"].each do |file|
+  Dir["{.,addons}/*-*.{js,css}"].each do |file|
     new_file = file.sub /(.*)-[^\.]+(\.[^\.]+)/, '\1\2'
     puts "#{file} -> #{new_file}"
     `mv #{file} #{new_file}`
   end
 end
 
+desc "compile assets with Sprockets, remove DIGEST, move some files"
+task :compile => [:assets, :remove_digest] do
+  puts "\n** Move addons into vendor/asssets/ **"
+  `mv addons vendor/assets/javascripts/overlay_me/`
+end
+
+
 desc "minify the assets"
 namespace :minify do
 
   task :css do
-    puts "\n** Minify CSS file #{ENV['css_file']} -> #{ENV['css_minified']} **"
-    File.open(ENV['css_minified'], 'w') {|f| f.write(YUI::CssCompressor.new.compress(File.read(ENV['css_file']))) }
-    `rm #{ENV['css_file']}` # remove original
+    puts "\n** Minify CSS file #{ENV['css_sprocket']} -> #{ENV['css_minified']} **"
+    File.open(ENV['css_minified'], 'w') {|f| f.write(YUI::CssCompressor.new.compress(File.read(ENV['css_sprocket']))) }
   end
 
   task :add_minified_css_to_js do
     puts "\n** Add CSS minified blob inline in the javascript :! **"
 
-    js_string = File.read(ENV['js_file'])
-    css_append = 'style = $(\'<style type="text/css" rel="stylesheet"></style>\');
-                  style.html(\''+File.read(ENV['css_minified'])+'\');
-                  $("head").append(style);'
-
-    # stripping out the createTag block for the CSS blob
-    js_string = js_string.gsub(/var createTag.*createTag\([^\(]*\)\);/m, css_append)
-
-    File.open(ENV['js_file'], 'w') {|f| f.write(js_string) }
-    `rm #{ENV['css_minified']}` # remove blob
+    css_blob = File.read(ENV['css_minified'])
+    js_string = File.read(ENV['js_sprocket']).gsub(/#CSS_BLOB#/, css_blob)
+    File.open(ENV['js_sprocket'], 'w') {|f| f.write(js_string) }
+    `rm #{ENV['css_minified']}` # remove minified css file
   end
 
   task :js do
-    puts "\n** Minify JS file #{ENV['js_file']} -> #{ENV['js_minified']} **"
-    File.open(ENV['js_minified'], 'w') {|f| f.write(JSMin.minify(File.read(ENV['js_file']))) }
-    `rm #{ENV['js_file']}` # remove original
+    puts "\n** Minify JS file #{ENV['js_sprocket']} -> #{ENV['js_minified']} **"
+    File.open(ENV['js_minified'], 'w') {|f| f.write(JSMin.minify(File.read(ENV['js_sprocket']))) }
   end
 
   desc "add a header on the minified js file to properly redirect curious"
@@ -93,4 +95,17 @@ end
 
 desc "package, aka prepare the minified .js"
 task :package => [:compile, 'minify:all_in_one']
+
+desc "Watch javascripts and stylesheets folders re-package the assets at each change"
+task :watch do
+  callback = Proc.new do
+    `rake package`  # trust me I'm not proud... but couldn't find any better
+    puts 'done'
+  end
+  listener = Listen.to('stylesheets', 'javascripts')
+  listener.latency(0.5)
+  listener.change(&callback)
+  listener.start
+end
+
 
