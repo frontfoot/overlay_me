@@ -2,9 +2,9 @@
 
 Store the bookmarklet from [this page](http://dev.frontfoot.com.au/overlay_me/demo_page.html) and load OverlayMe on top of any web page!
 
-If you just want download the compiled, minified archive: [vendor/assets/overlay_me.min.js]() (it includes the CSS !!)
+If you just want download the compiled, minified archive: [vendor/assets/overlay_me.min.js](https://raw.github.com/frontfoot/overlay_me/master/vendor/assets/overlay_me.min.js) (CSS embedded!)
 
-note: overlay_me.js and overlay_me.css are both generated unminified archives, source are in javascripts/ and stylesheets/ folders
+note: overlay_me.js and overlay_me.css are both generated unminified archives, original source code is in javascripts/ and stylesheets/ folders
 
 ## Screenshot
 
@@ -31,7 +31,6 @@ We were struggling to see the gap between designers photoshop files and our HTML
 
 ## Todo
 
-- clean the minifying/merging tasks (load.js should be a kind of template)
 - allow local image uploading (a temporary hosting on amazon s3 ?), [makiapp.com](http://makiapp.com/) does it!
 - overlays
   - make a cycling system, by click or keypress, to iterate through overlays one by one
@@ -41,28 +40,28 @@ We were struggling to see the gap between designers photoshop files and our HTML
 
 ## Usage
 
-- Either you can use the precompiled/minified script (overlay_me/overlay_me.min.js)
-  - Load it manually using the bookmarklet link
-  - Or add it to your site (at the end of the body tag)
+- You can use this tool on the go, over any site, via [the bookmarket](http://dev.frontfoot.com.au/overlay_me/demo_page.html)
 
-- Either you can load the Ruby gem :) If you too use bundler:
+- If you want to include it in a non-Ruby project, use the precompiled/minified script ([vendor/assets/overlay_me.min.js](https://raw.github.com/frontfoot/overlay_me/master/vendor/assets/overlay_me.min.js))
+  
+- And if you're using Ruby, install the gem :)
+
+  if using bundler:
 
     # Gemfile
     
     gem "overlay_me", :git => "git://github.com/frontfoot/overlay_me.git"
 
 
-### Load the compiled load.js
+### Load the script at the end of your body tag
 
 under a rails app:
 
-    = javascript_include_tag 'overlay_me/load.js'
+    = javascript_include_tag 'overlay_me/overlay_me.min.js'
 
 or in a simpler project, (we are using [middleman](http://middlemanapp.com/))
   
-    %script{ :src => '/javascripts/overlay_me/load.js', :type => 'text/javascript', :charset => 'utf-8' }
-
-And that's it ! Reload your page :)
+    %script{ :src => '/javascripts/overlay_me/overlay_me.min.js', :type => 'text/javascript', :charset => 'utf-8' }
 
 
 ### Extended use - share overlay images to your work team, keep images sets per project
@@ -123,13 +122,12 @@ You can add some app specific menu for specific project.. Have a look at layout_
 
 ## Known problems
 
-- you can't find the panel? it's probably hidden aside (previous bigger screen location) or hidden (press 'H')
-- you see the overlay but can't drag it? the 'Content on Top' option is probably on (press 'C')
-- not a big deal: I tried to bend middleman sprockets configuration to load the stylesheets into /assets but failed... so we try loading both local paths for stylesheets (/assets/xx.css and /stylesheets/xx.css - see load.coffee)
+- you can't find the panel? it's probably hidden aside (previous bigger screen location) or hidden (press 'h')
+- you see the overlay but can't drag it? the 'Content on Top' option is probably on (press 'c')
 
 
 
-## Contributors
+## Authors / Contributors
 
 - Rufus Post - former workmate who founded the ovelaying concept
 - Joseph Boiteau - taking Rufus's idea to 11 (and loving it) - FrontFoot Media Solutions

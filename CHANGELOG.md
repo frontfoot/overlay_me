@@ -1,6 +1,11 @@
 ### Coming up
 ..?
 
+### 0.12.0 - [Diff](https://github.com/frontfoot/overlay_me/compare/v0.11.1...v0.12.0)
+- changed the file structure, gem now includes only the minified javascript
+- minifying process became a bit cleaner
+- add RakeTask :watch to compile on the flow
+
 ### 0.11.1 - [Diff](https://github.com/frontfoot/overlay_me/compare/v0.11.0...v0.11.1)
 - fix dynamic images duplication bug
 - fix hidden menu and content on top retention bug
