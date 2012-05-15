@@ -20,10 +20,11 @@ Rake::SprocketsTask.new do |t|
   environment = Sprockets::Environment.new
   environment.append_path 'javascripts'
   environment.append_path 'stylesheets'
+  environment.append_path 'spec/javascripts/coffeescript'
 
   t.environment = environment
   t.output      = "./"
-  t.assets      = [ ENV['js_sprocket'], ENV['css_sprocket'], ENV['addon_layout_resizer'] ]
+  t.assets      = [ ENV['js_sprocket'], ENV['css_sprocket'], ENV['addon_layout_resizer'], ENV['addon_layout_resizer'] ]
 end
 
 desc "remove DIGEST from filenames"
@@ -111,5 +112,4 @@ task :watch do
   listener.change(&callback)
   listener.start
 end
-
 
