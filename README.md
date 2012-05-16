@@ -50,7 +50,7 @@ We were struggling to see the gap between designers photoshop files and our HTML
 
     # Gemfile
     
-    gem "overlay_me", :git => "git://github.com/frontfoot/overlay_me.git"
+    gem "overlay_me"
 
 
 ### Load the script at the end of your body tag
