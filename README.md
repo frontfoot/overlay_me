@@ -31,11 +31,18 @@ We were struggling to see the gap between designers photoshop files and our HTML
 
 ## Todo
 
-- allow local image uploading (a temporary hosting on amazon s3 ?), [makiapp.com](http://makiapp.com/) does it!
+- make used libs non-conflicting (actual jQuery override a preexisting jQuery and break some pages)
+- allow local image uploading (hosting on amazon s3 ?), [makiapp.com](http://makiapp.com/) does it!
+- toolbar
+  - make another version of the toolbar fixed on top of the screen (with a style switch)
+  - add a fixed/pin option
+  - a switch to hide the whole thing, menu + images (with a keyboard shortcut)
 - overlays
   - make a cycling system, by click or keypress, to iterate through overlays one by one
-  - overlay images sub-sets (sub-directories) should appear as nested blocks
-  - make another version of the toolbar fixed on top of the screen
+  - images sub-sets (sub-directories) should appear as nestable blocks
+  - an unchecked image should not even be in the DOM! which would make that 'hide inactives' option pointless (don't remember why it's been build like that in a first place...)
+- write some tests !!!
+
 
 
 ## Usage
@@ -46,9 +53,9 @@ We were struggling to see the gap between designers photoshop files and our HTML
   
 - And if you're using Ruby, install the gem :)
 
-  if using bundler:
+if using bundler:
 
-    # Gemfile
+    #Gemfile
     
     gem "overlay_me"
 
