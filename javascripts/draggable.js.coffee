@@ -34,7 +34,7 @@ class OverlayMe.Draggable extends Backbone.View
   updateOverlay: (x, y) ->
     newX = parseInt($o(@el).css('left')) + x
     newY = parseInt($o(@el).css('top')) + y
-    $o(@el).css({ top:"#{newY}px", left:"#{newX}px", right: "auto"})
+    $o(@el).css({ top:"#{newY}px", left:"#{newX}px"})
     @saveCss()
 
   saveCss: () ->

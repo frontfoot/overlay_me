@@ -8,7 +8,7 @@ if OverlayMe.mustLoad()
   clear_all_button = (new Backbone.View).make 'button', { onClick: "javascript: localStorage.clear(); window.location.reload()" }, 'Reset All'
   basics_panel.append clear_all_button
 
-  hide_button = (new Backbone.View).make 'button', {}, 'Hide menu (touch "h")'
+  hide_button = (new Backbone.View).make 'button', {}, 'Hide (touch "h")'
   $o(hide_button).bind 'click', (event) =>
     $o(OverlayMe.menu_box).trigger 'toggle:visibility'
   basics_panel.append hide_button
