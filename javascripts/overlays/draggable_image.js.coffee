@@ -5,28 +5,28 @@ class OverlayMe.Overlays.DraggableImage extends OverlayMe.Draggable
   initialize: (attributes, options) ->
     super(attributes, options)
     @image = (new Backbone.View).make 'img', { src: options.image_src }
-    $(@el).append @image
+    $o(@el).append @image
 
     # force positioning to 0 by default
-    $(@el).css('left', '0px') if $(@el).css('left') == 'auto' || $(@el).css('left') == ''
-    $(@el).css('top', '0px') if $(@el).css('top') == 'auto' || $(@el).css('top') == ''
+    $o(@el).css('left', '0px') if $o(@el).css('left') == 'auto' || $o(@el).css('left') == ''
+    $o(@el).css('top', '0px') if $o(@el).css('top') == 'auto' || $o(@el).css('top') == ''
 
-    $(@el).bind 'mousedown', (event) =>
+    $o(@el).bind 'mousedown', (event) =>
       @toggleMove(event)
 
-    $(window).bind 'mouseup', (event) =>
+    $o(window).bind 'mouseup', (event) =>
       @endMove(event)
 
-    $(@el).bind 'mouseover', (event) =>
-      $(".overlay-image-block[data-img-id=#{@id}]").addClass 'hovered'
+    $o(@el).bind 'mouseover', (event) =>
+      $o(".overlay-image-block[data-img-id=#{@id}]").addClass 'hovered'
 
-    $(@el).bind 'mouseout', (event) =>
-      $(".overlay-image-block[data-img-id=#{@id}]").removeClass 'hovered'
+    $o(@el).bind 'mouseout', (event) =>
+      $o(".overlay-image-block[data-img-id=#{@id}]").removeClass 'hovered'
 
   fitDivToImage: ->
     if @image.width > 0
-      $(@el).css('width', @image.width)
-      $(@el).css('height', @image.height)
+      $o(@el).css('width', @image.width)
+      $o(@el).css('height', @image.height)
 
   render: ->
     @el

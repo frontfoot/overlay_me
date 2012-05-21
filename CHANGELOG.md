@@ -1,5 +1,5 @@
-### Coming up
-..?
+### 0.12.1
+- renamed embeded jQuery to OMjQuery (and $o accessor)
 
 ### 0.12.0 - [Diff](https://github.com/frontfoot/overlay_me/compare/v0.11.1...v0.12.0)
 - changed the file structure, gem now includes only the minified javascript

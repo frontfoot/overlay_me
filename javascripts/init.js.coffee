@@ -5,7 +5,7 @@
 
 # to build the 1 file minified version, we insert the minified CSS directly there
 # dirty but so convenient!
-$('head').append('<style rel="stylesheet" type="text/css">#CSS_BLOB#</style>')
+$o('head').append('<style rel="stylesheet" type="text/css">#CSS_BLOB#</style>')
 
 # initialize Models/Views namespace
 window.OverlayMe = {}

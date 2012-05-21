@@ -19,11 +19,11 @@ if OverlayMe.mustLoad()
   overlay_panel.append OverlayMe.images_management_div.render()
 
   # add the panel to the page menu
-  $(OverlayMe.Menu).append overlay_panel.render()
+  $o(OverlayMe.Menu).append overlay_panel.render()
   
   # repeating original window#mousemove event
-  $(window).bind 'mousemove', (event) ->
-    $(window).trigger('mymousemove', event)
+  $o(window).bind 'mousemove', (event) ->
+    $o(window).trigger('mymousemove', event)
 
   # once everything rendered, load dynamicly added images
   OverlayMe.dyn_manager = new OverlayMe.Overlays.DynamicManager()

@@ -8,22 +8,22 @@ if OverlayMe.mustLoad()
   OverlayMe.Menu = (new Backbone.View).make 'ul'
 
   # stack them together
-  $(OverlayMe.menu_box.el).append drag_me_line
-  $(OverlayMe.menu_box.el).append OverlayMe.Menu
+  $o(OverlayMe.menu_box.el).append drag_me_line
+  $o(OverlayMe.menu_box.el).append OverlayMe.Menu
 
   # add it to the page
-  $('body').append OverlayMe.menu_box.render()
+  $o('body').append OverlayMe.menu_box.render()
 
   # add listeners
-  $(drag_me_line).bind 'mousedown', (event) =>
+  $o(drag_me_line).bind 'mousedown', (event) =>
     OverlayMe.menu_box.toggleMove(event)
-  $(window).bind 'mouseup', (event) =>
+  $o(window).bind 'mouseup', (event) =>
     OverlayMe.menu_box.endMove(event)
-  $(OverlayMe.menu_box).bind 'toggle:visibility', (event) =>
-    if $(OverlayMe.menu_box.el).css('visibility') == 'visible'
+  $o(OverlayMe.menu_box).bind 'toggle:visibility', (event) =>
+    if $o(OverlayMe.menu_box.el).css('visibility') == 'visible'
       css = { visibility: 'hidden' }
     else
       css = { visibility: 'visible' }
-    $(OverlayMe.menu_box.el).css(css)
+    $o(OverlayMe.menu_box.el).css(css)
     OverlayMe.menu_box.saveCss()
 

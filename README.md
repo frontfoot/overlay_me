@@ -31,7 +31,6 @@ We were struggling to see the gap between designers photoshop files and our HTML
 
 ## Todo
 
-- make used libs non-conflicting (actual jQuery override a preexisting jQuery and break some pages)
 - allow local image uploading (hosting on amazon s3 ?), [makiapp.com](http://makiapp.com/) does it!
 - toolbar
   - make another version of the toolbar fixed on top of the screen (with a style switch)

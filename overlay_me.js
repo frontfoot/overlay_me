@@ -20,22 +20,22 @@
 var document = window.document,
 	navigator = window.navigator,
 	location = window.location;
-var jQuery = (function() {
+var OMjQuery = (function() {
 
-// Define a local copy of jQuery
-var jQuery = function( selector, context ) {
-		// The jQuery object is actually just the init constructor 'enhanced'
-		return new jQuery.fn.init( selector, context, rootjQuery );
+// Define a local copy of OMjQuery
+var OMjQuery = function( selector, context ) {
+		// The OMjQuery object is actually just the init constructor 'enhanced'
+		return new OMjQuery.fn.init( selector, context, rootOMjQuery );
 	},
 
-	// Map over jQuery in case of overwrite
-	_jQuery = window.jQuery,
+	// Map over OMjQuery in case of overwrite
+	_OMjQuery = window.OMjQuery,
 
 	// Map over the $ in case of overwrite
-	_$ = window.$,
+	_$ = window.$o,
 
-	// A central reference to the root jQuery(document)
-	rootjQuery,
+	// A central reference to the root OMjQuery(document)
+	rootOMjQuery,
 
 	// A simple way to check for HTML strings or ID strings
 	// Prioritize #id over <tag> to avoid XSS via location.hash (#9521)
@@ -67,12 +67,12 @@ var jQuery = function( selector, context ) {
 	rdashAlpha = /-([a-z]|[0-9])/ig,
 	rmsPrefix = /^-ms-/,
 
-	// Used by jQuery.camelCase as callback to replace()
+	// Used by OMjQuery.camelCase as callback to replace()
 	fcamelCase = function( all, letter ) {
 		return ( letter + "" ).toUpperCase();
 	},
 
-	// Keep a UserAgent string for use with jQuery.browser
+	// Keep a UserAgent string for use with OMjQuery.browser
 	userAgent = navigator.userAgent,
 
 	// For matching the engine and version of the browser
@@ -95,17 +95,17 @@ var jQuery = function( selector, context ) {
 	// [[Class]] -> type pairs
 	class2type = {};
 
-jQuery.fn = jQuery.prototype = {
-	constructor: jQuery,
-	init: function( selector, context, rootjQuery ) {
+OMjQuery.fn = OMjQuery.prototype = {
+	constructor: OMjQuery,
+	init: function( selector, context, rootOMjQuery ) {
 		var match, elem, ret, doc;
 
-		// Handle $(""), $(null), or $(undefined)
+		// Handle $o(""), $(null), or $(undefined)
 		if ( !selector ) {
 			return this;
 		}
 
-		// Handle $(DOMElement)
+		// Handle $o(DOMElement)
 		if ( selector.nodeType ) {
 			this.context = this[0] = selector;
 			this.length = 1;
@@ -135,9 +135,9 @@ jQuery.fn = jQuery.prototype = {
 			// Verify a match, and that no context was specified for #id
 			if ( match && (match[1] || !context) ) {
 
-				// HANDLE: $(html) -> $(array)
+				// HANDLE: $o(html) -> $(array)
 				if ( match[1] ) {
-					context = context instanceof jQuery ? context[0] : context;
+					context = context instanceof OMjQuery ? context[0] : context;
 					doc = ( context ? context.ownerDocument || context : document );
 
 					// If a single string is passed in and it's a single tag
@@ -145,22 +145,22 @@ jQuery.fn = jQuery.prototype = {
 					ret = rsingleTag.exec( selector );
 
 					if ( ret ) {
-						if ( jQuery.isPlainObject( context ) ) {
+						if ( OMjQuery.isPlainObject( context ) ) {
 							selector = [ document.createElement( ret[1] ) ];
-							jQuery.fn.attr.call( selector, context, true );
+							OMjQuery.fn.attr.call( selector, context, true );
 
 						} else {
 							selector = [ doc.createElement( ret[1] ) ];
 						}
 
 					} else {
-						ret = jQuery.buildFragment( [ match[1] ], [ doc ] );
-						selector = ( ret.cacheable ? jQuery.clone(ret.fragment) : ret.fragment ).childNodes;
+						ret = OMjQuery.buildFragment( [ match[1] ], [ doc ] );
+						selector = ( ret.cacheable ? OMjQuery.clone(ret.fragment) : ret.fragment ).childNodes;
 					}
 
-					return jQuery.merge( this, selector );
+					return OMjQuery.merge( this, selector );
 
-				// HANDLE: $("#id")
+				// HANDLE: $o("#id")
 				} else {
 					elem = document.getElementById( match[2] );
 
@@ -170,10 +170,10 @@ jQuery.fn = jQuery.prototype = {
 						// Handle the case where IE and Opera return items
 						// by name instead of ID
 						if ( elem.id !== match[2] ) {
-							return rootjQuery.find( selector );
+							return rootOMjQuery.find( selector );
 						}
 
-						// Otherwise, we inject the element directly into the jQuery object
+						// Otherwise, we inject the element directly into the OMjQuery object
 						this.length = 1;
 						this[0] = elem;
 					}
@@ -183,20 +183,20 @@ jQuery.fn = jQuery.prototype = {
 					return this;
 				}
 
-			// HANDLE: $(expr, $(...))
+			// HANDLE: $o(expr, $(...))
 			} else if ( !context || context.jquery ) {
-				return ( context || rootjQuery ).find( selector );
+				return ( context || rootOMjQuery ).find( selector );
 
-			// HANDLE: $(expr, context)
-			// (which is just equivalent to: $(context).find(expr)
+			// HANDLE: $o(expr, context)
+			// (which is just equivalent to: $o(context).find(expr)
 			} else {
 				return this.constructor( context ).find( selector );
 			}
 
-		// HANDLE: $(function)
+		// HANDLE: $o(function)
 		// Shortcut for document ready
-		} else if ( jQuery.isFunction( selector ) ) {
-			return rootjQuery.ready( selector );
+		} else if ( OMjQuery.isFunction( selector ) ) {
+			return rootOMjQuery.ready( selector );
 		}
 
 		if ( selector.selector !== undefined ) {
@@ -204,16 +204,16 @@ jQuery.fn = jQuery.prototype = {
 			this.context = selector.context;
 		}
 
-		return jQuery.makeArray( selector, this );
+		return OMjQuery.makeArray( selector, this );
 	},
 
 	// Start with an empty selector
 	selector: "",
 
-	// The current version of jQuery being used
+	// The current version of OMjQuery being used
 	jquery: "1.7.2",
 
-	// The default length of a jQuery object is 0
+	// The default length of a OMjQuery object is 0
 	length: 0,
 
 	// The number of elements contained in the matched element set
@@ -240,14 +240,14 @@ jQuery.fn = jQuery.prototype = {
 	// Take an array of elements and push it onto the stack
 	// (returning the new matched element set)
 	pushStack: function( elems, name, selector ) {
-		// Build a new jQuery matched element set
+		// Build a new OMjQuery matched element set
 		var ret = this.constructor();
 
-		if ( jQuery.isArray( elems ) ) {
+		if ( OMjQuery.isArray( elems ) ) {
 			push.apply( ret, elems );
 
 		} else {
-			jQuery.merge( ret, elems );
+			OMjQuery.merge( ret, elems );
 		}
 
 		// Add the old object onto the stack (as a reference)
@@ -269,12 +269,12 @@ jQuery.fn = jQuery.prototype = {
 	// (You can seed the arguments with an array of args, but this is
 	// only used internally.)
 	each: function( callback, args ) {
-		return jQuery.each( this, callback, args );
+		return OMjQuery.each( this, callback, args );
 	},
 
 	ready: function( fn ) {
 		// Attach the listeners
-		jQuery.bindReady();
+		OMjQuery.bindReady();
 
 		// Add the callback
 		readyList.add( fn );
@@ -303,7 +303,7 @@ jQuery.fn = jQuery.prototype = {
 	},
 
 	map: function( callback ) {
-		return this.pushStack( jQuery.map(this, function( elem, i ) {
+		return this.pushStack( OMjQuery.map(this, function( elem, i ) {
 			return callback.call( elem, i, elem );
 		}));
 	},
@@ -313,16 +313,16 @@ jQuery.fn = jQuery.prototype = {
 	},
 
 	// For internal use only.
-	// Behaves like an Array's method, not like a jQuery method.
+	// Behaves like an Array's method, not like a OMjQuery method.
 	push: push,
 	sort: [].sort,
 	splice: [].splice
 };
 
-// Give the init function the jQuery prototype for later instantiation
-jQuery.fn.init.prototype = jQuery.fn;
+// Give the init function the OMjQuery prototype for later instantiation
+OMjQuery.fn.init.prototype = OMjQuery.fn;
 
-jQuery.extend = jQuery.fn.extend = function() {
+OMjQuery.extend = OMjQuery.fn.extend = function() {
 	var options, name, src, copy, copyIsArray, clone,
 		target = arguments[0] || {},
 		i = 1,
@@ -338,11 +338,11 @@ jQuery.extend = jQuery.fn.extend = function() {
 	}
 
 	// Handle case when target is a string or something (possible in deep copy)
-	if ( typeof target !== "object" && !jQuery.isFunction(target) ) {
+	if ( typeof target !== "object" && !OMjQuery.isFunction(target) ) {
 		target = {};
 	}
 
-	// extend jQuery itself if only one argument is passed
+	// extend OMjQuery itself if only one argument is passed
 	if ( length === i ) {
 		target = this;
 		--i;
@@ -362,17 +362,17 @@ jQuery.extend = jQuery.fn.extend = function() {
 				}
 
 				// Recurse if we're merging plain objects or arrays
-				if ( deep && copy && ( jQuery.isPlainObject(copy) || (copyIsArray = jQuery.isArray(copy)) ) ) {
+				if ( deep && copy && ( OMjQuery.isPlainObject(copy) || (copyIsArray = OMjQuery.isArray(copy)) ) ) {
 					if ( copyIsArray ) {
 						copyIsArray = false;
-						clone = src && jQuery.isArray(src) ? src : [];
+						clone = src && OMjQuery.isArray(src) ? src : [];
 
 					} else {
-						clone = src && jQuery.isPlainObject(src) ? src : {};
+						clone = src && OMjQuery.isPlainObject(src) ? src : {};
 					}
 
 					// Never move original objects, clone them
-					target[ name ] = jQuery.extend( deep, clone, copy );
+					target[ name ] = OMjQuery.extend( deep, clone, copy );
 
 				// Don't bring in undefined values
 				} else if ( copy !== undefined ) {
@@ -386,17 +386,17 @@ jQuery.extend = jQuery.fn.extend = function() {
 	return target;
 };
 
-jQuery.extend({
+OMjQuery.extend({
 	noConflict: function( deep ) {
-		if ( window.$ === jQuery ) {
-			window.$ = _$;
+		if ( window.$o === OMjQuery ) {
+			window.$o = _$;
 		}
 
-		if ( deep && window.jQuery === jQuery ) {
-			window.jQuery = _jQuery;
+		if ( deep && window.OMjQuery === OMjQuery ) {
+			window.OMjQuery = _OMjQuery;
 		}
 
-		return jQuery;
+		return OMjQuery;
 	},
 
 	// Is the DOM ready to be used? Set to true once it occurs.
@@ -409,35 +409,35 @@ jQuery.extend({
 	// Hold (or release) the ready event
 	holdReady: function( hold ) {
 		if ( hold ) {
-			jQuery.readyWait++;
+			OMjQuery.readyWait++;
 		} else {
-			jQuery.ready( true );
+			OMjQuery.ready( true );
 		}
 	},
 
 	// Handle when the DOM is ready
 	ready: function( wait ) {
 		// Either a released hold or an DOMready/load event and not yet ready
-		if ( (wait === true && !--jQuery.readyWait) || (wait !== true && !jQuery.isReady) ) {
+		if ( (wait === true && !--OMjQuery.readyWait) || (wait !== true && !OMjQuery.isReady) ) {
 			// Make sure body exists, at least, in case IE gets a little overzealous (ticket #5443).
 			if ( !document.body ) {
-				return setTimeout( jQuery.ready, 1 );
+				return setTimeout( OMjQuery.ready, 1 );
 			}
 
 			// Remember that the DOM is ready
-			jQuery.isReady = true;
+			OMjQuery.isReady = true;
 
 			// If a normal DOM Ready event fired, decrement, and wait if need be
-			if ( wait !== true && --jQuery.readyWait > 0 ) {
+			if ( wait !== true && --OMjQuery.readyWait > 0 ) {
 				return;
 			}
 
 			// If there are functions bound, to execute
-			readyList.fireWith( document, [ jQuery ] );
+			readyList.fireWith( document, [ OMjQuery ] );
 
 			// Trigger any bound ready events
-			if ( jQuery.fn.trigger ) {
-				jQuery( document ).trigger( "ready" ).off( "ready" );
+			if ( OMjQuery.fn.trigger ) {
+				OMjQuery( document ).trigger( "ready" ).off( "ready" );
 			}
 		}
 	},
@@ -447,13 +447,13 @@ jQuery.extend({
 			return;
 		}
 
-		readyList = jQuery.Callbacks( "once memory" );
+		readyList = OMjQuery.Callbacks( "once memory" );
 
-		// Catch cases where $(document).ready() is called after the
+		// Catch cases where $o(document).ready() is called after the
 		// browser event has already occurred.
 		if ( document.readyState === "complete" ) {
 			// Handle it asynchronously to allow scripts the opportunity to delay ready
-			return setTimeout( jQuery.ready, 1 );
+			return setTimeout( OMjQuery.ready, 1 );
 		}
 
 		// Mozilla, Opera and webkit nightlies currently support this event
@@ -462,7 +462,7 @@ jQuery.extend({
 			document.addEventListener( "DOMContentLoaded", DOMContentLoaded, false );
 
 			// A fallback to window.onload, that will always work
-			window.addEventListener( "load", jQuery.ready, false );
+			window.addEventListener( "load", OMjQuery.ready, false );
 
 		// If IE event model is used
 		} else if ( document.attachEvent ) {
@@ -471,7 +471,7 @@ jQuery.extend({
 			document.attachEvent( "onreadystatechange", DOMContentLoaded );
 
 			// A fallback to window.onload, that will always work
-			window.attachEvent( "onload", jQuery.ready );
+			window.attachEvent( "onload", OMjQuery.ready );
 
 			// If IE and not a frame
 			// continually check to see if the document is ready
@@ -491,11 +491,11 @@ jQuery.extend({
 	// Since version 1.3, DOM methods and functions like alert
 	// aren't supported. They return false on IE (#2968).
 	isFunction: function( obj ) {
-		return jQuery.type(obj) === "function";
+		return OMjQuery.type(obj) === "function";
 	},
 
 	isArray: Array.isArray || function( obj ) {
-		return jQuery.type(obj) === "array";
+		return OMjQuery.type(obj) === "array";
 	},
 
 	isWindow: function( obj ) {
@@ -516,7 +516,7 @@ jQuery.extend({
 		// Must be an Object.
 		// Because of IE, we also have to check the presence of the constructor property.
 		// Make sure that DOM nodes and window objects don't pass through, as well
-		if ( !obj || jQuery.type(obj) !== "object" || obj.nodeType || jQuery.isWindow( obj ) ) {
+		if ( !obj || OMjQuery.type(obj) !== "object" || obj.nodeType || OMjQuery.isWindow( obj ) ) {
 			return false;
 		}
 
@@ -558,7 +558,7 @@ jQuery.extend({
 		}
 
 		// Make sure leading/trailing whitespace is removed (IE can't handle it)
-		data = jQuery.trim( data );
+		data = OMjQuery.trim( data );
 
 		// Attempt to parse using the native JSON parser first
 		if ( window.JSON && window.JSON.parse ) {
@@ -574,7 +574,7 @@ jQuery.extend({
 			return ( new Function( "return " + data ) )();
 
 		}
-		jQuery.error( "Invalid JSON: " + data );
+		OMjQuery.error( "Invalid JSON: " + data );
 	},
 
 	// Cross-browser xml parsing
@@ -596,7 +596,7 @@ jQuery.extend({
 			xml = undefined;
 		}
 		if ( !xml || !xml.documentElement || xml.getElementsByTagName( "parsererror" ).length ) {
-			jQuery.error( "Invalid XML: " + data );
+			OMjQuery.error( "Invalid XML: " + data );
 		}
 		return xml;
 	},
@@ -610,7 +610,7 @@ jQuery.extend({
 		if ( data && rnotwhite.test( data ) ) {
 			// We use execScript on Internet Explorer
 			// We use an anonymous function so that context is window
-			// rather than jQuery in Firefox
+			// rather than OMjQuery in Firefox
 			( window.execScript || function( data ) {
 				window[ "eval" ].call( window, data );
 			} )( data );
@@ -631,7 +631,7 @@ jQuery.extend({
 	each: function( object, callback, args ) {
 		var name, i = 0,
 			length = object.length,
-			isObj = length === undefined || jQuery.isFunction( object );
+			isObj = length === undefined || OMjQuery.isFunction( object );
 
 		if ( args ) {
 			if ( isObj ) {
@@ -690,12 +690,12 @@ jQuery.extend({
 		if ( array != null ) {
 			// The window, strings (and functions) also have 'length'
 			// Tweaked logic slightly to handle Blackberry 4.7 RegExp issues #6930
-			var type = jQuery.type( array );
+			var type = OMjQuery.type( array );
 
-			if ( array.length == null || type === "string" || type === "function" || type === "regexp" || jQuery.isWindow( array ) ) {
+			if ( array.length == null || type === "string" || type === "function" || type === "regexp" || OMjQuery.isWindow( array ) ) {
 				push.call( ret, array );
 			} else {
-				jQuery.merge( ret, array );
+				OMjQuery.merge( ret, array );
 			}
 		}
 
@@ -766,7 +766,7 @@ jQuery.extend({
 			i = 0,
 			length = elems.length,
 			// jquery objects are treated as arrays
-			isArray = elems instanceof jQuery || length !== undefined && typeof length === "number" && ( ( length > 0 && elems[ 0 ] && elems[ length -1 ] ) || length === 0 || jQuery.isArray( elems ) ) ;
+			isArray = elems instanceof OMjQuery || length !== undefined && typeof length === "number" && ( ( length > 0 && elems[ 0 ] && elems[ length -1 ] ) || length === 0 || OMjQuery.isArray( elems ) ) ;
 
 		// Go through the array, translating each of the items to their
 		if ( isArray ) {
@@ -807,7 +807,7 @@ jQuery.extend({
 
 		// Quick check to determine if target is callable, in the spec
 		// this throws a TypeError, but we will just return undefined.
-		if ( !jQuery.isFunction( fn ) ) {
+		if ( !OMjQuery.isFunction( fn ) ) {
 			return undefined;
 		}
 
@@ -818,7 +818,7 @@ jQuery.extend({
 			};
 
 		// Set the guid of unique handler to the same of original handler, so it can be removed
-		proxy.guid = fn.guid = fn.guid || proxy.guid || jQuery.guid++;
+		proxy.guid = fn.guid = fn.guid || proxy.guid || OMjQuery.guid++;
 
 		return proxy;
 	},
@@ -834,21 +834,21 @@ jQuery.extend({
 		// Sets many values
 		if ( key && typeof key === "object" ) {
 			for ( i in key ) {
-				jQuery.access( elems, fn, i, key[i], 1, emptyGet, value );
+				OMjQuery.access( elems, fn, i, key[i], 1, emptyGet, value );
 			}
 			chainable = 1;
 
 		// Sets one value
 		} else if ( value !== undefined ) {
 			// Optionally, function values get executed if exec is true
-			exec = pass === undefined && jQuery.isFunction( value );
+			exec = pass === undefined && OMjQuery.isFunction( value );
 
 			if ( bulk ) {
 				// Bulk operations only iterate when executing function values
 				if ( exec ) {
 					exec = fn;
 					fn = function( elem, key, value ) {
-						return exec.call( jQuery( elem ), value );
+						return exec.call( OMjQuery( elem ), value );
 					};
 
 				// Otherwise they run against the entire set
@@ -880,8 +880,8 @@ jQuery.extend({
 		return ( new Date() ).getTime();
 	},
 
-	// Use of jQuery.browser is frowned upon.
-	// More details: http://docs.jquery.com/Utilities/jQuery.browser
+	// Use of OMjQuery.browser is frowned upon.
+	// More details: http://docs.jquery.com/Utilities/OMjQuery.browser
 	uaMatch: function( ua ) {
 		ua = ua.toLowerCase();
 
@@ -895,43 +895,43 @@ jQuery.extend({
 	},
 
 	sub: function() {
-		function jQuerySub( selector, context ) {
-			return new jQuerySub.fn.init( selector, context );
+		function OMjQuerySub( selector, context ) {
+			return new OMjQuerySub.fn.init( selector, context );
 		}
-		jQuery.extend( true, jQuerySub, this );
-		jQuerySub.superclass = this;
-		jQuerySub.fn = jQuerySub.prototype = this();
-		jQuerySub.fn.constructor = jQuerySub;
-		jQuerySub.sub = this.sub;
-		jQuerySub.fn.init = function init( selector, context ) {
-			if ( context && context instanceof jQuery && !(context instanceof jQuerySub) ) {
-				context = jQuerySub( context );
+		OMjQuery.extend( true, OMjQuerySub, this );
+		OMjQuerySub.superclass = this;
+		OMjQuerySub.fn = OMjQuerySub.prototype = this();
+		OMjQuerySub.fn.constructor = OMjQuerySub;
+		OMjQuerySub.sub = this.sub;
+		OMjQuerySub.fn.init = function init( selector, context ) {
+			if ( context && context instanceof OMjQuery && !(context instanceof OMjQuerySub) ) {
+				context = OMjQuerySub( context );
 			}
 
-			return jQuery.fn.init.call( this, selector, context, rootjQuerySub );
+			return OMjQuery.fn.init.call( this, selector, context, rootOMjQuerySub );
 		};
-		jQuerySub.fn.init.prototype = jQuerySub.fn;
-		var rootjQuerySub = jQuerySub(document);
-		return jQuerySub;
+		OMjQuerySub.fn.init.prototype = OMjQuerySub.fn;
+		var rootOMjQuerySub = OMjQuerySub(document);
+		return OMjQuerySub;
 	},
 
 	browser: {}
 });
 
 // Populate the class2type map
-jQuery.each("Boolean Number String Function Array Date RegExp Object".split(" "), function(i, name) {
+OMjQuery.each("Boolean Number String Function Array Date RegExp Object".split(" "), function(i, name) {
 	class2type[ "[object " + name + "]" ] = name.toLowerCase();
 });
 
-browserMatch = jQuery.uaMatch( userAgent );
+browserMatch = OMjQuery.uaMatch( userAgent );
 if ( browserMatch.browser ) {
-	jQuery.browser[ browserMatch.browser ] = true;
-	jQuery.browser.version = browserMatch.version;
+	OMjQuery.browser[ browserMatch.browser ] = true;
+	OMjQuery.browser.version = browserMatch.version;
 }
 
-// Deprecated, use jQuery.browser.webkit instead
-if ( jQuery.browser.webkit ) {
-	jQuery.browser.safari = true;
+// Deprecated, use OMjQuery.browser.webkit instead
+if ( OMjQuery.browser.webkit ) {
+	OMjQuery.browser.safari = true;
 }
 
 // IE doesn't match non-breaking spaces with \s
@@ -940,14 +940,14 @@ if ( rnotwhite.test( "\xA0" ) ) {
 	trimRight = /[\s\xA0]+$/;
 }
 
-// All jQuery objects should point back to these
-rootjQuery = jQuery(document);
+// All OMjQuery objects should point back to these
+rootOMjQuery = OMjQuery(document);
 
 // Cleanup functions for the document ready method
 if ( document.addEventListener ) {
 	DOMContentLoaded = function() {
 		document.removeEventListener( "DOMContentLoaded", DOMContentLoaded, false );
-		jQuery.ready();
+		OMjQuery.ready();
 	};
 
 } else if ( document.attachEvent ) {
@@ -955,14 +955,14 @@ if ( document.addEventListener ) {
 		// Make sure body exists, at least, in case IE gets a little overzealous (ticket #5443).
 		if ( document.readyState === "complete" ) {
 			document.detachEvent( "onreadystatechange", DOMContentLoaded );
-			jQuery.ready();
+			OMjQuery.ready();
 		}
 	};
 }
 
 // The DOM ready check for Internet Explorer
 function doScrollCheck() {
-	if ( jQuery.isReady ) {
+	if ( OMjQuery.isReady ) {
 		return;
 	}
 
@@ -976,10 +976,10 @@ function doScrollCheck() {
 	}
 
 	// and execute any waiting functions
-	jQuery.ready();
+	OMjQuery.ready();
 }
 
-return jQuery;
+return OMjQuery;
 
 })();
 
@@ -1020,7 +1020,7 @@ function createFlags( flags ) {
  *	stopOnFalse:	interrupt callings when a callback returns false
  *
  */
-jQuery.Callbacks = function( flags ) {
+OMjQuery.Callbacks = function( flags ) {
 
 	// Convert flags from String-formatted to Object-formatted
 	// (we check in cache first)
@@ -1051,7 +1051,7 @@ jQuery.Callbacks = function( flags ) {
 				actual;
 			for ( i = 0, length = args.length; i < length; i++ ) {
 				elem = args[ i ];
-				type = jQuery.type( elem );
+				type = OMjQuery.type( elem );
 				if ( type === "array" ) {
 					// Inspect recursively
 					add( elem );
@@ -1216,12 +1216,12 @@ jQuery.Callbacks = function( flags ) {
 var // Static reference to slice
 	sliceDeferred = [].slice;
 
-jQuery.extend({
+OMjQuery.extend({
 
 	Deferred: function( func ) {
-		var doneList = jQuery.Callbacks( "once memory" ),
-			failList = jQuery.Callbacks( "once memory" ),
-			progressList = jQuery.Callbacks( "memory" ),
+		var doneList = OMjQuery.Callbacks( "once memory" ),
+			failList = OMjQuery.Callbacks( "once memory" ),
+			progressList = OMjQuery.Callbacks( "memory" ),
 			state = "pending",
 			lists = {
 				resolve: doneList,
@@ -1250,8 +1250,8 @@ jQuery.extend({
 					return this;
 				},
 				pipe: function( fnDone, fnFail, fnProgress ) {
-					return jQuery.Deferred(function( newDefer ) {
-						jQuery.each( {
+					return OMjQuery.Deferred(function( newDefer ) {
+						OMjQuery.each( {
 							done: [ fnDone, "resolve" ],
 							fail: [ fnFail, "reject" ],
 							progress: [ fnProgress, "notify" ]
@@ -1259,10 +1259,10 @@ jQuery.extend({
 							var fn = data[ 0 ],
 								action = data[ 1 ],
 								returned;
-							if ( jQuery.isFunction( fn ) ) {
+							if ( OMjQuery.isFunction( fn ) ) {
 								deferred[ handler ](function() {
 									returned = fn.apply( this, arguments );
-									if ( returned && jQuery.isFunction( returned.promise ) ) {
+									if ( returned && OMjQuery.isFunction( returned.promise ) ) {
 										returned.promise().then( newDefer.resolve, newDefer.reject, newDefer.notify );
 									} else {
 										newDefer[ action + "With" ]( this === deferred ? newDefer : this, [ returned ] );
@@ -1319,9 +1319,9 @@ jQuery.extend({
 			pValues = new Array( length ),
 			count = length,
 			pCount = length,
-			deferred = length <= 1 && firstParam && jQuery.isFunction( firstParam.promise ) ?
+			deferred = length <= 1 && firstParam && OMjQuery.isFunction( firstParam.promise ) ?
 				firstParam :
-				jQuery.Deferred(),
+				OMjQuery.Deferred(),
 			promise = deferred.promise();
 		function resolveFunc( i ) {
 			return function( value ) {
@@ -1339,7 +1339,7 @@ jQuery.extend({
 		}
 		if ( length > 1 ) {
 			for ( ; i < length; i++ ) {
-				if ( args[ i ] && args[ i ].promise && jQuery.isFunction( args[ i ].promise ) ) {
+				if ( args[ i ] && args[ i ].promise && OMjQuery.isFunction( args[ i ].promise ) ) {
 					args[ i ].promise().then( resolveFunc(i), deferred.reject, progressFunc(i) );
 				} else {
 					--count;
@@ -1358,7 +1358,7 @@ jQuery.extend({
 
 
 
-jQuery.support = (function() {
+OMjQuery.support = (function() {
 
 	var support,
 		all,
@@ -1452,8 +1452,8 @@ jQuery.support = (function() {
 		pixelMargin: true
 	};
 
-	// jQuery.boxModel DEPRECATED in 1.3, use jQuery.support.boxModel instead
-	jQuery.boxModel = support.boxModel = (document.compatMode === "CSS1Compat");
+	// OMjQuery.boxModel DEPRECATED in 1.3, use OMjQuery.support.boxModel instead
+	OMjQuery.boxModel = support.boxModel = (document.compatMode === "CSS1Compat");
 
 	// Make sure checked status is properly cloned
 	input.checked = true;
@@ -1535,7 +1535,7 @@ jQuery.support = (function() {
 	fragment = select = opt = div = input = null;
 
 	// Run tests that need a body at doc ready
-	jQuery(function() {
+	OMjQuery(function() {
 		var container, outer, inner, table, td, offsetSupport,
 			marginDiv, conMarginTop, style, html, positionTopLeftWidthHeight,
 			paddingMarginBorderVisibility, paddingMarginBorder,
@@ -1655,7 +1655,7 @@ jQuery.support = (function() {
 		body.removeChild( container );
 		marginDiv = div = container = null;
 
-		jQuery.extend( support, offsetSupport );
+		OMjQuery.extend( support, offsetSupport );
 	});
 
 	return support;
@@ -1667,15 +1667,15 @@ jQuery.support = (function() {
 var rbrace = /^(?:\{.*\}|\[.*\])$/,
 	rmultiDash = /([A-Z])/g;
 
-jQuery.extend({
+OMjQuery.extend({
 	cache: {},
 
 	// Please use with caution
 	uuid: 0,
 
-	// Unique for each copy of jQuery on the page
-	// Non-digits removed to match rinlinejQuery
-	expando: "jQuery" + ( jQuery.fn.jquery + Math.random() ).replace( /\D/g, "" ),
+	// Unique for each copy of OMjQuery on the page
+	// Non-digits removed to match rinlineOMjQuery
+	expando: "OMjQuery" + ( OMjQuery.fn.jquery + Math.random() ).replace( /\D/g, "" ),
 
 	// The following elements throw uncatchable exceptions if you
 	// attempt to add expando properties to them.
@@ -1687,26 +1687,26 @@ jQuery.extend({
 	},
 
 	hasData: function( elem ) {
-		elem = elem.nodeType ? jQuery.cache[ elem[jQuery.expando] ] : elem[ jQuery.expando ];
+		elem = elem.nodeType ? OMjQuery.cache[ elem[OMjQuery.expando] ] : elem[ OMjQuery.expando ];
 		return !!elem && !isEmptyDataObject( elem );
 	},
 
 	data: function( elem, name, data, pvt /* Internal Use Only */ ) {
-		if ( !jQuery.acceptData( elem ) ) {
+		if ( !OMjQuery.acceptData( elem ) ) {
 			return;
 		}
 
 		var privateCache, thisCache, ret,
-			internalKey = jQuery.expando,
+			internalKey = OMjQuery.expando,
 			getByName = typeof name === "string",
 
 			// We have to handle DOM nodes and JS objects differently because IE6-7
 			// can't GC object references properly across the DOM-JS boundary
 			isNode = elem.nodeType,
 
-			// Only DOM nodes need the global jQuery cache; JS object data is
+			// Only DOM nodes need the global OMjQuery cache; JS object data is
 			// attached directly to the object so GC can occur automatically
-			cache = isNode ? jQuery.cache : elem,
+			cache = isNode ? OMjQuery.cache : elem,
 
 			// Only defining an ID for JS objects if its cache already exists allows
 			// the code to shortcut on the same path as a DOM node with no cache
@@ -1723,7 +1723,7 @@ jQuery.extend({
 			// Only DOM nodes need a new unique ID for each element since their data
 			// ends up in the global cache
 			if ( isNode ) {
-				elem[ internalKey ] = id = ++jQuery.uuid;
+				elem[ internalKey ] = id = ++OMjQuery.uuid;
 			} else {
 				id = internalKey;
 			}
@@ -1732,26 +1732,26 @@ jQuery.extend({
 		if ( !cache[ id ] ) {
 			cache[ id ] = {};
 
-			// Avoids exposing jQuery metadata on plain JS objects when the object
+			// Avoids exposing OMjQuery metadata on plain JS objects when the object
 			// is serialized using JSON.stringify
 			if ( !isNode ) {
-				cache[ id ].toJSON = jQuery.noop;
+				cache[ id ].toJSON = OMjQuery.noop;
 			}
 		}
 
-		// An object can be passed to jQuery.data instead of a key/value pair; this gets
+		// An object can be passed to OMjQuery.data instead of a key/value pair; this gets
 		// shallow copied over onto the existing cache
 		if ( typeof name === "object" || typeof name === "function" ) {
 			if ( pvt ) {
-				cache[ id ] = jQuery.extend( cache[ id ], name );
+				cache[ id ] = OMjQuery.extend( cache[ id ], name );
 			} else {
-				cache[ id ].data = jQuery.extend( cache[ id ].data, name );
+				cache[ id ].data = OMjQuery.extend( cache[ id ].data, name );
 			}
 		}
 
 		privateCache = thisCache = cache[ id ];
 
-		// jQuery data() is stored in a separate object inside the object's internal data
+		// OMjQuery data() is stored in a separate object inside the object's internal data
 		// cache in order to avoid key collisions between internal data and user-defined
 		// data.
 		if ( !pvt ) {
@@ -1763,10 +1763,10 @@ jQuery.extend({
 		}
 
 		if ( data !== undefined ) {
-			thisCache[ jQuery.camelCase( name ) ] = data;
+			thisCache[ OMjQuery.camelCase( name ) ] = data;
 		}
 
-		// Users should not attempt to inspect the internal events object using jQuery.data,
+		// Users should not attempt to inspect the internal events object using OMjQuery.data,
 		// it is undocumented and subject to change. But does anyone listen? No.
 		if ( isEvents && !thisCache[ name ] ) {
 			return privateCache.events;
@@ -1783,7 +1783,7 @@ jQuery.extend({
 			if ( ret == null ) {
 
 				// Try to find the camelCased property
-				ret = thisCache[ jQuery.camelCase( name ) ];
+				ret = thisCache[ OMjQuery.camelCase( name ) ];
 			}
 		} else {
 			ret = thisCache;
@@ -1793,21 +1793,21 @@ jQuery.extend({
 	},
 
 	removeData: function( elem, name, pvt /* Internal Use Only */ ) {
-		if ( !jQuery.acceptData( elem ) ) {
+		if ( !OMjQuery.acceptData( elem ) ) {
 			return;
 		}
 
 		var thisCache, i, l,
 
 			// Reference to internal data cache key
-			internalKey = jQuery.expando,
+			internalKey = OMjQuery.expando,
 
 			isNode = elem.nodeType,
 
-			// See jQuery.data for more information
-			cache = isNode ? jQuery.cache : elem,
+			// See OMjQuery.data for more information
+			cache = isNode ? OMjQuery.cache : elem,
 
-			// See jQuery.data for more information
+			// See OMjQuery.data for more information
 			id = isNode ? elem[ internalKey ] : internalKey;
 
 		// If there is already no cache entry for this object, there is no
@@ -1823,7 +1823,7 @@ jQuery.extend({
 			if ( thisCache ) {
 
 				// Support array or space separated string names for data keys
-				if ( !jQuery.isArray( name ) ) {
+				if ( !OMjQuery.isArray( name ) ) {
 
 					// try the string as a key before any manipulation
 					if ( name in thisCache ) {
@@ -1831,7 +1831,7 @@ jQuery.extend({
 					} else {
 
 						// split the camel cased version by spaces unless a key with the spaces exists
-						name = jQuery.camelCase( name );
+						name = OMjQuery.camelCase( name );
 						if ( name in thisCache ) {
 							name = [ name ];
 						} else {
@@ -1846,13 +1846,13 @@ jQuery.extend({
 
 				// If there is no data left in the cache, we want to continue
 				// and let the cache object itself get destroyed
-				if ( !( pvt ? isEmptyDataObject : jQuery.isEmptyObject )( thisCache ) ) {
+				if ( !( pvt ? isEmptyDataObject : OMjQuery.isEmptyObject )( thisCache ) ) {
 					return;
 				}
 			}
 		}
 
-		// See jQuery.data for more information
+		// See OMjQuery.data for more information
 		if ( !pvt ) {
 			delete cache[ id ].data;
 
@@ -1867,7 +1867,7 @@ jQuery.extend({
 		// the window, but it will allow it on all other JS objects; other browsers
 		// don't care
 		// Ensure that `cache` is not a window object #10080
-		if ( jQuery.support.deleteExpando || !cache.setInterval ) {
+		if ( OMjQuery.support.deleteExpando || !cache.setInterval ) {
 			delete cache[ id ];
 		} else {
 			cache[ id ] = null;
@@ -1879,7 +1879,7 @@ jQuery.extend({
 			// IE does not allow us to delete expando properties from nodes,
 			// nor does it have a removeAttribute function on Document nodes;
 			// we must handle all of these cases
-			if ( jQuery.support.deleteExpando ) {
+			if ( OMjQuery.support.deleteExpando ) {
 				delete elem[ internalKey ];
 			} else if ( elem.removeAttribute ) {
 				elem.removeAttribute( internalKey );
@@ -1891,13 +1891,13 @@ jQuery.extend({
 
 	// For internal use only.
 	_data: function( elem, name, data ) {
-		return jQuery.data( elem, name, data, true );
+		return OMjQuery.data( elem, name, data, true );
 	},
 
 	// A method for determining if a DOM node can handle the data expando
 	acceptData: function( elem ) {
 		if ( elem.nodeName ) {
-			var match = jQuery.noData[ elem.nodeName.toLowerCase() ];
+			var match = OMjQuery.noData[ elem.nodeName.toLowerCase() ];
 
 			if ( match ) {
 				return !(match === true || elem.getAttribute("classid") !== match);
@@ -1908,7 +1908,7 @@ jQuery.extend({
 	}
 });
 
-jQuery.fn.extend({
+OMjQuery.fn.extend({
 	data: function( key, value ) {
 		var parts, part, attr, name, l,
 			elem = this[0],
@@ -1918,20 +1918,20 @@ jQuery.fn.extend({
 		// Gets all values
 		if ( key === undefined ) {
 			if ( this.length ) {
-				data = jQuery.data( elem );
+				data = OMjQuery.data( elem );
 
-				if ( elem.nodeType === 1 && !jQuery._data( elem, "parsedAttrs" ) ) {
+				if ( elem.nodeType === 1 && !OMjQuery._data( elem, "parsedAttrs" ) ) {
 					attr = elem.attributes;
 					for ( l = attr.length; i < l; i++ ) {
 						name = attr[i].name;
 
 						if ( name.indexOf( "data-" ) === 0 ) {
-							name = jQuery.camelCase( name.substring(5) );
+							name = OMjQuery.camelCase( name.substring(5) );
 
 							dataAttr( elem, name, data[ name ] );
 						}
 					}
-					jQuery._data( elem, "parsedAttrs", true );
+					OMjQuery._data( elem, "parsedAttrs", true );
 				}
 			}
 
@@ -1941,7 +1941,7 @@ jQuery.fn.extend({
 		// Sets multiple values
 		if ( typeof key === "object" ) {
 			return this.each(function() {
-				jQuery.data( this, key );
+				OMjQuery.data( this, key );
 			});
 		}
 
@@ -1949,14 +1949,14 @@ jQuery.fn.extend({
 		parts[1] = parts[1] ? "." + parts[1] : "";
 		part = parts[1] + "!";
 
-		return jQuery.access( this, function( value ) {
+		return OMjQuery.access( this, function( value ) {
 
 			if ( value === undefined ) {
 				data = this.triggerHandler( "getData" + part, [ parts[0] ] );
 
 				// Try to fetch any internally stored data first
 				if ( data === undefined && elem ) {
-					data = jQuery.data( elem, key );
+					data = OMjQuery.data( elem, key );
 					data = dataAttr( elem, key, data );
 				}
 
@@ -1967,10 +1967,10 @@ jQuery.fn.extend({
 
 			parts[1] = value;
 			this.each(function() {
-				var self = jQuery( this );
+				var self = OMjQuery( this );
 
 				self.triggerHandler( "setData" + part, parts );
-				jQuery.data( this, key, value );
+				OMjQuery.data( this, key, value );
 				self.triggerHandler( "changeData" + part, parts );
 			});
 		}, null, value, arguments.length > 1, null, false );
@@ -1978,7 +1978,7 @@ jQuery.fn.extend({
 
 	removeData: function( key ) {
 		return this.each(function() {
-			jQuery.removeData( this, key );
+			OMjQuery.removeData( this, key );
 		});
 	}
 });
@@ -1997,13 +1997,13 @@ function dataAttr( elem, key, data ) {
 				data = data === "true" ? true :
 				data === "false" ? false :
 				data === "null" ? null :
-				jQuery.isNumeric( data ) ? +data :
-					rbrace.test( data ) ? jQuery.parseJSON( data ) :
+				OMjQuery.isNumeric( data ) ? +data :
+					rbrace.test( data ) ? OMjQuery.parseJSON( data ) :
 					data;
 			} catch( e ) {}
 
 			// Make sure we set the data so it isn't changed later
-			jQuery.data( elem, key, data );
+			OMjQuery.data( elem, key, data );
 
 		} else {
 			data = undefined;
@@ -2018,7 +2018,7 @@ function isEmptyDataObject( obj ) {
 	for ( var name in obj ) {
 
 		// if the public data object is empty, the private is still empty
-		if ( name === "data" && jQuery.isEmptyObject( obj[name] ) ) {
+		if ( name === "data" && OMjQuery.isEmptyObject( obj[name] ) ) {
 			continue;
 		}
 		if ( name !== "toJSON" ) {
@@ -2036,28 +2036,28 @@ function handleQueueMarkDefer( elem, type, src ) {
 	var deferDataKey = type + "defer",
 		queueDataKey = type + "queue",
 		markDataKey = type + "mark",
-		defer = jQuery._data( elem, deferDataKey );
+		defer = OMjQuery._data( elem, deferDataKey );
 	if ( defer &&
-		( src === "queue" || !jQuery._data(elem, queueDataKey) ) &&
-		( src === "mark" || !jQuery._data(elem, markDataKey) ) ) {
+		( src === "queue" || !OMjQuery._data(elem, queueDataKey) ) &&
+		( src === "mark" || !OMjQuery._data(elem, markDataKey) ) ) {
 		// Give room for hard-coded callbacks to fire first
 		// and eventually mark/queue something else on the element
 		setTimeout( function() {
-			if ( !jQuery._data( elem, queueDataKey ) &&
-				!jQuery._data( elem, markDataKey ) ) {
-				jQuery.removeData( elem, deferDataKey, true );
+			if ( !OMjQuery._data( elem, queueDataKey ) &&
+				!OMjQuery._data( elem, markDataKey ) ) {
+				OMjQuery.removeData( elem, deferDataKey, true );
 				defer.fire();
 			}
 		}, 0 );
 	}
 }
 
-jQuery.extend({
+OMjQuery.extend({
 
 	_mark: function( elem, type ) {
 		if ( elem ) {
 			type = ( type || "fx" ) + "mark";
-			jQuery._data( elem, type, (jQuery._data( elem, type ) || 0) + 1 );
+			OMjQuery._data( elem, type, (OMjQuery._data( elem, type ) || 0) + 1 );
 		}
 	},
 
@@ -2070,11 +2070,11 @@ jQuery.extend({
 		if ( elem ) {
 			type = type || "fx";
 			var key = type + "mark",
-				count = force ? 0 : ( (jQuery._data( elem, key ) || 1) - 1 );
+				count = force ? 0 : ( (OMjQuery._data( elem, key ) || 1) - 1 );
 			if ( count ) {
-				jQuery._data( elem, key, count );
+				OMjQuery._data( elem, key, count );
 			} else {
-				jQuery.removeData( elem, key, true );
+				OMjQuery.removeData( elem, key, true );
 				handleQueueMarkDefer( elem, type, "mark" );
 			}
 		}
@@ -2084,12 +2084,12 @@ jQuery.extend({
 		var q;
 		if ( elem ) {
 			type = ( type || "fx" ) + "queue";
-			q = jQuery._data( elem, type );
+			q = OMjQuery._data( elem, type );
 
 			// Speed up dequeue by getting out quickly if this is just a lookup
 			if ( data ) {
-				if ( !q || jQuery.isArray(data) ) {
-					q = jQuery._data( elem, type, jQuery.makeArray(data) );
+				if ( !q || OMjQuery.isArray(data) ) {
+					q = OMjQuery._data( elem, type, OMjQuery.makeArray(data) );
 				} else {
 					q.push( data );
 				}
@@ -2101,7 +2101,7 @@ jQuery.extend({
 	dequeue: function( elem, type ) {
 		type = type || "fx";
 
-		var queue = jQuery.queue( elem, type ),
+		var queue = OMjQuery.queue( elem, type ),
 			fn = queue.shift(),
 			hooks = {};
 
@@ -2117,20 +2117,20 @@ jQuery.extend({
 				queue.unshift( "inprogress" );
 			}
 
-			jQuery._data( elem, type + ".run", hooks );
+			OMjQuery._data( elem, type + ".run", hooks );
 			fn.call( elem, function() {
-				jQuery.dequeue( elem, type );
+				OMjQuery.dequeue( elem, type );
 			}, hooks );
 		}
 
 		if ( !queue.length ) {
-			jQuery.removeData( elem, type + "queue " + type + ".run", true );
+			OMjQuery.removeData( elem, type + "queue " + type + ".run", true );
 			handleQueueMarkDefer( elem, type, "queue" );
 		}
 	}
 });
 
-jQuery.fn.extend({
+OMjQuery.fn.extend({
 	queue: function( type, data ) {
 		var setter = 2;
 
@@ -2141,28 +2141,28 @@ jQuery.fn.extend({
 		}
 
 		if ( arguments.length < setter ) {
-			return jQuery.queue( this[0], type );
+			return OMjQuery.queue( this[0], type );
 		}
 
 		return data === undefined ?
 			this :
 			this.each(function() {
-				var queue = jQuery.queue( this, type, data );
+				var queue = OMjQuery.queue( this, type, data );
 
 				if ( type === "fx" && queue[0] !== "inprogress" ) {
-					jQuery.dequeue( this, type );
+					OMjQuery.dequeue( this, type );
 				}
 			});
 	},
 	dequeue: function( type ) {
 		return this.each(function() {
-			jQuery.dequeue( this, type );
+			OMjQuery.dequeue( this, type );
 		});
 	},
 	// Based off of the plugin by Clint Helfers, with permission.
 	// http://blindsignals.com/index.php/2009/07/jquery-delay/
 	delay: function( time, type ) {
-		time = jQuery.fx ? jQuery.fx.speeds[ time ] || time : time;
+		time = OMjQuery.fx ? OMjQuery.fx.speeds[ time ] || time : time;
 		type = type || "fx";
 
 		return this.queue( type, function( next, hooks ) {
@@ -2183,7 +2183,7 @@ jQuery.fn.extend({
 			type = undefined;
 		}
 		type = type || "fx";
-		var defer = jQuery.Deferred(),
+		var defer = OMjQuery.Deferred(),
 			elements = this,
 			i = elements.length,
 			count = 1,
@@ -2197,10 +2197,10 @@ jQuery.fn.extend({
 			}
 		}
 		while( i-- ) {
-			if (( tmp = jQuery.data( elements[ i ], deferDataKey, undefined, true ) ||
-					( jQuery.data( elements[ i ], queueDataKey, undefined, true ) ||
-						jQuery.data( elements[ i ], markDataKey, undefined, true ) ) &&
-					jQuery.data( elements[ i ], deferDataKey, jQuery.Callbacks( "once memory" ), true ) )) {
+			if (( tmp = OMjQuery.data( elements[ i ], deferDataKey, undefined, true ) ||
+					( OMjQuery.data( elements[ i ], queueDataKey, undefined, true ) ||
+						OMjQuery.data( elements[ i ], markDataKey, undefined, true ) ) &&
+					OMjQuery.data( elements[ i ], deferDataKey, OMjQuery.Callbacks( "once memory" ), true ) )) {
 				count++;
 				tmp.add( resolve );
 			}
@@ -2220,26 +2220,26 @@ var rclass = /[\n\t\r]/g,
 	rfocusable = /^(?:button|input|object|select|textarea)$/i,
 	rclickable = /^a(?:rea)?$/i,
 	rboolean = /^(?:autofocus|autoplay|async|checked|controls|defer|disabled|hidden|loop|multiple|open|readonly|required|scoped|selected)$/i,
-	getSetAttribute = jQuery.support.getSetAttribute,
+	getSetAttribute = OMjQuery.support.getSetAttribute,
 	nodeHook, boolHook, fixSpecified;
 
-jQuery.fn.extend({
+OMjQuery.fn.extend({
 	attr: function( name, value ) {
-		return jQuery.access( this, jQuery.attr, name, value, arguments.length > 1 );
+		return OMjQuery.access( this, OMjQuery.attr, name, value, arguments.length > 1 );
 	},
 
 	removeAttr: function( name ) {
 		return this.each(function() {
-			jQuery.removeAttr( this, name );
+			OMjQuery.removeAttr( this, name );
 		});
 	},
 
 	prop: function( name, value ) {
-		return jQuery.access( this, jQuery.prop, name, value, arguments.length > 1 );
+		return OMjQuery.access( this, OMjQuery.prop, name, value, arguments.length > 1 );
 	},
 
 	removeProp: function( name ) {
-		name = jQuery.propFix[ name ] || name;
+		name = OMjQuery.propFix[ name ] || name;
 		return this.each(function() {
 			// try/catch handles cases where IE balks (such as removing a property on window)
 			try {
@@ -2253,9 +2253,9 @@ jQuery.fn.extend({
 		var classNames, i, l, elem,
 			setClass, c, cl;
 
-		if ( jQuery.isFunction( value ) ) {
+		if ( OMjQuery.isFunction( value ) ) {
 			return this.each(function( j ) {
-				jQuery( this ).addClass( value.call(this, j, this.className) );
+				OMjQuery( this ).addClass( value.call(this, j, this.className) );
 			});
 		}
 
@@ -2277,7 +2277,7 @@ jQuery.fn.extend({
 								setClass += classNames[ c ] + " ";
 							}
 						}
-						elem.className = jQuery.trim( setClass );
+						elem.className = OMjQuery.trim( setClass );
 					}
 				}
 			}
@@ -2289,9 +2289,9 @@ jQuery.fn.extend({
 	removeClass: function( value ) {
 		var classNames, i, l, elem, className, c, cl;
 
-		if ( jQuery.isFunction( value ) ) {
+		if ( OMjQuery.isFunction( value ) ) {
 			return this.each(function( j ) {
-				jQuery( this ).removeClass( value.call(this, j, this.className) );
+				OMjQuery( this ).removeClass( value.call(this, j, this.className) );
 			});
 		}
 
@@ -2307,7 +2307,7 @@ jQuery.fn.extend({
 						for ( c = 0, cl = classNames.length; c < cl; c++ ) {
 							className = className.replace(" " + classNames[ c ] + " ", " ");
 						}
-						elem.className = jQuery.trim( className );
+						elem.className = OMjQuery.trim( className );
 
 					} else {
 						elem.className = "";
@@ -2323,9 +2323,9 @@ jQuery.fn.extend({
 		var type = typeof value,
 			isBool = typeof stateVal === "boolean";
 
-		if ( jQuery.isFunction( value ) ) {
+		if ( OMjQuery.isFunction( value ) ) {
 			return this.each(function( i ) {
-				jQuery( this ).toggleClass( value.call(this, i, this.className, stateVal), stateVal );
+				OMjQuery( this ).toggleClass( value.call(this, i, this.className, stateVal), stateVal );
 			});
 		}
 
@@ -2334,7 +2334,7 @@ jQuery.fn.extend({
 				// toggle individual class names
 				var className,
 					i = 0,
-					self = jQuery( this ),
+					self = OMjQuery( this ),
 					state = stateVal,
 					classNames = value.split( rspace );
 
@@ -2347,11 +2347,11 @@ jQuery.fn.extend({
 			} else if ( type === "undefined" || type === "boolean" ) {
 				if ( this.className ) {
 					// store className if set
-					jQuery._data( this, "__className__", this.className );
+					OMjQuery._data( this, "__className__", this.className );
 				}
 
 				// toggle whole className
-				this.className = this.className || value === false ? "" : jQuery._data( this, "__className__" ) || "";
+				this.className = this.className || value === false ? "" : OMjQuery._data( this, "__className__" ) || "";
 			}
 		});
 	},
@@ -2375,7 +2375,7 @@ jQuery.fn.extend({
 
 		if ( !arguments.length ) {
 			if ( elem ) {
-				hooks = jQuery.valHooks[ elem.type ] || jQuery.valHooks[ elem.nodeName.toLowerCase() ];
+				hooks = OMjQuery.valHooks[ elem.type ] || OMjQuery.valHooks[ elem.nodeName.toLowerCase() ];
 
 				if ( hooks && "get" in hooks && (ret = hooks.get( elem, "value" )) !== undefined ) {
 					return ret;
@@ -2393,10 +2393,10 @@ jQuery.fn.extend({
 			return;
 		}
 
-		isFunction = jQuery.isFunction( value );
+		isFunction = OMjQuery.isFunction( value );
 
 		return this.each(function( i ) {
-			var self = jQuery(this), val;
+			var self = OMjQuery(this), val;
 
 			if ( this.nodeType !== 1 ) {
 				return;
@@ -2413,13 +2413,13 @@ jQuery.fn.extend({
 				val = "";
 			} else if ( typeof val === "number" ) {
 				val += "";
-			} else if ( jQuery.isArray( val ) ) {
-				val = jQuery.map(val, function ( value ) {
+			} else if ( OMjQuery.isArray( val ) ) {
+				val = OMjQuery.map(val, function ( value ) {
 					return value == null ? "" : value + "";
 				});
 			}
 
-			hooks = jQuery.valHooks[ this.type ] || jQuery.valHooks[ this.nodeName.toLowerCase() ];
+			hooks = OMjQuery.valHooks[ this.type ] || OMjQuery.valHooks[ this.nodeName.toLowerCase() ];
 
 			// If set returns undefined, fall back to normal setting
 			if ( !hooks || !("set" in hooks) || hooks.set( this, val, "value" ) === undefined ) {
@@ -2429,7 +2429,7 @@ jQuery.fn.extend({
 	}
 });
 
-jQuery.extend({
+OMjQuery.extend({
 	valHooks: {
 		option: {
 			get: function( elem ) {
@@ -2459,11 +2459,11 @@ jQuery.extend({
 					option = options[ i ];
 
 					// Don't return options that are disabled or in a disabled optgroup
-					if ( option.selected && (jQuery.support.optDisabled ? !option.disabled : option.getAttribute("disabled") === null) &&
-							(!option.parentNode.disabled || !jQuery.nodeName( option.parentNode, "optgroup" )) ) {
+					if ( option.selected && (OMjQuery.support.optDisabled ? !option.disabled : option.getAttribute("disabled") === null) &&
+							(!option.parentNode.disabled || !OMjQuery.nodeName( option.parentNode, "optgroup" )) ) {
 
 						// Get the specific value for the option
-						value = jQuery( option ).val();
+						value = OMjQuery( option ).val();
 
 						// We don't need an array for one selects
 						if ( one ) {
@@ -2477,17 +2477,17 @@ jQuery.extend({
 
 				// Fixes Bug #2551 -- select.val() broken in IE after form.reset()
 				if ( one && !values.length && options.length ) {
-					return jQuery( options[ index ] ).val();
+					return OMjQuery( options[ index ] ).val();
 				}
 
 				return values;
 			},
 
 			set: function( elem, value ) {
-				var values = jQuery.makeArray( value );
+				var values = OMjQuery.makeArray( value );
 
-				jQuery(elem).find("option").each(function() {
-					this.selected = jQuery.inArray( jQuery(this).val(), values ) >= 0;
+				OMjQuery(elem).find("option").each(function() {
+					this.selected = OMjQuery.inArray( OMjQuery(this).val(), values ) >= 0;
 				});
 
 				if ( !values.length ) {
@@ -2518,28 +2518,28 @@ jQuery.extend({
 			return;
 		}
 
-		if ( pass && name in jQuery.attrFn ) {
-			return jQuery( elem )[ name ]( value );
+		if ( pass && name in OMjQuery.attrFn ) {
+			return OMjQuery( elem )[ name ]( value );
 		}
 
 		// Fallback to prop when attributes are not supported
 		if ( typeof elem.getAttribute === "undefined" ) {
-			return jQuery.prop( elem, name, value );
+			return OMjQuery.prop( elem, name, value );
 		}
 
-		notxml = nType !== 1 || !jQuery.isXMLDoc( elem );
+		notxml = nType !== 1 || !OMjQuery.isXMLDoc( elem );
 
 		// All attributes are lowercase
 		// Grab necessary hook if one is defined
 		if ( notxml ) {
 			name = name.toLowerCase();
-			hooks = jQuery.attrHooks[ name ] || ( rboolean.test( name ) ? boolHook : nodeHook );
+			hooks = OMjQuery.attrHooks[ name ] || ( rboolean.test( name ) ? boolHook : nodeHook );
 		}
 
 		if ( value !== undefined ) {
 
 			if ( value === null ) {
-				jQuery.removeAttr( elem, name );
+				OMjQuery.removeAttr( elem, name );
 				return;
 
 			} else if ( hooks && "set" in hooks && notxml && (ret = hooks.set( elem, value, name )) !== undefined ) {
@@ -2576,13 +2576,13 @@ jQuery.extend({
 				name = attrNames[ i ];
 
 				if ( name ) {
-					propName = jQuery.propFix[ name ] || name;
+					propName = OMjQuery.propFix[ name ] || name;
 					isBool = rboolean.test( name );
 
 					// See #9699 for explanation of this approach (setting first, then removal)
 					// Do not do this for boolean attributes (see #10870)
 					if ( !isBool ) {
-						jQuery.attr( elem, name, "" );
+						OMjQuery.attr( elem, name, "" );
 					}
 					elem.removeAttribute( getSetAttribute ? name : propName );
 
@@ -2600,8 +2600,8 @@ jQuery.extend({
 			set: function( elem, value ) {
 				// We can't allow the type property to be changed (since it causes problems in IE)
 				if ( rtype.test( elem.nodeName ) && elem.parentNode ) {
-					jQuery.error( "type property can't be changed" );
-				} else if ( !jQuery.support.radioValue && value === "radio" && jQuery.nodeName(elem, "input") ) {
+					OMjQuery.error( "type property can't be changed" );
+				} else if ( !OMjQuery.support.radioValue && value === "radio" && OMjQuery.nodeName(elem, "input") ) {
 					// Setting the type on a radio button after the value resets the value in IE6-9
 					// Reset value to it's default in case type is set after value
 					// This is for element creation
@@ -2618,7 +2618,7 @@ jQuery.extend({
 		// Use the nodeHook for button elements in IE6/7 (#1954)
 		value: {
 			get: function( elem, name ) {
-				if ( nodeHook && jQuery.nodeName( elem, "button" ) ) {
+				if ( nodeHook && OMjQuery.nodeName( elem, "button" ) ) {
 					return nodeHook.get( elem, name );
 				}
 				return name in elem ?
@@ -2626,7 +2626,7 @@ jQuery.extend({
 					null;
 			},
 			set: function( elem, value, name ) {
-				if ( nodeHook && jQuery.nodeName( elem, "button" ) ) {
+				if ( nodeHook && OMjQuery.nodeName( elem, "button" ) ) {
 					return nodeHook.set( elem, value, name );
 				}
 				// Does not return so that setAttribute is also used
@@ -2659,12 +2659,12 @@ jQuery.extend({
 			return;
 		}
 
-		notxml = nType !== 1 || !jQuery.isXMLDoc( elem );
+		notxml = nType !== 1 || !OMjQuery.isXMLDoc( elem );
 
 		if ( notxml ) {
 			// Fix name and attach hooks
-			name = jQuery.propFix[ name ] || name;
-			hooks = jQuery.propHooks[ name ];
+			name = OMjQuery.propFix[ name ] || name;
+			hooks = OMjQuery.propHooks[ name ];
 		}
 
 		if ( value !== undefined ) {
@@ -2703,7 +2703,7 @@ jQuery.extend({
 });
 
 // Add the tabIndex propHook to attrHooks for back-compat (different case is intentional)
-jQuery.attrHooks.tabindex = jQuery.propHooks.tabIndex;
+OMjQuery.attrHooks.tabindex = OMjQuery.propHooks.tabIndex;
 
 // Hook for boolean attributes
 boolHook = {
@@ -2711,7 +2711,7 @@ boolHook = {
 		// Align boolean attributes with corresponding properties
 		// Fall back to attribute presence where some booleans are not supported
 		var attrNode,
-			property = jQuery.prop( elem, name );
+			property = OMjQuery.prop( elem, name );
 		return property === true || typeof property !== "boolean" && ( attrNode = elem.getAttributeNode(name) ) && attrNode.nodeValue !== false ?
 			name.toLowerCase() :
 			undefined;
@@ -2720,11 +2720,11 @@ boolHook = {
 		var propName;
 		if ( value === false ) {
 			// Remove boolean attributes when set to false
-			jQuery.removeAttr( elem, name );
+			OMjQuery.removeAttr( elem, name );
 		} else {
 			// value is true since we know at this point it's type boolean and not false
 			// Set boolean attributes to the same name and set the DOM property
-			propName = jQuery.propFix[ name ] || name;
+			propName = OMjQuery.propFix[ name ] || name;
 			if ( propName in elem ) {
 				// Only set the IDL specifically if it already exists on the element
 				elem[ propName ] = true;
@@ -2747,7 +2747,7 @@ if ( !getSetAttribute ) {
 
 	// Use this for any attribute in IE6/7
 	// This fixes almost every IE6/7 issue
-	nodeHook = jQuery.valHooks.button = {
+	nodeHook = OMjQuery.valHooks.button = {
 		get: function( elem, name ) {
 			var ret;
 			ret = elem.getAttributeNode( name );
@@ -2767,12 +2767,12 @@ if ( !getSetAttribute ) {
 	};
 
 	// Apply the nodeHook to tabindex
-	jQuery.attrHooks.tabindex.set = nodeHook.set;
+	OMjQuery.attrHooks.tabindex.set = nodeHook.set;
 
 	// Set width and height to auto instead of 0 on empty string( Bug #8150 )
 	// This is for removals
-	jQuery.each([ "width", "height" ], function( i, name ) {
-		jQuery.attrHooks[ name ] = jQuery.extend( jQuery.attrHooks[ name ], {
+	OMjQuery.each([ "width", "height" ], function( i, name ) {
+		OMjQuery.attrHooks[ name ] = OMjQuery.extend( OMjQuery.attrHooks[ name ], {
 			set: function( elem, value ) {
 				if ( value === "" ) {
 					elem.setAttribute( name, "auto" );
@@ -2784,7 +2784,7 @@ if ( !getSetAttribute ) {
 
 	// Set contenteditable to false on removals(#10429)
 	// Setting to empty string throws an error as an invalid value
-	jQuery.attrHooks.contenteditable = {
+	OMjQuery.attrHooks.contenteditable = {
 		get: nodeHook.get,
 		set: function( elem, value, name ) {
 			if ( value === "" ) {
@@ -2797,9 +2797,9 @@ if ( !getSetAttribute ) {
 
 
 // Some attributes require a special call on IE
-if ( !jQuery.support.hrefNormalized ) {
-	jQuery.each([ "href", "src", "width", "height" ], function( i, name ) {
-		jQuery.attrHooks[ name ] = jQuery.extend( jQuery.attrHooks[ name ], {
+if ( !OMjQuery.support.hrefNormalized ) {
+	OMjQuery.each([ "href", "src", "width", "height" ], function( i, name ) {
+		OMjQuery.attrHooks[ name ] = OMjQuery.extend( OMjQuery.attrHooks[ name ], {
 			get: function( elem ) {
 				var ret = elem.getAttribute( name, 2 );
 				return ret === null ? undefined : ret;
@@ -2808,8 +2808,8 @@ if ( !jQuery.support.hrefNormalized ) {
 	});
 }
 
-if ( !jQuery.support.style ) {
-	jQuery.attrHooks.style = {
+if ( !OMjQuery.support.style ) {
+	OMjQuery.attrHooks.style = {
 		get: function( elem ) {
 			// Return undefined in the case of empty string
 			// Normalize to lowercase since IE uppercases css property names
@@ -2823,8 +2823,8 @@ if ( !jQuery.support.style ) {
 
 // Safari mis-reports the default selected property of an option
 // Accessing the parent's selectedIndex property fixes it
-if ( !jQuery.support.optSelected ) {
-	jQuery.propHooks.selected = jQuery.extend( jQuery.propHooks.selected, {
+if ( !OMjQuery.support.optSelected ) {
+	OMjQuery.propHooks.selected = OMjQuery.extend( OMjQuery.propHooks.selected, {
 		get: function( elem ) {
 			var parent = elem.parentNode;
 
@@ -2842,14 +2842,14 @@ if ( !jQuery.support.optSelected ) {
 }
 
 // IE6/7 call enctype encoding
-if ( !jQuery.support.enctype ) {
-	jQuery.propFix.enctype = "encoding";
+if ( !OMjQuery.support.enctype ) {
+	OMjQuery.propFix.enctype = "encoding";
 }
 
 // Radios and checkboxes getter/setter
-if ( !jQuery.support.checkOn ) {
-	jQuery.each([ "radio", "checkbox" ], function() {
-		jQuery.valHooks[ this ] = {
+if ( !OMjQuery.support.checkOn ) {
+	OMjQuery.each([ "radio", "checkbox" ], function() {
+		OMjQuery.valHooks[ this ] = {
 			get: function( elem ) {
 				// Handle the case where in Webkit "" is returned instead of "on" if a value isn't specified
 				return elem.getAttribute("value") === null ? "on" : elem.value;
@@ -2857,11 +2857,11 @@ if ( !jQuery.support.checkOn ) {
 		};
 	});
 }
-jQuery.each([ "radio", "checkbox" ], function() {
-	jQuery.valHooks[ this ] = jQuery.extend( jQuery.valHooks[ this ], {
+OMjQuery.each([ "radio", "checkbox" ], function() {
+	OMjQuery.valHooks[ this ] = OMjQuery.extend( OMjQuery.valHooks[ this ], {
 		set: function( elem, value ) {
-			if ( jQuery.isArray( value ) ) {
-				return ( elem.checked = jQuery.inArray( jQuery(elem).val(), value ) >= 0 );
+			if ( OMjQuery.isArray( value ) ) {
+				return ( elem.checked = OMjQuery.inArray( OMjQuery(elem).val(), value ) >= 0 );
 			}
 		}
 	});
@@ -2896,14 +2896,14 @@ var rformElems = /^(?:textarea|input|select)$/i,
 		);
 	},
 	hoverHack = function( events ) {
-		return jQuery.event.special.hover ? events : events.replace( rhoverHack, "mouseenter$1 mouseleave$1" );
+		return OMjQuery.event.special.hover ? events : events.replace( rhoverHack, "mouseenter$1 mouseleave$1" );
 	};
 
 /*
  * Helper functions for managing events -- not part of the public interface.
  * Props to Dean Edwards' addEvent library for many of the ideas.
  */
-jQuery.event = {
+OMjQuery.event = {
 
 	add: function( elem, types, handler, data, selector ) {
 
@@ -2912,7 +2912,7 @@ jQuery.event = {
 			handleObjIn, quick, handlers, special;
 
 		// Don't attach events to noData or text/comment nodes (allow plain objects tho)
-		if ( elem.nodeType === 3 || elem.nodeType === 8 || !types || !handler || !(elemData = jQuery._data( elem )) ) {
+		if ( elem.nodeType === 3 || elem.nodeType === 8 || !types || !handler || !(elemData = OMjQuery._data( elem )) ) {
 			return;
 		}
 
@@ -2925,7 +2925,7 @@ jQuery.event = {
 
 		// Make sure that the handler has a unique ID, used to find/remove it later
 		if ( !handler.guid ) {
-			handler.guid = jQuery.guid++;
+			handler.guid = OMjQuery.guid++;
 		}
 
 		// Init the element's event structure and main handler, if this is the first
@@ -2936,10 +2936,10 @@ jQuery.event = {
 		eventHandle = elemData.handle;
 		if ( !eventHandle ) {
 			elemData.handle = eventHandle = function( e ) {
-				// Discard the second event of a jQuery.event.trigger() and
+				// Discard the second event of a OMjQuery.event.trigger() and
 				// when an event is called after a page has unloaded
-				return typeof jQuery !== "undefined" && (!e || jQuery.event.triggered !== e.type) ?
-					jQuery.event.dispatch.apply( eventHandle.elem, arguments ) :
+				return typeof OMjQuery !== "undefined" && (!e || OMjQuery.event.triggered !== e.type) ?
+					OMjQuery.event.dispatch.apply( eventHandle.elem, arguments ) :
 					undefined;
 			};
 			// Add elem as a property of the handle fn to prevent a memory leak with IE non-native events
@@ -2947,8 +2947,8 @@ jQuery.event = {
 		}
 
 		// Handle multiple events separated by a space
-		// jQuery(...).bind("mouseover mouseout", fn);
-		types = jQuery.trim( hoverHack(types) ).split( " " );
+		// OMjQuery(...).bind("mouseover mouseout", fn);
+		types = OMjQuery.trim( hoverHack(types) ).split( " " );
 		for ( t = 0; t < types.length; t++ ) {
 
 			tns = rtypenamespace.exec( types[t] ) || [];
@@ -2956,16 +2956,16 @@ jQuery.event = {
 			namespaces = ( tns[2] || "" ).split( "." ).sort();
 
 			// If event changes its type, use the special event handlers for the changed type
-			special = jQuery.event.special[ type ] || {};
+			special = OMjQuery.event.special[ type ] || {};
 
 			// If selector defined, determine special event api type, otherwise given type
 			type = ( selector ? special.delegateType : special.bindType ) || type;
 
 			// Update special based on newly reset type
-			special = jQuery.event.special[ type ] || {};
+			special = OMjQuery.event.special[ type ] || {};
 
 			// handleObj is passed to all event handlers
-			handleObj = jQuery.extend({
+			handleObj = OMjQuery.extend({
 				type: type,
 				origType: tns[1],
 				data: data,
@@ -3010,7 +3010,7 @@ jQuery.event = {
 			}
 
 			// Keep track of which events have ever been used, for event optimization
-			jQuery.event.global[ type ] = true;
+			OMjQuery.event.global[ type ] = true;
 		}
 
 		// Nullify elem to prevent memory leaks in IE
@@ -3022,7 +3022,7 @@ jQuery.event = {
 	// Detach an event or set of events from an element
 	remove: function( elem, types, handler, selector, mappedTypes ) {
 
-		var elemData = jQuery.hasData( elem ) && jQuery._data( elem ),
+		var elemData = OMjQuery.hasData( elem ) && OMjQuery._data( elem ),
 			t, tns, type, origType, namespaces, origCount,
 			j, events, special, handle, eventType, handleObj;
 
@@ -3031,7 +3031,7 @@ jQuery.event = {
 		}
 
 		// Once for each type.namespace in types; type may be omitted
-		types = jQuery.trim( hoverHack( types || "" ) ).split(" ");
+		types = OMjQuery.trim( hoverHack( types || "" ) ).split(" ");
 		for ( t = 0; t < types.length; t++ ) {
 			tns = rtypenamespace.exec( types[t] ) || [];
 			type = origType = tns[1];
@@ -3040,12 +3040,12 @@ jQuery.event = {
 			// Unbind all events (on this namespace, if provided) for the element
 			if ( !type ) {
 				for ( type in events ) {
-					jQuery.event.remove( elem, type + types[ t ], handler, selector, true );
+					OMjQuery.event.remove( elem, type + types[ t ], handler, selector, true );
 				}
 				continue;
 			}
 
-			special = jQuery.event.special[ type ] || {};
+			special = OMjQuery.event.special[ type ] || {};
 			type = ( selector? special.delegateType : special.bindType ) || type;
 			eventType = events[ type ] || [];
 			origCount = eventType.length;
@@ -3074,7 +3074,7 @@ jQuery.event = {
 			// (avoids potential for endless recursion during removal of special event handlers)
 			if ( eventType.length === 0 && origCount !== eventType.length ) {
 				if ( !special.teardown || special.teardown.call( elem, namespaces ) === false ) {
-					jQuery.removeEvent( elem, type, elemData.handle );
+					OMjQuery.removeEvent( elem, type, elemData.handle );
 				}
 
 				delete events[ type ];
@@ -3082,7 +3082,7 @@ jQuery.event = {
 		}
 
 		// Remove the expando if it's no longer used
-		if ( jQuery.isEmptyObject( events ) ) {
+		if ( OMjQuery.isEmptyObject( events ) ) {
 			handle = elemData.handle;
 			if ( handle ) {
 				handle.elem = null;
@@ -3090,7 +3090,7 @@ jQuery.event = {
 
 			// removeData also checks for emptiness and clears the expando if empty
 			// so use it instead of delete
-			jQuery.removeData( elem, [ "events", "handle" ], true );
+			OMjQuery.removeData( elem, [ "events", "handle" ], true );
 		}
 	},
 
@@ -3114,7 +3114,7 @@ jQuery.event = {
 			cache, exclusive, i, cur, old, ontype, special, handle, eventPath, bubbleType;
 
 		// focus/blur morphs to focusin/out; ensure we're not firing them right now
-		if ( rfocusMorph.test( type + jQuery.event.triggered ) ) {
+		if ( rfocusMorph.test( type + OMjQuery.event.triggered ) ) {
 			return;
 		}
 
@@ -3131,19 +3131,19 @@ jQuery.event = {
 			namespaces.sort();
 		}
 
-		if ( (!elem || jQuery.event.customEvent[ type ]) && !jQuery.event.global[ type ] ) {
-			// No jQuery handlers for this event type, and it can't have inline handlers
+		if ( (!elem || OMjQuery.event.customEvent[ type ]) && !OMjQuery.event.global[ type ] ) {
+			// No OMjQuery handlers for this event type, and it can't have inline handlers
 			return;
 		}
 
 		// Caller can pass in an Event, Object, or just an event type string
 		event = typeof event === "object" ?
-			// jQuery.Event object
-			event[ jQuery.expando ] ? event :
+			// OMjQuery.Event object
+			event[ OMjQuery.expando ] ? event :
 			// Object literal
-			new jQuery.Event( type, event ) :
+			new OMjQuery.Event( type, event ) :
 			// Just the event type (string)
-			new jQuery.Event( type );
+			new OMjQuery.Event( type );
 
 		event.type = type;
 		event.isTrigger = true;
@@ -3156,10 +3156,10 @@ jQuery.event = {
 		if ( !elem ) {
 
 			// TODO: Stop taunting the data cache; remove global events and always attach to document
-			cache = jQuery.cache;
+			cache = OMjQuery.cache;
 			for ( i in cache ) {
 				if ( cache[ i ].events && cache[ i ].events[ type ] ) {
-					jQuery.event.trigger( event, data, cache[ i ].handle.elem, true );
+					OMjQuery.event.trigger( event, data, cache[ i ].handle.elem, true );
 				}
 			}
 			return;
@@ -3172,11 +3172,11 @@ jQuery.event = {
 		}
 
 		// Clone any incoming data and prepend the event, creating the handler arg list
-		data = data != null ? jQuery.makeArray( data ) : [];
+		data = data != null ? OMjQuery.makeArray( data ) : [];
 		data.unshift( event );
 
 		// Allow special events to draw outside the lines
-		special = jQuery.event.special[ type ] || {};
+		special = OMjQuery.event.special[ type ] || {};
 		if ( special.trigger && special.trigger.apply( elem, data ) === false ) {
 			return;
 		}
@@ -3184,7 +3184,7 @@ jQuery.event = {
 		// Determine event propagation path in advance, per W3C events spec (#9951)
 		// Bubble up to document, then to window; watch for a global ownerDocument var (#9724)
 		eventPath = [[ elem, special.bindType || type ]];
-		if ( !onlyHandlers && !special.noBubble && !jQuery.isWindow( elem ) ) {
+		if ( !onlyHandlers && !special.noBubble && !OMjQuery.isWindow( elem ) ) {
 
 			bubbleType = special.delegateType || type;
 			cur = rfocusMorph.test( bubbleType + type ) ? elem : elem.parentNode;
@@ -3206,13 +3206,13 @@ jQuery.event = {
 			cur = eventPath[i][0];
 			event.type = eventPath[i][1];
 
-			handle = ( jQuery._data( cur, "events" ) || {} )[ event.type ] && jQuery._data( cur, "handle" );
+			handle = ( OMjQuery._data( cur, "events" ) || {} )[ event.type ] && OMjQuery._data( cur, "handle" );
 			if ( handle ) {
 				handle.apply( cur, data );
 			}
-			// Note that this is a bare JS function and not a jQuery handler
+			// Note that this is a bare JS function and not a OMjQuery handler
 			handle = ontype && cur[ ontype ];
-			if ( handle && jQuery.acceptData( cur ) && handle.apply( cur, data ) === false ) {
+			if ( handle && OMjQuery.acceptData( cur ) && handle.apply( cur, data ) === false ) {
 				event.preventDefault();
 			}
 		}
@@ -3222,13 +3222,13 @@ jQuery.event = {
 		if ( !onlyHandlers && !event.isDefaultPrevented() ) {
 
 			if ( (!special._default || special._default.apply( elem.ownerDocument, data ) === false) &&
-				!(type === "click" && jQuery.nodeName( elem, "a" )) && jQuery.acceptData( elem ) ) {
+				!(type === "click" && OMjQuery.nodeName( elem, "a" )) && OMjQuery.acceptData( elem ) ) {
 
 				// Call a native DOM method on the target with the same name name as the event.
 				// Can't use an .isFunction() check here because IE6/7 fails that test.
 				// Don't do default actions on window, that's where global variables be (#6170)
 				// IE<9 dies on focus/blur to hidden element (#1486)
-				if ( ontype && elem[ type ] && ((type !== "focus" && type !== "blur") || event.target.offsetWidth !== 0) && !jQuery.isWindow( elem ) ) {
+				if ( ontype && elem[ type ] && ((type !== "focus" && type !== "blur") || event.target.offsetWidth !== 0) && !OMjQuery.isWindow( elem ) ) {
 
 					// Don't re-trigger an onFOO event when we call its FOO() method
 					old = elem[ ontype ];
@@ -3238,9 +3238,9 @@ jQuery.event = {
 					}
 
 					// Prevent re-triggering of the same event, since we already bubbled it above
-					jQuery.event.triggered = type;
+					OMjQuery.event.triggered = type;
 					elem[ type ]();
-					jQuery.event.triggered = undefined;
+					OMjQuery.event.triggered = undefined;
 
 					if ( old ) {
 						elem[ ontype ] = old;
@@ -3254,18 +3254,18 @@ jQuery.event = {
 
 	dispatch: function( event ) {
 
-		// Make a writable jQuery.Event from the native event object
-		event = jQuery.event.fix( event || window.event );
+		// Make a writable OMjQuery.Event from the native event object
+		event = OMjQuery.event.fix( event || window.event );
 
-		var handlers = ( (jQuery._data( this, "events" ) || {} )[ event.type ] || []),
+		var handlers = ( (OMjQuery._data( this, "events" ) || {} )[ event.type ] || []),
 			delegateCount = handlers.delegateCount,
 			args = [].slice.call( arguments, 0 ),
 			run_all = !event.exclusive && !event.namespace,
-			special = jQuery.event.special[ event.type ] || {},
+			special = OMjQuery.event.special[ event.type ] || {},
 			handlerQueue = [],
 			i, j, cur, jqcur, ret, selMatch, matched, matches, handleObj, sel, related;
 
-		// Use the fix-ed jQuery.Event rather than the (read-only) native event
+		// Use the fix-ed OMjQuery.Event rather than the (read-only) native event
 		args[0] = event;
 		event.delegateTarget = this;
 
@@ -3278,8 +3278,8 @@ jQuery.event = {
 		// Avoid non-left-click bubbling in Firefox (#3861)
 		if ( delegateCount && !(event.button && event.type === "click") ) {
 
-			// Pregenerate a single jQuery object for reuse with .is()
-			jqcur = jQuery(this);
+			// Pregenerate a single OMjQuery object for reuse with .is()
+			jqcur = OMjQuery(this);
 			jqcur.context = this.ownerDocument || this;
 
 			for ( cur = event.target; cur != this; cur = cur.parentNode || this ) {
@@ -3329,7 +3329,7 @@ jQuery.event = {
 					event.data = handleObj.data;
 					event.handleObj = handleObj;
 
-					ret = ( (jQuery.event.special[ handleObj.origType ] || {}).handle || handleObj.handler )
+					ret = ( (OMjQuery.event.special[ handleObj.origType ] || {}).handle || handleObj.handler )
 							.apply( matched.elem, args );
 
 					if ( ret !== undefined ) {
@@ -3403,17 +3403,17 @@ jQuery.event = {
 	},
 
 	fix: function( event ) {
-		if ( event[ jQuery.expando ] ) {
+		if ( event[ OMjQuery.expando ] ) {
 			return event;
 		}
 
 		// Create a writable copy of the event object and normalize some properties
 		var i, prop,
 			originalEvent = event,
-			fixHook = jQuery.event.fixHooks[ event.type ] || {},
+			fixHook = OMjQuery.event.fixHooks[ event.type ] || {},
 			copy = fixHook.props ? this.props.concat( fixHook.props ) : this.props;
 
-		event = jQuery.Event( originalEvent );
+		event = OMjQuery.Event( originalEvent );
 
 		for ( i = copy.length; i; ) {
 			prop = copy[ --i ];
@@ -3441,7 +3441,7 @@ jQuery.event = {
 	special: {
 		ready: {
 			// Make sure the ready event is setup
-			setup: jQuery.bindReady
+			setup: OMjQuery.bindReady
 		},
 
 		load: {
@@ -3459,7 +3459,7 @@ jQuery.event = {
 		beforeunload: {
 			setup: function( data, namespaces, eventHandle ) {
 				// We only want to do this special case on windows
-				if ( jQuery.isWindow( this ) ) {
+				if ( OMjQuery.isWindow( this ) ) {
 					this.onbeforeunload = eventHandle;
 				}
 			},
@@ -3476,8 +3476,8 @@ jQuery.event = {
 		// Piggyback on a donor event to simulate a different one.
 		// Fake originalEvent to avoid donor's stopPropagation, but if the
 		// simulated event prevents default then we do the same on the donor.
-		var e = jQuery.extend(
-			new jQuery.Event(),
+		var e = OMjQuery.extend(
+			new OMjQuery.Event(),
 			event,
 			{ type: type,
 				isSimulated: true,
@@ -3485,9 +3485,9 @@ jQuery.event = {
 			}
 		);
 		if ( bubble ) {
-			jQuery.event.trigger( e, null, elem );
+			OMjQuery.event.trigger( e, null, elem );
 		} else {
-			jQuery.event.dispatch.call( elem, e );
+			OMjQuery.event.dispatch.call( elem, e );
 		}
 		if ( e.isDefaultPrevented() ) {
 			event.preventDefault();
@@ -3497,9 +3497,9 @@ jQuery.event = {
 
 // Some plugins are using, but it's undocumented/deprecated and will be removed.
 // The 1.7 special event interface should provide all the hooks needed now.
-jQuery.event.handle = jQuery.event.dispatch;
+OMjQuery.event.handle = OMjQuery.event.dispatch;
 
-jQuery.removeEvent = document.removeEventListener ?
+OMjQuery.removeEvent = document.removeEventListener ?
 	function( elem, type, handle ) {
 		if ( elem.removeEventListener ) {
 			elem.removeEventListener( type, handle, false );
@@ -3511,10 +3511,10 @@ jQuery.removeEvent = document.removeEventListener ?
 		}
 	};
 
-jQuery.Event = function( src, props ) {
+OMjQuery.Event = function( src, props ) {
 	// Allow instantiation without the 'new' keyword
-	if ( !(this instanceof jQuery.Event) ) {
-		return new jQuery.Event( src, props );
+	if ( !(this instanceof OMjQuery.Event) ) {
+		return new OMjQuery.Event( src, props );
 	}
 
 	// Event object
@@ -3534,14 +3534,14 @@ jQuery.Event = function( src, props ) {
 
 	// Put explicitly provided properties onto the event object
 	if ( props ) {
-		jQuery.extend( this, props );
+		OMjQuery.extend( this, props );
 	}
 
 	// Create a timestamp if incoming event doesn't have one
-	this.timeStamp = src && src.timeStamp || jQuery.now();
+	this.timeStamp = src && src.timeStamp || OMjQuery.now();
 
 	// Mark it as fixed
-	this[ jQuery.expando ] = true;
+	this[ OMjQuery.expando ] = true;
 };
 
 function returnFalse() {
@@ -3551,9 +3551,9 @@ function returnTrue() {
 	return true;
 }
 
-// jQuery.Event is based on DOM3 Events as specified by the ECMAScript Language Binding
+// OMjQuery.Event is based on DOM3 Events as specified by the ECMAScript Language Binding
 // http://www.w3.org/TR/2003/WD-DOM-Level-3-Events-20030331/ecma-script-binding.html
-jQuery.Event.prototype = {
+OMjQuery.Event.prototype = {
 	preventDefault: function() {
 		this.isDefaultPrevented = returnTrue;
 
@@ -3595,11 +3595,11 @@ jQuery.Event.prototype = {
 };
 
 // Create mouseenter/leave events using mouseover/out and event-time checks
-jQuery.each({
+OMjQuery.each({
 	mouseenter: "mouseover",
 	mouseleave: "mouseout"
 }, function( orig, fix ) {
-	jQuery.event.special[ orig ] = {
+	OMjQuery.event.special[ orig ] = {
 		delegateType: fix,
 		bindType: fix,
 
@@ -3612,7 +3612,7 @@ jQuery.each({
 
 			// For mousenter/leave call the handler if related is outside the target.
 			// NB: No relatedTarget if the mouse left/entered the browser window
-			if ( !related || (related !== target && !jQuery.contains( target, related )) ) {
+			if ( !related || (related !== target && !OMjQuery.contains( target, related )) ) {
 				event.type = handleObj.origType;
 				ret = handleObj.handler.apply( this, arguments );
 				event.type = fix;
@@ -3623,22 +3623,22 @@ jQuery.each({
 });
 
 // IE submit delegation
-if ( !jQuery.support.submitBubbles ) {
+if ( !OMjQuery.support.submitBubbles ) {
 
-	jQuery.event.special.submit = {
+	OMjQuery.event.special.submit = {
 		setup: function() {
 			// Only need this for delegated form submit events
-			if ( jQuery.nodeName( this, "form" ) ) {
+			if ( OMjQuery.nodeName( this, "form" ) ) {
 				return false;
 			}
 
 			// Lazy-add a submit handler when a descendant form may potentially be submitted
-			jQuery.event.add( this, "click._submit keypress._submit", function( e ) {
+			OMjQuery.event.add( this, "click._submit keypress._submit", function( e ) {
 				// Node name check avoids a VML-related crash in IE (#9807)
 				var elem = e.target,
-					form = jQuery.nodeName( elem, "input" ) || jQuery.nodeName( elem, "button" ) ? elem.form : undefined;
+					form = OMjQuery.nodeName( elem, "input" ) || OMjQuery.nodeName( elem, "button" ) ? elem.form : undefined;
 				if ( form && !form._submit_attached ) {
-					jQuery.event.add( form, "submit._submit", function( event ) {
+					OMjQuery.event.add( form, "submit._submit", function( event ) {
 						event._submit_bubble = true;
 					});
 					form._submit_attached = true;
@@ -3652,27 +3652,27 @@ if ( !jQuery.support.submitBubbles ) {
 			if ( event._submit_bubble ) {
 				delete event._submit_bubble;
 				if ( this.parentNode && !event.isTrigger ) {
-					jQuery.event.simulate( "submit", this.parentNode, event, true );
+					OMjQuery.event.simulate( "submit", this.parentNode, event, true );
 				}
 			}
 		},
 
 		teardown: function() {
 			// Only need this for delegated form submit events
-			if ( jQuery.nodeName( this, "form" ) ) {
+			if ( OMjQuery.nodeName( this, "form" ) ) {
 				return false;
 			}
 
 			// Remove delegated handlers; cleanData eventually reaps submit handlers attached above
-			jQuery.event.remove( this, "._submit" );
+			OMjQuery.event.remove( this, "._submit" );
 		}
 	};
 }
 
 // IE change delegation and checkbox/radio fix
-if ( !jQuery.support.changeBubbles ) {
+if ( !OMjQuery.support.changeBubbles ) {
 
-	jQuery.event.special.change = {
+	OMjQuery.event.special.change = {
 
 		setup: function() {
 
@@ -3681,28 +3681,28 @@ if ( !jQuery.support.changeBubbles ) {
 				// after a propertychange. Eat the blur-change in special.change.handle.
 				// This still fires onchange a second time for check/radio after blur.
 				if ( this.type === "checkbox" || this.type === "radio" ) {
-					jQuery.event.add( this, "propertychange._change", function( event ) {
+					OMjQuery.event.add( this, "propertychange._change", function( event ) {
 						if ( event.originalEvent.propertyName === "checked" ) {
 							this._just_changed = true;
 						}
 					});
-					jQuery.event.add( this, "click._change", function( event ) {
+					OMjQuery.event.add( this, "click._change", function( event ) {
 						if ( this._just_changed && !event.isTrigger ) {
 							this._just_changed = false;
-							jQuery.event.simulate( "change", this, event, true );
+							OMjQuery.event.simulate( "change", this, event, true );
 						}
 					});
 				}
 				return false;
 			}
 			// Delegated event; lazy-add a change handler on descendant inputs
-			jQuery.event.add( this, "beforeactivate._change", function( e ) {
+			OMjQuery.event.add( this, "beforeactivate._change", function( e ) {
 				var elem = e.target;
 
 				if ( rformElems.test( elem.nodeName ) && !elem._change_attached ) {
-					jQuery.event.add( elem, "change._change", function( event ) {
+					OMjQuery.event.add( elem, "change._change", function( event ) {
 						if ( this.parentNode && !event.isSimulated && !event.isTrigger ) {
-							jQuery.event.simulate( "change", this.parentNode, event, true );
+							OMjQuery.event.simulate( "change", this.parentNode, event, true );
 						}
 					});
 					elem._change_attached = true;
@@ -3720,7 +3720,7 @@ if ( !jQuery.support.changeBubbles ) {
 		},
 
 		teardown: function() {
-			jQuery.event.remove( this, "._change" );
+			OMjQuery.event.remove( this, "._change" );
 
 			return rformElems.test( this.nodeName );
 		}
@@ -3728,16 +3728,16 @@ if ( !jQuery.support.changeBubbles ) {
 }
 
 // Create "bubbling" focus and blur events
-if ( !jQuery.support.focusinBubbles ) {
-	jQuery.each({ focus: "focusin", blur: "focusout" }, function( orig, fix ) {
+if ( !OMjQuery.support.focusinBubbles ) {
+	OMjQuery.each({ focus: "focusin", blur: "focusout" }, function( orig, fix ) {
 
 		// Attach a single capturing handler while someone wants focusin/focusout
 		var attaches = 0,
 			handler = function( event ) {
-				jQuery.event.simulate( fix, event.target, jQuery.event.fix( event ), true );
+				OMjQuery.event.simulate( fix, event.target, OMjQuery.event.fix( event ), true );
 			};
 
-		jQuery.event.special[ fix ] = {
+		OMjQuery.event.special[ fix ] = {
 			setup: function() {
 				if ( attaches++ === 0 ) {
 					document.addEventListener( orig, handler, true );
@@ -3752,7 +3752,7 @@ if ( !jQuery.support.focusinBubbles ) {
 	});
 }
 
-jQuery.fn.extend({
+OMjQuery.fn.extend({
 
 	on: function( types, selector, data, fn, /*INTERNAL*/ one ) {
 		var origFn, type;
@@ -3797,14 +3797,14 @@ jQuery.fn.extend({
 			origFn = fn;
 			fn = function( event ) {
 				// Can use an empty set, since event contains the info
-				jQuery().off( event );
+				OMjQuery().off( event );
 				return origFn.apply( this, arguments );
 			};
 			// Use same guid so caller can remove using origFn
-			fn.guid = origFn.guid || ( origFn.guid = jQuery.guid++ );
+			fn.guid = origFn.guid || ( origFn.guid = OMjQuery.guid++ );
 		}
 		return this.each( function() {
-			jQuery.event.add( this, types, fn, data, selector );
+			OMjQuery.event.add( this, types, fn, data, selector );
 		});
 	},
 	one: function( types, selector, data, fn ) {
@@ -3812,9 +3812,9 @@ jQuery.fn.extend({
 	},
 	off: function( types, selector, fn ) {
 		if ( types && types.preventDefault && types.handleObj ) {
-			// ( event )  dispatched jQuery.Event
+			// ( event )  dispatched OMjQuery.Event
 			var handleObj = types.handleObj;
-			jQuery( types.delegateTarget ).off(
+			OMjQuery( types.delegateTarget ).off(
 				handleObj.namespace ? handleObj.origType + "." + handleObj.namespace : handleObj.origType,
 				handleObj.selector,
 				handleObj.handler
@@ -3837,7 +3837,7 @@ jQuery.fn.extend({
 			fn = returnFalse;
 		}
 		return this.each(function() {
-			jQuery.event.remove( this, types, fn, selector );
+			OMjQuery.event.remove( this, types, fn, selector );
 		});
 	},
 
@@ -3849,11 +3849,11 @@ jQuery.fn.extend({
 	},
 
 	live: function( types, data, fn ) {
-		jQuery( this.context ).on( types, this.selector, data, fn );
+		OMjQuery( this.context ).on( types, this.selector, data, fn );
 		return this;
 	},
 	die: function( types, fn ) {
-		jQuery( this.context ).off( types, this.selector || "**", fn );
+		OMjQuery( this.context ).off( types, this.selector || "**", fn );
 		return this;
 	},
 
@@ -3867,24 +3867,24 @@ jQuery.fn.extend({
 
 	trigger: function( type, data ) {
 		return this.each(function() {
-			jQuery.event.trigger( type, data, this );
+			OMjQuery.event.trigger( type, data, this );
 		});
 	},
 	triggerHandler: function( type, data ) {
 		if ( this[0] ) {
-			return jQuery.event.trigger( type, data, this[0], true );
+			return OMjQuery.event.trigger( type, data, this[0], true );
 		}
 	},
 
 	toggle: function( fn ) {
 		// Save reference to arguments for access in closure
 		var args = arguments,
-			guid = fn.guid || jQuery.guid++,
+			guid = fn.guid || OMjQuery.guid++,
 			i = 0,
 			toggler = function( event ) {
 				// Figure out which function to execute
-				var lastToggle = ( jQuery._data( this, "lastToggle" + fn.guid ) || 0 ) % i;
-				jQuery._data( this, "lastToggle" + fn.guid, lastToggle + 1 );
+				var lastToggle = ( OMjQuery._data( this, "lastToggle" + fn.guid ) || 0 ) % i;
+				OMjQuery._data( this, "lastToggle" + fn.guid, lastToggle + 1 );
 
 				// Make sure that clicks stop
 				event.preventDefault();
@@ -3907,12 +3907,12 @@ jQuery.fn.extend({
 	}
 });
 
-jQuery.each( ("blur focus focusin focusout load resize scroll unload click dblclick " +
+OMjQuery.each( ("blur focus focusin focusout load resize scroll unload click dblclick " +
 	"mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave " +
 	"change select submit keydown keypress keyup error contextmenu").split(" "), function( i, name ) {
 
 	// Handle event binding
-	jQuery.fn[ name ] = function( data, fn ) {
+	OMjQuery.fn[ name ] = function( data, fn ) {
 		if ( fn == null ) {
 			fn = data;
 			data = null;
@@ -3923,16 +3923,16 @@ jQuery.each( ("blur focus focusin focusout load resize scroll unload click dblcl
 			this.trigger( name );
 	};
 
-	if ( jQuery.attrFn ) {
-		jQuery.attrFn[ name ] = true;
+	if ( OMjQuery.attrFn ) {
+		OMjQuery.attrFn[ name ] = true;
 	}
 
 	if ( rkeyEvent.test( name ) ) {
-		jQuery.event.fixHooks[ name ] = jQuery.event.keyHooks;
+		OMjQuery.event.fixHooks[ name ] = OMjQuery.event.keyHooks;
 	}
 
 	if ( rmouseEvent.test( name ) ) {
-		jQuery.event.fixHooks[ name ] = jQuery.event.mouseHooks;
+		OMjQuery.event.fixHooks[ name ] = OMjQuery.event.mouseHooks;
 	}
 });
 
@@ -5380,15 +5380,15 @@ var posProcess = function( selector, context, seed ) {
 
 // EXPOSE
 // Override sizzle attribute retrieval
-Sizzle.attr = jQuery.attr;
+Sizzle.attr = OMjQuery.attr;
 Sizzle.selectors.attrMap = {};
-jQuery.find = Sizzle;
-jQuery.expr = Sizzle.selectors;
-jQuery.expr[":"] = jQuery.expr.filters;
-jQuery.unique = Sizzle.uniqueSort;
-jQuery.text = Sizzle.getText;
-jQuery.isXMLDoc = Sizzle.isXML;
-jQuery.contains = Sizzle.contains;
+OMjQuery.find = Sizzle;
+OMjQuery.expr = Sizzle.selectors;
+OMjQuery.expr[":"] = OMjQuery.expr.filters;
+OMjQuery.unique = Sizzle.uniqueSort;
+OMjQuery.text = Sizzle.getText;
+OMjQuery.isXMLDoc = Sizzle.isXML;
+OMjQuery.contains = Sizzle.contains;
 
 
 })();
@@ -5400,7 +5400,7 @@ var runtil = /Until$/,
 	rmultiselector = /,/,
 	isSimple = /^.[^:#\[\.,]*$/,
 	slice = Array.prototype.slice,
-	POS = jQuery.expr.match.globalPOS,
+	POS = OMjQuery.expr.match.globalPOS,
 	// methods guaranteed to produce a unique set when starting from a unique set
 	guaranteedUnique = {
 		children: true,
@@ -5409,15 +5409,15 @@ var runtil = /Until$/,
 		prev: true
 	};
 
-jQuery.fn.extend({
+OMjQuery.fn.extend({
 	find: function( selector ) {
 		var self = this,
 			i, l;
 
 		if ( typeof selector !== "string" ) {
-			return jQuery( selector ).filter(function() {
+			return OMjQuery( selector ).filter(function() {
 				for ( i = 0, l = self.length; i < l; i++ ) {
-					if ( jQuery.contains( self[ i ], this ) ) {
+					if ( OMjQuery.contains( self[ i ], this ) ) {
 						return true;
 					}
 				}
@@ -5429,7 +5429,7 @@ jQuery.fn.extend({
 
 		for ( i = 0, l = this.length; i < l; i++ ) {
 			length = ret.length;
-			jQuery.find( selector, this[i], ret );
+			OMjQuery.find( selector, this[i], ret );
 
 			if ( i > 0 ) {
 				// Make sure that the results are unique
@@ -5448,10 +5448,10 @@ jQuery.fn.extend({
 	},
 
 	has: function( target ) {
-		var targets = jQuery( target );
+		var targets = OMjQuery( target );
 		return this.filter(function() {
 			for ( var i = 0, l = targets.length; i < l; i++ ) {
-				if ( jQuery.contains( this, targets[i] ) ) {
+				if ( OMjQuery.contains( this, targets[i] ) ) {
 					return true;
 				}
 			}
@@ -5470,24 +5470,24 @@ jQuery.fn.extend({
 		return !!selector && (
 			typeof selector === "string" ?
 				// If this is a positional selector, check membership in the returned set
-				// so $("p:first").is("p:last") won't return true for a doc with two "p".
+				// so $o("p:first").is("p:last") won't return true for a doc with two "p".
 				POS.test( selector ) ?
-					jQuery( selector, this.context ).index( this[0] ) >= 0 :
-					jQuery.filter( selector, this ).length > 0 :
+					OMjQuery( selector, this.context ).index( this[0] ) >= 0 :
+					OMjQuery.filter( selector, this ).length > 0 :
 				this.filter( selector ).length > 0 );
 	},
 
 	closest: function( selectors, context ) {
 		var ret = [], i, l, cur = this[0];
 
-		// Array (deprecated as of jQuery 1.7)
-		if ( jQuery.isArray( selectors ) ) {
+		// Array (deprecated as of OMjQuery 1.7)
+		if ( OMjQuery.isArray( selectors ) ) {
 			var level = 1;
 
 			while ( cur && cur.ownerDocument && cur !== context ) {
 				for ( i = 0; i < selectors.length; i++ ) {
 
-					if ( jQuery( cur ).is( selectors[ i ] ) ) {
+					if ( OMjQuery( cur ).is( selectors[ i ] ) ) {
 						ret.push({ selector: selectors[ i ], elem: cur, level: level });
 					}
 				}
@@ -5501,14 +5501,14 @@ jQuery.fn.extend({
 
 		// String
 		var pos = POS.test( selectors ) || typeof selectors !== "string" ?
-				jQuery( selectors, context || this.context ) :
+				OMjQuery( selectors, context || this.context ) :
 				0;
 
 		for ( i = 0, l = this.length; i < l; i++ ) {
 			cur = this[i];
 
 			while ( cur ) {
-				if ( pos ? pos.index(cur) > -1 : jQuery.find.matchesSelector(cur, selectors) ) {
+				if ( pos ? pos.index(cur) > -1 : OMjQuery.find.matchesSelector(cur, selectors) ) {
 					ret.push( cur );
 					break;
 
@@ -5521,7 +5521,7 @@ jQuery.fn.extend({
 			}
 		}
 
-		ret = ret.length > 1 ? jQuery.unique( ret ) : ret;
+		ret = ret.length > 1 ? OMjQuery.unique( ret ) : ret;
 
 		return this.pushStack( ret, "closest", selectors );
 	},
@@ -5537,24 +5537,24 @@ jQuery.fn.extend({
 
 		// index in selector
 		if ( typeof elem === "string" ) {
-			return jQuery.inArray( this[0], jQuery( elem ) );
+			return OMjQuery.inArray( this[0], OMjQuery( elem ) );
 		}
 
 		// Locate the position of the desired element
-		return jQuery.inArray(
-			// If it receives a jQuery object, the first element is used
+		return OMjQuery.inArray(
+			// If it receives a OMjQuery object, the first element is used
 			elem.jquery ? elem[0] : elem, this );
 	},
 
 	add: function( selector, context ) {
 		var set = typeof selector === "string" ?
-				jQuery( selector, context ) :
-				jQuery.makeArray( selector && selector.nodeType ? [ selector ] : selector ),
-			all = jQuery.merge( this.get(), set );
+				OMjQuery( selector, context ) :
+				OMjQuery.makeArray( selector && selector.nodeType ? [ selector ] : selector ),
+			all = OMjQuery.merge( this.get(), set );
 
 		return this.pushStack( isDisconnected( set[0] ) || isDisconnected( all[0] ) ?
 			all :
-			jQuery.unique( all ) );
+			OMjQuery.unique( all ) );
 	},
 
 	andSelf: function() {
@@ -5568,59 +5568,59 @@ function isDisconnected( node ) {
 	return !node || !node.parentNode || node.parentNode.nodeType === 11;
 }
 
-jQuery.each({
+OMjQuery.each({
 	parent: function( elem ) {
 		var parent = elem.parentNode;
 		return parent && parent.nodeType !== 11 ? parent : null;
 	},
 	parents: function( elem ) {
-		return jQuery.dir( elem, "parentNode" );
+		return OMjQuery.dir( elem, "parentNode" );
 	},
 	parentsUntil: function( elem, i, until ) {
-		return jQuery.dir( elem, "parentNode", until );
+		return OMjQuery.dir( elem, "parentNode", until );
 	},
 	next: function( elem ) {
-		return jQuery.nth( elem, 2, "nextSibling" );
+		return OMjQuery.nth( elem, 2, "nextSibling" );
 	},
 	prev: function( elem ) {
-		return jQuery.nth( elem, 2, "previousSibling" );
+		return OMjQuery.nth( elem, 2, "previousSibling" );
 	},
 	nextAll: function( elem ) {
-		return jQuery.dir( elem, "nextSibling" );
+		return OMjQuery.dir( elem, "nextSibling" );
 	},
 	prevAll: function( elem ) {
-		return jQuery.dir( elem, "previousSibling" );
+		return OMjQuery.dir( elem, "previousSibling" );
 	},
 	nextUntil: function( elem, i, until ) {
-		return jQuery.dir( elem, "nextSibling", until );
+		return OMjQuery.dir( elem, "nextSibling", until );
 	},
 	prevUntil: function( elem, i, until ) {
-		return jQuery.dir( elem, "previousSibling", until );
+		return OMjQuery.dir( elem, "previousSibling", until );
 	},
 	siblings: function( elem ) {
-		return jQuery.sibling( ( elem.parentNode || {} ).firstChild, elem );
+		return OMjQuery.sibling( ( elem.parentNode || {} ).firstChild, elem );
 	},
 	children: function( elem ) {
-		return jQuery.sibling( elem.firstChild );
+		return OMjQuery.sibling( elem.firstChild );
 	},
 	contents: function( elem ) {
-		return jQuery.nodeName( elem, "iframe" ) ?
+		return OMjQuery.nodeName( elem, "iframe" ) ?
 			elem.contentDocument || elem.contentWindow.document :
-			jQuery.makeArray( elem.childNodes );
+			OMjQuery.makeArray( elem.childNodes );
 	}
 }, function( name, fn ) {
-	jQuery.fn[ name ] = function( until, selector ) {
-		var ret = jQuery.map( this, fn, until );
+	OMjQuery.fn[ name ] = function( until, selector ) {
+		var ret = OMjQuery.map( this, fn, until );
 
 		if ( !runtil.test( name ) ) {
 			selector = until;
 		}
 
 		if ( selector && typeof selector === "string" ) {
-			ret = jQuery.filter( selector, ret );
+			ret = OMjQuery.filter( selector, ret );
 		}
 
-		ret = this.length > 1 && !guaranteedUnique[ name ] ? jQuery.unique( ret ) : ret;
+		ret = this.length > 1 && !guaranteedUnique[ name ] ? OMjQuery.unique( ret ) : ret;
 
 		if ( (this.length > 1 || rmultiselector.test( selector )) && rparentsprev.test( name ) ) {
 			ret = ret.reverse();
@@ -5630,22 +5630,22 @@ jQuery.each({
 	};
 });
 
-jQuery.extend({
+OMjQuery.extend({
 	filter: function( expr, elems, not ) {
 		if ( not ) {
 			expr = ":not(" + expr + ")";
 		}
 
 		return elems.length === 1 ?
-			jQuery.find.matchesSelector(elems[0], expr) ? [ elems[0] ] : [] :
-			jQuery.find.matches(expr, elems);
+			OMjQuery.find.matchesSelector(elems[0], expr) ? [ elems[0] ] : [] :
+			OMjQuery.find.matches(expr, elems);
 	},
 
 	dir: function( elem, dir, until ) {
 		var matched = [],
 			cur = elem[ dir ];
 
-		while ( cur && cur.nodeType !== 9 && (until === undefined || cur.nodeType !== 1 || !jQuery( cur ).is( until )) ) {
+		while ( cur && cur.nodeType !== 9 && (until === undefined || cur.nodeType !== 1 || !OMjQuery( cur ).is( until )) ) {
 			if ( cur.nodeType === 1 ) {
 				matched.push( cur );
 			}
@@ -5687,31 +5687,31 @@ function winnow( elements, qualifier, keep ) {
 	// Set to 0 to skip string check
 	qualifier = qualifier || 0;
 
-	if ( jQuery.isFunction( qualifier ) ) {
-		return jQuery.grep(elements, function( elem, i ) {
+	if ( OMjQuery.isFunction( qualifier ) ) {
+		return OMjQuery.grep(elements, function( elem, i ) {
 			var retVal = !!qualifier.call( elem, i, elem );
 			return retVal === keep;
 		});
 
 	} else if ( qualifier.nodeType ) {
-		return jQuery.grep(elements, function( elem, i ) {
+		return OMjQuery.grep(elements, function( elem, i ) {
 			return ( elem === qualifier ) === keep;
 		});
 
 	} else if ( typeof qualifier === "string" ) {
-		var filtered = jQuery.grep(elements, function( elem ) {
+		var filtered = OMjQuery.grep(elements, function( elem ) {
 			return elem.nodeType === 1;
 		});
 
 		if ( isSimple.test( qualifier ) ) {
-			return jQuery.filter(qualifier, filtered, !keep);
+			return OMjQuery.filter(qualifier, filtered, !keep);
 		} else {
-			qualifier = jQuery.filter( qualifier, filtered );
+			qualifier = OMjQuery.filter( qualifier, filtered );
 		}
 	}
 
-	return jQuery.grep(elements, function( elem, i ) {
-		return ( jQuery.inArray( elem, qualifier ) >= 0 ) === keep;
+	return OMjQuery.grep(elements, function( elem, i ) {
+		return ( OMjQuery.inArray( elem, qualifier ) >= 0 ) === keep;
 	});
 }
 
@@ -5734,7 +5734,7 @@ function createSafeFragment( document ) {
 
 var nodeNames = "abbr|article|aside|audio|bdi|canvas|data|datalist|details|figcaption|figure|footer|" +
 		"header|hgroup|mark|meter|nav|output|progress|section|summary|time|video",
-	rinlinejQuery = / jQuery\d+="(?:\d+|null)"/g,
+	rinlineOMjQuery = / OMjQuery\d+="(?:\d+|null)"/g,
 	rleadingWhitespace = /^\s+/,
 	rxhtmlTag = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:]+)[^>]*)\/>/ig,
 	rtagName = /<([\w:]+)/,
@@ -5764,29 +5764,29 @@ wrapMap.tbody = wrapMap.tfoot = wrapMap.colgroup = wrapMap.caption = wrapMap.the
 wrapMap.th = wrapMap.td;
 
 // IE can't serialize <link> and <script> tags normally
-if ( !jQuery.support.htmlSerialize ) {
+if ( !OMjQuery.support.htmlSerialize ) {
 	wrapMap._default = [ 1, "div<div>", "</div>" ];
 }
 
-jQuery.fn.extend({
+OMjQuery.fn.extend({
 	text: function( value ) {
-		return jQuery.access( this, function( value ) {
+		return OMjQuery.access( this, function( value ) {
 			return value === undefined ?
-				jQuery.text( this ) :
+				OMjQuery.text( this ) :
 				this.empty().append( ( this[0] && this[0].ownerDocument || document ).createTextNode( value ) );
 		}, null, value, arguments.length );
 	},
 
 	wrapAll: function( html ) {
-		if ( jQuery.isFunction( html ) ) {
+		if ( OMjQuery.isFunction( html ) ) {
 			return this.each(function(i) {
-				jQuery(this).wrapAll( html.call(this, i) );
+				OMjQuery(this).wrapAll( html.call(this, i) );
 			});
 		}
 
 		if ( this[0] ) {
 			// The elements to wrap the target around
-			var wrap = jQuery( html, this[0].ownerDocument ).eq(0).clone(true);
+			var wrap = OMjQuery( html, this[0].ownerDocument ).eq(0).clone(true);
 
 			if ( this[0].parentNode ) {
 				wrap.insertBefore( this[0] );
@@ -5807,14 +5807,14 @@ jQuery.fn.extend({
 	},
 
 	wrapInner: function( html ) {
-		if ( jQuery.isFunction( html ) ) {
+		if ( OMjQuery.isFunction( html ) ) {
 			return this.each(function(i) {
-				jQuery(this).wrapInner( html.call(this, i) );
+				OMjQuery(this).wrapInner( html.call(this, i) );
 			});
 		}
 
 		return this.each(function() {
-			var self = jQuery( this ),
+			var self = OMjQuery( this ),
 				contents = self.contents();
 
 			if ( contents.length ) {
@@ -5827,17 +5827,17 @@ jQuery.fn.extend({
 	},
 
 	wrap: function( html ) {
-		var isFunction = jQuery.isFunction( html );
+		var isFunction = OMjQuery.isFunction( html );
 
 		return this.each(function(i) {
-			jQuery( this ).wrapAll( isFunction ? html.call(this, i) : html );
+			OMjQuery( this ).wrapAll( isFunction ? html.call(this, i) : html );
 		});
 	},
 
 	unwrap: function() {
 		return this.parent().each(function() {
-			if ( !jQuery.nodeName( this, "body" ) ) {
-				jQuery( this ).replaceWith( this.childNodes );
+			if ( !OMjQuery.nodeName( this, "body" ) ) {
+				OMjQuery( this ).replaceWith( this.childNodes );
 			}
 		}).end();
 	},
@@ -5864,7 +5864,7 @@ jQuery.fn.extend({
 				this.parentNode.insertBefore( elem, this );
 			});
 		} else if ( arguments.length ) {
-			var set = jQuery.clean( arguments );
+			var set = OMjQuery.clean( arguments );
 			set.push.apply( set, this.toArray() );
 			return this.pushStack( set, "before", arguments );
 		}
@@ -5877,7 +5877,7 @@ jQuery.fn.extend({
 			});
 		} else if ( arguments.length ) {
 			var set = this.pushStack( this, "after", arguments );
-			set.push.apply( set, jQuery.clean(arguments) );
+			set.push.apply( set, OMjQuery.clean(arguments) );
 			return set;
 		}
 	},
@@ -5885,10 +5885,10 @@ jQuery.fn.extend({
 	// keepData is for internal use only--do not document
 	remove: function( selector, keepData ) {
 		for ( var i = 0, elem; (elem = this[i]) != null; i++ ) {
-			if ( !selector || jQuery.filter( selector, [ elem ] ).length ) {
+			if ( !selector || OMjQuery.filter( selector, [ elem ] ).length ) {
 				if ( !keepData && elem.nodeType === 1 ) {
-					jQuery.cleanData( elem.getElementsByTagName("*") );
-					jQuery.cleanData( [ elem ] );
+					OMjQuery.cleanData( elem.getElementsByTagName("*") );
+					OMjQuery.cleanData( [ elem ] );
 				}
 
 				if ( elem.parentNode ) {
@@ -5904,7 +5904,7 @@ jQuery.fn.extend({
 		for ( var i = 0, elem; (elem = this[i]) != null; i++ ) {
 			// Remove element nodes and prevent memory leaks
 			if ( elem.nodeType === 1 ) {
-				jQuery.cleanData( elem.getElementsByTagName("*") );
+				OMjQuery.cleanData( elem.getElementsByTagName("*") );
 			}
 
 			// Remove any remaining nodes
@@ -5921,25 +5921,25 @@ jQuery.fn.extend({
 		deepDataAndEvents = deepDataAndEvents == null ? dataAndEvents : deepDataAndEvents;
 
 		return this.map( function () {
-			return jQuery.clone( this, dataAndEvents, deepDataAndEvents );
+			return OMjQuery.clone( this, dataAndEvents, deepDataAndEvents );
 		});
 	},
 
 	html: function( value ) {
-		return jQuery.access( this, function( value ) {
+		return OMjQuery.access( this, function( value ) {
 			var elem = this[0] || {},
 				i = 0,
 				l = this.length;
 
 			if ( value === undefined ) {
 				return elem.nodeType === 1 ?
-					elem.innerHTML.replace( rinlinejQuery, "" ) :
+					elem.innerHTML.replace( rinlineOMjQuery, "" ) :
 					null;
 			}
 
 
 			if ( typeof value === "string" && !rnoInnerhtml.test( value ) &&
-				( jQuery.support.leadingWhitespace || !rleadingWhitespace.test( value ) ) &&
+				( OMjQuery.support.leadingWhitespace || !rleadingWhitespace.test( value ) ) &&
 				!wrapMap[ ( rtagName.exec( value ) || ["", ""] )[1].toLowerCase() ] ) {
 
 				value = value.replace( rxhtmlTag, "<$1></$2>" );
@@ -5949,7 +5949,7 @@ jQuery.fn.extend({
 						// Remove element nodes and prevent memory leaks
 						elem = this[i] || {};
 						if ( elem.nodeType === 1 ) {
-							jQuery.cleanData( elem.getElementsByTagName( "*" ) );
+							OMjQuery.cleanData( elem.getElementsByTagName( "*" ) );
 							elem.innerHTML = value;
 						}
 					}
@@ -5970,32 +5970,32 @@ jQuery.fn.extend({
 		if ( this[0] && this[0].parentNode ) {
 			// Make sure that the elements are removed from the DOM before they are inserted
 			// this can help fix replacing a parent with child elements
-			if ( jQuery.isFunction( value ) ) {
+			if ( OMjQuery.isFunction( value ) ) {
 				return this.each(function(i) {
-					var self = jQuery(this), old = self.html();
+					var self = OMjQuery(this), old = self.html();
 					self.replaceWith( value.call( this, i, old ) );
 				});
 			}
 
 			if ( typeof value !== "string" ) {
-				value = jQuery( value ).detach();
+				value = OMjQuery( value ).detach();
 			}
 
 			return this.each(function() {
 				var next = this.nextSibling,
 					parent = this.parentNode;
 
-				jQuery( this ).remove();
+				OMjQuery( this ).remove();
 
 				if ( next ) {
-					jQuery(next).before( value );
+					OMjQuery(next).before( value );
 				} else {
-					jQuery(parent).append( value );
+					OMjQuery(parent).append( value );
 				}
 			});
 		} else {
 			return this.length ?
-				this.pushStack( jQuery(jQuery.isFunction(value) ? value() : value), "replaceWith", value ) :
+				this.pushStack( OMjQuery(OMjQuery.isFunction(value) ? value() : value), "replaceWith", value ) :
 				this;
 		}
 	},
@@ -6010,15 +6010,15 @@ jQuery.fn.extend({
 			scripts = [];
 
 		// We can't cloneNode fragments that contain checked, in WebKit
-		if ( !jQuery.support.checkClone && arguments.length === 3 && typeof value === "string" && rchecked.test( value ) ) {
+		if ( !OMjQuery.support.checkClone && arguments.length === 3 && typeof value === "string" && rchecked.test( value ) ) {
 			return this.each(function() {
-				jQuery(this).domManip( args, table, callback, true );
+				OMjQuery(this).domManip( args, table, callback, true );
 			});
 		}
 
-		if ( jQuery.isFunction(value) ) {
+		if ( OMjQuery.isFunction(value) ) {
 			return this.each(function(i) {
-				var self = jQuery(this);
+				var self = OMjQuery(this);
 				args[0] = value.call(this, i, table ? self.html() : undefined);
 				self.domManip( args, table, callback );
 			});
@@ -6028,11 +6028,11 @@ jQuery.fn.extend({
 			parent = value && value.parentNode;
 
 			// If we're in a fragment, just use that instead of building a new one
-			if ( jQuery.support.parentNode && parent && parent.nodeType === 11 && parent.childNodes.length === this.length ) {
+			if ( OMjQuery.support.parentNode && parent && parent.nodeType === 11 && parent.childNodes.length === this.length ) {
 				results = { fragment: parent };
 
 			} else {
-				results = jQuery.buildFragment( args, this, scripts );
+				results = OMjQuery.buildFragment( args, this, scripts );
 			}
 
 			fragment = results.fragment;
@@ -6044,7 +6044,7 @@ jQuery.fn.extend({
 			}
 
 			if ( first ) {
-				table = table && jQuery.nodeName( first, "tr" );
+				table = table && OMjQuery.nodeName( first, "tr" );
 
 				for ( var i = 0, l = this.length, lastIndex = l - 1; i < l; i++ ) {
 					callback.call(
@@ -6059,16 +6059,16 @@ jQuery.fn.extend({
 						// Fragments from the fragment cache must always be cloned and never used
 						// in place.
 						results.cacheable || ( l > 1 && i < lastIndex ) ?
-							jQuery.clone( fragment, true, true ) :
+							OMjQuery.clone( fragment, true, true ) :
 							fragment
 					);
 				}
 			}
 
 			if ( scripts.length ) {
-				jQuery.each( scripts, function( i, elem ) {
+				OMjQuery.each( scripts, function( i, elem ) {
 					if ( elem.src ) {
-						jQuery.ajax({
+						OMjQuery.ajax({
 							type: "GET",
 							global: false,
 							url: elem.src,
@@ -6076,7 +6076,7 @@ jQuery.fn.extend({
 							dataType: "script"
 						});
 					} else {
-						jQuery.globalEval( ( elem.text || elem.textContent || elem.innerHTML || "" ).replace( rcleanScript, "/*$0*/" ) );
+						OMjQuery.globalEval( ( elem.text || elem.textContent || elem.innerHTML || "" ).replace( rcleanScript, "/*$0*/" ) );
 					}
 
 					if ( elem.parentNode ) {
@@ -6091,7 +6091,7 @@ jQuery.fn.extend({
 });
 
 function root( elem, cur ) {
-	return jQuery.nodeName(elem, "table") ?
+	return OMjQuery.nodeName(elem, "table") ?
 		(elem.getElementsByTagName("tbody")[0] ||
 		elem.appendChild(elem.ownerDocument.createElement("tbody"))) :
 		elem;
@@ -6099,13 +6099,13 @@ function root( elem, cur ) {
 
 function cloneCopyEvent( src, dest ) {
 
-	if ( dest.nodeType !== 1 || !jQuery.hasData( src ) ) {
+	if ( dest.nodeType !== 1 || !OMjQuery.hasData( src ) ) {
 		return;
 	}
 
 	var type, i, l,
-		oldData = jQuery._data( src ),
-		curData = jQuery._data( dest, oldData ),
+		oldData = OMjQuery._data( src ),
+		curData = OMjQuery._data( dest, oldData ),
 		events = oldData.events;
 
 	if ( events ) {
@@ -6114,14 +6114,14 @@ function cloneCopyEvent( src, dest ) {
 
 		for ( type in events ) {
 			for ( i = 0, l = events[ type ].length; i < l; i++ ) {
-				jQuery.event.add( dest, type, events[ type ][ i ] );
+				OMjQuery.event.add( dest, type, events[ type ][ i ] );
 			}
 		}
 	}
 
 	// make the cloned public data object a copy from the original
 	if ( curData.data ) {
-		curData.data = jQuery.extend( {}, curData.data );
+		curData.data = OMjQuery.extend( {}, curData.data );
 	}
 }
 
@@ -6184,7 +6184,7 @@ function cloneFixAttributes( src, dest ) {
 
 	// Event data gets referenced instead of copied if the expando
 	// gets copied too
-	dest.removeAttribute( jQuery.expando );
+	dest.removeAttribute( OMjQuery.expando );
 
 	// Clear flags for bubbling special change/submit events, they must
 	// be reattached when the newly cloned events are first activated
@@ -6192,12 +6192,12 @@ function cloneFixAttributes( src, dest ) {
 	dest.removeAttribute( "_change_attached" );
 }
 
-jQuery.buildFragment = function( args, nodes, scripts ) {
+OMjQuery.buildFragment = function( args, nodes, scripts ) {
 	var fragment, cacheable, cacheresults, doc,
 	first = args[ 0 ];
 
 	// nodes may contain either an explicit document object,
-	// a jQuery collection or context object.
+	// a OMjQuery collection or context object.
 	// If nodes[0] contains a valid object to assign to doc
 	if ( nodes && nodes[0] ) {
 		doc = nodes[0].ownerDocument || nodes[0];
@@ -6217,12 +6217,12 @@ jQuery.buildFragment = function( args, nodes, scripts ) {
 	// Lastly, IE6,7,8 will not correctly reuse cached fragments that were created from unknown elems #10501
 	if ( args.length === 1 && typeof first === "string" && first.length < 512 && doc === document &&
 		first.charAt(0) === "<" && !rnocache.test( first ) &&
-		(jQuery.support.checkClone || !rchecked.test( first )) &&
-		(jQuery.support.html5Clone || !rnoshimcache.test( first )) ) {
+		(OMjQuery.support.checkClone || !rchecked.test( first )) &&
+		(OMjQuery.support.html5Clone || !rnoshimcache.test( first )) ) {
 
 		cacheable = true;
 
-		cacheresults = jQuery.fragments[ first ];
+		cacheresults = OMjQuery.fragments[ first ];
 		if ( cacheresults && cacheresults !== 1 ) {
 			fragment = cacheresults;
 		}
@@ -6230,28 +6230,28 @@ jQuery.buildFragment = function( args, nodes, scripts ) {
 
 	if ( !fragment ) {
 		fragment = doc.createDocumentFragment();
-		jQuery.clean( args, doc, fragment, scripts );
+		OMjQuery.clean( args, doc, fragment, scripts );
 	}
 
 	if ( cacheable ) {
-		jQuery.fragments[ first ] = cacheresults ? fragment : 1;
+		OMjQuery.fragments[ first ] = cacheresults ? fragment : 1;
 	}
 
 	return { fragment: fragment, cacheable: cacheable };
 };
 
-jQuery.fragments = {};
+OMjQuery.fragments = {};
 
-jQuery.each({
+OMjQuery.each({
 	appendTo: "append",
 	prependTo: "prepend",
 	insertBefore: "before",
 	insertAfter: "after",
 	replaceAll: "replaceWith"
 }, function( name, original ) {
-	jQuery.fn[ name ] = function( selector ) {
+	OMjQuery.fn[ name ] = function( selector ) {
 		var ret = [],
-			insert = jQuery( selector ),
+			insert = OMjQuery( selector ),
 			parent = this.length === 1 && this[0].parentNode;
 
 		if ( parent && parent.nodeType === 11 && parent.childNodes.length === 1 && insert.length === 1 ) {
@@ -6261,7 +6261,7 @@ jQuery.each({
 		} else {
 			for ( var i = 0, l = insert.length; i < l; i++ ) {
 				var elems = ( i > 0 ? this.clone(true) : this ).get();
-				jQuery( insert[i] )[ original ]( elems );
+				OMjQuery( insert[i] )[ original ]( elems );
 				ret = ret.concat( elems );
 			}
 
@@ -6295,7 +6295,7 @@ function findInputs( elem ) {
 		fixDefaultChecked( elem );
 	// Skip scripts, get other children
 	} else if ( nodeName !== "script" && typeof elem.getElementsByTagName !== "undefined" ) {
-		jQuery.grep( elem.getElementsByTagName("input"), fixDefaultChecked );
+		OMjQuery.grep( elem.getElementsByTagName("input"), fixDefaultChecked );
 	}
 }
 
@@ -6308,18 +6308,18 @@ function shimCloneNode( elem ) {
 	return div.firstChild;
 }
 
-jQuery.extend({
+OMjQuery.extend({
 	clone: function( elem, dataAndEvents, deepDataAndEvents ) {
 		var srcElements,
 			destElements,
 			i,
 			// IE<=8 does not properly clone detached, unknown element nodes
-			clone = jQuery.support.html5Clone || jQuery.isXMLDoc(elem) || !rnoshimcache.test( "<" + elem.nodeName + ">" ) ?
+			clone = OMjQuery.support.html5Clone || OMjQuery.isXMLDoc(elem) || !rnoshimcache.test( "<" + elem.nodeName + ">" ) ?
 				elem.cloneNode( true ) :
 				shimCloneNode( elem );
 
-		if ( (!jQuery.support.noCloneEvent || !jQuery.support.noCloneChecked) &&
-				(elem.nodeType === 1 || elem.nodeType === 11) && !jQuery.isXMLDoc(elem) ) {
+		if ( (!OMjQuery.support.noCloneEvent || !OMjQuery.support.noCloneChecked) &&
+				(elem.nodeType === 1 || elem.nodeType === 11) && !OMjQuery.isXMLDoc(elem) ) {
 			// IE copies events bound via attachEvent when using cloneNode.
 			// Calling detachEvent on the clone will also remove the events
 			// from the original. In order to get around this, we use some
@@ -6417,7 +6417,7 @@ jQuery.extend({
 					}
 
 					// Remove IE's autoinserted <tbody> from table fragments
-					if ( !jQuery.support.tbody ) {
+					if ( !OMjQuery.support.tbody ) {
 
 						// String was a <table>, *may* have spurious <tbody>
 						var hasBody = rtbody.test(elem),
@@ -6430,14 +6430,14 @@ jQuery.extend({
 									[];
 
 						for ( j = tbody.length - 1; j >= 0 ; --j ) {
-							if ( jQuery.nodeName( tbody[ j ], "tbody" ) && !tbody[ j ].childNodes.length ) {
+							if ( OMjQuery.nodeName( tbody[ j ], "tbody" ) && !tbody[ j ].childNodes.length ) {
 								tbody[ j ].parentNode.removeChild( tbody[ j ] );
 							}
 						}
 					}
 
 					// IE completely kills leading whitespace when innerHTML is used
-					if ( !jQuery.support.leadingWhitespace && rleadingWhitespace.test( elem ) ) {
+					if ( !OMjQuery.support.leadingWhitespace && rleadingWhitespace.test( elem ) ) {
 						div.insertBefore( context.createTextNode( rleadingWhitespace.exec(elem)[0] ), div.firstChild );
 					}
 
@@ -6463,7 +6463,7 @@ jQuery.extend({
 			// Resets defaultChecked for any radios and checkboxes
 			// about to be appended to the DOM in IE 6/7 (#8060)
 			var len;
-			if ( !jQuery.support.appendChecked ) {
+			if ( !OMjQuery.support.appendChecked ) {
 				if ( elem[0] && typeof (len = elem.length) === "number" ) {
 					for ( j = 0; j < len; j++ ) {
 						findInputs( elem[j] );
@@ -6476,7 +6476,7 @@ jQuery.extend({
 			if ( elem.nodeType ) {
 				ret.push( elem );
 			} else {
-				ret = jQuery.merge( ret, elem );
+				ret = OMjQuery.merge( ret, elem );
 			}
 		}
 
@@ -6486,12 +6486,12 @@ jQuery.extend({
 			};
 			for ( i = 0; ret[i]; i++ ) {
 				script = ret[i];
-				if ( scripts && jQuery.nodeName( script, "script" ) && (!script.type || rscriptType.test( script.type )) ) {
+				if ( scripts && OMjQuery.nodeName( script, "script" ) && (!script.type || rscriptType.test( script.type )) ) {
 					scripts.push( script.parentNode ? script.parentNode.removeChild( script ) : script );
 
 				} else {
 					if ( script.nodeType === 1 ) {
-						var jsTags = jQuery.grep( script.getElementsByTagName( "script" ), checkScriptType );
+						var jsTags = OMjQuery.grep( script.getElementsByTagName( "script" ), checkScriptType );
 
 						ret.splice.apply( ret, [i + 1, 0].concat( jsTags ) );
 					}
@@ -6505,16 +6505,16 @@ jQuery.extend({
 
 	cleanData: function( elems ) {
 		var data, id,
-			cache = jQuery.cache,
-			special = jQuery.event.special,
-			deleteExpando = jQuery.support.deleteExpando;
+			cache = OMjQuery.cache,
+			special = OMjQuery.event.special,
+			deleteExpando = OMjQuery.support.deleteExpando;
 
 		for ( var i = 0, elem; (elem = elems[i]) != null; i++ ) {
-			if ( elem.nodeName && jQuery.noData[elem.nodeName.toLowerCase()] ) {
+			if ( elem.nodeName && OMjQuery.noData[elem.nodeName.toLowerCase()] ) {
 				continue;
 			}
 
-			id = elem[ jQuery.expando ];
+			id = elem[ OMjQuery.expando ];
 
 			if ( id ) {
 				data = cache[ id ];
@@ -6522,11 +6522,11 @@ jQuery.extend({
 				if ( data && data.events ) {
 					for ( var type in data.events ) {
 						if ( special[ type ] ) {
-							jQuery.event.remove( elem, type );
+							OMjQuery.event.remove( elem, type );
 
-						// This is a shortcut to avoid jQuery.event.remove's overhead
+						// This is a shortcut to avoid OMjQuery.event.remove's overhead
 						} else {
-							jQuery.removeEvent( elem, type, data.handle );
+							OMjQuery.removeEvent( elem, type, data.handle );
 						}
 					}
 
@@ -6537,10 +6537,10 @@ jQuery.extend({
 				}
 
 				if ( deleteExpando ) {
-					delete elem[ jQuery.expando ];
+					delete elem[ OMjQuery.expando ];
 
 				} else if ( elem.removeAttribute ) {
-					elem.removeAttribute( jQuery.expando );
+					elem.removeAttribute( OMjQuery.expando );
 				}
 
 				delete cache[ id ];
@@ -6571,15 +6571,15 @@ var ralpha = /alpha\([^)]*\)/i,
 	getComputedStyle,
 	currentStyle;
 
-jQuery.fn.css = function( name, value ) {
-	return jQuery.access( this, function( elem, name, value ) {
+OMjQuery.fn.css = function( name, value ) {
+	return OMjQuery.access( this, function( elem, name, value ) {
 		return value !== undefined ?
-			jQuery.style( elem, name, value ) :
-			jQuery.css( elem, name );
+			OMjQuery.style( elem, name, value ) :
+			OMjQuery.css( elem, name );
 	}, name, value, arguments.length > 1 );
 };
 
-jQuery.extend({
+OMjQuery.extend({
 	// Add in style property hooks for overriding the default
 	// behavior of getting and setting a style property
 	cssHooks: {
@@ -6613,7 +6613,7 @@ jQuery.extend({
 	// setting or getting the value
 	cssProps: {
 		// normalize float css property
-		"float": jQuery.support.cssFloat ? "cssFloat" : "styleFloat"
+		"float": OMjQuery.support.cssFloat ? "cssFloat" : "styleFloat"
 	},
 
 	// Get and set the style property on a DOM Node
@@ -6624,10 +6624,10 @@ jQuery.extend({
 		}
 
 		// Make sure that we're working with the right name
-		var ret, type, origName = jQuery.camelCase( name ),
-			style = elem.style, hooks = jQuery.cssHooks[ origName ];
+		var ret, type, origName = OMjQuery.camelCase( name ),
+			style = elem.style, hooks = OMjQuery.cssHooks[ origName ];
 
-		name = jQuery.cssProps[ origName ] || origName;
+		name = OMjQuery.cssProps[ origName ] || origName;
 
 		// Check if we're setting a value
 		if ( value !== undefined ) {
@@ -6635,7 +6635,7 @@ jQuery.extend({
 
 			// convert relative number strings (+= or -=) to relative numbers. #7345
 			if ( type === "string" && (ret = rrelNum.exec( value )) ) {
-				value = ( +( ret[1] + 1) * +ret[2] ) + parseFloat( jQuery.css( elem, name ) );
+				value = ( +( ret[1] + 1) * +ret[2] ) + parseFloat( OMjQuery.css( elem, name ) );
 				// Fixes bug #9237
 				type = "number";
 			}
@@ -6646,7 +6646,7 @@ jQuery.extend({
 			}
 
 			// If a number was passed in, add 'px' to the (except for certain CSS properties)
-			if ( type === "number" && !jQuery.cssNumber[ origName ] ) {
+			if ( type === "number" && !OMjQuery.cssNumber[ origName ] ) {
 				value += "px";
 			}
 
@@ -6674,9 +6674,9 @@ jQuery.extend({
 		var ret, hooks;
 
 		// Make sure that we're working with the right name
-		name = jQuery.camelCase( name );
-		hooks = jQuery.cssHooks[ name ];
-		name = jQuery.cssProps[ name ] || name;
+		name = OMjQuery.camelCase( name );
+		hooks = OMjQuery.cssHooks[ name ];
+		name = OMjQuery.cssProps[ name ] || name;
 
 		// cssFloat needs a special treatment
 		if ( name === "cssFloat" ) {
@@ -6715,8 +6715,8 @@ jQuery.extend({
 	}
 });
 
-// DEPRECATED in 1.3, Use jQuery.css() instead
-jQuery.curCSS = jQuery.css;
+// DEPRECATED in 1.3, Use OMjQuery.css() instead
+OMjQuery.curCSS = OMjQuery.css;
 
 if ( document.defaultView && document.defaultView.getComputedStyle ) {
 	getComputedStyle = function( elem, name ) {
@@ -6729,15 +6729,15 @@ if ( document.defaultView && document.defaultView.getComputedStyle ) {
 				(computedStyle = defaultView.getComputedStyle( elem, null )) ) {
 
 			ret = computedStyle.getPropertyValue( name );
-			if ( ret === "" && !jQuery.contains( elem.ownerDocument.documentElement, elem ) ) {
-				ret = jQuery.style( elem, name );
+			if ( ret === "" && !OMjQuery.contains( elem.ownerDocument.documentElement, elem ) ) {
+				ret = OMjQuery.style( elem, name );
 			}
 		}
 
 		// A tribute to the "awesome hack by Dean Edwards"
 		// WebKit uses "computed value (percentage if specified)" instead of "used value" for margins
 		// which is against the CSSOM draft spec: http://dev.w3.org/csswg/cssom/#resolved-values
-		if ( !jQuery.support.pixelMargin && computedStyle && rmargin.test( name ) && rnumnonpx.test( ret ) ) {
+		if ( !OMjQuery.support.pixelMargin && computedStyle && rmargin.test( name ) && rnumnonpx.test( ret ) ) {
 			width = style.width;
 			style.width = ret;
 			ret = computedStyle.width;
@@ -6802,12 +6802,12 @@ function getWidthOrHeight( elem, name, extra ) {
 		if ( extra !== "border" ) {
 			for ( ; i < len; i += 2 ) {
 				if ( !extra ) {
-					val -= parseFloat( jQuery.css( elem, "padding" + cssExpand[ i ] ) ) || 0;
+					val -= parseFloat( OMjQuery.css( elem, "padding" + cssExpand[ i ] ) ) || 0;
 				}
 				if ( extra === "margin" ) {
-					val += parseFloat( jQuery.css( elem, extra + cssExpand[ i ] ) ) || 0;
+					val += parseFloat( OMjQuery.css( elem, extra + cssExpand[ i ] ) ) || 0;
 				} else {
-					val -= parseFloat( jQuery.css( elem, "border" + cssExpand[ i ] + "Width" ) ) || 0;
+					val -= parseFloat( OMjQuery.css( elem, "border" + cssExpand[ i ] + "Width" ) ) || 0;
 				}
 			}
 		}
@@ -6832,12 +6832,12 @@ function getWidthOrHeight( elem, name, extra ) {
 	// Add padding, border, margin
 	if ( extra ) {
 		for ( ; i < len; i += 2 ) {
-			val += parseFloat( jQuery.css( elem, "padding" + cssExpand[ i ] ) ) || 0;
+			val += parseFloat( OMjQuery.css( elem, "padding" + cssExpand[ i ] ) ) || 0;
 			if ( extra !== "padding" ) {
-				val += parseFloat( jQuery.css( elem, "border" + cssExpand[ i ] + "Width" ) ) || 0;
+				val += parseFloat( OMjQuery.css( elem, "border" + cssExpand[ i ] + "Width" ) ) || 0;
 			}
 			if ( extra === "margin" ) {
-				val += parseFloat( jQuery.css( elem, extra + cssExpand[ i ]) ) || 0;
+				val += parseFloat( OMjQuery.css( elem, extra + cssExpand[ i ]) ) || 0;
 			}
 		}
 	}
@@ -6845,14 +6845,14 @@ function getWidthOrHeight( elem, name, extra ) {
 	return val + "px";
 }
 
-jQuery.each([ "height", "width" ], function( i, name ) {
-	jQuery.cssHooks[ name ] = {
+OMjQuery.each([ "height", "width" ], function( i, name ) {
+	OMjQuery.cssHooks[ name ] = {
 		get: function( elem, computed, extra ) {
 			if ( computed ) {
 				if ( elem.offsetWidth !== 0 ) {
 					return getWidthOrHeight( elem, name, extra );
 				} else {
-					return jQuery.swap( elem, cssShow, function() {
+					return OMjQuery.swap( elem, cssShow, function() {
 						return getWidthOrHeight( elem, name, extra );
 					});
 				}
@@ -6867,8 +6867,8 @@ jQuery.each([ "height", "width" ], function( i, name ) {
 	};
 });
 
-if ( !jQuery.support.opacity ) {
-	jQuery.cssHooks.opacity = {
+if ( !OMjQuery.support.opacity ) {
+	OMjQuery.cssHooks.opacity = {
 		get: function( elem, computed ) {
 			// IE uses filters for opacity
 			return ropacity.test( (computed && elem.currentStyle ? elem.currentStyle.filter : elem.style.filter) || "" ) ?
@@ -6879,7 +6879,7 @@ if ( !jQuery.support.opacity ) {
 		set: function( elem, value ) {
 			var style = elem.style,
 				currentStyle = elem.currentStyle,
-				opacity = jQuery.isNumeric( value ) ? "alpha(opacity=" + value * 100 + ")" : "",
+				opacity = OMjQuery.isNumeric( value ) ? "alpha(opacity=" + value * 100 + ")" : "",
 				filter = currentStyle && currentStyle.filter || style.filter || "";
 
 			// IE has trouble with opacity if it does not have layout
@@ -6887,7 +6887,7 @@ if ( !jQuery.support.opacity ) {
 			style.zoom = 1;
 
 			// if setting opacity to 1, and no other filters exist - attempt to remove filter attribute #6652
-			if ( value >= 1 && jQuery.trim( filter.replace( ralpha, "" ) ) === "" ) {
+			if ( value >= 1 && OMjQuery.trim( filter.replace( ralpha, "" ) ) === "" ) {
 
 				// Setting style.filter to null, "" & " " still leave "filter:" in the cssText
 				// if "filter:" is present at all, clearType is disabled, we want to avoid this
@@ -6908,15 +6908,15 @@ if ( !jQuery.support.opacity ) {
 	};
 }
 
-jQuery(function() {
+OMjQuery(function() {
 	// This hook cannot be added until DOM ready because the support test
 	// for it is not run until after DOM ready
-	if ( !jQuery.support.reliableMarginRight ) {
-		jQuery.cssHooks.marginRight = {
+	if ( !OMjQuery.support.reliableMarginRight ) {
+		OMjQuery.cssHooks.marginRight = {
 			get: function( elem, computed ) {
 				// WebKit Bug 13343 - getComputedStyle returns wrong value for margin-right
 				// Work around by temporarily setting element display to inline-block
-				return jQuery.swap( elem, { "display": "inline-block" }, function() {
+				return OMjQuery.swap( elem, { "display": "inline-block" }, function() {
 					if ( computed ) {
 						return curCSS( elem, "margin-right" );
 					} else {
@@ -6928,27 +6928,27 @@ jQuery(function() {
 	}
 });
 
-if ( jQuery.expr && jQuery.expr.filters ) {
-	jQuery.expr.filters.hidden = function( elem ) {
+if ( OMjQuery.expr && OMjQuery.expr.filters ) {
+	OMjQuery.expr.filters.hidden = function( elem ) {
 		var width = elem.offsetWidth,
 			height = elem.offsetHeight;
 
-		return ( width === 0 && height === 0 ) || (!jQuery.support.reliableHiddenOffsets && ((elem.style && elem.style.display) || jQuery.css( elem, "display" )) === "none");
+		return ( width === 0 && height === 0 ) || (!OMjQuery.support.reliableHiddenOffsets && ((elem.style && elem.style.display) || OMjQuery.css( elem, "display" )) === "none");
 	};
 
-	jQuery.expr.filters.visible = function( elem ) {
-		return !jQuery.expr.filters.hidden( elem );
+	OMjQuery.expr.filters.visible = function( elem ) {
+		return !OMjQuery.expr.filters.hidden( elem );
 	};
 }
 
 // These hooks are used by animate to expand properties
-jQuery.each({
+OMjQuery.each({
 	margin: "",
 	padding: "",
 	border: "Width"
 }, function( prefix, suffix ) {
 
-	jQuery.cssHooks[ prefix + suffix ] = {
+	OMjQuery.cssHooks[ prefix + suffix ] = {
 		expand: function( value ) {
 			var i,
 
@@ -6987,7 +6987,7 @@ var r20 = /%20/g,
 	rurl = /^([\w\+\.\-]+:)(?:\/\/([^\/?#:]*)(?::(\d+))?)?/,
 
 	// Keep a copy of the old load method
-	_load = jQuery.fn.load,
+	_load = OMjQuery.fn.load,
 
 	/* Prefilters
 	 * 1) They are useful to introduce custom dataTypes (see ajax/jsonp.js for an example)
@@ -7031,7 +7031,7 @@ try {
 // Segment location into parts
 ajaxLocParts = rurl.exec( ajaxLocation.toLowerCase() ) || [];
 
-// Base "constructor" for jQuery.ajaxPrefilter and jQuery.ajaxTransport
+// Base "constructor" for OMjQuery.ajaxPrefilter and OMjQuery.ajaxTransport
 function addToPrefiltersOrTransports( structure ) {
 
 	// dataTypeExpression is optional and defaults to "*"
@@ -7042,7 +7042,7 @@ function addToPrefiltersOrTransports( structure ) {
 			dataTypeExpression = "*";
 		}
 
-		if ( jQuery.isFunction( func ) ) {
+		if ( OMjQuery.isFunction( func ) ) {
 			var dataTypes = dataTypeExpression.toLowerCase().split( rspacesAjax ),
 				i = 0,
 				length = dataTypes.length,
@@ -7112,18 +7112,18 @@ function inspectPrefiltersOrTransports( structure, options, originalOptions, jqX
 // Fixes #9887
 function ajaxExtend( target, src ) {
 	var key, deep,
-		flatOptions = jQuery.ajaxSettings.flatOptions || {};
+		flatOptions = OMjQuery.ajaxSettings.flatOptions || {};
 	for ( key in src ) {
 		if ( src[ key ] !== undefined ) {
 			( flatOptions[ key ] ? target : ( deep || ( deep = {} ) ) )[ key ] = src[ key ];
 		}
 	}
 	if ( deep ) {
-		jQuery.extend( true, target, deep );
+		OMjQuery.extend( true, target, deep );
 	}
 }
 
-jQuery.fn.extend({
+OMjQuery.fn.extend({
 	load: function( url, params, callback ) {
 		if ( typeof url !== "string" && _load ) {
 			return _load.apply( this, arguments );
@@ -7145,14 +7145,14 @@ jQuery.fn.extend({
 		// If the second parameter was provided
 		if ( params ) {
 			// If it's a function
-			if ( jQuery.isFunction( params ) ) {
+			if ( OMjQuery.isFunction( params ) ) {
 				// We assume that it's the callback
 				callback = params;
 				params = undefined;
 
 			// Otherwise, build a param string
 			} else if ( typeof params === "object" ) {
-				params = jQuery.param( params, jQuery.ajaxSettings.traditional );
+				params = OMjQuery.param( params, OMjQuery.ajaxSettings.traditional );
 				type = "POST";
 			}
 		}
@@ -7160,7 +7160,7 @@ jQuery.fn.extend({
 		var self = this;
 
 		// Request the remote document
-		jQuery.ajax({
+		OMjQuery.ajax({
 			url: url,
 			type: type,
 			dataType: "html",
@@ -7179,7 +7179,7 @@ jQuery.fn.extend({
 					// See if a selector was specified
 					self.html( selector ?
 						// Create a dummy div to hold the results
-						jQuery("<div>")
+						OMjQuery("<div>")
 							// inject the contents of the document in, removing the scripts
 							// to avoid any 'Permission Denied' errors in IE
 							.append(responseText.replace(rscript, ""))
@@ -7201,12 +7201,12 @@ jQuery.fn.extend({
 	},
 
 	serialize: function() {
-		return jQuery.param( this.serializeArray() );
+		return OMjQuery.param( this.serializeArray() );
 	},
 
 	serializeArray: function() {
 		return this.map(function(){
-			return this.elements ? jQuery.makeArray( this.elements ) : this;
+			return this.elements ? OMjQuery.makeArray( this.elements ) : this;
 		})
 		.filter(function(){
 			return this.name && !this.disabled &&
@@ -7214,12 +7214,12 @@ jQuery.fn.extend({
 					rinput.test( this.type ) );
 		})
 		.map(function( i, elem ){
-			var val = jQuery( this ).val();
+			var val = OMjQuery( this ).val();
 
 			return val == null ?
 				null :
-				jQuery.isArray( val ) ?
-					jQuery.map( val, function( val, i ){
+				OMjQuery.isArray( val ) ?
+					OMjQuery.map( val, function( val, i ){
 						return { name: elem.name, value: val.replace( rCRLF, "\r\n" ) };
 					}) :
 					{ name: elem.name, value: val.replace( rCRLF, "\r\n" ) };
@@ -7228,22 +7228,22 @@ jQuery.fn.extend({
 });
 
 // Attach a bunch of functions for handling common AJAX events
-jQuery.each( "ajaxStart ajaxStop ajaxComplete ajaxError ajaxSuccess ajaxSend".split( " " ), function( i, o ){
-	jQuery.fn[ o ] = function( f ){
+OMjQuery.each( "ajaxStart ajaxStop ajaxComplete ajaxError ajaxSuccess ajaxSend".split( " " ), function( i, o ){
+	OMjQuery.fn[ o ] = function( f ){
 		return this.on( o, f );
 	};
 });
 
-jQuery.each( [ "get", "post" ], function( i, method ) {
-	jQuery[ method ] = function( url, data, callback, type ) {
+OMjQuery.each( [ "get", "post" ], function( i, method ) {
+	OMjQuery[ method ] = function( url, data, callback, type ) {
 		// shift arguments if data argument was omitted
-		if ( jQuery.isFunction( data ) ) {
+		if ( OMjQuery.isFunction( data ) ) {
 			type = type || callback;
 			callback = data;
 			data = undefined;
 		}
 
-		return jQuery.ajax({
+		return OMjQuery.ajax({
 			type: method,
 			url: url,
 			data: data,
@@ -7253,14 +7253,14 @@ jQuery.each( [ "get", "post" ], function( i, method ) {
 	};
 });
 
-jQuery.extend({
+OMjQuery.extend({
 
 	getScript: function( url, callback ) {
-		return jQuery.get( url, undefined, callback, "script" );
+		return OMjQuery.get( url, undefined, callback, "script" );
 	},
 
 	getJSON: function( url, data, callback ) {
-		return jQuery.get( url, data, callback, "json" );
+		return OMjQuery.get( url, data, callback, "json" );
 	},
 
 	// Creates a full fledged settings object into target
@@ -7269,11 +7269,11 @@ jQuery.extend({
 	ajaxSetup: function( target, settings ) {
 		if ( settings ) {
 			// Building a settings object
-			ajaxExtend( target, jQuery.ajaxSettings );
+			ajaxExtend( target, OMjQuery.ajaxSettings );
 		} else {
 			// Extending ajaxSettings
 			settings = target;
-			target = jQuery.ajaxSettings;
+			target = OMjQuery.ajaxSettings;
 		}
 		ajaxExtend( target, settings );
 		return target;
@@ -7329,10 +7329,10 @@ jQuery.extend({
 			"text html": true,
 
 			// Evaluate text as a json expression
-			"text json": jQuery.parseJSON,
+			"text json": OMjQuery.parseJSON,
 
 			// Parse text as xml
-			"text xml": jQuery.parseXML
+			"text xml": OMjQuery.parseXML
 		},
 
 		// For options that shouldn't be deep extended:
@@ -7361,18 +7361,18 @@ jQuery.extend({
 		options = options || {};
 
 		var // Create the final options object
-			s = jQuery.ajaxSetup( {}, options ),
+			s = OMjQuery.ajaxSetup( {}, options ),
 			// Callbacks context
 			callbackContext = s.context || s,
 			// Context for global events
 			// It's the callbackContext if one was provided in the options
-			// and if it's a DOM node or a jQuery collection
+			// and if it's a DOM node or a OMjQuery collection
 			globalEventContext = callbackContext !== s &&
-				( callbackContext.nodeType || callbackContext instanceof jQuery ) ?
-						jQuery( callbackContext ) : jQuery.event,
+				( callbackContext.nodeType || callbackContext instanceof OMjQuery ) ?
+						OMjQuery( callbackContext ) : OMjQuery.event,
 			// Deferreds
-			deferred = jQuery.Deferred(),
-			completeDeferred = jQuery.Callbacks( "once memory" ),
+			deferred = OMjQuery.Deferred(),
+			completeDeferred = OMjQuery.Callbacks( "once memory" ),
 			// Status-dependent callbacks
 			statusCode = s.statusCode || {},
 			// ifModified key
@@ -7492,10 +7492,10 @@ jQuery.extend({
 				if ( s.ifModified ) {
 
 					if ( ( lastModified = jqXHR.getResponseHeader( "Last-Modified" ) ) ) {
-						jQuery.lastModified[ ifModifiedKey ] = lastModified;
+						OMjQuery.lastModified[ ifModifiedKey ] = lastModified;
 					}
 					if ( ( etag = jqXHR.getResponseHeader( "Etag" ) ) ) {
-						jQuery.etag[ ifModifiedKey ] = etag;
+						OMjQuery.etag[ ifModifiedKey ] = etag;
 					}
 				}
 
@@ -7556,8 +7556,8 @@ jQuery.extend({
 			if ( fireGlobals ) {
 				globalEventContext.trigger( "ajaxComplete", [ jqXHR, s ] );
 				// Handle the global AJAX counter
-				if ( !( --jQuery.active ) ) {
-					jQuery.event.trigger( "ajaxStop" );
+				if ( !( --OMjQuery.active ) ) {
+					OMjQuery.event.trigger( "ajaxStop" );
 				}
 			}
 		}
@@ -7590,7 +7590,7 @@ jQuery.extend({
 		s.url = ( ( url || s.url ) + "" ).replace( rhash, "" ).replace( rprotocol, ajaxLocParts[ 1 ] + "//" );
 
 		// Extract dataTypes list
-		s.dataTypes = jQuery.trim( s.dataType || "*" ).toLowerCase().split( rspacesAjax );
+		s.dataTypes = OMjQuery.trim( s.dataType || "*" ).toLowerCase().split( rspacesAjax );
 
 		// Determine if a cross-domain request is in order
 		if ( s.crossDomain == null ) {
@@ -7604,7 +7604,7 @@ jQuery.extend({
 
 		// Convert data if not already a string
 		if ( s.data && s.processData && typeof s.data !== "string" ) {
-			s.data = jQuery.param( s.data, s.traditional );
+			s.data = OMjQuery.param( s.data, s.traditional );
 		}
 
 		// Apply prefilters
@@ -7625,8 +7625,8 @@ jQuery.extend({
 		s.hasContent = !rnoContent.test( s.type );
 
 		// Watch for a new set of requests
-		if ( fireGlobals && jQuery.active++ === 0 ) {
-			jQuery.event.trigger( "ajaxStart" );
+		if ( fireGlobals && OMjQuery.active++ === 0 ) {
+			OMjQuery.event.trigger( "ajaxStart" );
 		}
 
 		// More options handling for requests with no content
@@ -7645,7 +7645,7 @@ jQuery.extend({
 			// Add anti-cache in url if needed
 			if ( s.cache === false ) {
 
-				var ts = jQuery.now(),
+				var ts = OMjQuery.now(),
 					// try replacing _= if it is there
 					ret = s.url.replace( rts, "$1_=" + ts );
 
@@ -7662,11 +7662,11 @@ jQuery.extend({
 		// Set the If-Modified-Since and/or If-None-Match header, if in ifModified mode.
 		if ( s.ifModified ) {
 			ifModifiedKey = ifModifiedKey || s.url;
-			if ( jQuery.lastModified[ ifModifiedKey ] ) {
-				jqXHR.setRequestHeader( "If-Modified-Since", jQuery.lastModified[ ifModifiedKey ] );
+			if ( OMjQuery.lastModified[ ifModifiedKey ] ) {
+				jqXHR.setRequestHeader( "If-Modified-Since", OMjQuery.lastModified[ ifModifiedKey ] );
 			}
-			if ( jQuery.etag[ ifModifiedKey ] ) {
-				jqXHR.setRequestHeader( "If-None-Match", jQuery.etag[ ifModifiedKey ] );
+			if ( OMjQuery.etag[ ifModifiedKey ] ) {
+				jqXHR.setRequestHeader( "If-None-Match", OMjQuery.etag[ ifModifiedKey ] );
 			}
 		}
 
@@ -7738,19 +7738,19 @@ jQuery.extend({
 		var s = [],
 			add = function( key, value ) {
 				// If value is a function, invoke it and return its value
-				value = jQuery.isFunction( value ) ? value() : value;
+				value = OMjQuery.isFunction( value ) ? value() : value;
 				s[ s.length ] = encodeURIComponent( key ) + "=" + encodeURIComponent( value );
 			};
 
-		// Set traditional to true for jQuery <= 1.3.2 behavior.
+		// Set traditional to true for OMjQuery <= 1.3.2 behavior.
 		if ( traditional === undefined ) {
-			traditional = jQuery.ajaxSettings.traditional;
+			traditional = OMjQuery.ajaxSettings.traditional;
 		}
 
 		// If an array was passed in, assume that it is an array of form elements.
-		if ( jQuery.isArray( a ) || ( a.jquery && !jQuery.isPlainObject( a ) ) ) {
+		if ( OMjQuery.isArray( a ) || ( a.jquery && !OMjQuery.isPlainObject( a ) ) ) {
 			// Serialize the form elements
-			jQuery.each( a, function() {
+			OMjQuery.each( a, function() {
 				add( this.name, this.value );
 			});
 
@@ -7768,9 +7768,9 @@ jQuery.extend({
 });
 
 function buildParams( prefix, obj, traditional, add ) {
-	if ( jQuery.isArray( obj ) ) {
+	if ( OMjQuery.isArray( obj ) ) {
 		// Serialize array item.
-		jQuery.each( obj, function( i, v ) {
+		OMjQuery.each( obj, function( i, v ) {
 			if ( traditional || rbracket.test( prefix ) ) {
 				// Treat each array item as a scalar.
 				add( prefix, v );
@@ -7787,7 +7787,7 @@ function buildParams( prefix, obj, traditional, add ) {
 			}
 		});
 
-	} else if ( !traditional && jQuery.type( obj ) === "object" ) {
+	} else if ( !traditional && OMjQuery.type( obj ) === "object" ) {
 		// Serialize object item.
 		for ( var name in obj ) {
 			buildParams( prefix + "[" + name + "]", obj[ name ], traditional, add );
@@ -7799,9 +7799,9 @@ function buildParams( prefix, obj, traditional, add ) {
 	}
 }
 
-// This is still on the jQuery object... for now
-// Want to move this to jQuery.ajax some day
-jQuery.extend({
+// This is still on the OMjQuery object... for now
+// Want to move this to OMjQuery.ajax some day
+OMjQuery.extend({
 
 	// Counter for holding the number of active queries
 	active: 0,
@@ -7954,7 +7954,7 @@ function ajaxConvert( s, response ) {
 			}
 			// If we found no converter, dispatch an error
 			if ( !( conv || conv2 ) ) {
-				jQuery.error( "No conversion from " + conversion.replace(" "," to ") );
+				OMjQuery.error( "No conversion from " + conversion.replace(" "," to ") );
 			}
 			// If found converter is not an equivalence
 			if ( conv !== true ) {
@@ -7969,19 +7969,19 @@ function ajaxConvert( s, response ) {
 
 
 
-var jsc = jQuery.now(),
+var jsc = OMjQuery.now(),
 	jsre = /(\=)\?(&|$)|\?\?/i;
 
 // Default jsonp settings
-jQuery.ajaxSetup({
+OMjQuery.ajaxSetup({
 	jsonp: "callback",
 	jsonpCallback: function() {
-		return jQuery.expando + "_" + ( jsc++ );
+		return OMjQuery.expando + "_" + ( jsc++ );
 	}
 });
 
 // Detect, normalize options and install callbacks for jsonp requests
-jQuery.ajaxPrefilter( "json jsonp", function( s, originalSettings, jqXHR ) {
+OMjQuery.ajaxPrefilter( "json jsonp", function( s, originalSettings, jqXHR ) {
 
 	var inspectData = ( typeof s.data === "string" ) && /^application\/x\-www\-form\-urlencoded/.test( s.contentType );
 
@@ -7991,7 +7991,7 @@ jQuery.ajaxPrefilter( "json jsonp", function( s, originalSettings, jqXHR ) {
 
 		var responseContainer,
 			jsonpCallback = s.jsonpCallback =
-				jQuery.isFunction( s.jsonpCallback ) ? s.jsonpCallback() : s.jsonpCallback,
+				OMjQuery.isFunction( s.jsonpCallback ) ? s.jsonpCallback() : s.jsonpCallback,
 			previous = window[ jsonpCallback ],
 			url = s.url,
 			data = s.data,
@@ -8023,7 +8023,7 @@ jQuery.ajaxPrefilter( "json jsonp", function( s, originalSettings, jqXHR ) {
 			// Set callback back to previous value
 			window[ jsonpCallback ] = previous;
 			// Call if it was a function and we have a response
-			if ( responseContainer && jQuery.isFunction( previous ) ) {
+			if ( responseContainer && OMjQuery.isFunction( previous ) ) {
 				window[ jsonpCallback ]( responseContainer[ 0 ] );
 			}
 		});
@@ -8031,7 +8031,7 @@ jQuery.ajaxPrefilter( "json jsonp", function( s, originalSettings, jqXHR ) {
 		// Use data converter to retrieve json after script execution
 		s.converters["script json"] = function() {
 			if ( !responseContainer ) {
-				jQuery.error( jsonpCallback + " was not called" );
+				OMjQuery.error( jsonpCallback + " was not called" );
 			}
 			return responseContainer[ 0 ];
 		};
@@ -8048,7 +8048,7 @@ jQuery.ajaxPrefilter( "json jsonp", function( s, originalSettings, jqXHR ) {
 
 
 // Install script dataType
-jQuery.ajaxSetup({
+OMjQuery.ajaxSetup({
 	accepts: {
 		script: "text/javascript, application/javascript, application/ecmascript, application/x-ecmascript"
 	},
@@ -8057,14 +8057,14 @@ jQuery.ajaxSetup({
 	},
 	converters: {
 		"text script": function( text ) {
-			jQuery.globalEval( text );
+			OMjQuery.globalEval( text );
 			return text;
 		}
 	}
 });
 
 // Handle cache's special case and global
-jQuery.ajaxPrefilter( "script", function( s ) {
+OMjQuery.ajaxPrefilter( "script", function( s ) {
 	if ( s.cache === undefined ) {
 		s.cache = false;
 	}
@@ -8075,7 +8075,7 @@ jQuery.ajaxPrefilter( "script", function( s ) {
 });
 
 // Bind script tag hack transport
-jQuery.ajaxTransport( "script", function(s) {
+OMjQuery.ajaxTransport( "script", function(s) {
 
 	// This transport only deals with cross domain requests
 	if ( s.crossDomain ) {
@@ -8161,7 +8161,7 @@ function createActiveXHR() {
 
 // Create the request object
 // (This is still attached to ajaxSettings for backward compatibility)
-jQuery.ajaxSettings.xhr = window.ActiveXObject ?
+OMjQuery.ajaxSettings.xhr = window.ActiveXObject ?
 	/* Microsoft failed to properly
 	 * implement the XMLHttpRequest in IE7 (can't request local files),
 	 * so we use the ActiveXObject when it is available
@@ -8176,18 +8176,18 @@ jQuery.ajaxSettings.xhr = window.ActiveXObject ?
 
 // Determine support properties
 (function( xhr ) {
-	jQuery.extend( jQuery.support, {
+	OMjQuery.extend( OMjQuery.support, {
 		ajax: !!xhr,
 		cors: !!xhr && ( "withCredentials" in xhr )
 	});
-})( jQuery.ajaxSettings.xhr() );
+})( OMjQuery.ajaxSettings.xhr() );
 
 // Create transport if the browser can provide an xhr
-if ( jQuery.support.ajax ) {
+if ( OMjQuery.support.ajax ) {
 
-	jQuery.ajaxTransport(function( s ) {
+	OMjQuery.ajaxTransport(function( s ) {
 		// Cross domain only allowed if supported through XMLHttpRequest
-		if ( !s.crossDomain || jQuery.support.cors ) {
+		if ( !s.crossDomain || OMjQuery.support.cors ) {
 
 			var callback;
 
@@ -8237,7 +8237,7 @@ if ( jQuery.support.ajax ) {
 
 					// Do send the request
 					// This may raise an exception which is actually
-					// handled in jQuery.ajax (so no try/catch here)
+					// handled in OMjQuery.ajax (so no try/catch here)
 					xhr.send( ( s.hasContent && s.data ) || null );
 
 					// Listener
@@ -8262,7 +8262,7 @@ if ( jQuery.support.ajax ) {
 
 								// Do not keep as active anymore
 								if ( handle ) {
-									xhr.onreadystatechange = jQuery.noop;
+									xhr.onreadystatechange = OMjQuery.noop;
 									if ( xhrOnUnloadAbort ) {
 										delete xhrCallbacks[ handle ];
 									}
@@ -8338,7 +8338,7 @@ if ( jQuery.support.ajax ) {
 							// and attach the unload handler
 							if ( !xhrCallbacks ) {
 								xhrCallbacks = {};
-								jQuery( window ).unload( xhrOnUnloadAbort );
+								OMjQuery( window ).unload( xhrOnUnloadAbort );
 							}
 							// Add to list of active xhrs callbacks
 							xhrCallbacks[ handle ] = callback;
@@ -8375,7 +8375,7 @@ var elemdisplay = {},
 	],
 	fxNow;
 
-jQuery.fn.extend({
+OMjQuery.fn.extend({
 	show: function( speed, easing, callback ) {
 		var elem, display;
 
@@ -8391,16 +8391,16 @@ jQuery.fn.extend({
 
 					// Reset the inline display of this element to learn if it is
 					// being hidden by cascaded rules or not
-					if ( !jQuery._data(elem, "olddisplay") && display === "none" ) {
+					if ( !OMjQuery._data(elem, "olddisplay") && display === "none" ) {
 						display = elem.style.display = "";
 					}
 
 					// Set elements which have been overridden with display: none
 					// in a stylesheet to whatever the default browser style is
 					// for such an element
-					if ( (display === "" && jQuery.css(elem, "display") === "none") ||
-						!jQuery.contains( elem.ownerDocument.documentElement, elem ) ) {
-						jQuery._data( elem, "olddisplay", defaultDisplay(elem.nodeName) );
+					if ( (display === "" && OMjQuery.css(elem, "display") === "none") ||
+						!OMjQuery.contains( elem.ownerDocument.documentElement, elem ) ) {
+						OMjQuery._data( elem, "olddisplay", defaultDisplay(elem.nodeName) );
 					}
 				}
 			}
@@ -8414,7 +8414,7 @@ jQuery.fn.extend({
 					display = elem.style.display;
 
 					if ( display === "" || display === "none" ) {
-						elem.style.display = jQuery._data( elem, "olddisplay" ) || "";
+						elem.style.display = OMjQuery._data( elem, "olddisplay" ) || "";
 					}
 				}
 			}
@@ -8435,10 +8435,10 @@ jQuery.fn.extend({
 			for ( ; i < j; i++ ) {
 				elem = this[i];
 				if ( elem.style ) {
-					display = jQuery.css( elem, "display" );
+					display = OMjQuery.css( elem, "display" );
 
-					if ( display !== "none" && !jQuery._data( elem, "olddisplay" ) ) {
-						jQuery._data( elem, "olddisplay", display );
+					if ( display !== "none" && !OMjQuery._data( elem, "olddisplay" ) ) {
+						OMjQuery._data( elem, "olddisplay", display );
 					}
 				}
 			}
@@ -8456,18 +8456,18 @@ jQuery.fn.extend({
 	},
 
 	// Save the old toggle function
-	_toggle: jQuery.fn.toggle,
+	_toggle: OMjQuery.fn.toggle,
 
 	toggle: function( fn, fn2, callback ) {
 		var bool = typeof fn === "boolean";
 
-		if ( jQuery.isFunction(fn) && jQuery.isFunction(fn2) ) {
+		if ( OMjQuery.isFunction(fn) && OMjQuery.isFunction(fn2) ) {
 			this._toggle.apply( this, arguments );
 
 		} else if ( fn == null || bool ) {
 			this.each(function() {
-				var state = bool ? fn : jQuery(this).is(":hidden");
-				jQuery(this)[ state ? "show" : "hide" ]();
+				var state = bool ? fn : OMjQuery(this).is(":hidden");
+				OMjQuery(this)[ state ? "show" : "hide" ]();
 			});
 
 		} else {
@@ -8483,26 +8483,26 @@ jQuery.fn.extend({
 	},
 
 	animate: function( prop, speed, easing, callback ) {
-		var optall = jQuery.speed( speed, easing, callback );
+		var optall = OMjQuery.speed( speed, easing, callback );
 
-		if ( jQuery.isEmptyObject( prop ) ) {
+		if ( OMjQuery.isEmptyObject( prop ) ) {
 			return this.each( optall.complete, [ false ] );
 		}
 
 		// Do not change referenced properties as per-property easing will be lost
-		prop = jQuery.extend( {}, prop );
+		prop = OMjQuery.extend( {}, prop );
 
 		function doAnimation() {
 			// XXX 'this' does not always have a nodeName when running the
 			// test suite
 
 			if ( optall.queue === false ) {
-				jQuery._mark( this );
+				OMjQuery._mark( this );
 			}
 
-			var opt = jQuery.extend( {}, optall ),
+			var opt = OMjQuery.extend( {}, optall ),
 				isElement = this.nodeType === 1,
-				hidden = isElement && jQuery(this).is(":hidden"),
+				hidden = isElement && OMjQuery(this).is(":hidden"),
 				name, val, p, e, hooks, replace,
 				parts, start, end, unit,
 				method;
@@ -8512,13 +8512,13 @@ jQuery.fn.extend({
 
 			// first pass over propertys to expand / normalize
 			for ( p in prop ) {
-				name = jQuery.camelCase( p );
+				name = OMjQuery.camelCase( p );
 				if ( p !== name ) {
 					prop[ name ] = prop[ p ];
 					delete prop[ p ];
 				}
 
-				if ( ( hooks = jQuery.cssHooks[ name ] ) && "expand" in hooks ) {
+				if ( ( hooks = OMjQuery.cssHooks[ name ] ) && "expand" in hooks ) {
 					replace = hooks.expand( prop[ name ] );
 					delete prop[ name ];
 
@@ -8535,7 +8535,7 @@ jQuery.fn.extend({
 			for ( name in prop ) {
 				val = prop[ name ];
 				// easing resolution: per property > opt.specialEasing > opt.easing > 'swing' (default)
-				if ( jQuery.isArray( val ) ) {
+				if ( OMjQuery.isArray( val ) ) {
 					opt.animatedProperties[ name ] = val[ 1 ];
 					val = prop[ name ] = val[ 0 ];
 				} else {
@@ -8555,12 +8555,12 @@ jQuery.fn.extend({
 
 					// Set display property to inline-block for height/width
 					// animations on inline elements that are having width/height animated
-					if ( jQuery.css( this, "display" ) === "inline" &&
-							jQuery.css( this, "float" ) === "none" ) {
+					if ( OMjQuery.css( this, "display" ) === "inline" &&
+							OMjQuery.css( this, "float" ) === "none" ) {
 
 						// inline-level elements accept inline-block;
 						// block-level elements need to be inline with layout
-						if ( !jQuery.support.inlineBlockNeedsLayout || defaultDisplay( this.nodeName ) === "inline" ) {
+						if ( !OMjQuery.support.inlineBlockNeedsLayout || defaultDisplay( this.nodeName ) === "inline" ) {
 							this.style.display = "inline-block";
 
 						} else {
@@ -8575,16 +8575,16 @@ jQuery.fn.extend({
 			}
 
 			for ( p in prop ) {
-				e = new jQuery.fx( this, opt, p );
+				e = new OMjQuery.fx( this, opt, p );
 				val = prop[ p ];
 
 				if ( rfxtypes.test( val ) ) {
 
 					// Tracks whether to show or hide based on private
 					// data attached to the element
-					method = jQuery._data( this, "toggle" + p ) || ( val === "toggle" ? hidden ? "show" : "hide" : 0 );
+					method = OMjQuery._data( this, "toggle" + p ) || ( val === "toggle" ? hidden ? "show" : "hide" : 0 );
 					if ( method ) {
-						jQuery._data( this, "toggle" + p, method === "show" ? "hide" : "show" );
+						OMjQuery._data( this, "toggle" + p, method === "show" ? "hide" : "show" );
 						e[ method ]();
 					} else {
 						e[ val ]();
@@ -8596,13 +8596,13 @@ jQuery.fn.extend({
 
 					if ( parts ) {
 						end = parseFloat( parts[2] );
-						unit = parts[3] || ( jQuery.cssNumber[ p ] ? "" : "px" );
+						unit = parts[3] || ( OMjQuery.cssNumber[ p ] ? "" : "px" );
 
 						// We need to compute starting value
 						if ( unit !== "px" ) {
-							jQuery.style( this, p, (end || 1) + unit);
+							OMjQuery.style( this, p, (end || 1) + unit);
 							start = ( (end || 1) / e.cur() ) * start;
-							jQuery.style( this, p, start + unit);
+							OMjQuery.style( this, p, start + unit);
 						}
 
 						// If a +=/-= token was provided, we're doing a relative animation
@@ -8640,17 +8640,17 @@ jQuery.fn.extend({
 		return this.each(function() {
 			var index,
 				hadTimers = false,
-				timers = jQuery.timers,
-				data = jQuery._data( this );
+				timers = OMjQuery.timers,
+				data = OMjQuery._data( this );
 
 			// clear marker counters if we know they won't be
 			if ( !gotoEnd ) {
-				jQuery._unmark( true, this );
+				OMjQuery._unmark( true, this );
 			}
 
 			function stopQueue( elem, data, index ) {
 				var hooks = data[ index ];
-				jQuery.removeData( elem, index, true );
+				OMjQuery.removeData( elem, index, true );
 				hooks.stop( gotoEnd );
 			}
 
@@ -8682,7 +8682,7 @@ jQuery.fn.extend({
 			// timers currently will call their complete callbacks, which will dequeue
 			// but only if they were gotoEnd
 			if ( !( gotoEnd && hadTimers ) ) {
-				jQuery.dequeue( this, type );
+				OMjQuery.dequeue( this, type );
 			}
 		});
 	}
@@ -8692,7 +8692,7 @@ jQuery.fn.extend({
 // Animations created synchronously will run synchronously
 function createFxNow() {
 	setTimeout( clearFxNow, 0 );
-	return ( fxNow = jQuery.now() );
+	return ( fxNow = OMjQuery.now() );
 }
 
 function clearFxNow() {
@@ -8703,7 +8703,7 @@ function clearFxNow() {
 function genFx( type, num ) {
 	var obj = {};
 
-	jQuery.each( fxAttrs.concat.apply([], fxAttrs.slice( 0, num )), function() {
+	OMjQuery.each( fxAttrs.concat.apply([], fxAttrs.slice( 0, num )), function() {
 		obj[ this ] = type;
 	});
 
@@ -8711,7 +8711,7 @@ function genFx( type, num ) {
 }
 
 // Generate shortcuts for custom animations
-jQuery.each({
+OMjQuery.each({
 	slideDown: genFx( "show", 1 ),
 	slideUp: genFx( "hide", 1 ),
 	slideToggle: genFx( "toggle", 1 ),
@@ -8719,22 +8719,22 @@ jQuery.each({
 	fadeOut: { opacity: "hide" },
 	fadeToggle: { opacity: "toggle" }
 }, function( name, props ) {
-	jQuery.fn[ name ] = function( speed, easing, callback ) {
+	OMjQuery.fn[ name ] = function( speed, easing, callback ) {
 		return this.animate( props, speed, easing, callback );
 	};
 });
 
-jQuery.extend({
+OMjQuery.extend({
 	speed: function( speed, easing, fn ) {
-		var opt = speed && typeof speed === "object" ? jQuery.extend( {}, speed ) : {
+		var opt = speed && typeof speed === "object" ? OMjQuery.extend( {}, speed ) : {
 			complete: fn || !fn && easing ||
-				jQuery.isFunction( speed ) && speed,
+				OMjQuery.isFunction( speed ) && speed,
 			duration: speed,
-			easing: fn && easing || easing && !jQuery.isFunction( easing ) && easing
+			easing: fn && easing || easing && !OMjQuery.isFunction( easing ) && easing
 		};
 
-		opt.duration = jQuery.fx.off ? 0 : typeof opt.duration === "number" ? opt.duration :
-			opt.duration in jQuery.fx.speeds ? jQuery.fx.speeds[ opt.duration ] : jQuery.fx.speeds._default;
+		opt.duration = OMjQuery.fx.off ? 0 : typeof opt.duration === "number" ? opt.duration :
+			opt.duration in OMjQuery.fx.speeds ? OMjQuery.fx.speeds[ opt.duration ] : OMjQuery.fx.speeds._default;
 
 		// normalize opt.queue - true/undefined/null -> "fx"
 		if ( opt.queue == null || opt.queue === true ) {
@@ -8745,14 +8745,14 @@ jQuery.extend({
 		opt.old = opt.complete;
 
 		opt.complete = function( noUnmark ) {
-			if ( jQuery.isFunction( opt.old ) ) {
+			if ( OMjQuery.isFunction( opt.old ) ) {
 				opt.old.call( this );
 			}
 
 			if ( opt.queue ) {
-				jQuery.dequeue( this, opt.queue );
+				OMjQuery.dequeue( this, opt.queue );
 			} else if ( noUnmark !== false ) {
-				jQuery._unmark( this );
+				OMjQuery._unmark( this );
 			}
 		};
 
@@ -8780,14 +8780,14 @@ jQuery.extend({
 
 });
 
-jQuery.fx.prototype = {
+OMjQuery.fx.prototype = {
 	// Simple function for setting a style value
 	update: function() {
 		if ( this.options.step ) {
 			this.options.step.call( this.elem, this.now, this );
 		}
 
-		( jQuery.fx.step[ this.prop ] || jQuery.fx.step._default )( this );
+		( OMjQuery.fx.step[ this.prop ] || OMjQuery.fx.step._default )( this );
 	},
 
 	// Get the current size
@@ -8797,7 +8797,7 @@ jQuery.fx.prototype = {
 		}
 
 		var parsed,
-			r = jQuery.css( this.elem, this.prop );
+			r = OMjQuery.css( this.elem, this.prop );
 		// Empty strings, null, undefined and "auto" are converted to 0,
 		// complex values such as "rotate(1rad)" are returned as is,
 		// simple values such as "10px" are parsed to Float.
@@ -8807,13 +8807,13 @@ jQuery.fx.prototype = {
 	// Start an animation from one number to another
 	custom: function( from, to, unit ) {
 		var self = this,
-			fx = jQuery.fx;
+			fx = OMjQuery.fx;
 
 		this.startTime = fxNow || createFxNow();
 		this.end = to;
 		this.now = this.start = from;
 		this.pos = this.state = 0;
-		this.unit = unit || this.unit || ( jQuery.cssNumber[ this.prop ] ? "" : "px" );
+		this.unit = unit || this.unit || ( OMjQuery.cssNumber[ this.prop ] ? "" : "px" );
 
 		function t( gotoEnd ) {
 			return self.step( gotoEnd );
@@ -8822,26 +8822,26 @@ jQuery.fx.prototype = {
 		t.queue = this.options.queue;
 		t.elem = this.elem;
 		t.saveState = function() {
-			if ( jQuery._data( self.elem, "fxshow" + self.prop ) === undefined ) {
+			if ( OMjQuery._data( self.elem, "fxshow" + self.prop ) === undefined ) {
 				if ( self.options.hide ) {
-					jQuery._data( self.elem, "fxshow" + self.prop, self.start );
+					OMjQuery._data( self.elem, "fxshow" + self.prop, self.start );
 				} else if ( self.options.show ) {
-					jQuery._data( self.elem, "fxshow" + self.prop, self.end );
+					OMjQuery._data( self.elem, "fxshow" + self.prop, self.end );
 				}
 			}
 		};
 
-		if ( t() && jQuery.timers.push(t) && !timerId ) {
+		if ( t() && OMjQuery.timers.push(t) && !timerId ) {
 			timerId = setInterval( fx.tick, fx.interval );
 		}
 	},
 
 	// Simple 'show' function
 	show: function() {
-		var dataShow = jQuery._data( this.elem, "fxshow" + this.prop );
+		var dataShow = OMjQuery._data( this.elem, "fxshow" + this.prop );
 
 		// Remember where we started, so that we can go back to it later
-		this.options.orig[ this.prop ] = dataShow || jQuery.style( this.elem, this.prop );
+		this.options.orig[ this.prop ] = dataShow || OMjQuery.style( this.elem, this.prop );
 		this.options.show = true;
 
 		// Begin the animation
@@ -8854,13 +8854,13 @@ jQuery.fx.prototype = {
 		}
 
 		// Start by showing the element
-		jQuery( this.elem ).show();
+		OMjQuery( this.elem ).show();
 	},
 
 	// Simple 'hide' function
 	hide: function() {
 		// Remember where we started, so that we can go back to it later
-		this.options.orig[ this.prop ] = jQuery._data( this.elem, "fxshow" + this.prop ) || jQuery.style( this.elem, this.prop );
+		this.options.orig[ this.prop ] = OMjQuery._data( this.elem, "fxshow" + this.prop ) || OMjQuery.style( this.elem, this.prop );
 		this.options.hide = true;
 
 		// Begin the animation
@@ -8890,25 +8890,25 @@ jQuery.fx.prototype = {
 
 			if ( done ) {
 				// Reset the overflow
-				if ( options.overflow != null && !jQuery.support.shrinkWrapBlocks ) {
+				if ( options.overflow != null && !OMjQuery.support.shrinkWrapBlocks ) {
 
-					jQuery.each( [ "", "X", "Y" ], function( index, value ) {
+					OMjQuery.each( [ "", "X", "Y" ], function( index, value ) {
 						elem.style[ "overflow" + value ] = options.overflow[ index ];
 					});
 				}
 
 				// Hide the element if the "hide" operation was done
 				if ( options.hide ) {
-					jQuery( elem ).hide();
+					OMjQuery( elem ).hide();
 				}
 
 				// Reset the properties, if the item has been hidden or shown
 				if ( options.hide || options.show ) {
 					for ( p in options.animatedProperties ) {
-						jQuery.style( elem, p, options.orig[ p ] );
-						jQuery.removeData( elem, "fxshow" + p, true );
+						OMjQuery.style( elem, p, options.orig[ p ] );
+						OMjQuery.removeData( elem, "fxshow" + p, true );
 						// Toggle data is no longer needed
-						jQuery.removeData( elem, "toggle" + p, true );
+						OMjQuery.removeData( elem, "toggle" + p, true );
 					}
 				}
 
@@ -8935,7 +8935,7 @@ jQuery.fx.prototype = {
 				this.state = n / options.duration;
 
 				// Perform the easing function, defaults to swing
-				this.pos = jQuery.easing[ options.animatedProperties[this.prop] ]( this.state, n, 0, 1, options.duration );
+				this.pos = OMjQuery.easing[ options.animatedProperties[this.prop] ]( this.state, n, 0, 1, options.duration );
 				this.now = this.start + ( (this.end - this.start) * this.pos );
 			}
 			// Perform the next step of the animation
@@ -8946,10 +8946,10 @@ jQuery.fx.prototype = {
 	}
 };
 
-jQuery.extend( jQuery.fx, {
+OMjQuery.extend( OMjQuery.fx, {
 	tick: function() {
 		var timer,
-			timers = jQuery.timers,
+			timers = OMjQuery.timers,
 			i = 0;
 
 		for ( ; i < timers.length; i++ ) {
@@ -8961,7 +8961,7 @@ jQuery.extend( jQuery.fx, {
 		}
 
 		if ( !timers.length ) {
-			jQuery.fx.stop();
+			OMjQuery.fx.stop();
 		}
 	},
 
@@ -8981,7 +8981,7 @@ jQuery.extend( jQuery.fx, {
 
 	step: {
 		opacity: function( fx ) {
-			jQuery.style( fx.elem, "opacity", fx.now );
+			OMjQuery.style( fx.elem, "opacity", fx.now );
 		},
 
 		_default: function( fx ) {
@@ -8995,18 +8995,18 @@ jQuery.extend( jQuery.fx, {
 });
 
 // Ensure props that can't be negative don't go there on undershoot easing
-jQuery.each( fxAttrs.concat.apply( [], fxAttrs ), function( i, prop ) {
+OMjQuery.each( fxAttrs.concat.apply( [], fxAttrs ), function( i, prop ) {
 	// exclude marginTop, marginLeft, marginBottom and marginRight from this list
 	if ( prop.indexOf( "margin" ) ) {
-		jQuery.fx.step[ prop ] = function( fx ) {
-			jQuery.style( fx.elem, prop, Math.max(0, fx.now) + fx.unit );
+		OMjQuery.fx.step[ prop ] = function( fx ) {
+			OMjQuery.style( fx.elem, prop, Math.max(0, fx.now) + fx.unit );
 		};
 	}
 });
 
-if ( jQuery.expr && jQuery.expr.filters ) {
-	jQuery.expr.filters.animated = function( elem ) {
-		return jQuery.grep(jQuery.timers, function( fn ) {
+if ( OMjQuery.expr && OMjQuery.expr.filters ) {
+	OMjQuery.expr.filters.animated = function( elem ) {
+		return OMjQuery.grep(OMjQuery.timers, function( fn ) {
 			return elem === fn.elem;
 		}).length;
 	};
@@ -9018,7 +9018,7 @@ function defaultDisplay( nodeName ) {
 	if ( !elemdisplay[ nodeName ] ) {
 
 		var body = document.body,
-			elem = jQuery( "<" + nodeName + ">" ).appendTo( body ),
+			elem = OMjQuery( "<" + nodeName + ">" ).appendTo( body ),
 			display = elem.css( "display" );
 		elem.remove();
 
@@ -9038,7 +9038,7 @@ function defaultDisplay( nodeName ) {
 			// document to it; WebKit & Firefox won't allow reusing the iframe document.
 			if ( !iframeDoc || !iframe.createElement ) {
 				iframeDoc = ( iframe.contentWindow || iframe.contentDocument ).document;
-				iframeDoc.write( ( jQuery.support.boxModel ? "<!doctype html>" : "" ) + "<html><body>" );
+				iframeDoc.write( ( OMjQuery.support.boxModel ? "<!doctype html>" : "" ) + "<html><body>" );
 				iframeDoc.close();
 			}
 
@@ -9046,7 +9046,7 @@ function defaultDisplay( nodeName ) {
 
 			iframeDoc.body.appendChild( elem );
 
-			display = jQuery.css( elem, "display" );
+			display = OMjQuery.css( elem, "display" );
 			body.removeChild( iframe );
 		}
 
@@ -9071,7 +9071,7 @@ if ( "getBoundingClientRect" in document.documentElement ) {
 		} catch(e) {}
 
 		// Make sure we're not dealing with a disconnected DOM node
-		if ( !box || !jQuery.contains( docElem, elem ) ) {
+		if ( !box || !OMjQuery.contains( docElem, elem ) ) {
 			return box ? { top: box.top, left: box.left } : { top: 0, left: 0 };
 		}
 
@@ -9079,8 +9079,8 @@ if ( "getBoundingClientRect" in document.documentElement ) {
 			win = getWindow( doc ),
 			clientTop  = docElem.clientTop  || body.clientTop  || 0,
 			clientLeft = docElem.clientLeft || body.clientLeft || 0,
-			scrollTop  = win.pageYOffset || jQuery.support.boxModel && docElem.scrollTop  || body.scrollTop,
-			scrollLeft = win.pageXOffset || jQuery.support.boxModel && docElem.scrollLeft || body.scrollLeft,
+			scrollTop  = win.pageYOffset || OMjQuery.support.boxModel && docElem.scrollTop  || body.scrollTop,
+			scrollLeft = win.pageXOffset || OMjQuery.support.boxModel && docElem.scrollLeft || body.scrollLeft,
 			top  = box.top  + scrollTop  - clientTop,
 			left = box.left + scrollLeft - clientLeft;
 
@@ -9099,7 +9099,7 @@ if ( "getBoundingClientRect" in document.documentElement ) {
 			left = elem.offsetLeft;
 
 		while ( (elem = elem.parentNode) && elem !== body && elem !== docElem ) {
-			if ( jQuery.support.fixedPosition && prevComputedStyle.position === "fixed" ) {
+			if ( OMjQuery.support.fixedPosition && prevComputedStyle.position === "fixed" ) {
 				break;
 			}
 
@@ -9111,7 +9111,7 @@ if ( "getBoundingClientRect" in document.documentElement ) {
 				top  += elem.offsetTop;
 				left += elem.offsetLeft;
 
-				if ( jQuery.support.doesNotAddBorder && !(jQuery.support.doesAddBorderForTableAndCells && rtable.test(elem.nodeName)) ) {
+				if ( OMjQuery.support.doesNotAddBorder && !(OMjQuery.support.doesAddBorderForTableAndCells && rtable.test(elem.nodeName)) ) {
 					top  += parseFloat( computedStyle.borderTopWidth  ) || 0;
 					left += parseFloat( computedStyle.borderLeftWidth ) || 0;
 				}
@@ -9120,7 +9120,7 @@ if ( "getBoundingClientRect" in document.documentElement ) {
 				offsetParent = elem.offsetParent;
 			}
 
-			if ( jQuery.support.subtractsBorderForOverflowNotVisible && computedStyle.overflow !== "visible" ) {
+			if ( OMjQuery.support.subtractsBorderForOverflowNotVisible && computedStyle.overflow !== "visible" ) {
 				top  += parseFloat( computedStyle.borderTopWidth  ) || 0;
 				left += parseFloat( computedStyle.borderLeftWidth ) || 0;
 			}
@@ -9133,7 +9133,7 @@ if ( "getBoundingClientRect" in document.documentElement ) {
 			left += body.offsetLeft;
 		}
 
-		if ( jQuery.support.fixedPosition && prevComputedStyle.position === "fixed" ) {
+		if ( OMjQuery.support.fixedPosition && prevComputedStyle.position === "fixed" ) {
 			top  += Math.max( docElem.scrollTop, body.scrollTop );
 			left += Math.max( docElem.scrollLeft, body.scrollLeft );
 		}
@@ -9142,12 +9142,12 @@ if ( "getBoundingClientRect" in document.documentElement ) {
 	};
 }
 
-jQuery.fn.offset = function( options ) {
+OMjQuery.fn.offset = function( options ) {
 	if ( arguments.length ) {
 		return options === undefined ?
 			this :
 			this.each(function( i ) {
-				jQuery.offset.setOffset( this, options, i );
+				OMjQuery.offset.setOffset( this, options, i );
 			});
 	}
 
@@ -9159,39 +9159,39 @@ jQuery.fn.offset = function( options ) {
 	}
 
 	if ( elem === doc.body ) {
-		return jQuery.offset.bodyOffset( elem );
+		return OMjQuery.offset.bodyOffset( elem );
 	}
 
 	return getOffset( elem, doc, doc.documentElement );
 };
 
-jQuery.offset = {
+OMjQuery.offset = {
 
 	bodyOffset: function( body ) {
 		var top = body.offsetTop,
 			left = body.offsetLeft;
 
-		if ( jQuery.support.doesNotIncludeMarginInBodyOffset ) {
-			top  += parseFloat( jQuery.css(body, "marginTop") ) || 0;
-			left += parseFloat( jQuery.css(body, "marginLeft") ) || 0;
+		if ( OMjQuery.support.doesNotIncludeMarginInBodyOffset ) {
+			top  += parseFloat( OMjQuery.css(body, "marginTop") ) || 0;
+			left += parseFloat( OMjQuery.css(body, "marginLeft") ) || 0;
 		}
 
 		return { top: top, left: left };
 	},
 
 	setOffset: function( elem, options, i ) {
-		var position = jQuery.css( elem, "position" );
+		var position = OMjQuery.css( elem, "position" );
 
 		// set position first, in-case top/left are set even on static elem
 		if ( position === "static" ) {
 			elem.style.position = "relative";
 		}
 
-		var curElem = jQuery( elem ),
+		var curElem = OMjQuery( elem ),
 			curOffset = curElem.offset(),
-			curCSSTop = jQuery.css( elem, "top" ),
-			curCSSLeft = jQuery.css( elem, "left" ),
-			calculatePosition = ( position === "absolute" || position === "fixed" ) && jQuery.inArray("auto", [curCSSTop, curCSSLeft]) > -1,
+			curCSSTop = OMjQuery.css( elem, "top" ),
+			curCSSLeft = OMjQuery.css( elem, "left" ),
+			calculatePosition = ( position === "absolute" || position === "fixed" ) && OMjQuery.inArray("auto", [curCSSTop, curCSSLeft]) > -1,
 			props = {}, curPosition = {}, curTop, curLeft;
 
 		// need to be able to calculate position if either top or left is auto and position is either absolute or fixed
@@ -9204,7 +9204,7 @@ jQuery.offset = {
 			curLeft = parseFloat( curCSSLeft ) || 0;
 		}
 
-		if ( jQuery.isFunction( options ) ) {
+		if ( OMjQuery.isFunction( options ) ) {
 			options = options.call( elem, i, curOffset );
 		}
 
@@ -9224,7 +9224,7 @@ jQuery.offset = {
 };
 
 
-jQuery.fn.extend({
+OMjQuery.fn.extend({
 
 	position: function() {
 		if ( !this[0] ) {
@@ -9243,12 +9243,12 @@ jQuery.fn.extend({
 		// Subtract element margins
 		// note: when an element has margin: auto the offsetLeft and marginLeft
 		// are the same in Safari causing offset.left to incorrectly be 0
-		offset.top  -= parseFloat( jQuery.css(elem, "marginTop") ) || 0;
-		offset.left -= parseFloat( jQuery.css(elem, "marginLeft") ) || 0;
+		offset.top  -= parseFloat( OMjQuery.css(elem, "marginTop") ) || 0;
+		offset.left -= parseFloat( OMjQuery.css(elem, "marginLeft") ) || 0;
 
 		// Add offsetParent borders
-		parentOffset.top  += parseFloat( jQuery.css(offsetParent[0], "borderTopWidth") ) || 0;
-		parentOffset.left += parseFloat( jQuery.css(offsetParent[0], "borderLeftWidth") ) || 0;
+		parentOffset.top  += parseFloat( OMjQuery.css(offsetParent[0], "borderTopWidth") ) || 0;
+		parentOffset.left += parseFloat( OMjQuery.css(offsetParent[0], "borderLeftWidth") ) || 0;
 
 		// Subtract the two offsets
 		return {
@@ -9260,7 +9260,7 @@ jQuery.fn.extend({
 	offsetParent: function() {
 		return this.map(function() {
 			var offsetParent = this.offsetParent || document.body;
-			while ( offsetParent && (!rroot.test(offsetParent.nodeName) && jQuery.css(offsetParent, "position") === "static") ) {
+			while ( offsetParent && (!rroot.test(offsetParent.nodeName) && OMjQuery.css(offsetParent, "position") === "static") ) {
 				offsetParent = offsetParent.offsetParent;
 			}
 			return offsetParent;
@@ -9270,24 +9270,24 @@ jQuery.fn.extend({
 
 
 // Create scrollLeft and scrollTop methods
-jQuery.each( {scrollLeft: "pageXOffset", scrollTop: "pageYOffset"}, function( method, prop ) {
+OMjQuery.each( {scrollLeft: "pageXOffset", scrollTop: "pageYOffset"}, function( method, prop ) {
 	var top = /Y/.test( prop );
 
-	jQuery.fn[ method ] = function( val ) {
-		return jQuery.access( this, function( elem, method, val ) {
+	OMjQuery.fn[ method ] = function( val ) {
+		return OMjQuery.access( this, function( elem, method, val ) {
 			var win = getWindow( elem );
 
 			if ( val === undefined ) {
 				return win ? (prop in win) ? win[ prop ] :
-					jQuery.support.boxModel && win.document.documentElement[ method ] ||
+					OMjQuery.support.boxModel && win.document.documentElement[ method ] ||
 						win.document.body[ method ] :
 					elem[ method ];
 			}
 
 			if ( win ) {
 				win.scrollTo(
-					!top ? val : jQuery( win ).scrollLeft(),
-					 top ? val : jQuery( win ).scrollTop()
+					!top ? val : OMjQuery( win ).scrollLeft(),
+					 top ? val : OMjQuery( win ).scrollTop()
 				);
 
 			} else {
@@ -9298,7 +9298,7 @@ jQuery.each( {scrollLeft: "pageXOffset", scrollTop: "pageYOffset"}, function( me
 });
 
 function getWindow( elem ) {
-	return jQuery.isWindow( elem ) ?
+	return OMjQuery.isWindow( elem ) ?
 		elem :
 		elem.nodeType === 9 ?
 			elem.defaultView || elem.parentWindow :
@@ -9309,40 +9309,40 @@ function getWindow( elem ) {
 
 
 // Create width, height, innerHeight, innerWidth, outerHeight and outerWidth methods
-jQuery.each( { Height: "height", Width: "width" }, function( name, type ) {
+OMjQuery.each( { Height: "height", Width: "width" }, function( name, type ) {
 	var clientProp = "client" + name,
 		scrollProp = "scroll" + name,
 		offsetProp = "offset" + name;
 
 	// innerHeight and innerWidth
-	jQuery.fn[ "inner" + name ] = function() {
+	OMjQuery.fn[ "inner" + name ] = function() {
 		var elem = this[0];
 		return elem ?
 			elem.style ?
-			parseFloat( jQuery.css( elem, type, "padding" ) ) :
+			parseFloat( OMjQuery.css( elem, type, "padding" ) ) :
 			this[ type ]() :
 			null;
 	};
 
 	// outerHeight and outerWidth
-	jQuery.fn[ "outer" + name ] = function( margin ) {
+	OMjQuery.fn[ "outer" + name ] = function( margin ) {
 		var elem = this[0];
 		return elem ?
 			elem.style ?
-			parseFloat( jQuery.css( elem, type, margin ? "margin" : "border" ) ) :
+			parseFloat( OMjQuery.css( elem, type, margin ? "margin" : "border" ) ) :
 			this[ type ]() :
 			null;
 	};
 
-	jQuery.fn[ type ] = function( value ) {
-		return jQuery.access( this, function( elem, type, value ) {
+	OMjQuery.fn[ type ] = function( value ) {
+		return OMjQuery.access( this, function( elem, type, value ) {
 			var doc, docElemProp, orig, ret;
 
-			if ( jQuery.isWindow( elem ) ) {
+			if ( OMjQuery.isWindow( elem ) ) {
 				// 3rd condition allows Nokia support, as it supports the docElem prop but not CSS1Compat
 				doc = elem.document;
 				docElemProp = doc.documentElement[ clientProp ];
-				return jQuery.support.boxModel && docElemProp ||
+				return OMjQuery.support.boxModel && docElemProp ||
 					doc.body && doc.body[ clientProp ] || docElemProp;
 			}
 
@@ -9367,13 +9367,13 @@ jQuery.each( { Height: "height", Width: "width" }, function( name, type ) {
 
 			// Get width or height on the element
 			if ( value === undefined ) {
-				orig = jQuery.css( elem, type );
+				orig = OMjQuery.css( elem, type );
 				ret = parseFloat( orig );
-				return jQuery.isNumeric( ret ) ? ret : orig;
+				return OMjQuery.isNumeric( ret ) ? ret : orig;
 			}
 
 			// Set the width or height on the element
-			jQuery( elem ).css( type, value );
+			OMjQuery( elem ).css( type, value );
 		}, type, value, arguments.length, null );
 	};
 });
@@ -9381,23 +9381,23 @@ jQuery.each( { Height: "height", Width: "width" }, function( name, type ) {
 
 
 
-// Expose jQuery to the global object
-window.jQuery = window.$ = jQuery;
+// Expose OMjQuery to the global object
+window.OMjQuery = window.$o = OMjQuery;
 
-// Expose jQuery as an AMD module, but only for AMD loaders that
-// understand the issues with loading multiple versions of jQuery
+// Expose OMjQuery as an AMD module, but only for AMD loaders that
+// understand the issues with loading multiple versions of OMjQuery
 // in a page that all might call define(). The loader will indicate
-// they have special allowances for multiple jQuery versions by
-// specifying define.amd.jQuery = true. Register as a named module,
-// since jQuery can be concatenated with other files that may use define,
+// they have special allowances for multiple OMjQuery versions by
+// specifying define.amd.OMjQuery = true. Register as a named module,
+// since OMjQuery can be concatenated with other files that may use define,
 // but not use a proper concatenation script that understands anonymous
 // AMD modules. A named AMD is safest and most robust way to register.
 // Lowercase jquery is used because AMD module names are derived from
-// file names, and jQuery is normally delivered in a lowercase file name.
+// file names, and OMjQuery is normally delivered in a lowercase file name.
 // Do this after creating the global so that if an AMD module wants to call
-// noConflict to hide this version of jQuery, it will work.
-if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
-	define( "jquery", [], function () { return jQuery; } );
+// noConflict to hide this version of OMjQuery, it will work.
+if ( typeof define === "function" && define.amd && define.amd.OMjQuery ) {
+	define( "jquery", [], function () { return OMjQuery; } );
 }
 
 
@@ -11635,7 +11635,7 @@ function style(element, styles) {
 })();
 (function() {
 
-  $('head').append('<style rel="stylesheet" type="text/css">button{font-size:10px;margin:0 5px;padding:0 5px}#overlay_me_page_container{position:relative}#overlay_me_dev_tools_menu{position:absolute;z-index:990}#overlay_me_dev_tools_menu *{line-height:14px}#overlay_me_dev_tools_menu .drag-me{line-height:100%;display:block;color:black;font-size:.7em;text-align:center;background-image:-webkit-gradient(linear,0deg,0deg,color-stop(0%,#999),color-stop(30%,#ddd),color-stop(70%,#ddd),color-stop(100%,#999));background-image:-webkit-linear-gradient(0deg,#999,#ddd 30%,#ddd 70%,#999 100%);background-image:-moz-linear-gradient(0deg,#999,#ddd 30%,#ddd 70%,#999 100%);background-image:-o-linear-gradient(0deg,#999,#ddd 30%,#ddd 70%,#999 100%);background-image:-ms-linear-gradient(0deg,#999,#ddd 30%,#ddd 70%,#999 100%);background-image:linear-gradient(0deg,#999,#ddd 30%,#ddd 70%,#999 100%);padding:1px}#overlay_me_dev_tools_menu .drag-me:hover{cursor:move}#overlay_me_dev_tools_menu ul{list-style:none;margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline}.menu-item{text-align:left;background-color:#CCC;border:1px solid rgba(255,255,255,0.2);width:250px}.menu-item a.collaps-button{cursor:pointer;position:absolute;padding-top:9px;padding-left:5px;width:13px;height:9px;border:none;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAJCAYAAADpeqZqAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAIlJREFUeNpivHDhQujz589TmZiYvjMQAP/+/eOQkZGZyfD//38ZIL77nzhwG4ilQJpA2BiIPxHQ8BGIDUHqYZpAOIWApiSYWmRNIDfPxaYaKD4bWR2KJiDmA+KzaHrOQMVxagJhfSD+ALXhA5TPQEgTCCcD8V+gpmRs8rg0MQI1eANpJmzyAAEGAKD/bax/HrzbAAAAAElFTkSuQmCC) no-repeat center center}.menu-item a.collaps-button span{display:none;color:yellow}.menu-item a.collaps-button span:hover{color:yellow}.menu-item label.title{padding-left:20px;color:white;cursor:pointer;width:237px;line-height:1.1em;font-size:14px;background:none}.menu-item.collapsed .item-content{display:none}.menu-item.collapsed a.collaps-button{background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAANCAYAAAB7AEQGAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAKtJREFUeNpiuHz5ctD///+lgJgBF2Z68uRJOgMDw0EgNmTAAZiA4AeQVgHiA0CchFUREpsPiOcCjZ8NZWNVBAaMjIwpQGofEOvjVAQFxkATDwJxMkgNCy7HAk3kB1KzgApf4DIJBD4CcRpQ8TZcJp2D+vQiVjcBjZ8HpBxhCtAVfQbiVKDxIMd+QtbI8u/fP04gfQ+Iw4D4LDa7WSQlJUGBdxyIn+DyAUCAAQDxsEXD9kreLQAAAABJRU5ErkJggg==) no-repeat center center}#overlay_panel .content-mgnt-block{position:relative;line-height:10px}#overlay_panel .content-mgnt-block .unicorns{background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAklJREFUeNqEks1u00AQx3d27V3HdezY+SBpkKBFoBZxQEKIOwfegBs3rtwoPABvw3sgceKAuFWtUBBSaT6ctvHXer2zOElTVaoKI/2lWWl/O//ZGZi8jgSPxFv3JX93+CJvfJ4/09++vzH6S/SVH59+IohH5JagxBilC4zNHHigSLvtTCPRnLYxtB4b29ojGglBc1PG1PAyLfUxzszIX7B86MwLP/iVkS566DWeEgo+gfrWdV1VJoZgpUdqon84p1a+wxI1CA+l3Z+yqu89N5a9v65EVgK8TOpgH/edZS6JAZ97/AkfKjF3pTpRkUrlfQFnoGlaHNc2F0sAzPIFWIl9WMEGTYUZJfyB12ED2l9UE6bkDAcoy+0QznXJ8nIEBosNuIb3xLoBNIlRhNlc7Ho9dDA6l1OC8gKGUGEnhAyBFmpSu8zqf9jAzqZ/RIUxFDR0G2LQ6ueIwUzGFIuE95livS4p2RaUVQYas/p+xQ4eiavPqO2nKPUcCrvlCR50uqlirXGeiUWeua4uva6vebNDwHIJErq2fW0Mdfcxpjqmqe37Nnd73US64Ummt8a5bCpZhh5UrZanfS9gBw/5tcorGSz1TJ/rCTljoomOGDTLsh+NUz8Ypdz/ndBwlpFeIdn7Hevm9miD9QNxdVGNSQzGSR3ao6Duekm23fqT3Al/Ju3waAEnr1xyayxnymhgNcU9Z7sx5LtWA+6bquxXaeLr5J+wMZebRQwDiwW2x0O7I1y7ZxOrS+X/4Y0DXJ0pANhgM4sKRv4KMACD6UDbVgTzkgAAAABJRU5ErkJggg==) no-repeat center center;width:15px;height:15px;position:absolute;right:0;top:6px}#overlay_panel label{margin:0 5px 0 0;font-size:14px}#overlay_panel .content-mgnt-block,#overlay_panel #images_mgnt{text-align:left;padding:3px 4px;margin:2px;border:1px #777 solid;-webkit-border-radius:5px;-moz-border-radius:5px;-ms-border-radius:5px;-o-border-radius:5px;border-radius:5px}#overlay_panel .content-mgnt-block legend,#overlay_panel #images_mgnt legend{font-size:10px;padding:0 3px;margin-left:10px}#overlay_panel .slider-block{display:block}#overlay_panel .slider-block label{font-size:70%;vertical-align:top}#overlay_panel .slider-block input[type=range]{margin:0}#overlay_panel #images_mgnt{width:236px}#overlay_panel #images_mgnt .controls{padding-bottom:5px}#overlay_panel #images_mgnt .overlay-image-block{text-align:left;position:relative;width:236px;border:1px solid rgba(255,255,255,0.2);border-right:none;border-left:none}#overlay_panel #images_mgnt .overlay-image-block.hovered{background-color:rgba(255,255,0,0.5)}#overlay_panel #images_mgnt .overlay-image-block .del-button{position:absolute;right:0;top:0;margin:3px 7px;cursor:pointer;border:1px #AAA solid;font-size:80%;background-color:#444;color:white;font-weight:bold;padding:0 4px 2px 4px}#overlay_panel #images_mgnt .dynamic-adds label{font-size:75%}#overlay_panel #images_mgnt .dynamic-adds input{width:105px;font-size:10px}#overlay_panel input[type=checkbox],#overlay_panel label,#overlay_panel #contentSlider,#overlay_panel .zindex-switch{display:inline}#overlay_panel input[type=checkbox]{vertical-align:middle;margin:-3px 5px 0 0}#overlay_me_images_container{position:absolute;z-index:4;top:0;left:0}#overlay_me_images_container div{position:absolute;visibility:hidden}#overlay_me_images_container div.highlight{background:rgba(255,255,0,0.5);opacity:1}#overlay_me_images_container div.highlight img{opacity:.7}#overlay_me_images_container div:hover{cursor:move}#overlay_me_images_container img{position:absolute;top:0;left:0}</style>');
+  $o('head').append('<style rel="stylesheet" type="text/css">button{font-size:10px;margin:0 5px;padding:0 5px}#overlay_me_page_container{position:relative}#overlay_me_dev_tools_menu{position:absolute;z-index:990}#overlay_me_dev_tools_menu *{line-height:14px}#overlay_me_dev_tools_menu .drag-me{line-height:100%;display:block;color:black;font-size:.7em;text-align:center;background-image:-webkit-gradient(linear,0deg,0deg,color-stop(0%,#999),color-stop(30%,#ddd),color-stop(70%,#ddd),color-stop(100%,#999));background-image:-webkit-linear-gradient(0deg,#999,#ddd 30%,#ddd 70%,#999 100%);background-image:-moz-linear-gradient(0deg,#999,#ddd 30%,#ddd 70%,#999 100%);background-image:-o-linear-gradient(0deg,#999,#ddd 30%,#ddd 70%,#999 100%);background-image:-ms-linear-gradient(0deg,#999,#ddd 30%,#ddd 70%,#999 100%);background-image:linear-gradient(0deg,#999,#ddd 30%,#ddd 70%,#999 100%);padding:1px}#overlay_me_dev_tools_menu .drag-me:hover{cursor:move}#overlay_me_dev_tools_menu ul{list-style:none;margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline}.menu-item{text-align:left;background-color:#CCC;border:1px solid rgba(255,255,255,0.2);width:250px}.menu-item a.collaps-button{cursor:pointer;position:absolute;padding-top:9px;padding-left:5px;width:13px;height:9px;border:none;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAJCAYAAADpeqZqAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAIlJREFUeNpivHDhQujz589TmZiYvjMQAP/+/eOQkZGZyfD//38ZIL77nzhwG4ilQJpA2BiIPxHQ8BGIDUHqYZpAOIWApiSYWmRNIDfPxaYaKD4bWR2KJiDmA+KzaHrOQMVxagJhfSD+ALXhA5TPQEgTCCcD8V+gpmRs8rg0MQI1eANpJmzyAAEGAKD/bax/HrzbAAAAAElFTkSuQmCC) no-repeat center center}.menu-item a.collaps-button span{display:none;color:yellow}.menu-item a.collaps-button span:hover{color:yellow}.menu-item label.title{padding-left:20px;color:white;cursor:pointer;width:237px;line-height:1.1em;font-size:14px;background:none}.menu-item.collapsed .item-content{display:none}.menu-item.collapsed a.collaps-button{background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAANCAYAAAB7AEQGAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAKtJREFUeNpiuHz5ctD///+lgJgBF2Z68uRJOgMDw0EgNmTAAZiA4AeQVgHiA0CchFUREpsPiOcCjZ8NZWNVBAaMjIwpQGofEOvjVAQFxkATDwJxMkgNCy7HAk3kB1KzgApf4DIJBD4CcRpQ8TZcJp2D+vQiVjcBjZ8HpBxhCtAVfQbiVKDxIMd+QtbI8u/fP04gfQ+Iw4D4LDa7WSQlJUGBdxyIn+DyAUCAAQDxsEXD9kreLQAAAABJRU5ErkJggg==) no-repeat center center}#overlay_panel .content-mgnt-block{position:relative;line-height:10px}#overlay_panel .content-mgnt-block .unicorns{background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAklJREFUeNqEks1u00AQx3d27V3HdezY+SBpkKBFoBZxQEKIOwfegBs3rtwoPABvw3sgceKAuFWtUBBSaT6ctvHXer2zOElTVaoKI/2lWWl/O//ZGZi8jgSPxFv3JX93+CJvfJ4/09++vzH6S/SVH59+IohH5JagxBilC4zNHHigSLvtTCPRnLYxtB4b29ojGglBc1PG1PAyLfUxzszIX7B86MwLP/iVkS566DWeEgo+gfrWdV1VJoZgpUdqon84p1a+wxI1CA+l3Z+yqu89N5a9v65EVgK8TOpgH/edZS6JAZ97/AkfKjF3pTpRkUrlfQFnoGlaHNc2F0sAzPIFWIl9WMEGTYUZJfyB12ED2l9UE6bkDAcoy+0QznXJ8nIEBosNuIb3xLoBNIlRhNlc7Ho9dDA6l1OC8gKGUGEnhAyBFmpSu8zqf9jAzqZ/RIUxFDR0G2LQ6ueIwUzGFIuE95livS4p2RaUVQYas/p+xQ4eiavPqO2nKPUcCrvlCR50uqlirXGeiUWeua4uva6vebNDwHIJErq2fW0Mdfcxpjqmqe37Nnd73US64Ummt8a5bCpZhh5UrZanfS9gBw/5tcorGSz1TJ/rCTljoomOGDTLsh+NUz8Ypdz/ndBwlpFeIdn7Hevm9miD9QNxdVGNSQzGSR3ao6Duekm23fqT3Al/Ju3waAEnr1xyayxnymhgNcU9Z7sx5LtWA+6bquxXaeLr5J+wMZebRQwDiwW2x0O7I1y7ZxOrS+X/4Y0DXJ0pANhgM4sKRv4KMACD6UDbVgTzkgAAAABJRU5ErkJggg==) no-repeat center center;width:15px;height:15px;position:absolute;right:0;top:6px}#overlay_panel label{margin:0 5px 0 0;font-size:14px}#overlay_panel .content-mgnt-block,#overlay_panel #images_mgnt{text-align:left;padding:3px 4px;margin:2px;border:1px #777 solid;-webkit-border-radius:5px;-moz-border-radius:5px;-ms-border-radius:5px;-o-border-radius:5px;border-radius:5px}#overlay_panel .content-mgnt-block legend,#overlay_panel #images_mgnt legend{font-size:10px;padding:0 3px;margin-left:10px}#overlay_panel .slider-block{display:block}#overlay_panel .slider-block label{font-size:70%;vertical-align:top}#overlay_panel .slider-block input[type=range]{margin:0}#overlay_panel #images_mgnt{width:236px}#overlay_panel #images_mgnt .controls{padding-bottom:5px}#overlay_panel #images_mgnt .overlay-image-block{text-align:left;position:relative;width:236px;border:1px solid rgba(255,255,255,0.2);border-right:none;border-left:none}#overlay_panel #images_mgnt .overlay-image-block.hovered{background-color:rgba(255,255,0,0.5)}#overlay_panel #images_mgnt .overlay-image-block .del-button{position:absolute;right:0;top:0;margin:3px 7px;cursor:pointer;border:1px #AAA solid;font-size:80%;background-color:#444;color:white;font-weight:bold;padding:0 4px 2px 4px}#overlay_panel #images_mgnt .dynamic-adds label{font-size:75%}#overlay_panel #images_mgnt .dynamic-adds input{width:105px;font-size:10px}#overlay_panel input[type=checkbox],#overlay_panel label,#overlay_panel #contentSlider,#overlay_panel .zindex-switch{display:inline}#overlay_panel input[type=checkbox]{vertical-align:middle;margin:-3px 5px 0 0}#overlay_me_images_container{position:absolute;z-index:4;top:0;left:0}#overlay_me_images_container div{position:absolute;visibility:hidden}#overlay_me_images_container div.highlight{background:rgba(255,255,0,0.5);opacity:1}#overlay_me_images_container div.highlight img{opacity:.7}#overlay_me_images_container div:hover{cursor:move}#overlay_me_images_container img{position:absolute;top:0;left:0}</style>');
 
   window.OverlayMe = {};
 
@@ -11672,10 +11672,10 @@ function style(element, styles) {
       var cssData;
       Draggable.__super__.initialize.call(this, attributes, options);
       if ((cssData = localStorage.getItem(this.id))) {
-        return $(this.el).css(JSON.parse(cssData));
+        return $o(this.el).css(JSON.parse(cssData));
       } else {
         if (options.default_css !== void 0) {
-          return $(this.el).css(options.default_css);
+          return $o(this.el).css(options.default_css);
         }
       }
     };
@@ -11686,18 +11686,18 @@ function style(element, styles) {
       this.moving = true;
       this.lastX = event.clientX;
       this.lastY = event.clientY;
-      $(window).bind('mymousemove', function(event, mouseEvent) {
+      $o(window).bind('mymousemove', function(event, mouseEvent) {
         _this.updateOverlay(mouseEvent.clientX - _this.lastX, mouseEvent.clientY - _this.lastY);
         _this.lastX = mouseEvent.clientX;
         return _this.lastY = mouseEvent.clientY;
       });
-      return $(this.el).addClass('on-move');
+      return $o(this.el).addClass('on-move');
     };
 
     Draggable.prototype.endMove = function(event) {
       this.moving = false;
-      $(window).unbind('mymousemove');
-      return $(this.el).removeClass('on-move');
+      $o(window).unbind('mymousemove');
+      return $o(this.el).removeClass('on-move');
     };
 
     Draggable.prototype.toggleMove = function(event) {
@@ -11710,9 +11710,9 @@ function style(element, styles) {
 
     Draggable.prototype.updateOverlay = function(x, y) {
       var newX, newY;
-      newX = parseInt($(this.el).css('left')) + x;
-      newY = parseInt($(this.el).css('top')) + y;
-      $(this.el).css({
+      newX = parseInt($o(this.el).css('left')) + x;
+      newY = parseInt($o(this.el).css('top')) + y;
+      $o(this.el).css({
         top: "" + newY + "px",
         left: "" + newX + "px",
         right: "auto"
@@ -11723,10 +11723,10 @@ function style(element, styles) {
     Draggable.prototype.saveCss = function() {
       var cssData;
       cssData = {
-        top: $(this.el).css('top'),
-        left: $(this.el).css('left'),
-        visibility: $(this.el).css('visibility'),
-        opacity: $(this.el).css('opacity')
+        top: $o(this.el).css('top'),
+        left: $o(this.el).css('left'),
+        visibility: $o(this.el).css('visibility'),
+        opacity: $o(this.el).css('opacity')
       };
       return localStorage.setItem(this.id, JSON.stringify(cssData));
     };
@@ -11757,18 +11757,18 @@ function style(element, styles) {
       "class": 'drag-me'
     }, 'Drag me');
     OverlayMe.Menu = (new Backbone.View).make('ul');
-    $(OverlayMe.menu_box.el).append(drag_me_line);
-    $(OverlayMe.menu_box.el).append(OverlayMe.Menu);
-    $('body').append(OverlayMe.menu_box.render());
-    $(drag_me_line).bind('mousedown', function(event) {
+    $o(OverlayMe.menu_box.el).append(drag_me_line);
+    $o(OverlayMe.menu_box.el).append(OverlayMe.Menu);
+    $o('body').append(OverlayMe.menu_box.render());
+    $o(drag_me_line).bind('mousedown', function(event) {
       return OverlayMe.menu_box.toggleMove(event);
     });
-    $(window).bind('mouseup', function(event) {
+    $o(window).bind('mouseup', function(event) {
       return OverlayMe.menu_box.endMove(event);
     });
-    $(OverlayMe.menu_box).bind('toggle:visibility', function(event) {
+    $o(OverlayMe.menu_box).bind('toggle:visibility', function(event) {
       var css;
-      if ($(OverlayMe.menu_box.el).css('visibility') === 'visible') {
+      if ($o(OverlayMe.menu_box.el).css('visibility') === 'visible') {
         css = {
           visibility: 'hidden'
         };
@@ -11777,7 +11777,7 @@ function style(element, styles) {
           visibility: 'visible'
         };
       }
-      $(OverlayMe.menu_box.el).css(css);
+      $o(OverlayMe.menu_box.el).css(css);
       return OverlayMe.menu_box.saveCss();
     });
   }
@@ -11808,7 +11808,7 @@ function style(element, styles) {
       this.title = this.make('label', {
         "class": 'title'
       }, attributes.title);
-      $(this.title).bind('click', function() {
+      $o(this.title).bind('click', function() {
         return _this.toggleCollapse();
       });
       this.el.appendChild(this.title);
@@ -11825,7 +11825,7 @@ function style(element, styles) {
       this.collapseButton = this.make('a', {
         "class": 'collaps-button'
       }, '<span>o</span>');
-      $(this.collapseButton).bind('click', function() {
+      $o(this.collapseButton).bind('click', function() {
         return _this.toggleCollapse();
       });
       return this.collapseButton;
@@ -11839,9 +11839,9 @@ function style(element, styles) {
 
     MenuItem.prototype.setCollapse = function(toCollapse) {
       if (toCollapse) {
-        return $(this.el).addClass('collapsed');
+        return $o(this.el).addClass('collapsed');
       } else {
-        return $(this.el).removeClass('collapsed');
+        return $o(this.el).removeClass('collapsed');
       }
     };
 
@@ -11876,14 +11876,14 @@ function style(element, styles) {
     }, 'Reset All');
     basics_panel.append(clear_all_button);
     hide_button = (new Backbone.View).make('button', {}, 'Hide menu (touch "h")');
-    $(hide_button).bind('click', function(event) {
-      return $(OverlayMe.menu_box).trigger('toggle:visibility');
+    $o(hide_button).bind('click', function(event) {
+      return $o(OverlayMe.menu_box).trigger('toggle:visibility');
     });
     basics_panel.append(hide_button);
-    $(OverlayMe.Menu).append(basics_panel.render());
-    $(window).bind('keypress', function(event) {
+    $o(OverlayMe.Menu).append(basics_panel.render());
+    $o(window).bind('keypress', function(event) {
       if (event.charCode === 104) {
-        return $(OverlayMe.menu_box).trigger('toggle:visibility');
+        return $o(OverlayMe.menu_box).trigger('toggle:visibility');
       }
     });
   }
@@ -11920,31 +11920,31 @@ function style(element, styles) {
       this.image = (new Backbone.View).make('img', {
         src: options.image_src
       });
-      $(this.el).append(this.image);
-      if ($(this.el).css('left') === 'auto' || $(this.el).css('left') === '') {
-        $(this.el).css('left', '0px');
+      $o(this.el).append(this.image);
+      if ($o(this.el).css('left') === 'auto' || $o(this.el).css('left') === '') {
+        $o(this.el).css('left', '0px');
       }
-      if ($(this.el).css('top') === 'auto' || $(this.el).css('top') === '') {
-        $(this.el).css('top', '0px');
+      if ($o(this.el).css('top') === 'auto' || $o(this.el).css('top') === '') {
+        $o(this.el).css('top', '0px');
       }
-      $(this.el).bind('mousedown', function(event) {
+      $o(this.el).bind('mousedown', function(event) {
         return _this.toggleMove(event);
       });
-      $(window).bind('mouseup', function(event) {
+      $o(window).bind('mouseup', function(event) {
         return _this.endMove(event);
       });
-      $(this.el).bind('mouseover', function(event) {
-        return $(".overlay-image-block[data-img-id=" + _this.id + "]").addClass('hovered');
+      $o(this.el).bind('mouseover', function(event) {
+        return $o(".overlay-image-block[data-img-id=" + _this.id + "]").addClass('hovered');
       });
-      return $(this.el).bind('mouseout', function(event) {
-        return $(".overlay-image-block[data-img-id=" + _this.id + "]").removeClass('hovered');
+      return $o(this.el).bind('mouseout', function(event) {
+        return $o(".overlay-image-block[data-img-id=" + _this.id + "]").removeClass('hovered');
       });
     };
 
     DraggableImage.prototype.fitDivToImage = function() {
       if (this.image.width > 0) {
-        $(this.el).css('width', this.image.width);
-        return $(this.el).css('height', this.image.height);
+        $o(this.el).css('width', this.image.width);
+        return $o(this.el).css('height', this.image.height);
       }
     };
 
@@ -11985,44 +11985,44 @@ function style(element, styles) {
       }
       this.image_src = image_src;
       this.image_id = OverlayMe.Overlays.urlToId(image_src);
-      $(this.el).attr('data-img-id', this.image_id);
-      this.images_container = $('#overlay_me_images_container');
+      $o(this.el).attr('data-img-id', this.image_id);
+      this.images_container = $o('#overlay_me_images_container');
       if (this.images_container.length < 1) {
-        $('body').append((new Backbone.View).make('div', {
+        $o('body').append((new Backbone.View).make('div', {
           id: 'overlay_me_images_container'
         }));
-        this.images_container = $('#overlay_me_images_container');
+        this.images_container = $o('#overlay_me_images_container');
       }
       this.default_css = $.extend({
         visibility: 'hidden',
         opacity: 0.5
       }, options.default_css);
-      if (!($("#" + this.image_id, this.images_container).length > 0)) {
-        $(this.images_container).append(this.image());
+      if (!($o("#" + this.image_id, this.images_container).length > 0)) {
+        $o(this.images_container).append(this.image());
       }
-      $(this.el).append(this.checkbox());
-      $(this.el).append(this.label());
+      $o(this.el).append(this.checkbox());
+      $o(this.el).append(this.label());
       slider_block = this.make('div', {
         "class": 'slider-block'
       });
-      $(this.el).append(slider_block);
+      $o(this.el).append(slider_block);
       slider_block.appendChild(this.make('label', {}, 'Opacity'));
       slider_block.appendChild(this.slider());
       if (options.destroyable) {
-        $(this.el).append(this.delButton());
+        $o(this.el).append(this.delButton());
       }
-      $(this.el).bind('click', function(event) {
+      $o(this.el).bind('click', function(event) {
         return _this.flickCheckbox();
       });
-      $(this.el).bind('mouseover', function(event) {
-        $(_this.image.el).css('opacity', 1);
-        $(_this.image.el).addClass('highlight');
-        return $(_this.el).addClass('hovered');
+      $o(this.el).bind('mouseover', function(event) {
+        $o(_this.image.el).css('opacity', 1);
+        $o(_this.image.el).addClass('highlight');
+        return $o(_this.el).addClass('hovered');
       });
-      return $(this.el).bind('mouseout', function(event) {
-        $(_this.image.el).removeClass('highlight');
-        $(_this.el).removeClass('hovered');
-        return $(_this.image.el).css('opacity', $(_this.slider)[0].value / 100);
+      return $o(this.el).bind('mouseout', function(event) {
+        $o(_this.image.el).removeClass('highlight');
+        $o(_this.el).removeClass('hovered');
+        return $o(_this.image.el).css('opacity', $o(_this.slider)[0].value / 100);
       });
     };
 
@@ -12041,14 +12041,14 @@ function style(element, styles) {
       this.checkbox = this.make('input', {
         type: "checkbox"
       });
-      if ($(this.image.el).css('visibility') === 'visible') {
+      if ($o(this.image.el).css('visibility') === 'visible') {
         this.checkbox.checked = true;
       }
-      $(this.checkbox).bind('click', function(e) {
+      $o(this.checkbox).bind('click', function(e) {
         e.stopPropagation();
         return _this.flickVisibility();
       });
-      $(this.checkbox).bind('change', function(e) {
+      $o(this.checkbox).bind('change', function(e) {
         e.stopPropagation();
         return _this.flickVisibility();
       });
@@ -12061,7 +12061,7 @@ function style(element, styles) {
         "class": 'del-button',
         title: 'Delete'
       }, 'x');
-      $(this.delButton).bind('click', function(e) {
+      $o(this.delButton).bind('click', function(e) {
         return OverlayMe.dyn_manager.delImage(_this.image_id);
       });
       return this.delButton;
@@ -12075,9 +12075,9 @@ function style(element, styles) {
     Image.prototype.flickVisibility = function() {
       this.image.fitDivToImage();
       if (this.checkbox.checked) {
-        $(this.image.el).css('visibility', 'visible');
+        $o(this.image.el).css('visibility', 'visible');
       } else {
-        $(this.image.el).css('visibility', 'hidden');
+        $o(this.image.el).css('visibility', 'hidden');
       }
       return this.image.saveCss();
     };
@@ -12090,22 +12090,22 @@ function style(element, styles) {
       var _this = this;
       this.slider = this.make('input', {
         type: "range",
-        value: $(this.image.el).css('opacity') * 100
+        value: $o(this.image.el).css('opacity') * 100
       });
-      $(this.slider).bind('click', function(e) {
+      $o(this.slider).bind('click', function(e) {
         return e.stopPropagation();
       });
-      $(this.slider).bind('change', function(e) {
-        $(_this.image.el).css('opacity', $(_this.slider)[0].value / 100);
+      $o(this.slider).bind('change', function(e) {
+        $o(_this.image.el).css('opacity', $o(_this.slider)[0].value / 100);
         return _this.image.saveCss();
       });
-      $(this.slider).bind('mouseover', function(e) {
+      $o(this.slider).bind('mouseover', function(e) {
         e.stopPropagation();
-        return $(_this.el).addClass('hovered');
+        return $o(_this.el).addClass('hovered');
       });
-      $(this.slider).bind('mouseout', function(e) {
+      $o(this.slider).bind('mouseout', function(e) {
         e.stopPropagation();
-        return $(_this.el).removeClass('hovered');
+        return $o(_this.el).removeClass('hovered');
       });
       return this.slider;
     };
@@ -12180,7 +12180,7 @@ function style(element, styles) {
         options = {};
       }
       image_id = OverlayMe.Overlays.urlToId(src);
-      if (!($("#overlay_me_images_container #" + image_id).length > 0)) {
+      if (!($o("#overlay_me_images_container #" + image_id).length > 0)) {
         _default_css = $.extend({
           visibility: 'visible'
         }, options.default_css);
@@ -12255,38 +12255,38 @@ function style(element, styles) {
       our_page_container_div = this.make('div', {
         id: 'overlay_me_page_container'
       });
-      $('body').append(our_page_container_div);
-      $('body > *').each(function(index, thing) {
+      $o('body').append(our_page_container_div);
+      $o('body > *').each(function(index, thing) {
         if (!(thing.id.match(/^overlay_me/) || thing.tagName === 'SCRIPT')) {
-          return $(our_page_container_div).append(thing);
+          return $o(our_page_container_div).append(thing);
         }
       });
-      $("#overlay_me_page_container").css({
+      $o("#overlay_me_page_container").css({
         'z-index': this.normal_zindex
       });
       if ((contentCss = localStorage.getItem("#overlay_me_page_container"))) {
-        $("#overlay_me_page_container").css(JSON.parse(contentCss));
+        $o("#overlay_me_page_container").css(JSON.parse(contentCss));
       }
       unicorn_button = this.make('div', {
         "class": 'unicorns',
         title: 'Feeling corny?'
       });
-      $(unicorn_button).bind('click', function() {
+      $o(unicorn_button).bind('click', function() {
         return OverlayMe.dyn_manager.addImage(OverlayMe.unicorns[Math.floor(Math.random() * OverlayMe.unicorns.length)], {
           default_css: {
             opacity: 1
           }
         });
       });
-      $(this.el).append(unicorn_button);
-      $(this.el).append(this.make('legend', {}, 'Page content'));
+      $o(this.el).append(unicorn_button);
+      $o(this.el).append(this.make('legend', {}, 'Page content'));
       slider_block = this.make('div', {
         "class": 'slider-block'
       });
-      $(this.el).append(slider_block);
+      $o(this.el).append(slider_block);
       slider_block.appendChild(this.make('label', {}, 'Opacity'));
       slider_block.appendChild(this.contentSlider());
-      $(this.el).append(this.zIndexSwitch());
+      $o(this.el).append(this.zIndexSwitch());
       return this.bindEvents();
     };
 
@@ -12299,48 +12299,48 @@ function style(element, styles) {
       this.zIndexSwitch = this.make('input', {
         type: "checkbox"
       });
-      $(block).append(this.zIndexSwitch);
+      $o(block).append(this.zIndexSwitch);
       setTimeout(function() {
-        if ($("#overlay_me_page_container").css('z-index') === _this.over_zindex) {
+        if ($o("#overlay_me_page_container").css('z-index') === _this.over_zindex) {
           return _this.zIndexSwitch.checked = true;
         }
       }, 500);
       label = this.make('label', {}, 'Content on top (touch "c")');
-      $(label).bind('click', function() {
-        return $(_this.zIndexSwitch).trigger('click');
+      $o(label).bind('click', function() {
+        return $o(_this.zIndexSwitch).trigger('click');
       });
-      return $(block).append(label);
+      return $o(block).append(label);
     };
 
     ContentDivManagementBlock.prototype.contentSlider = function() {
       return this.contentSlider = this.make('input', {
         id: "contentSlider",
         type: "range",
-        value: $("#overlay_me_page_container").css('opacity') * 100
+        value: $o("#overlay_me_page_container").css('opacity') * 100
       });
     };
 
     ContentDivManagementBlock.prototype.bindEvents = function() {
       var _this = this;
-      $(this.contentSlider).bind('change', function() {
-        $("#overlay_me_page_container").css('opacity', $(_this.contentSlider)[0].value / 100);
+      $o(this.contentSlider).bind('change', function() {
+        $o("#overlay_me_page_container").css('opacity', $o(_this.contentSlider)[0].value / 100);
         return _this.saveContentCss();
       });
-      $(this.zIndexSwitch).bind('change', function(event) {
+      $o(this.zIndexSwitch).bind('change', function(event) {
         if (_this.zIndexSwitch.checked) {
-          $("#overlay_me_page_container").css({
+          $o("#overlay_me_page_container").css({
             'z-index': _this.over_zindex
           });
         } else {
-          $("#overlay_me_page_container").css({
+          $o("#overlay_me_page_container").css({
             'z-index': _this.normal_zindex
           });
         }
         return _this.saveContentCss();
       });
-      return $(window).bind('keypress', function(event) {
+      return $o(window).bind('keypress', function(event) {
         if (event.charCode === 99) {
-          return $(_this.zIndexSwitch).trigger('click');
+          return $o(_this.zIndexSwitch).trigger('click');
         }
       });
     };
@@ -12351,8 +12351,8 @@ function style(element, styles) {
 
     ContentDivManagementBlock.prototype.saveContentCss = function() {
       return localStorage.setItem("#overlay_me_page_container", JSON.stringify({
-        opacity: $("#overlay_me_page_container").css('opacity'),
-        'z-index': $("#overlay_me_page_container").css('z-index')
+        opacity: $o("#overlay_me_page_container").css('opacity'),
+        'z-index': $o("#overlay_me_page_container").css('z-index')
       }));
     };
 
@@ -12382,28 +12382,28 @@ function style(element, styles) {
     ImagesManagementDiv.prototype.initialize = function() {
       var check_all_label, hide_inactives_label,
         _this = this;
-      $(this.el).append(this.make('legend', {}, 'Overlaying images'));
+      $o(this.el).append(this.make('legend', {}, 'Overlaying images'));
       this.controlBlock = this.make('div', {
         "class": 'controls'
       });
-      $(this.el).append(this.controlBlock);
+      $o(this.el).append(this.controlBlock);
       this.controlBlock.appendChild(this.checkAllbox());
       check_all_label = this.make('label', {}, 'All/None');
-      $(check_all_label).bind('click', function() {
-        return $(_this.checkAllBox).trigger('click');
+      $o(check_all_label).bind('click', function() {
+        return $o(_this.checkAllBox).trigger('click');
       });
       this.controlBlock.appendChild(check_all_label);
       this.controlBlock.appendChild(this.hideInactivesBox());
       hide_inactives_label = this.make('label', {}, 'Hide Inactives');
       this.controlBlock.appendChild(hide_inactives_label);
-      $(hide_inactives_label).bind('click', function() {
-        return $(_this.hideInactivesBox).trigger('click');
+      $o(hide_inactives_label).bind('click', function() {
+        return $o(_this.hideInactivesBox).trigger('click');
       });
       this.overlaysListBlock = this.make('div', {
         "class": 'overlays-list'
       });
-      $(this.el).append(this.overlaysListBlock);
-      return $(this.el).append(this.dynamicAddsBlock());
+      $o(this.el).append(this.overlaysListBlock);
+      return $o(this.el).append(this.dynamicAddsBlock());
     };
 
     ImagesManagementDiv.prototype.append = function(block) {
@@ -12411,8 +12411,8 @@ function style(element, styles) {
     };
 
     ImagesManagementDiv.prototype.del = function(image_id) {
-      $(".overlay-image-block[data-img-id=" + image_id + "]", this.el).remove();
-      return $("#overlay_me_images_container #" + image_id).remove();
+      $o(".overlay-image-block[data-img-id=" + image_id + "]", this.el).remove();
+      return $o("#overlay_me_images_container #" + image_id).remove();
     };
 
     ImagesManagementDiv.prototype.dynamicAddsBlock = function() {
@@ -12429,12 +12429,12 @@ function style(element, styles) {
       dynamicAddsBlock.appendChild(this.image_url_input);
       push_image_button = this.make('button', {}, 'Add');
       dynamicAddsBlock.appendChild(push_image_button);
-      $(this.image_url_input).bind('keypress', function(e) {
+      $o(this.image_url_input).bind('keypress', function(e) {
         if (e.keyCode === 13) {
           return _this.pushImage();
         }
       });
-      $(push_image_button).bind('click', function(e) {
+      $o(push_image_button).bind('click', function(e) {
         return _this.pushImage();
       });
       return dynamicAddsBlock;
@@ -12451,10 +12451,10 @@ function style(element, styles) {
         type: "checkbox",
         "class": 'hide-inactive'
       });
-      if ($(this.hideInactivesBox).css('visibility') === 'visible') {
+      if ($o(this.hideInactivesBox).css('visibility') === 'visible') {
         this.hideInactivesBox.checked = true;
       }
-      $(this.hideInactivesBox).bind('change', function(event) {
+      $o(this.hideInactivesBox).bind('change', function(event) {
         return _this.hideInactives();
       });
       return this.hideInactivesBox;
@@ -12463,16 +12463,16 @@ function style(element, styles) {
     ImagesManagementDiv.prototype.hideInactives = function() {
       var checkbox_state;
       checkbox_state = this.hideInactivesBox.checked;
-      _.each($('.overlay-image-block'), function(img_block) {
+      _.each($o('.overlay-image-block'), function(img_block) {
         var checkbox, img_id;
-        checkbox = $('input[type=checkbox]', img_block);
-        img_id = $(img_block).attr('data-img-id');
+        checkbox = $o('input[type=checkbox]', img_block);
+        img_id = $o(img_block).attr('data-img-id');
         if (checkbox_state && !checkbox.first()[0].checked) {
-          $(img_block).hide();
-          return $("#" + img_id).hide();
+          $o(img_block).hide();
+          return $o("#" + img_id).hide();
         } else {
-          $(img_block).show();
-          return $("#" + img_id).show();
+          $o(img_block).show();
+          return $o("#" + img_id).show();
         }
       });
       return this.saveState();
@@ -12484,10 +12484,10 @@ function style(element, styles) {
         type: "checkbox",
         "class": 'check-all'
       });
-      if ($(this.checkAllBox).css('visibility') === 'visible') {
+      if ($o(this.checkAllBox).css('visibility') === 'visible') {
         this.checkAllBox.checked = true;
       }
-      $(this.checkAllBox).bind('change', function(event) {
+      $o(this.checkAllBox).bind('change', function(event) {
         return _this.checkAll();
       });
       return this.checkAllBox;
@@ -12496,11 +12496,11 @@ function style(element, styles) {
     ImagesManagementDiv.prototype.checkAll = function() {
       var checkbox, checkbox_state, _i, _len, _ref;
       checkbox_state = this.checkAllBox.checked;
-      _ref = $('.overlay-image-block input[type=checkbox]');
+      _ref = $o('.overlay-image-block input[type=checkbox]');
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         checkbox = _ref[_i];
         if (checkbox.checked !== checkbox_state) {
-          $(checkbox).trigger('click');
+          $o(checkbox).trigger('click');
         }
       }
       return this.saveState();
@@ -12528,9 +12528,9 @@ function style(element, styles) {
     overlay_panel.append(new OverlayMe.Overlays.ContentDivManagementBlock().render());
     OverlayMe.images_management_div = new OverlayMe.Overlays.ImagesManagementDiv();
     overlay_panel.append(OverlayMe.images_management_div.render());
-    $(OverlayMe.Menu).append(overlay_panel.render());
-    $(window).bind('mousemove', function(event) {
-      return $(window).trigger('mymousemove', event);
+    $o(OverlayMe.Menu).append(overlay_panel.render());
+    $o(window).bind('mousemove', function(event) {
+      return $o(window).trigger('mymousemove', event);
     });
     OverlayMe.dyn_manager = new OverlayMe.Overlays.DynamicManager();
     OverlayMe.dyn_manager.loadAll();
