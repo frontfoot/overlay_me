@@ -31,6 +31,16 @@ class OverlayMe.Draggable extends Backbone.View
     else
       @engageMove(event)
 
+  isDisplayed: ->
+    return $o(@el).css('display') != 'none'
+  
+  toggleDisplay: (default_display_type='block') ->
+    if @isDisplayed()
+      $o(@el).css { display: 'none' }
+    else
+      $o(@el).css { display: default_display_type }
+    @saveCss()
+
   updateOverlay: (x, y) ->
     newX = parseInt($o(@el).css('left')) + x
     newY = parseInt($o(@el).css('top')) + y
@@ -41,7 +51,7 @@ class OverlayMe.Draggable extends Backbone.View
     cssData = {
       top:$o(@el).css('top'),
       left:$o(@el).css('left'),
-      visibility:$o(@el).css('visibility'),
+      display:$o(@el).css('display'),
       opacity: $o(@el).css('opacity')
     }
     localStorage.setItem(@id, JSON.stringify(cssData))

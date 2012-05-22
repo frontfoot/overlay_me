@@ -4,7 +4,10 @@ class OverlayMe.Overlays.DraggableImage extends OverlayMe.Draggable
 
   initialize: (attributes, options) ->
     super(attributes, options)
-    @image = (new Backbone.View).make 'img', { src: options.image_src }
+    @image = new Image()
+    $o(@image).load => # when image loaded
+      @fitDivToImage()
+    $o(@image).attr 'src', options.image_src
     $o(@el).append @image
 
     # force positioning to 0 by default

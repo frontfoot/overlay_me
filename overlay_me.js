@@ -11635,7 +11635,7 @@ function style(element, styles) {
 })();
 (function() {
 
-  $o('head').append('<style rel="stylesheet" type="text/css">button{font-size:9px;margin:0 3px;padding:0 3px}#overlay_me_page_container{position:relative}#overlay_me_dev_tools_menu{position:fixed;right:0;z-index:990}#overlay_me_dev_tools_menu *{line-height:14px}#overlay_me_dev_tools_menu .drag-me{line-height:100%;display:block;color:black;font-size:.7em;text-align:center;background-image:-webkit-gradient(linear,0deg,0deg,color-stop(0%,#999),color-stop(30%,#ddd),color-stop(70%,#ddd),color-stop(100%,#999));background-image:-webkit-linear-gradient(0deg,#999,#ddd 30%,#ddd 70%,#999 100%);background-image:-moz-linear-gradient(0deg,#999,#ddd 30%,#ddd 70%,#999 100%);background-image:-o-linear-gradient(0deg,#999,#ddd 30%,#ddd 70%,#999 100%);background-image:-ms-linear-gradient(0deg,#999,#ddd 30%,#ddd 70%,#999 100%);background-image:linear-gradient(0deg,#999,#ddd 30%,#ddd 70%,#999 100%);padding:1px}#overlay_me_dev_tools_menu .drag-me:hover{cursor:move}#overlay_me_dev_tools_menu ul{list-style:none;margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline}.menu-item{text-align:left;background-color:#CCC;border:1px solid rgba(255,255,255,0.2);width:200px}.menu-item a.collaps-button{cursor:pointer;position:absolute;padding-top:9px;padding-left:5px;width:13px;height:9px;border:none;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAJCAYAAADpeqZqAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAIlJREFUeNpivHDhQujz589TmZiYvjMQAP/+/eOQkZGZyfD//38ZIL77nzhwG4ilQJpA2BiIPxHQ8BGIDUHqYZpAOIWApiSYWmRNIDfPxaYaKD4bWR2KJiDmA+KzaHrOQMVxagJhfSD+ALXhA5TPQEgTCCcD8V+gpmRs8rg0MQI1eANpJmzyAAEGAKD/bax/HrzbAAAAAElFTkSuQmCC) no-repeat center center}.menu-item a.collaps-button span{display:none;color:yellow}.menu-item a.collaps-button span:hover{color:yellow}.menu-item label.title{padding-left:20px;color:white;cursor:pointer;width:187px;line-height:1.1em;font-size:14px;background:none}.menu-item.collapsed .item-content{display:none}.menu-item.collapsed a.collaps-button{background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAANCAYAAAB7AEQGAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAKtJREFUeNpiuHz5ctD///+lgJgBF2Z68uRJOgMDw0EgNmTAAZiA4AeQVgHiA0CchFUREpsPiOcCjZ8NZWNVBAaMjIwpQGofEOvjVAQFxkATDwJxMkgNCy7HAk3kB1KzgApf4DIJBD4CcRpQ8TZcJp2D+vQiVjcBjZ8HpBxhCtAVfQbiVKDxIMd+QtbI8u/fP04gfQ+Iw4D4LDa7WSQlJUGBdxyIn+DyAUCAAQDxsEXD9kreLQAAAABJRU5ErkJggg==) no-repeat center center}#overlay_panel .content-mgnt-block{position:relative;line-height:10px}#overlay_panel .content-mgnt-block .unicorns{background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAklJREFUeNqEks1u00AQx3d27V3HdezY+SBpkKBFoBZxQEKIOwfegBs3rtwoPABvw3sgceKAuFWtUBBSaT6ctvHXer2zOElTVaoKI/2lWWl/O//ZGZi8jgSPxFv3JX93+CJvfJ4/09++vzH6S/SVH59+IohH5JagxBilC4zNHHigSLvtTCPRnLYxtB4b29ojGglBc1PG1PAyLfUxzszIX7B86MwLP/iVkS566DWeEgo+gfrWdV1VJoZgpUdqon84p1a+wxI1CA+l3Z+yqu89N5a9v65EVgK8TOpgH/edZS6JAZ97/AkfKjF3pTpRkUrlfQFnoGlaHNc2F0sAzPIFWIl9WMEGTYUZJfyB12ED2l9UE6bkDAcoy+0QznXJ8nIEBosNuIb3xLoBNIlRhNlc7Ho9dDA6l1OC8gKGUGEnhAyBFmpSu8zqf9jAzqZ/RIUxFDR0G2LQ6ueIwUzGFIuE95livS4p2RaUVQYas/p+xQ4eiavPqO2nKPUcCrvlCR50uqlirXGeiUWeua4uva6vebNDwHIJErq2fW0Mdfcxpjqmqe37Nnd73US64Ummt8a5bCpZhh5UrZanfS9gBw/5tcorGSz1TJ/rCTljoomOGDTLsh+NUz8Ypdz/ndBwlpFeIdn7Hevm9miD9QNxdVGNSQzGSR3ao6Duekm23fqT3Al/Ju3waAEnr1xyayxnymhgNcU9Z7sx5LtWA+6bquxXaeLr5J+wMZebRQwDiwW2x0O7I1y7ZxOrS+X/4Y0DXJ0pANhgM4sKRv4KMACD6UDbVgTzkgAAAABJRU5ErkJggg==) no-repeat center center;width:15px;height:15px;position:absolute;right:0;top:6px}#overlay_panel label{margin:0;font-size:14px}#overlay_panel .content-mgnt-block,#overlay_panel #images_mgnt{text-align:left;padding:3px 4px;margin:2px;border:1px #777 solid;-webkit-border-radius:5px;-moz-border-radius:5px;-ms-border-radius:5px;-o-border-radius:5px;border-radius:5px}#overlay_panel .content-mgnt-block legend,#overlay_panel #images_mgnt legend{font-size:10px;padding:0 3px;margin-left:10px}#overlay_panel .slider-block{display:block}#overlay_panel .slider-block label{font-size:70%;margin:0 5px 0 0;vertical-align:top}#overlay_panel .slider-block input[type=range]{margin:0}#overlay_panel #images_mgnt{width:186px}#overlay_panel #images_mgnt .controls{padding-bottom:5px}#overlay_panel #images_mgnt .controls label{margin-right:5px}#overlay_panel #images_mgnt .overlay-image-block{text-align:left;position:relative;width:186px;border:1px solid rgba(255,255,255,0.2);border-right:none;border-left:none}#overlay_panel #images_mgnt .overlay-image-block.hovered{background-color:rgba(255,255,0,0.5)}#overlay_panel #images_mgnt .overlay-image-block .del-button{position:absolute;right:0;top:0;margin:3px 7px;cursor:pointer;border:1px #AAA solid;font-size:80%;background-color:#444;color:white;font-weight:bold;padding:0 4px 2px 4px}#overlay_panel #images_mgnt .dynamic-adds label{font-size:75%}#overlay_panel #images_mgnt .dynamic-adds input{width:95px;font-size:10px}#overlay_panel input[type=checkbox],#overlay_panel label,#overlay_panel #contentSlider,#overlay_panel .zindex-switch{display:inline}#overlay_panel input[type=checkbox]{vertical-align:middle;margin:-3px 5px 0 0}#overlay_me_images_container{position:absolute;z-index:4;top:0;left:0}#overlay_me_images_container div{position:absolute;visibility:hidden}#overlay_me_images_container div.highlight{border:2px solid red;margin-top:-2px;margin-left:-2px}#overlay_me_images_container div:hover{cursor:move}#overlay_me_images_container img{position:absolute;top:0;left:0}</style>');
+  $o('head').append('<style rel="stylesheet" type="text/css">button{font-size:9px;margin:0 3px;padding:0 3px}#overlay_me_page_container{position:relative}#overlay_me_dev_tools_menu{position:fixed;right:0;z-index:990}#overlay_me_dev_tools_menu *{line-height:14px}#overlay_me_dev_tools_menu .drag-me{line-height:100%;display:block;color:black;font-size:.7em;text-align:center;background-image:-webkit-gradient(linear,0deg,0deg,color-stop(0%,#999),color-stop(30%,#ddd),color-stop(70%,#ddd),color-stop(100%,#999));background-image:-webkit-linear-gradient(0deg,#999,#ddd 30%,#ddd 70%,#999 100%);background-image:-moz-linear-gradient(0deg,#999,#ddd 30%,#ddd 70%,#999 100%);background-image:-o-linear-gradient(0deg,#999,#ddd 30%,#ddd 70%,#999 100%);background-image:-ms-linear-gradient(0deg,#999,#ddd 30%,#ddd 70%,#999 100%);background-image:linear-gradient(0deg,#999,#ddd 30%,#ddd 70%,#999 100%);padding:1px}#overlay_me_dev_tools_menu .drag-me:hover{cursor:move}#overlay_me_dev_tools_menu ul{list-style:none;margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline}.menu-item{text-align:left;background-color:#CCC;border:1px solid rgba(255,255,255,0.2);width:200px}.menu-item a.collaps-button{cursor:pointer;position:absolute;padding-top:9px;padding-left:5px;width:13px;height:9px;border:none;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAJCAYAAADpeqZqAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAIlJREFUeNpivHDhQujz589TmZiYvjMQAP/+/eOQkZGZyfD//38ZIL77nzhwG4ilQJpA2BiIPxHQ8BGIDUHqYZpAOIWApiSYWmRNIDfPxaYaKD4bWR2KJiDmA+KzaHrOQMVxagJhfSD+ALXhA5TPQEgTCCcD8V+gpmRs8rg0MQI1eANpJmzyAAEGAKD/bax/HrzbAAAAAElFTkSuQmCC) no-repeat center center}.menu-item a.collaps-button span{display:none;color:yellow}.menu-item a.collaps-button span:hover{color:yellow}.menu-item label.title{padding-left:20px;color:white;cursor:pointer;width:187px;line-height:1.1em;font-size:14px;background:none}.menu-item.collapsed .item-content{display:none}.menu-item.collapsed a.collaps-button{background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAANCAYAAAB7AEQGAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAKtJREFUeNpiuHz5ctD///+lgJgBF2Z68uRJOgMDw0EgNmTAAZiA4AeQVgHiA0CchFUREpsPiOcCjZ8NZWNVBAaMjIwpQGofEOvjVAQFxkATDwJxMkgNCy7HAk3kB1KzgApf4DIJBD4CcRpQ8TZcJp2D+vQiVjcBjZ8HpBxhCtAVfQbiVKDxIMd+QtbI8u/fP04gfQ+Iw4D4LDa7WSQlJUGBdxyIn+DyAUCAAQDxsEXD9kreLQAAAABJRU5ErkJggg==) no-repeat center center}#overlay_panel .content-mgnt-block{position:relative;line-height:10px}#overlay_panel .content-mgnt-block .unicorns{background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAklJREFUeNqEks1u00AQx3d27V3HdezY+SBpkKBFoBZxQEKIOwfegBs3rtwoPABvw3sgceKAuFWtUBBSaT6ctvHXer2zOElTVaoKI/2lWWl/O//ZGZi8jgSPxFv3JX93+CJvfJ4/09++vzH6S/SVH59+IohH5JagxBilC4zNHHigSLvtTCPRnLYxtB4b29ojGglBc1PG1PAyLfUxzszIX7B86MwLP/iVkS566DWeEgo+gfrWdV1VJoZgpUdqon84p1a+wxI1CA+l3Z+yqu89N5a9v65EVgK8TOpgH/edZS6JAZ97/AkfKjF3pTpRkUrlfQFnoGlaHNc2F0sAzPIFWIl9WMEGTYUZJfyB12ED2l9UE6bkDAcoy+0QznXJ8nIEBosNuIb3xLoBNIlRhNlc7Ho9dDA6l1OC8gKGUGEnhAyBFmpSu8zqf9jAzqZ/RIUxFDR0G2LQ6ueIwUzGFIuE95livS4p2RaUVQYas/p+xQ4eiavPqO2nKPUcCrvlCR50uqlirXGeiUWeua4uva6vebNDwHIJErq2fW0Mdfcxpjqmqe37Nnd73US64Ummt8a5bCpZhh5UrZanfS9gBw/5tcorGSz1TJ/rCTljoomOGDTLsh+NUz8Ypdz/ndBwlpFeIdn7Hevm9miD9QNxdVGNSQzGSR3ao6Duekm23fqT3Al/Ju3waAEnr1xyayxnymhgNcU9Z7sx5LtWA+6bquxXaeLr5J+wMZebRQwDiwW2x0O7I1y7ZxOrS+X/4Y0DXJ0pANhgM4sKRv4KMACD6UDbVgTzkgAAAABJRU5ErkJggg==) no-repeat center center;width:15px;height:15px;position:absolute;right:0;top:6px}#overlay_panel label{margin:0;font-size:14px}#overlay_panel .content-mgnt-block,#overlay_panel #images_mgnt{text-align:left;padding:3px 4px;margin:2px;border:1px #777 solid;-webkit-border-radius:5px;-moz-border-radius:5px;-ms-border-radius:5px;-o-border-radius:5px;border-radius:5px}#overlay_panel .content-mgnt-block legend,#overlay_panel #images_mgnt legend{font-size:10px;padding:0 3px;margin-left:10px}#overlay_panel .slider-block{display:block}#overlay_panel .slider-block label{font-size:70%;margin:0 5px 0 0;vertical-align:top}#overlay_panel .slider-block input[type=range]{margin:0}#overlay_panel #images_mgnt{width:186px}#overlay_panel #images_mgnt .controls{padding-bottom:5px}#overlay_panel #images_mgnt .controls label{margin-right:5px}#overlay_panel #images_mgnt .overlay-image-block{text-align:left;position:relative;width:186px;border:1px solid rgba(255,255,255,0.2);border-right:none;border-left:none}#overlay_panel #images_mgnt .overlay-image-block.hovered{background-color:rgba(255,255,0,0.5)}#overlay_panel #images_mgnt .overlay-image-block .del-button{position:absolute;right:0;top:0;margin:3px 7px;cursor:pointer;border:1px #AAA solid;font-size:80%;background-color:#444;color:white;font-weight:bold;padding:0 4px 2px 4px}#overlay_panel #images_mgnt .dynamic-adds label{font-size:75%}#overlay_panel #images_mgnt .dynamic-adds input{width:95px;font-size:10px}#overlay_panel input[type=checkbox],#overlay_panel label,#overlay_panel #contentSlider,#overlay_panel .zindex-switch{display:inline}#overlay_panel input[type=checkbox]{vertical-align:middle;margin:-3px 5px 0 0}#overlay_me_images_container{position:absolute;z-index:4;top:0;left:0}#overlay_me_images_container div{position:absolute}#overlay_me_images_container div.highlight{border:2px solid red;margin-top:-2px;margin-left:-2px}#overlay_me_images_container div:hover{cursor:move}#overlay_me_images_container img{position:absolute;top:0;left:0}</style>');
 
   window.OverlayMe = {};
 
@@ -11708,6 +11708,26 @@ function style(element, styles) {
       }
     };
 
+    Draggable.prototype.isDisplayed = function() {
+      return $o(this.el).css('display') !== 'none';
+    };
+
+    Draggable.prototype.toggleDisplay = function(default_display_type) {
+      if (default_display_type == null) {
+        default_display_type = 'block';
+      }
+      if (this.isDisplayed()) {
+        $o(this.el).css({
+          display: 'none'
+        });
+      } else {
+        $o(this.el).css({
+          display: default_display_type
+        });
+      }
+      return this.saveCss();
+    };
+
     Draggable.prototype.updateOverlay = function(x, y) {
       var newX, newY;
       newX = parseInt($o(this.el).css('left')) + x;
@@ -11724,7 +11744,7 @@ function style(element, styles) {
       cssData = {
         top: $o(this.el).css('top'),
         left: $o(this.el).css('left'),
-        visibility: $o(this.el).css('visibility'),
+        display: $o(this.el).css('display'),
         opacity: $o(this.el).css('opacity')
       };
       return localStorage.setItem(this.id, JSON.stringify(cssData));
@@ -11763,20 +11783,6 @@ function style(element, styles) {
     });
     $o(window).bind('mouseup', function(event) {
       return OverlayMe.menu_box.endMove(event);
-    });
-    $o(OverlayMe.menu_box).bind('toggle:visibility', function(event) {
-      var css;
-      if ($o(OverlayMe.menu_box.el).css('visibility') === 'visible') {
-        css = {
-          visibility: 'hidden'
-        };
-      } else {
-        css = {
-          visibility: 'visible'
-        };
-      }
-      $o(OverlayMe.menu_box.el).css(css);
-      return OverlayMe.menu_box.saveCss();
     });
   }
 
@@ -11875,13 +11881,14 @@ function style(element, styles) {
     basics_panel.append(clear_all_button);
     hide_button = (new Backbone.View).make('button', {}, 'Hide (touch "h")');
     $o(hide_button).bind('click', function(event) {
-      return $o(OverlayMe.menu_box).trigger('toggle:visibility');
+      return OverlayMe.menu_box.toggleDisplay();
     });
     basics_panel.append(hide_button);
     $o(OverlayMe.Menu).append(basics_panel.render());
     $o(window).bind('keypress', function(event) {
+      console.log(event.keyCode, event.charCode);
       if (event.charCode === 104) {
-        return $o(OverlayMe.menu_box).trigger('toggle:visibility');
+        return OverlayMe.menu_box.toggleDisplay();
       }
     });
   }
@@ -11915,9 +11922,11 @@ function style(element, styles) {
     DraggableImage.prototype.initialize = function(attributes, options) {
       var _this = this;
       DraggableImage.__super__.initialize.call(this, attributes, options);
-      this.image = (new Backbone.View).make('img', {
-        src: options.image_src
+      this.image = new Image();
+      $o(this.image).load(function() {
+        return _this.fitDivToImage();
       });
+      $o(this.image).attr('src', options.image_src);
       $o(this.el).append(this.image);
       if ($o(this.el).css('left') === 'auto' || $o(this.el).css('left') === '') {
         $o(this.el).css('left', '0px');
@@ -11992,7 +12001,7 @@ function style(element, styles) {
         this.images_container = $o('#overlay_me_images_container');
       }
       this.default_css = $.extend({
-        visibility: 'hidden',
+        display: 'none',
         opacity: 0.5
       }, options.default_css);
       if (!($o("#" + this.image_id, this.images_container).length > 0)) {
@@ -12037,7 +12046,7 @@ function style(element, styles) {
       this.checkbox = this.make('input', {
         type: "checkbox"
       });
-      if ($o(this.image.el).css('visibility') === 'visible') {
+      if (this.image.isDisplayed()) {
         this.checkbox.checked = true;
       }
       $o(this.checkbox).bind('click', function(e) {
@@ -12069,11 +12078,10 @@ function style(element, styles) {
     };
 
     Image.prototype.flickVisibility = function() {
-      this.image.fitDivToImage();
       if (this.checkbox.checked) {
-        $o(this.image.el).css('visibility', 'visible');
+        $o(this.image.el).css('display', 'block');
       } else {
-        $o(this.image.el).css('visibility', 'hidden');
+        $o(this.image.el).css('display', 'none');
       }
       return this.image.saveCss();
     };
@@ -12178,7 +12186,7 @@ function style(element, styles) {
       image_id = OverlayMe.Overlays.urlToId(src);
       if (!($o("#overlay_me_images_container #" + image_id).length > 0)) {
         _default_css = $.extend({
-          visibility: 'visible'
+          display: 'block'
         }, options.default_css);
         image = new OverlayMe.Overlays.Image(src, {
           destroyable: true,
@@ -12376,7 +12384,7 @@ function style(element, styles) {
     ImagesManagementDiv.prototype.id = 'images_mgnt';
 
     ImagesManagementDiv.prototype.initialize = function() {
-      var check_all_label, hide_inactives_label,
+      var check_all_label,
         _this = this;
       $o(this.el).append(this.make('legend', {}, 'Overlaying images'));
       this.controlBlock = this.make('div', {
@@ -12389,12 +12397,6 @@ function style(element, styles) {
         return $o(_this.checkAllBox).trigger('click');
       });
       this.controlBlock.appendChild(check_all_label);
-      this.controlBlock.appendChild(this.hideInactivesBox());
-      hide_inactives_label = this.make('label', {}, 'Hide Inactives');
-      this.controlBlock.appendChild(hide_inactives_label);
-      $o(hide_inactives_label).bind('click', function() {
-        return $o(_this.hideInactivesBox).trigger('click');
-      });
       this.overlaysListBlock = this.make('div', {
         "class": 'overlays-list'
       });
@@ -12441,48 +12443,12 @@ function style(element, styles) {
       return this.image_url_input.value = '';
     };
 
-    ImagesManagementDiv.prototype.hideInactivesBox = function() {
-      var _this = this;
-      this.hideInactivesBox = this.make('input', {
-        type: "checkbox",
-        "class": 'hide-inactive'
-      });
-      if ($o(this.hideInactivesBox).css('visibility') === 'visible') {
-        this.hideInactivesBox.checked = true;
-      }
-      $o(this.hideInactivesBox).bind('change', function(event) {
-        return _this.hideInactives();
-      });
-      return this.hideInactivesBox;
-    };
-
-    ImagesManagementDiv.prototype.hideInactives = function() {
-      var checkbox_state;
-      checkbox_state = this.hideInactivesBox.checked;
-      _.each($o('.overlay-image-block'), function(img_block) {
-        var checkbox, img_id;
-        checkbox = $o('input[type=checkbox]', img_block);
-        img_id = $o(img_block).attr('data-img-id');
-        if (checkbox_state && !checkbox.first()[0].checked) {
-          $o(img_block).hide();
-          return $o("#" + img_id).hide();
-        } else {
-          $o(img_block).show();
-          return $o("#" + img_id).show();
-        }
-      });
-      return this.saveState();
-    };
-
     ImagesManagementDiv.prototype.checkAllbox = function() {
       var _this = this;
       this.checkAllBox = this.make('input', {
         type: "checkbox",
         "class": 'check-all'
       });
-      if ($o(this.checkAllBox).css('visibility') === 'visible') {
-        this.checkAllBox.checked = true;
-      }
       $o(this.checkAllBox).bind('change', function(event) {
         return _this.checkAll();
       });

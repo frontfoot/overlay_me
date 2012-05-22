@@ -215,19 +215,18 @@ button {
 /* line 198, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
 #overlay_me_images_container div {
   position: absolute;
-  visibility: hidden;
 }
-/* line 201, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
+/* line 200, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
 #overlay_me_images_container div.highlight {
   border: 2px solid red;
   margin-top: -2px;
   margin-left: -2px;
 }
-/* line 206, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
+/* line 205, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
 #overlay_me_images_container div:hover {
   cursor: move;
 }
-/* line 210, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
+/* line 209, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
 #overlay_me_images_container img {
   position: absolute;
   top: 0;

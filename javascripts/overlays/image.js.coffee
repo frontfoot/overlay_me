@@ -15,7 +15,7 @@ class OverlayMe.Overlays.Image extends Backbone.View
       $o('body').append (new Backbone.View).make 'div', { id: 'overlay_me_images_container' }
       @images_container = $o('#overlay_me_images_container')
 
-    @default_css = $.extend {visibility: 'hidden', opacity: 0.5}, options.default_css
+    @default_css = $.extend {display: 'none', opacity: 0.5}, options.default_css
 
     unless $o("##{@image_id}", @images_container).length > 0
       $o(@images_container).append @image()
@@ -43,7 +43,7 @@ class OverlayMe.Overlays.Image extends Backbone.View
 
   checkbox: ->
     @checkbox = @make 'input', { type: "checkbox" }
-    if $o(@image.el).css('visibility') == 'visible'
+    if @image.isDisplayed()
       @checkbox.checked = true
     $o(@checkbox).bind 'click', (e) =>
       e.stopPropagation()
@@ -64,11 +64,10 @@ class OverlayMe.Overlays.Image extends Backbone.View
     @flickVisibility()
 
   flickVisibility: ->
-    @image.fitDivToImage()
     if @checkbox.checked
-      $o(@image.el).css('visibility', 'visible')
+      $o(@image.el).css('display', 'block')
     else
-      $o(@image.el).css('visibility', 'hidden')
+      $o(@image.el).css('display', 'none')
     @image.saveCss()
 
   label: ->

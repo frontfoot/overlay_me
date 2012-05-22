@@ -1,7 +1,7 @@
 #= require 'menu'
 #= require 'menu_item'
 
-if OverlayMe.mustLoad()
+if OverlayMe.mustLoad() # dont do it twice
 
   basics_panel = new OverlayMe.MenuItem({id: "bacis-options", title: "Basics" })
 
@@ -10,7 +10,7 @@ if OverlayMe.mustLoad()
 
   hide_button = (new Backbone.View).make 'button', {}, 'Hide (touch "h")'
   $o(hide_button).bind 'click', (event) =>
-    $o(OverlayMe.menu_box).trigger 'toggle:visibility'
+    OverlayMe.menu_box.toggleDisplay()
   basics_panel.append hide_button
 
   # add the element to the page menu
@@ -18,8 +18,8 @@ if OverlayMe.mustLoad()
 
   # add listener for keypress
   $o(window).bind('keypress', (event) =>
-    #console.log event.keyCode, event.charCode
+    console.log event.keyCode, event.charCode
     if event.charCode == 104 # H
-      $o(OverlayMe.menu_box).trigger 'toggle:visibility'
+      OverlayMe.menu_box.toggleDisplay()
   )
 
