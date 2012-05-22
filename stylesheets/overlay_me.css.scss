@@ -157,14 +157,15 @@ button {
         position: absolute;
         right: 0;
         top: 0;
-        margin: 3px 7px;
+        margin: 1px;
         cursor: pointer;
         border: 1px #AAA solid;
-        font-size: 80%;
+        font-size: 10px;
+        line-height: 13px;
         background-color: #444;
         color: white;
         font-weight: bold;
-        padding: 0 4px 2px 4px;
+        padding: 0 3px;
       }
     }
 
