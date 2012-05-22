@@ -35,7 +35,7 @@ if OverlayMe.mustLoad()
       OverlayMe.dyn_manager.addImage('https://a248.e.akamai.net/assets.github.com/images/modules/about_page/octocat.png')
 
   # adding all overlay images
-  $.ajax
+  $o.ajax
     url: '/overlay_images'
     dataType: 'json'
     success: (data) ->

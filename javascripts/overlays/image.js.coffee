@@ -15,7 +15,7 @@ class OverlayMe.Overlays.Image extends Backbone.View
       $o('body').append (new Backbone.View).make 'div', { id: 'overlay_me_images_container' }
       @images_container = $o('#overlay_me_images_container')
 
-    @default_css = $.extend {display: 'none', opacity: 0.5}, options.default_css
+    @default_css = $o.extend {display: 'none', opacity: 0.5}, options.default_css
 
     unless $o("##{@image_id}", @images_container).length > 0
       $o(@images_container).append @image()

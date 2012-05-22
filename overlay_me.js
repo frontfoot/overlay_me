@@ -12000,7 +12000,7 @@ function style(element, styles) {
         }));
         this.images_container = $o('#overlay_me_images_container');
       }
-      this.default_css = $.extend({
+      this.default_css = $o.extend({
         display: 'none',
         opacity: 0.5
       }, options.default_css);
@@ -12185,7 +12185,7 @@ function style(element, styles) {
       }
       image_id = OverlayMe.Overlays.urlToId(src);
       if (!($o("#overlay_me_images_container #" + image_id).length > 0)) {
-        _default_css = $.extend({
+        _default_css = $o.extend({
           display: 'block'
         }, options.default_css);
         image = new OverlayMe.Overlays.Image(src, {
