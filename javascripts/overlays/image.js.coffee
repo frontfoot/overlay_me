@@ -30,13 +30,11 @@ class OverlayMe.Overlays.Image extends Backbone.View
     $o(@el).bind 'click', (event) =>
       @flickCheckbox()
     $o(@el).bind 'mouseover', (event) =>
-      $o(@image.el).css('opacity', 1)
       $o(@image.el).addClass 'highlight'
       $o(@el).addClass 'hovered'
     $o(@el).bind 'mouseout', (event) =>
       $o(@image.el).removeClass 'highlight'
       $o(@el).removeClass 'hovered'
-      $o(@image.el).css('opacity', $o(@slider)[0].value/100)
 
 
   image: ->
