@@ -42,8 +42,30 @@ if OverlayMe.mustLoad()
       if data.length == 0 # in case all is empty (default for newcomers)
         OverlayMe.loadDefaultImage()
       else
-        $o.each data, (index, img_path) ->
-          OverlayMe.images_management_div.append new OverlayMe.Overlays.Image(img_path).render()
+        buildTree data
     error: ->
       OverlayMe.loadDefaultImage()
+
+  files_tree = {}
+  buildTree = (data) ->
+    $o.each data, (index, img_path) ->
+      console.log index, img_path
+      bits = img_path.split('/')
+      position = files_tree
+      while bits.length > 0
+        bit = bits[0]
+        bits = bits.slice(1)
+        continue if bit == ""
+        if position[bit] == undefined
+          if bits.length > 0
+            position[bit] = {}
+          else
+            position['files'] = [] if position['files'] == undefined
+            position['files'].push bit
+        position = position[bit]
+
+      OverlayMe.images_management_div.append new OverlayMe.Overlays.Image(img_path).render()
+    files_tree = files_tree[Object.keys(files_tree)[0]] while Object.keys(files_tree).length == 1 && Object.keys(files_tree)[0] != "files"
+    window.tree = files_tree
+    console.log files_tree
 

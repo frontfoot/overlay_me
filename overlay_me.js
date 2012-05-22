@@ -12600,7 +12600,7 @@ function style(element, styles) {
 
 }).call(this);
 (function() {
-  var overlay_panel;
+  var buildTree, files_tree, overlay_panel;
 
   if (OverlayMe.mustLoad()) {
     overlay_panel = new OverlayMe.MenuItem({
@@ -12628,15 +12628,46 @@ function style(element, styles) {
         if (data.length === 0) {
           return OverlayMe.loadDefaultImage();
         } else {
-          return $o.each(data, function(index, img_path) {
-            return OverlayMe.images_management_div.append(new OverlayMe.Overlays.Image(img_path).render());
-          });
+          return buildTree(data);
         }
       },
       error: function() {
         return OverlayMe.loadDefaultImage();
       }
     });
+    files_tree = {};
+    buildTree = function(data) {
+      $o.each(data, function(index, img_path) {
+        var bit, bits, position;
+        console.log(index, img_path);
+        bits = img_path.split('/');
+        position = files_tree;
+        while (bits.length > 0) {
+          bit = bits[0];
+          bits = bits.slice(1);
+          if (bit === "") {
+            continue;
+          }
+          if (position[bit] === void 0) {
+            if (bits.length > 0) {
+              position[bit] = {};
+            } else {
+              if (position['files'] === void 0) {
+                position['files'] = [];
+              }
+              position['files'].push(bit);
+            }
+          }
+          position = position[bit];
+        }
+        return OverlayMe.images_management_div.append(new OverlayMe.Overlays.Image(img_path).render());
+      });
+      while (Object.keys(files_tree).length === 1 && Object.keys(files_tree)[0] !== "files") {
+        files_tree = files_tree[Object.keys(files_tree)[0]];
+      }
+      window.tree = files_tree;
+      return console.log(files_tree);
+    };
   }
 
 }).call(this);
