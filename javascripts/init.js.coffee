@@ -7,8 +7,9 @@
 # dirty but so convenient!
 $o('head').append('<style rel="stylesheet" type="text/css">#CSS_BLOB#</style>')
 
-# initialize Models/Views namespace
+# initialize Models/Views namespaces
 window.OverlayMe = {}
+window.OverlayMe.Mixin = {}
 
 # add a flag to stop crazy bookmarklet clicking
 OverlayMe.isLoaded = ->

@@ -18,7 +18,7 @@ if OverlayMe.mustLoad() # dont do it twice
 
   # add listener for keypress
   $o(window).bind('keypress', (event) =>
-    console.log event.keyCode, event.charCode
+    # console.log event.keyCode, event.charCode
     if event.charCode == 104 # H
       OverlayMe.menu_box.toggleDisplay()
   )

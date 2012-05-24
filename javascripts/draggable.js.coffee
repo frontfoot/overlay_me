@@ -1,3 +1,5 @@
+#= require 'mixins/hideable'
+
 class OverlayMe.Draggable extends Backbone.View
 
   tagName: 'div'
@@ -31,16 +33,6 @@ class OverlayMe.Draggable extends Backbone.View
     else
       @engageMove(event)
 
-  isDisplayed: ->
-    return $o(@el).css('display') != 'none'
-  
-  toggleDisplay: (default_display_type='block') ->
-    if @isDisplayed()
-      $o(@el).css { display: 'none' }
-    else
-      $o(@el).css { display: default_display_type }
-    @saveCss()
-
   updateOverlay: (x, y) ->
     newX = parseInt($o(@el).css('left')) + x
     newY = parseInt($o(@el).css('top')) + y
@@ -58,4 +50,7 @@ class OverlayMe.Draggable extends Backbone.View
 
   render: ->
     @el
+
+# extending Hideable - thx Derick - http://stackoverflow.com/questions/7853731/proper-way-of-doing-view-mixins-in-backbone
+_.extend OverlayMe.Draggable.prototype, OverlayMe.Mixin.Hideable
 
