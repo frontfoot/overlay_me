@@ -39,6 +39,7 @@ end
 desc "compile assets with Sprockets, remove DIGEST, move some files"
 task :compile => [:assets, :remove_digest] do
   puts "\n** Move addons into vendor/asssets/ **"
+  `rm -rf vendor/assets/javascripts/overlay_me/addons`
   `mv addons vendor/assets/javascripts/overlay_me/`
 end
 
