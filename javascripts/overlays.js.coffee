@@ -42,7 +42,7 @@ if OverlayMe.mustLoad()
       if data.length == 0 # in case all is empty (default for newcomers)
         OverlayMe.loadDefaultImage()
       else
-        $.each data, (index, img_path) ->
+        $o.each data, (index, img_path) ->
           OverlayMe.images_management_div.append new OverlayMe.Overlays.Image(img_path).render()
     error: ->
       OverlayMe.loadDefaultImage()
