@@ -13,6 +13,8 @@ class OverlayMe.Overlays.ImagesContainer extends Backbone.View
       $o('body').append container
       @el = container
     @loadCss()
+    $o(window).bind 'overlay_me:toggle_all_display', =>
+      @toggleDisplay()
 
 # extending few mixins - thx Derick - http://stackoverflow.com/questions/7853731/proper-way-of-doing-view-mixins-in-backbone
 _.extend OverlayMe.Overlays.ImagesContainer.prototype, OverlayMe.Mixin.Storable

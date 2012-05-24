@@ -4,7 +4,7 @@ if OverlayMe.mustLoad() # dont do it twice
 
   # create elements
   OverlayMe.menu_box = new OverlayMe.Draggable { id: 'overlay_me_dev_tools_menu' }, { default_css: { top: '50px' } }
-  drag_me_line = (new Backbone.View).make 'div', { class: 'drag-me' }, 'Drag me'
+  drag_me_line = (new Backbone.View).make 'div', { class: 'drag-me' }, 'Drag me up and down'
   OverlayMe.Menu = (new Backbone.View).make 'ul'
 
   # stack them together
@@ -19,4 +19,5 @@ if OverlayMe.mustLoad() # dont do it twice
     OverlayMe.menu_box.toggleMove(event)
   $o(window).bind 'mouseup', (event) =>
     OverlayMe.menu_box.endMove(event)
-
+  $o(window).bind 'overlay_me:toggle_all_display', =>
+    OverlayMe.menu_box.toggleDisplay()

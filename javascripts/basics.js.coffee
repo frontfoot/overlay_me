@@ -10,7 +10,7 @@ if OverlayMe.mustLoad() # dont do it twice
 
   hide_button = (new Backbone.View).make 'button', {}, 'Hide (touch "h")'
   $o(hide_button).bind 'click', (event) =>
-    OverlayMe.menu_box.toggleDisplay()
+    $o(window).trigger 'overlay_me:toggle_all_display'
   basics_panel.append hide_button
 
   # add the element to the page menu
@@ -20,6 +20,6 @@ if OverlayMe.mustLoad() # dont do it twice
   $o(window).bind('keypress', (event) =>
     # console.log event.keyCode, event.charCode
     if event.charCode == 104 # H
-      OverlayMe.menu_box.toggleDisplay()
+      $o(window).trigger 'overlay_me:toggle_all_display'
   )
 
