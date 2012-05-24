@@ -1,16 +1,16 @@
 OverlayMe.Mixin.Storable = {
 
-  loadCss: (default_css) ->
+  loadCss: (element=@el, default_css) ->
     if ( cssData = localStorage.getItem(@id) )
-      $o(@el).css(JSON.parse(cssData))
+      $o(element).css(JSON.parse(cssData))
     else
-      $o(@el).css(default_css) unless default_css == undefined
+      $o(element).css(default_css) unless default_css == undefined
     
-  saveCss: ->
+  saveCss: (element=@el) ->
     @css_attributes_to_save = ['top', 'left', 'display', 'opacity'] unless @css_attributes_to_save
     cssData = {}
     for css_attribute in @css_attributes_to_save
-      cssData[css_attribute] = $o(@el).css(css_attribute)
+      cssData[css_attribute] = $o(element).css(css_attribute)
     localStorage.setItem(@id, JSON.stringify(cssData))
 
 }

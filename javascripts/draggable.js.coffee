@@ -8,7 +8,7 @@ class OverlayMe.Draggable extends Backbone.View
 
   initialize: (attributes, options) ->
     super(attributes, options)
-    @loadCss(options.default_css)
+    @loadCss(@el, options.default_css)
 
   engageMove: (event) ->
     event.preventDefault()

@@ -1,7 +1,11 @@
+#= require 'mixins/storable'
+
 class OverlayMe.Overlays.ContentDivManagementBlock extends Backbone.View
 
   tagName: 'fieldset'
   className: 'content-mgnt-block'
+  id: 'content_div_management_block'
+  css_attributes_to_save: ['z-index', 'opacity']
 
   normal_zindex: '0'
   over_zindex: '5'
@@ -9,16 +13,14 @@ class OverlayMe.Overlays.ContentDivManagementBlock extends Backbone.View
   initialize: ->
 
     # move all page content to a sub-Div
-    our_page_container_div = @make 'div', { id: 'overlay_me_page_container' }
-    $o('body').append our_page_container_div
+    @page_container_div = @make 'div', { id: 'overlay_me_page_container' }
+    $o('body').append @page_container_div
     $o('body > *').each (index, thing) =>
       unless thing.id.match(/^overlay_me/) || thing.tagName == 'SCRIPT'
-        $o(our_page_container_div).append thing
+        $o(@page_container_div).append thing
 
     # load previous css features of that container div
-    $o("#overlay_me_page_container").css({'z-index': @normal_zindex})
-    if ( contentCss = localStorage.getItem("#overlay_me_page_container") )
-      $o("#overlay_me_page_container").css(JSON.parse(contentCss))
+    @loadCss(@page_container_div, {'z-index': @normal_zindex})
 
     # adding a hidden unicorny button
     unicorn_button = @make 'div', { class: 'unicorns', title: 'Feeling corny?' }
@@ -62,14 +64,14 @@ class OverlayMe.Overlays.ContentDivManagementBlock extends Backbone.View
   bindEvents: ->
     $o(@contentSlider).bind('change', =>
       $o("#overlay_me_page_container").css('opacity', $o(@contentSlider)[0].value/100)
-      @saveContentCss()
+      @saveCss(@page_container_div)
     )
     $o(@zIndexSwitch).bind('change', (event) =>
       if @zIndexSwitch.checked
         $o("#overlay_me_page_container").css({'z-index': @over_zindex})
       else
         $o("#overlay_me_page_container").css({'z-index': @normal_zindex})
-      @saveContentCss()
+      @saveCss(@page_container_div)
     )
     # if click is kind of boring
     $o(window).bind('keypress', (event) =>
@@ -82,10 +84,5 @@ class OverlayMe.Overlays.ContentDivManagementBlock extends Backbone.View
   render: ->
     @el
 
-  # adding some retention for #overlay_me_page_container
-  saveContentCss: ->
-    localStorage.setItem("#overlay_me_page_container", JSON.stringify({
-      opacity: $o("#overlay_me_page_container").css('opacity'),
-      'z-index': $o("#overlay_me_page_container").css('z-index')
-    }))
-
+# extending few mixins - thx Derick - http://stackoverflow.com/questions/7853731/proper-way-of-doing-view-mixins-in-backbone
+_.extend OverlayMe.Overlays.ContentDivManagementBlock.prototype, OverlayMe.Mixin.Storable
