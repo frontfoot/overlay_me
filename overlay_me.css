@@ -11,17 +11,17 @@ button {
 }
 
 /* line 16, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
-#overlay_me_dev_tools_menu {
+#overlay_me_menu {
   position: fixed;
   right: 0;
   z-index: 990;
 }
 /* line 21, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
-#overlay_me_dev_tools_menu * {
+#overlay_me_menu * {
   line-height: 14px;
 }
 /* line 25, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
-#overlay_me_dev_tools_menu .drag-me {
+#overlay_me_menu .drag-me {
   line-height: 100%;
   display: block;
   color: black;
@@ -35,12 +35,12 @@ button {
   background-image: linear-gradient(0deg, #999999, #dddddd 30%, #dddddd 70%, #999999 100%);
   padding: 1px;
 }
-/* line 31, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
-#overlay_me_dev_tools_menu .drag-me:hover {
+/* line 33, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
+#overlay_me_menu .drag-me:hover {
   cursor: move;
 }
 /* line 38, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
-#overlay_me_dev_tools_menu ul {
+#overlay_me_menu ul {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -66,7 +66,7 @@ button {
   width: 13px;
   height: 9px;
   border: none;
-  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAJCAYAAADpeqZqAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAIlJREFUeNpivHDhQujz589TmZiYvjMQAP/+/eOQkZGZyfD//38ZIL77nzhwG4ilQJpA2BiIPxHQ8BGIDUHqYZpAOIWApiSYWmRNIDfPxaYaKD4bWR2KJiDmA+KzaHrOQMVxagJhfSD+ALXhA5TPQEgTCCcD8V+gpmRs8rg0MQI1eANpJmzyAAEGAKD/bax/HrzbAAAAAElFTkSuQmCC) no-repeat center center;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAJCAYAAADpeqZqAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAIlJREFUeNpivHDhQujz589TmZiYvjMQAP/+/eOQkZGZyfD//38ZIL77nzhwG4ilQJpA2BiIPxHQ8BGIDUHqYZpAOIWApiSYWmRNIDfPxaYaKD4bWR2KJiDmA+KzaHrOQMVxagJhfSD+ALXhA5TPQEgTCCcD8V+gpmRs8rg0MQI1eANpJmzyAAEGAKD/bax/HrzbAAAAAElFTkSuQmCC) no-repeat center 3px;
 }
 /* line 63, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
 .menu-item a.collaps-button span {
@@ -93,7 +93,7 @@ button {
 }
 /* line 82, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
 .menu-item.collapsed a.collaps-button {
-  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAANCAYAAAB7AEQGAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAKtJREFUeNpiuHz5ctD///+lgJgBF2Z68uRJOgMDw0EgNmTAAZiA4AeQVgHiA0CchFUREpsPiOcCjZ8NZWNVBAaMjIwpQGofEOvjVAQFxkATDwJxMkgNCy7HAk3kB1KzgApf4DIJBD4CcRpQ8TZcJp2D+vQiVjcBjZ8HpBxhCtAVfQbiVKDxIMd+QtbI8u/fP04gfQ+Iw4D4LDa7WSQlJUGBdxyIn+DyAUCAAQDxsEXD9kreLQAAAABJRU5ErkJggg==) no-repeat center center;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAANCAYAAAB7AEQGAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAKtJREFUeNpiuHz5ctD///+lgJgBF2Z68uRJOgMDw0EgNmTAAZiA4AeQVgHiA0CchFUREpsPiOcCjZ8NZWNVBAaMjIwpQGofEOvjVAQFxkATDwJxMkgNCy7HAk3kB1KzgApf4DIJBD4CcRpQ8TZcJp2D+vQiVjcBjZ8HpBxhCtAVfQbiVKDxIMd+QtbI8u/fP04gfQ+Iw4D4LDa7WSQlJUGBdxyIn+DyAUCAAQDxsEXD9kreLQAAAABJRU5ErkJggg==) no-repeat center top;
 }
 
 /* line 90, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
@@ -232,4 +232,28 @@ button {
   position: absolute;
   top: 0;
   left: 0;
+}
+
+/* line 218, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
+#overlay_me_menu.collapsed .drag-me, #overlay_me_menu.collapsed .menu-item {
+  width: 25px;
+}
+/* line 221, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
+#overlay_me_menu.collapsed .drag-me {
+  height: 10px;
+  overflow: hidden;
+}
+/* line 225, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
+#overlay_me_menu.collapsed button {
+  height: 10px;
+  overflow: hidden;
+}
+/* line 229, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
+#overlay_me_menu.collapsed .overlay-image-block {
+  height: 14px;
+  margin-top: 3px;
+}
+/* line 233, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
+#overlay_me_menu.collapsed .overlay-image-block label, #overlay_me_menu.collapsed #content_div_management_block, #overlay_me_menu.collapsed .controls, #overlay_me_menu.collapsed input[type=range], #overlay_me_menu.collapsed #overlay_panel #contentSlider, #overlay_me_menu.collapsed legend, #overlay_me_menu.collapsed .dynamic-adds, #overlay_me_menu.collapsed .unicorns, #overlay_me_menu.collapsed button.reset, #overlay_me_menu.collapsed button.hide, #overlay_me_menu.collapsed button.del-button {
+  display: none;
 }

@@ -23,3 +23,8 @@ OverlayMe.isMobile = ->
 OverlayMe.mustLoad = ->
   return !OverlayMe.isLoaded() && !OverlayMe.isMobile()
 
+# helper to clear all stored informations and reload the page
+OverlayMe.clearAndReload = ->
+  localStorage.clear()
+  window.location.reload()
+

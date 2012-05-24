@@ -13,7 +13,7 @@ button {
   position: relative;
 }
 
-#overlay_me_dev_tools_menu {
+#overlay_me_menu {
   position: fixed;
   right: 0;
   z-index: 990; //to pass over Google Toolbar ;)
@@ -28,11 +28,11 @@ button {
     color: black;
     font-size: 0.7em;
     text-align: center;
+    @include background-image(linear-gradient(0deg, #999999, #DDD 30%,#DDD 70%,#999999 100.0%));
+    padding: 1px;
     &:hover {
       cursor: move;
     }
-    @include background-image(linear-gradient(0deg, #999999, #DDD 30%,#DDD 70%,#999999 100.0%));
-    padding: 1px;
   }
 
   ul {
@@ -59,7 +59,7 @@ button {
     width: 13px;
     height: 9px;
     border: none;
-    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAJCAYAAADpeqZqAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAIlJREFUeNpivHDhQujz589TmZiYvjMQAP/+/eOQkZGZyfD//38ZIL77nzhwG4ilQJpA2BiIPxHQ8BGIDUHqYZpAOIWApiSYWmRNIDfPxaYaKD4bWR2KJiDmA+KzaHrOQMVxagJhfSD+ALXhA5TPQEgTCCcD8V+gpmRs8rg0MQI1eANpJmzyAAEGAKD/bax/HrzbAAAAAElFTkSuQmCC) no-repeat center center;
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAJCAYAAADpeqZqAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAIlJREFUeNpivHDhQujz589TmZiYvjMQAP/+/eOQkZGZyfD//38ZIL77nzhwG4ilQJpA2BiIPxHQ8BGIDUHqYZpAOIWApiSYWmRNIDfPxaYaKD4bWR2KJiDmA+KzaHrOQMVxagJhfSD+ALXhA5TPQEgTCCcD8V+gpmRs8rg0MQI1eANpJmzyAAEGAKD/bax/HrzbAAAAAElFTkSuQmCC) no-repeat center 3px;
     span {
       display: none;
       color: yellow;
@@ -80,7 +80,7 @@ button {
   &.collapsed {
     .item-content { display: none; }
     a.collaps-button {
-      background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAANCAYAAAB7AEQGAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAKtJREFUeNpiuHz5ctD///+lgJgBF2Z68uRJOgMDw0EgNmTAAZiA4AeQVgHiA0CchFUREpsPiOcCjZ8NZWNVBAaMjIwpQGofEOvjVAQFxkATDwJxMkgNCy7HAk3kB1KzgApf4DIJBD4CcRpQ8TZcJp2D+vQiVjcBjZ8HpBxhCtAVfQbiVKDxIMd+QtbI8u/fP04gfQ+Iw4D4LDa7WSQlJUGBdxyIn+DyAUCAAQDxsEXD9kreLQAAAABJRU5ErkJggg==) no-repeat center center;
+      background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAANCAYAAAB7AEQGAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAKtJREFUeNpiuHz5ctD///+lgJgBF2Z68uRJOgMDw0EgNmTAAZiA4AeQVgHiA0CchFUREpsPiOcCjZ8NZWNVBAaMjIwpQGofEOvjVAQFxkATDwJxMkgNCy7HAk3kB1KzgApf4DIJBD4CcRpQ8TZcJp2D+vQiVjcBjZ8HpBxhCtAVfQbiVKDxIMd+QtbI8u/fP04gfQ+Iw4D4LDa7WSQlJUGBdxyIn+DyAUCAAQDxsEXD9kreLQAAAABJRU5ErkJggg==) no-repeat center top;
     }
   }
 }
@@ -214,3 +214,23 @@ button {
   }
 }
 
+#overlay_me_menu.collapsed {
+  .drag-me, .menu-item {
+    width: 25px;
+  }
+  .drag-me {
+    height: 10px;
+    overflow: hidden;
+  }
+  button {
+    height: 10px;
+    overflow: hidden;
+  }
+  .overlay-image-block {
+    height: 14px;
+    margin-top: 3px;
+  }
+  .overlay-image-block label, #content_div_management_block, .controls, input[type=range], #overlay_panel #contentSlider, legend, .dynamic-adds, .unicorns, button.reset, button.hide, button.del-button {
+    display: none;
+  }
+}

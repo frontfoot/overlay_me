@@ -1,7 +1,10 @@
 ### 0.12.1 - [Diff](https://github.com/frontfoot/overlay_me/compare/v0.12.0...v0.12.1)
-- renamed embeded jQuery to OMjQuery (and $o accessor)
+- renamed embeded jQuery to OMjQuery ($o) to remove conflicts
 - removed images from the DOM if not checked (removed 'hide inactives' option)
+- add the collapsing option (could be nicer)
+- hide now hides everything
 - a bit of styling (sizes, fixed on right, onmouseovers)
+- few refactors
 
 ### 0.12.0 - [Diff](https://github.com/frontfoot/overlay_me/compare/v0.11.1...v0.12.0)
 - changed the file structure, gem now includes only the minified javascript

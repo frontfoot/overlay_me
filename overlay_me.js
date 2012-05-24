@@ -100,7 +100,7 @@ OMjQuery.fn = OMjQuery.prototype = {
 	init: function( selector, context, rootOMjQuery ) {
 		var match, elem, ret, doc;
 
-		// Handle $o(""), $(null), or $(undefined)
+		// Handle $o(""), $o(null), or $o(undefined)
 		if ( !selector ) {
 			return this;
 		}
@@ -135,7 +135,7 @@ OMjQuery.fn = OMjQuery.prototype = {
 			// Verify a match, and that no context was specified for #id
 			if ( match && (match[1] || !context) ) {
 
-				// HANDLE: $o(html) -> $(array)
+				// HANDLE: $o(html) -> $o(array)
 				if ( match[1] ) {
 					context = context instanceof OMjQuery ? context[0] : context;
 					doc = ( context ? context.ownerDocument || context : document );
@@ -183,7 +183,7 @@ OMjQuery.fn = OMjQuery.prototype = {
 					return this;
 				}
 
-			// HANDLE: $o(expr, $(...))
+			// HANDLE: $o(expr, $o(...))
 			} else if ( !context || context.jquery ) {
 				return ( context || rootOMjQuery ).find( selector );
 
@@ -8522,7 +8522,7 @@ OMjQuery.fn.extend({
 					replace = hooks.expand( prop[ name ] );
 					delete prop[ name ];
 
-					// not quite $.extend, this wont overwrite keys already present.
+					// not quite $o.extend, this wont overwrite keys already present.
 					// also - reusing 'p' from above because we have the correct "name"
 					for ( p in replace ) {
 						if ( ! ( p in prop ) ) {
@@ -10995,16 +10995,16 @@ if ( typeof define === "function" && define.amd && define.amd.OMjQuery ) {
       var docMode           = document.documentMode;
       var oldIE             = (isExplorer.exec(navigator.userAgent.toLowerCase()) && (!docMode || docMode <= 7));
       if (oldIE) {
-        this.iframe = $('<iframe src="javascript:0" tabindex="-1" />').hide().appendTo('body')[0].contentWindow;
+        this.iframe = $o('<iframe src="javascript:0" tabindex="-1" />').hide().appendTo('body')[0].contentWindow;
         this.navigate(fragment);
       }
 
       // Depending on whether we're using pushState or hashes, and whether
       // 'onhashchange' is supported, determine how we check the URL state.
       if (this._hasPushState) {
-        $(window).bind('popstate', this.checkUrl);
+        $o(window).bind('popstate', this.checkUrl);
       } else if ('onhashchange' in window && !oldIE) {
-        $(window).bind('hashchange', this.checkUrl);
+        $o(window).bind('hashchange', this.checkUrl);
       } else {
         setInterval(this.checkUrl, this.interval);
       }
@@ -11097,7 +11097,7 @@ if ( typeof define === "function" && define.amd && define.amd.OMjQuery ) {
   // This should be prefered to global lookups, if you're dealing with
   // a specific view.
   var selectorDelegate = function(selector) {
-    return $(selector, this.el);
+    return $o(selector, this.el);
   };
 
   // Cached regex to split keys for `delegate`.
@@ -11129,7 +11129,7 @@ if ( typeof define === "function" && define.amd && define.amd.OMjQuery ) {
     // Remove this view from the DOM. Note that the view isn't present in the
     // DOM by default, so calling this method may be a no-op.
     remove : function() {
-      $(this.el).remove();
+      $o(this.el).remove();
       return this;
     },
 
@@ -11140,8 +11140,8 @@ if ( typeof define === "function" && define.amd && define.amd.OMjQuery ) {
     //
     make : function(tagName, attributes, content) {
       var el = document.createElement(tagName);
-      if (attributes) $(el).attr(attributes);
-      if (content) $(el).html(content);
+      if (attributes) $o(el).attr(attributes);
+      if (content) $o(el).html(content);
       return el;
     },
 
@@ -11161,7 +11161,7 @@ if ( typeof define === "function" && define.amd && define.amd.OMjQuery ) {
     // not `change`, `submit`, and `reset` in Internet Explorer.
     delegateEvents : function(events) {
       if (!(events || (events = this.events))) return;
-      $(this.el).unbind('.delegateEvents' + this.cid);
+      $o(this.el).unbind('.delegateEvents' + this.cid);
       for (var key in events) {
         var method = this[events[key]];
         if (!method) throw new Error('Event "' + events[key] + '" does not exist');
@@ -11170,9 +11170,9 @@ if ( typeof define === "function" && define.amd && define.amd.OMjQuery ) {
         method = _.bind(method, this);
         eventName += '.delegateEvents' + this.cid;
         if (selector === '') {
-          $(this.el).bind(eventName, method);
+          $o(this.el).bind(eventName, method);
         } else {
-          $(this.el).delegate(selector, eventName, method);
+          $o(this.el).delegate(selector, eventName, method);
         }
       }
     },
@@ -11190,7 +11190,7 @@ if ( typeof define === "function" && define.amd && define.amd.OMjQuery ) {
     },
 
     // Ensure that the View has a DOM element to render into.
-    // If `this.el` is a string, pass it through `$()`, take the first
+    // If `this.el` is a string, pass it through `$o()`, take the first
     // matching element, and re-assign it to `el`. Otherwise, create
     // an element from the `id`, `className` and `tagName` proeprties.
     _ensureElement : function() {
@@ -11200,7 +11200,7 @@ if ( typeof define === "function" && define.amd && define.amd.OMjQuery ) {
         if (this.className) attrs['class'] = this.className;
         this.el = this.make(this.tagName, attrs);
       } else if (_.isString(this.el)) {
-        this.el = $(this.el).get(0);
+        this.el = $o(this.el).get(0);
       }
     }
 
@@ -11287,7 +11287,7 @@ if ( typeof define === "function" && define.amd && define.amd.OMjQuery ) {
     }
 
     // Make the request.
-    return $.ajax(params);
+    return $o.ajax(params);
   };
 
   // Helpers
@@ -11635,9 +11635,11 @@ function style(element, styles) {
 })();
 (function() {
 
-  $o('head').append('<style rel="stylesheet" type="text/css">button{font-size:9px;margin:0 3px;padding:0 3px}#overlay_me_page_container{position:relative}#overlay_me_dev_tools_menu{position:fixed;right:0;z-index:990}#overlay_me_dev_tools_menu *{line-height:14px}#overlay_me_dev_tools_menu .drag-me{line-height:100%;display:block;color:black;font-size:.7em;text-align:center;background-image:-webkit-gradient(linear,0deg,0deg,color-stop(0%,#999),color-stop(30%,#ddd),color-stop(70%,#ddd),color-stop(100%,#999));background-image:-webkit-linear-gradient(0deg,#999,#ddd 30%,#ddd 70%,#999 100%);background-image:-moz-linear-gradient(0deg,#999,#ddd 30%,#ddd 70%,#999 100%);background-image:-o-linear-gradient(0deg,#999,#ddd 30%,#ddd 70%,#999 100%);background-image:-ms-linear-gradient(0deg,#999,#ddd 30%,#ddd 70%,#999 100%);background-image:linear-gradient(0deg,#999,#ddd 30%,#ddd 70%,#999 100%);padding:1px}#overlay_me_dev_tools_menu .drag-me:hover{cursor:move}#overlay_me_dev_tools_menu ul{list-style:none;margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline}.menu-item{text-align:left;background-color:#CCC;border:1px solid rgba(255,255,255,0.2);width:200px}.menu-item a.collaps-button{cursor:pointer;position:absolute;padding-top:9px;padding-left:5px;width:13px;height:9px;border:none;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAJCAYAAADpeqZqAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAIlJREFUeNpivHDhQujz589TmZiYvjMQAP/+/eOQkZGZyfD//38ZIL77nzhwG4ilQJpA2BiIPxHQ8BGIDUHqYZpAOIWApiSYWmRNIDfPxaYaKD4bWR2KJiDmA+KzaHrOQMVxagJhfSD+ALXhA5TPQEgTCCcD8V+gpmRs8rg0MQI1eANpJmzyAAEGAKD/bax/HrzbAAAAAElFTkSuQmCC) no-repeat center center}.menu-item a.collaps-button span{display:none;color:yellow}.menu-item a.collaps-button span:hover{color:yellow}.menu-item label.title{padding-left:20px;color:white;cursor:pointer;width:187px;line-height:1.1em;font-size:14px;background:none}.menu-item.collapsed .item-content{display:none}.menu-item.collapsed a.collaps-button{background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAANCAYAAAB7AEQGAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAKtJREFUeNpiuHz5ctD///+lgJgBF2Z68uRJOgMDw0EgNmTAAZiA4AeQVgHiA0CchFUREpsPiOcCjZ8NZWNVBAaMjIwpQGofEOvjVAQFxkATDwJxMkgNCy7HAk3kB1KzgApf4DIJBD4CcRpQ8TZcJp2D+vQiVjcBjZ8HpBxhCtAVfQbiVKDxIMd+QtbI8u/fP04gfQ+Iw4D4LDa7WSQlJUGBdxyIn+DyAUCAAQDxsEXD9kreLQAAAABJRU5ErkJggg==) no-repeat center center}#overlay_panel .content-mgnt-block{position:relative;line-height:10px}#overlay_panel .content-mgnt-block .unicorns{background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAklJREFUeNqEks1u00AQx3d27V3HdezY+SBpkKBFoBZxQEKIOwfegBs3rtwoPABvw3sgceKAuFWtUBBSaT6ctvHXer2zOElTVaoKI/2lWWl/O//ZGZi8jgSPxFv3JX93+CJvfJ4/09++vzH6S/SVH59+IohH5JagxBilC4zNHHigSLvtTCPRnLYxtB4b29ojGglBc1PG1PAyLfUxzszIX7B86MwLP/iVkS566DWeEgo+gfrWdV1VJoZgpUdqon84p1a+wxI1CA+l3Z+yqu89N5a9v65EVgK8TOpgH/edZS6JAZ97/AkfKjF3pTpRkUrlfQFnoGlaHNc2F0sAzPIFWIl9WMEGTYUZJfyB12ED2l9UE6bkDAcoy+0QznXJ8nIEBosNuIb3xLoBNIlRhNlc7Ho9dDA6l1OC8gKGUGEnhAyBFmpSu8zqf9jAzqZ/RIUxFDR0G2LQ6ueIwUzGFIuE95livS4p2RaUVQYas/p+xQ4eiavPqO2nKPUcCrvlCR50uqlirXGeiUWeua4uva6vebNDwHIJErq2fW0Mdfcxpjqmqe37Nnd73US64Ummt8a5bCpZhh5UrZanfS9gBw/5tcorGSz1TJ/rCTljoomOGDTLsh+NUz8Ypdz/ndBwlpFeIdn7Hevm9miD9QNxdVGNSQzGSR3ao6Duekm23fqT3Al/Ju3waAEnr1xyayxnymhgNcU9Z7sx5LtWA+6bquxXaeLr5J+wMZebRQwDiwW2x0O7I1y7ZxOrS+X/4Y0DXJ0pANhgM4sKRv4KMACD6UDbVgTzkgAAAABJRU5ErkJggg==) no-repeat center center;width:15px;height:15px;position:absolute;right:0;top:6px}#overlay_panel label{margin:0;font-size:14px}#overlay_panel .content-mgnt-block,#overlay_panel #images_mgnt{text-align:left;padding:3px 4px;margin:2px;border:1px #777 solid;-webkit-border-radius:5px;-moz-border-radius:5px;-ms-border-radius:5px;-o-border-radius:5px;border-radius:5px}#overlay_panel .content-mgnt-block legend,#overlay_panel #images_mgnt legend{font-size:10px;padding:0 3px;margin-left:10px}#overlay_panel .slider-block{display:block}#overlay_panel .slider-block label{font-size:70%;margin:0 5px 0 0;vertical-align:top}#overlay_panel .slider-block input[type=range]{margin:0}#overlay_panel #images_mgnt{width:186px}#overlay_panel #images_mgnt .controls{padding-bottom:5px}#overlay_panel #images_mgnt .controls label{margin-right:5px}#overlay_panel #images_mgnt .overlay-image-block{text-align:left;position:relative;width:186px;border:1px solid rgba(255,255,255,0.2);border-right:none;border-left:none}#overlay_panel #images_mgnt .overlay-image-block.hovered{background-color:rgba(255,255,0,0.5)}#overlay_panel #images_mgnt .overlay-image-block .del-button{position:absolute;right:0;top:0;margin:1px;cursor:pointer;border:1px #AAA solid;font-size:10px;line-height:13px;background-color:#444;color:white;font-weight:bold;padding:0 3px}#overlay_panel #images_mgnt .dynamic-adds label{font-size:75%}#overlay_panel #images_mgnt .dynamic-adds input{width:95px;font-size:10px}#overlay_panel input[type=checkbox],#overlay_panel label,#overlay_panel #contentSlider,#overlay_panel .zindex-switch{display:inline}#overlay_panel input[type=checkbox]{vertical-align:middle;margin:-3px 5px 0 0}#overlay_me_images_container{position:absolute;z-index:4;top:0;left:0}#overlay_me_images_container div{position:absolute}#overlay_me_images_container div.highlight{border:2px solid red;margin-top:-2px;margin-left:-2px}#overlay_me_images_container div:hover{cursor:move}#overlay_me_images_container img{position:absolute;top:0;left:0}</style>');
+  $o('head').append('<style rel="stylesheet" type="text/css">button{font-size:9px;margin:0 3px;padding:0 3px}#overlay_me_page_container{position:relative}#overlay_me_menu{position:fixed;right:0;z-index:990}#overlay_me_menu *{line-height:14px}#overlay_me_menu .drag-me{line-height:100%;display:block;color:black;font-size:.7em;text-align:center;background-image:-webkit-gradient(linear,0deg,0deg,color-stop(0%,#999),color-stop(30%,#ddd),color-stop(70%,#ddd),color-stop(100%,#999));background-image:-webkit-linear-gradient(0deg,#999,#ddd 30%,#ddd 70%,#999 100%);background-image:-moz-linear-gradient(0deg,#999,#ddd 30%,#ddd 70%,#999 100%);background-image:-o-linear-gradient(0deg,#999,#ddd 30%,#ddd 70%,#999 100%);background-image:-ms-linear-gradient(0deg,#999,#ddd 30%,#ddd 70%,#999 100%);background-image:linear-gradient(0deg,#999,#ddd 30%,#ddd 70%,#999 100%);padding:1px}#overlay_me_menu .drag-me:hover{cursor:move}#overlay_me_menu ul{list-style:none;margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline}.menu-item{text-align:left;background-color:#CCC;border:1px solid rgba(255,255,255,0.2);width:200px}.menu-item a.collaps-button{cursor:pointer;position:absolute;padding-top:9px;padding-left:5px;width:13px;height:9px;border:none;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAJCAYAAADpeqZqAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAIlJREFUeNpivHDhQujz589TmZiYvjMQAP/+/eOQkZGZyfD//38ZIL77nzhwG4ilQJpA2BiIPxHQ8BGIDUHqYZpAOIWApiSYWmRNIDfPxaYaKD4bWR2KJiDmA+KzaHrOQMVxagJhfSD+ALXhA5TPQEgTCCcD8V+gpmRs8rg0MQI1eANpJmzyAAEGAKD/bax/HrzbAAAAAElFTkSuQmCC) no-repeat center 3px}.menu-item a.collaps-button span{display:none;color:yellow}.menu-item a.collaps-button span:hover{color:yellow}.menu-item label.title{padding-left:20px;color:white;cursor:pointer;width:187px;line-height:1.1em;font-size:14px;background:none}.menu-item.collapsed .item-content{display:none}.menu-item.collapsed a.collaps-button{background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAANCAYAAAB7AEQGAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAKtJREFUeNpiuHz5ctD///+lgJgBF2Z68uRJOgMDw0EgNmTAAZiA4AeQVgHiA0CchFUREpsPiOcCjZ8NZWNVBAaMjIwpQGofEOvjVAQFxkATDwJxMkgNCy7HAk3kB1KzgApf4DIJBD4CcRpQ8TZcJp2D+vQiVjcBjZ8HpBxhCtAVfQbiVKDxIMd+QtbI8u/fP04gfQ+Iw4D4LDa7WSQlJUGBdxyIn+DyAUCAAQDxsEXD9kreLQAAAABJRU5ErkJggg==) no-repeat center top}#overlay_panel .content-mgnt-block{position:relative;line-height:10px}#overlay_panel .content-mgnt-block .unicorns{background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAklJREFUeNqEks1u00AQx3d27V3HdezY+SBpkKBFoBZxQEKIOwfegBs3rtwoPABvw3sgceKAuFWtUBBSaT6ctvHXer2zOElTVaoKI/2lWWl/O//ZGZi8jgSPxFv3JX93+CJvfJ4/09++vzH6S/SVH59+IohH5JagxBilC4zNHHigSLvtTCPRnLYxtB4b29ojGglBc1PG1PAyLfUxzszIX7B86MwLP/iVkS566DWeEgo+gfrWdV1VJoZgpUdqon84p1a+wxI1CA+l3Z+yqu89N5a9v65EVgK8TOpgH/edZS6JAZ97/AkfKjF3pTpRkUrlfQFnoGlaHNc2F0sAzPIFWIl9WMEGTYUZJfyB12ED2l9UE6bkDAcoy+0QznXJ8nIEBosNuIb3xLoBNIlRhNlc7Ho9dDA6l1OC8gKGUGEnhAyBFmpSu8zqf9jAzqZ/RIUxFDR0G2LQ6ueIwUzGFIuE95livS4p2RaUVQYas/p+xQ4eiavPqO2nKPUcCrvlCR50uqlirXGeiUWeua4uva6vebNDwHIJErq2fW0Mdfcxpjqmqe37Nnd73US64Ummt8a5bCpZhh5UrZanfS9gBw/5tcorGSz1TJ/rCTljoomOGDTLsh+NUz8Ypdz/ndBwlpFeIdn7Hevm9miD9QNxdVGNSQzGSR3ao6Duekm23fqT3Al/Ju3waAEnr1xyayxnymhgNcU9Z7sx5LtWA+6bquxXaeLr5J+wMZebRQwDiwW2x0O7I1y7ZxOrS+X/4Y0DXJ0pANhgM4sKRv4KMACD6UDbVgTzkgAAAABJRU5ErkJggg==) no-repeat center center;width:15px;height:15px;position:absolute;right:0;top:6px}#overlay_panel label{margin:0;font-size:14px}#overlay_panel .content-mgnt-block,#overlay_panel #images_mgnt{text-align:left;padding:3px 4px;margin:2px;border:1px #777 solid;-webkit-border-radius:5px;-moz-border-radius:5px;-ms-border-radius:5px;-o-border-radius:5px;border-radius:5px}#overlay_panel .content-mgnt-block legend,#overlay_panel #images_mgnt legend{font-size:10px;padding:0 3px;margin-left:10px}#overlay_panel .slider-block{display:block}#overlay_panel .slider-block label{font-size:70%;margin:0 5px 0 0;vertical-align:top}#overlay_panel .slider-block input[type=range]{margin:0}#overlay_panel #images_mgnt{width:186px}#overlay_panel #images_mgnt .controls{padding-bottom:5px}#overlay_panel #images_mgnt .controls label{margin-right:5px}#overlay_panel #images_mgnt .overlay-image-block{text-align:left;position:relative;width:186px;border:1px solid rgba(255,255,255,0.2);border-right:none;border-left:none}#overlay_panel #images_mgnt .overlay-image-block.hovered{background-color:rgba(255,255,0,0.5)}#overlay_panel #images_mgnt .overlay-image-block .del-button{position:absolute;right:0;top:0;margin:1px;cursor:pointer;border:1px #AAA solid;font-size:10px;line-height:13px;background-color:#444;color:white;font-weight:bold;padding:0 3px}#overlay_panel #images_mgnt .dynamic-adds label{font-size:75%}#overlay_panel #images_mgnt .dynamic-adds input{width:95px;font-size:10px}#overlay_panel input[type=checkbox],#overlay_panel label,#overlay_panel #contentSlider,#overlay_panel .zindex-switch{display:inline}#overlay_panel input[type=checkbox]{vertical-align:middle;margin:-3px 5px 0 0}#overlay_me_images_container{position:absolute;z-index:4;top:0;left:0}#overlay_me_images_container div{position:absolute}#overlay_me_images_container div.highlight{border:2px solid red;margin-top:-2px;margin-left:-2px}#overlay_me_images_container div:hover{cursor:move}#overlay_me_images_container img{position:absolute;top:0;left:0}#overlay_me_menu.collapsed .drag-me,#overlay_me_menu.collapsed .menu-item{width:25px}#overlay_me_menu.collapsed .drag-me{height:10px;overflow:hidden}#overlay_me_menu.collapsed button{height:10px;overflow:hidden}#overlay_me_menu.collapsed .overlay-image-block{height:14px;margin-top:3px}#overlay_me_menu.collapsed .overlay-image-block label,#overlay_me_menu.collapsed #content_div_management_block,#overlay_me_menu.collapsed .controls,#overlay_me_menu.collapsed input[type=range],#overlay_me_menu.collapsed #overlay_panel #contentSlider,#overlay_me_menu.collapsed legend,#overlay_me_menu.collapsed .dynamic-adds,#overlay_me_menu.collapsed .unicorns,#overlay_me_menu.collapsed button.reset,#overlay_me_menu.collapsed button.hide,#overlay_me_menu.collapsed button.del-button{display:none}</style>');
 
   window.OverlayMe = {};
+
+  window.OverlayMe.Mixin = {};
 
   OverlayMe.isLoaded = function() {
     return window.overlay_me_loaded;
@@ -11649,6 +11651,70 @@ function style(element, styles) {
 
   OverlayMe.mustLoad = function() {
     return !OverlayMe.isLoaded() && !OverlayMe.isMobile();
+  };
+
+  OverlayMe.clearAndReload = function() {
+    localStorage.clear();
+    return window.location.reload();
+  };
+
+}).call(this);
+(function() {
+
+  OverlayMe.Mixin.Storable = {
+    loadCss: function(element, default_css) {
+      var cssData;
+      if (element == null) {
+        element = this.el;
+      }
+      if ((cssData = localStorage.getItem(this.id))) {
+        return $o(element).css(JSON.parse(cssData));
+      } else {
+        if (default_css !== void 0) {
+          return $o(element).css(default_css);
+        }
+      }
+    },
+    saveCss: function(element) {
+      var cssData, css_attribute, _i, _len, _ref;
+      if (element == null) {
+        element = this.el;
+      }
+      if (!this.css_attributes_to_save) {
+        this.css_attributes_to_save = ['top', 'left', 'display', 'opacity'];
+      }
+      cssData = {};
+      _ref = this.css_attributes_to_save;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        css_attribute = _ref[_i];
+        cssData[css_attribute] = $o(element).css(css_attribute);
+      }
+      return localStorage.setItem(this.id, JSON.stringify(cssData));
+    }
+  };
+
+}).call(this);
+(function() {
+
+  OverlayMe.Mixin.Hideable = {
+    isDisplayed: function() {
+      return $o(this.el).css('display') !== 'none';
+    },
+    toggleDisplay: function(default_display_type) {
+      if (default_display_type == null) {
+        default_display_type = 'block';
+      }
+      if (this.isDisplayed()) {
+        $o(this.el).css({
+          display: 'none'
+        });
+      } else {
+        $o(this.el).css({
+          display: default_display_type
+        });
+      }
+      return this.saveCss();
+    }
   };
 
 }).call(this);
@@ -11668,16 +11734,11 @@ function style(element, styles) {
 
     Draggable.prototype.tagName = 'div';
 
+    Draggable.prototype.css_attributes_to_save = ['top', 'left', 'display', 'opacity'];
+
     Draggable.prototype.initialize = function(attributes, options) {
-      var cssData;
       Draggable.__super__.initialize.call(this, attributes, options);
-      if ((cssData = localStorage.getItem(this.id))) {
-        return $o(this.el).css(JSON.parse(cssData));
-      } else {
-        if (options.default_css !== void 0) {
-          return $o(this.el).css(options.default_css);
-        }
-      }
+      return this.loadCss(this.el, options.default_css);
     };
 
     Draggable.prototype.engageMove = function(event) {
@@ -11708,26 +11769,6 @@ function style(element, styles) {
       }
     };
 
-    Draggable.prototype.isDisplayed = function() {
-      return $o(this.el).css('display') !== 'none';
-    };
-
-    Draggable.prototype.toggleDisplay = function(default_display_type) {
-      if (default_display_type == null) {
-        default_display_type = 'block';
-      }
-      if (this.isDisplayed()) {
-        $o(this.el).css({
-          display: 'none'
-        });
-      } else {
-        $o(this.el).css({
-          display: default_display_type
-        });
-      }
-      return this.saveCss();
-    };
-
     Draggable.prototype.updateOverlay = function(x, y) {
       var newX, newY;
       newX = parseInt($o(this.el).css('left')) + x;
@@ -11739,17 +11780,6 @@ function style(element, styles) {
       return this.saveCss();
     };
 
-    Draggable.prototype.saveCss = function() {
-      var cssData;
-      cssData = {
-        top: $o(this.el).css('top'),
-        left: $o(this.el).css('left'),
-        display: $o(this.el).css('display'),
-        opacity: $o(this.el).css('opacity')
-      };
-      return localStorage.setItem(this.id, JSON.stringify(cssData));
-    };
-
     Draggable.prototype.render = function() {
       return this.el;
     };
@@ -11758,32 +11788,71 @@ function style(element, styles) {
 
   })(Backbone.View);
 
+  _.extend(OverlayMe.Draggable.prototype, OverlayMe.Mixin.Storable);
+
+  _.extend(OverlayMe.Draggable.prototype, OverlayMe.Mixin.Hideable);
+
 }).call(this);
 (function() {
-  var drag_me_line,
-    _this = this;
+  var __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
 
-  if (OverlayMe.mustLoad()) {
-    OverlayMe.menu_box = new OverlayMe.Draggable({
-      id: 'overlay_me_dev_tools_menu'
-    }, {
-      default_css: {
-        top: '50px'
+  OverlayMe.MenuClass = (function(_super) {
+
+    __extends(MenuClass, _super);
+
+    MenuClass.name = 'MenuClass';
+
+    function MenuClass() {
+      return MenuClass.__super__.constructor.apply(this, arguments);
+    }
+
+    MenuClass.prototype.id = 'overlay_me_menu';
+
+    MenuClass.prototype.initialize = function(attributes) {
+      var drag_me_line,
+        _this = this;
+      MenuClass.__super__.initialize.call(this, attributes, {
+        default_css: {
+          top: '50px'
+        }
+      });
+      drag_me_line = (new Backbone.View).make('div', {
+        "class": 'drag-me'
+      }, 'Drag me up and down');
+      this.menu_list = (new Backbone.View).make('ul');
+      $o(this.el).append(drag_me_line);
+      $o(this.el).append(this.menu_list);
+      $o('body').append(this.render());
+      $o(drag_me_line).bind('mousedown', function(event) {
+        return _this.toggleMove(event);
+      });
+      $o(window).bind('mouseup', function(event) {
+        return _this.endMove(event);
+      });
+      return $o(window).bind('overlay_me:toggle_all_display', function() {
+        return _this.toggleDisplay();
+      });
+    };
+
+    MenuClass.prototype.append = function(element) {
+      return this.menu_list.appendChild(element);
+    };
+
+    MenuClass.prototype.toggleCollapse = function() {
+      if ($o(this.el).hasClass('collapsed')) {
+        return $o(this.el).removeClass('collapsed');
+      } else {
+        return $o(this.el).addClass('collapsed');
       }
-    });
-    drag_me_line = (new Backbone.View).make('div', {
-      "class": 'drag-me'
-    }, 'Drag me');
-    OverlayMe.Menu = (new Backbone.View).make('ul');
-    $o(OverlayMe.menu_box.el).append(drag_me_line);
-    $o(OverlayMe.menu_box.el).append(OverlayMe.Menu);
-    $o('body').append(OverlayMe.menu_box.render());
-    $o(drag_me_line).bind('mousedown', function(event) {
-      return OverlayMe.menu_box.toggleMove(event);
-    });
-    $o(window).bind('mouseup', function(event) {
-      return OverlayMe.menu_box.endMove(event);
-    });
+    };
+
+    return MenuClass;
+
+  })(OverlayMe.Draggable);
+
+  if (!OverlayMe.menu_box) {
+    OverlayMe.menu = new OverlayMe.MenuClass();
   }
 
 }).call(this);
@@ -11867,7 +11936,7 @@ function style(element, styles) {
 
 }).call(this);
 (function() {
-  var basics_panel, clear_all_button, hide_button,
+  var basics_panel, clear_all_button, collapse_button, hide_button,
     _this = this;
 
   if (OverlayMe.mustLoad()) {
@@ -11875,20 +11944,35 @@ function style(element, styles) {
       id: "bacis-options",
       title: "Basics"
     });
+    collapse_button = (new Backbone.View).make('button', {
+      "class": 'collapse'
+    }, 'Collapse (c)');
+    $o(collapse_button).bind('click', function(event) {
+      return OverlayMe.menu.toggleCollapse();
+    });
+    basics_panel.append(collapse_button);
     clear_all_button = (new Backbone.View).make('button', {
-      onClick: "javascript: localStorage.clear(); window.location.reload()"
-    }, 'Reset All');
+      "class": 'reset',
+      onClick: "javascript: OverlayMe.clearAndReload()"
+    }, 'Reset All (r)');
     basics_panel.append(clear_all_button);
-    hide_button = (new Backbone.View).make('button', {}, 'Hide (touch "h")');
+    hide_button = (new Backbone.View).make('button', {
+      "class": 'hide'
+    }, 'Hide (h)');
     $o(hide_button).bind('click', function(event) {
-      return OverlayMe.menu_box.toggleDisplay();
+      return $o(window).trigger('overlay_me:toggle_all_display');
     });
     basics_panel.append(hide_button);
-    $o(OverlayMe.Menu).append(basics_panel.render());
+    OverlayMe.menu.append(basics_panel.render());
     $o(window).bind('keypress', function(event) {
-      console.log(event.keyCode, event.charCode);
       if (event.charCode === 104) {
-        return OverlayMe.menu_box.toggleDisplay();
+        $o(window).trigger('overlay_me:toggle_all_display');
+      }
+      if (event.charCode === 99) {
+        OverlayMe.menu.toggleCollapse();
+      }
+      if (event.charCode === 114) {
+        return OverlayMe.clearAndReload();
       }
     });
   }
@@ -11903,6 +11987,50 @@ function style(element, styles) {
   };
 
   OverlayMe.unicorns = ["http://fc07.deviantart.net/fs49/f/2009/200/b/3/Fat_Unicorn_and_the_Rainbow_by_la_ratta.jpg", "http://www.deviantart.com/download/126388773/Unicorn_Pukes_Rainbow_by_Angel35W.jpg", "http://macmcrae.com/wp-content/uploads/2010/02/unicorn.jpg", "http://4.bp.blogspot.com/-uPLiez-m9vY/TacC_Bmsn3I/AAAAAAAAAyg/jusQIA8aAME/s1600/Behold_A_Rainbow_Unicorn_Ninja_by_Jess4921.jpg", "http://www.everquestdragon.com/everquestdragon/main/image.axd?picture=2009%2F9%2FPaperPaperNewrainbow.png"];
+
+}).call(this);
+(function() {
+  var __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+
+  OverlayMe.Overlays.ImagesContainer = (function(_super) {
+
+    __extends(ImagesContainer, _super);
+
+    ImagesContainer.name = 'ImagesContainer';
+
+    function ImagesContainer() {
+      return ImagesContainer.__super__.constructor.apply(this, arguments);
+    }
+
+    ImagesContainer.prototype.id = 'overlay_me_images_container';
+
+    ImagesContainer.prototype.css_attributes_to_save = ['display'];
+
+    ImagesContainer.prototype.initialize = function() {
+      var container,
+        _this = this;
+      container = $o('#overlay_me_images_container');
+      if (container.length < 1) {
+        container = this.make('div', {
+          id: 'overlay_me_images_container'
+        });
+        $o('body').append(container);
+        this.el = container;
+      }
+      this.loadCss();
+      return $o(window).bind('overlay_me:toggle_all_display', function() {
+        return _this.toggleDisplay();
+      });
+    };
+
+    return ImagesContainer;
+
+  })(Backbone.View);
+
+  _.extend(OverlayMe.Overlays.ImagesContainer.prototype, OverlayMe.Mixin.Storable);
+
+  _.extend(OverlayMe.Overlays.ImagesContainer.prototype, OverlayMe.Mixin.Hideable);
 
 }).call(this);
 (function() {
@@ -11993,19 +12121,15 @@ function style(element, styles) {
       this.image_src = image_src;
       this.image_id = OverlayMe.Overlays.urlToId(image_src);
       $o(this.el).attr('data-img-id', this.image_id);
-      this.images_container = $o('#overlay_me_images_container');
-      if (this.images_container.length < 1) {
-        $o('body').append((new Backbone.View).make('div', {
-          id: 'overlay_me_images_container'
-        }));
-        this.images_container = $o('#overlay_me_images_container');
+      if (!OverlayMe.images_container) {
+        OverlayMe.images_container = new OverlayMe.Overlays.ImagesContainer();
       }
       this.default_css = $o.extend({
         display: 'none',
         opacity: 0.5
       }, options.default_css);
-      if (!($o("#" + this.image_id, this.images_container).length > 0)) {
-        $o(this.images_container).append(this.image());
+      if (!($o("#" + this.image_id, OverlayMe.images_container.el).length > 0)) {
+        $o(OverlayMe.images_container.el).append(this.image());
       }
       $o(this.el).append(this.checkbox());
       $o(this.el).append(this.label());
@@ -12249,28 +12373,29 @@ function style(element, styles) {
 
     ContentDivManagementBlock.prototype.className = 'content-mgnt-block';
 
+    ContentDivManagementBlock.prototype.id = 'content_div_management_block';
+
+    ContentDivManagementBlock.prototype.css_attributes_to_save = ['z-index', 'opacity'];
+
     ContentDivManagementBlock.prototype.normal_zindex = '0';
 
     ContentDivManagementBlock.prototype.over_zindex = '5';
 
     ContentDivManagementBlock.prototype.initialize = function() {
-      var contentCss, our_page_container_div, slider_block, unicorn_button,
+      var slider_block, unicorn_button,
         _this = this;
-      our_page_container_div = this.make('div', {
+      this.page_container_div = this.make('div', {
         id: 'overlay_me_page_container'
       });
-      $o('body').append(our_page_container_div);
+      $o('body').append(this.page_container_div);
       $o('body > *').each(function(index, thing) {
         if (!(thing.id.match(/^overlay_me/) || thing.tagName === 'SCRIPT')) {
-          return $o(our_page_container_div).append(thing);
+          return $o(_this.page_container_div).append(thing);
         }
       });
-      $o("#overlay_me_page_container").css({
+      this.loadCss(this.page_container_div, {
         'z-index': this.normal_zindex
       });
-      if ((contentCss = localStorage.getItem("#overlay_me_page_container"))) {
-        $o("#overlay_me_page_container").css(JSON.parse(contentCss));
-      }
       unicorn_button = this.make('div', {
         "class": 'unicorns',
         title: 'Feeling corny?'
@@ -12309,7 +12434,7 @@ function style(element, styles) {
           return _this.zIndexSwitch.checked = true;
         }
       }, 500);
-      label = this.make('label', {}, 'Content on top (touch "c")');
+      label = this.make('label', {}, 'Content on top (t)');
       $o(label).bind('click', function() {
         return $o(_this.zIndexSwitch).trigger('click');
       });
@@ -12328,7 +12453,7 @@ function style(element, styles) {
       var _this = this;
       $o(this.contentSlider).bind('change', function() {
         $o("#overlay_me_page_container").css('opacity', $o(_this.contentSlider)[0].value / 100);
-        return _this.saveContentCss();
+        return _this.saveCss(_this.page_container_div);
       });
       $o(this.zIndexSwitch).bind('change', function(event) {
         if (_this.zIndexSwitch.checked) {
@@ -12340,10 +12465,10 @@ function style(element, styles) {
             'z-index': _this.normal_zindex
           });
         }
-        return _this.saveContentCss();
+        return _this.saveCss(_this.page_container_div);
       });
       return $o(window).bind('keypress', function(event) {
-        if (event.charCode === 99) {
+        if (event.charCode === 116) {
           return $o(_this.zIndexSwitch).trigger('click');
         }
       });
@@ -12353,16 +12478,11 @@ function style(element, styles) {
       return this.el;
     };
 
-    ContentDivManagementBlock.prototype.saveContentCss = function() {
-      return localStorage.setItem("#overlay_me_page_container", JSON.stringify({
-        opacity: $o("#overlay_me_page_container").css('opacity'),
-        'z-index': $o("#overlay_me_page_container").css('z-index')
-      }));
-    };
-
     return ContentDivManagementBlock;
 
   })(Backbone.View);
+
+  _.extend(OverlayMe.Overlays.ContentDivManagementBlock.prototype, OverlayMe.Mixin.Storable);
 
 }).call(this);
 (function() {
@@ -12490,7 +12610,7 @@ function style(element, styles) {
     overlay_panel.append(new OverlayMe.Overlays.ContentDivManagementBlock().render());
     OverlayMe.images_management_div = new OverlayMe.Overlays.ImagesManagementDiv();
     overlay_panel.append(OverlayMe.images_management_div.render());
-    $o(OverlayMe.Menu).append(overlay_panel.render());
+    OverlayMe.menu.append(overlay_panel.render());
     $o(window).bind('mousemove', function(event) {
       return $o(window).trigger('mymousemove', event);
     });
@@ -12501,14 +12621,14 @@ function style(element, styles) {
         return OverlayMe.dyn_manager.addImage('https://a248.e.akamai.net/assets.github.com/images/modules/about_page/octocat.png');
       }
     };
-    $.ajax({
+    $o.ajax({
       url: '/overlay_images',
       dataType: 'json',
       success: function(data) {
         if (data.length === 0) {
           return OverlayMe.loadDefaultImage();
         } else {
-          return $.each(data, function(index, img_path) {
+          return $o.each(data, function(index, img_path) {
             return OverlayMe.images_management_div.append(new OverlayMe.Overlays.Image(img_path).render());
           });
         }
@@ -12522,6 +12642,6 @@ function style(element, styles) {
 }).call(this);
 (function() {
 
-
+  window.overlay_me_loaded = true;
 
 }).call(this);

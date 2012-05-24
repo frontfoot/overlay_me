@@ -19,7 +19,7 @@ if OverlayMe.mustLoad()
   overlay_panel.append OverlayMe.images_management_div.render()
 
   # add the panel to the page menu
-  $o(OverlayMe.Menu).append overlay_panel.render()
+  OverlayMe.menu.append overlay_panel.render()
   
   # repeating original window#mousemove event
   $o(window).bind 'mousemove', (event) ->

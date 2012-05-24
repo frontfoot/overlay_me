@@ -37,6 +37,6 @@ _.each layouts, (width, name) ->
   layout_menu.append button
 
 # add the element to the page menu
-$o(OverlayMe.Menu).append layout_menu.render()
+OverlayMe.menu.append layout_menu.render()
 
 

@@ -48,7 +48,7 @@ class OverlayMe.Overlays.ContentDivManagementBlock extends Backbone.View
       @zIndexSwitch.checked = true if $o("#overlay_me_page_container").css('z-index') == @over_zindex
     , 500
 
-    label = @make 'label', {}, 'Content on top (touch "c")'
+    label = @make 'label', {}, 'Content on top (t)'
     $o(label).bind 'click', =>
       $o(@zIndexSwitch).trigger 'click'
     $o(block).append label
@@ -76,10 +76,9 @@ class OverlayMe.Overlays.ContentDivManagementBlock extends Backbone.View
     # if click is kind of boring
     $o(window).bind('keypress', (event) =>
       #console.log event.keyCode, event.charCode
-      if event.charCode == 99 # C
+      if event.charCode == 116 # t
         $o(@zIndexSwitch).trigger('click')
     )
-
 
   render: ->
     @el

@@ -1,23 +1,38 @@
 #= require 'draggable'
 
-if OverlayMe.mustLoad() # dont do it twice
+class OverlayMe.MenuClass extends OverlayMe.Draggable
 
-  # create elements
-  OverlayMe.menu_box = new OverlayMe.Draggable { id: 'overlay_me_dev_tools_menu' }, { default_css: { top: '50px' } }
-  drag_me_line = (new Backbone.View).make 'div', { class: 'drag-me' }, 'Drag me up and down'
-  OverlayMe.Menu = (new Backbone.View).make 'ul'
+  id: 'overlay_me_menu'
 
-  # stack them together
-  $o(OverlayMe.menu_box.el).append drag_me_line
-  $o(OverlayMe.menu_box.el).append OverlayMe.Menu
+  initialize: (attributes) ->
+    super(attributes, { default_css: { top: '50px' } })
+    drag_me_line = (new Backbone.View).make 'div', { class: 'drag-me' }, 'Drag me up and down'
+    @menu_list = (new Backbone.View).make 'ul'
 
-  # add it to the page
-  $o('body').append OverlayMe.menu_box.render()
+    # stack them together
+    $o(@el).append drag_me_line
+    $o(@el).append @menu_list
 
-  # add listeners
-  $o(drag_me_line).bind 'mousedown', (event) =>
-    OverlayMe.menu_box.toggleMove(event)
-  $o(window).bind 'mouseup', (event) =>
-    OverlayMe.menu_box.endMove(event)
-  $o(window).bind 'overlay_me:toggle_all_display', =>
-    OverlayMe.menu_box.toggleDisplay()
+    # add it to the page
+    $o('body').append @render()
+
+    # add listeners
+    $o(drag_me_line).bind 'mousedown', (event) =>
+      @toggleMove(event)
+    $o(window).bind 'mouseup', (event) =>
+      @endMove(event)
+    $o(window).bind 'overlay_me:toggle_all_display', =>
+      @toggleDisplay()
+
+  append: (element) ->
+    @menu_list.appendChild element
+
+  toggleCollapse: ->
+    if $o(@el).hasClass('collapsed')
+      $o(@el).removeClass('collapsed')
+    else
+      $o(@el).addClass('collapsed')
+
+
+# create only 1 menu
+OverlayMe.menu = new OverlayMe.MenuClass() unless OverlayMe.menu_box

@@ -32,9 +32,6 @@ We were struggling to see the gap between designers photoshop files and our HTML
 ## Todo
 
 - allow local image uploading (hosting on amazon s3 ?), [makiapp.com](http://makiapp.com/) does it!
-- toolbar
-  - make other versions of the toolbar (floating one, fixed on top) with a style switch
-  - a switch to hide the whole thing, menu + images (with a keyboard shortcut)
 - overlays
   - make a cycling system, by click or keypress, to iterate through overlays one by one
   - images sub-sets (sub-directories) should appear as nestable blocks
