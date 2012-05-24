@@ -1,3 +1,4 @@
+#= require 'overlays/images_container'
 #= require 'overlays/draggable_image'
 
 class OverlayMe.Overlays.Image extends Backbone.View
@@ -10,15 +11,12 @@ class OverlayMe.Overlays.Image extends Backbone.View
     @image_id = OverlayMe.Overlays.urlToId(image_src)
     $o(@el).attr 'data-img-id', @image_id
 
-    @images_container = $o('#overlay_me_images_container')
-    if @images_container.length < 1
-      $o('body').append (new Backbone.View).make 'div', { id: 'overlay_me_images_container' }
-      @images_container = $o('#overlay_me_images_container')
+    OverlayMe.images_container = new OverlayMe.Overlays.ImagesContainer() unless OverlayMe.images_container
 
     @default_css = $o.extend {display: 'none', opacity: 0.5}, options.default_css
 
-    unless $o("##{@image_id}", @images_container).length > 0
-      $o(@images_container).append @image()
+    unless $o("##{@image_id}", OverlayMe.images_container.el).length > 0
+      $o(OverlayMe.images_container.el).append @image()
 
     $o(@el).append @checkbox()
     $o(@el).append @label()
