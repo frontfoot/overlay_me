@@ -1,15 +1,14 @@
+#= require 'mixins/storable'
 #= require 'mixins/hideable'
 
 class OverlayMe.Draggable extends Backbone.View
 
   tagName: 'div'
+  css_attributes_to_save: ['top', 'left', 'display', 'opacity']
 
   initialize: (attributes, options) ->
     super(attributes, options)
-    if ( cssData = localStorage.getItem(@id) )
-      $o(@el).css(JSON.parse(cssData))
-    else
-      $o(@el).css(options.default_css) unless options.default_css == undefined
+    @loadCss(options.default_css)
 
   engageMove: (event) ->
     event.preventDefault()
@@ -39,18 +38,10 @@ class OverlayMe.Draggable extends Backbone.View
     $o(@el).css({ top:"#{newY}px", left:"#{newX}px"})
     @saveCss()
 
-  saveCss: () ->
-    cssData = {
-      top:$o(@el).css('top'),
-      left:$o(@el).css('left'),
-      display:$o(@el).css('display'),
-      opacity: $o(@el).css('opacity')
-    }
-    localStorage.setItem(@id, JSON.stringify(cssData))
-
   render: ->
     @el
 
-# extending Hideable - thx Derick - http://stackoverflow.com/questions/7853731/proper-way-of-doing-view-mixins-in-backbone
+# extending few mixins - thx Derick - http://stackoverflow.com/questions/7853731/proper-way-of-doing-view-mixins-in-backbone
+_.extend OverlayMe.Draggable.prototype, OverlayMe.Mixin.Storable
 _.extend OverlayMe.Draggable.prototype, OverlayMe.Mixin.Hideable
 

@@ -1,8 +1,10 @@
+#= require 'mixins/storable'
 #= require 'mixins/hideable'
 
 class OverlayMe.Overlays.ImagesContainer extends Backbone.View
 
   id: 'overlay_me_images_container'
+  css_attributes_to_save: ['display']
 
   initialize: ->
     container = $o('#overlay_me_images_container')
@@ -12,16 +14,7 @@ class OverlayMe.Overlays.ImagesContainer extends Backbone.View
       @el = container
     @loadCss()
 
-  loadCss: ->
-    if ( cssData = localStorage.getItem(@id) )
-      $o(@el).css(JSON.parse(cssData))
-    
-  saveCss: () ->
-    cssData = {
-      display:$o(@el).css('display'),
-    }
-    localStorage.setItem(@id, JSON.stringify(cssData))
-
-# extending Hideable - thx Derick - http://stackoverflow.com/questions/7853731/proper-way-of-doing-view-mixins-in-backbone
+# extending few mixins - thx Derick - http://stackoverflow.com/questions/7853731/proper-way-of-doing-view-mixins-in-backbone
+_.extend OverlayMe.Overlays.ImagesContainer.prototype, OverlayMe.Mixin.Storable
 _.extend OverlayMe.Overlays.ImagesContainer.prototype, OverlayMe.Mixin.Hideable
 
