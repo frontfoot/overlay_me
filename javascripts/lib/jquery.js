@@ -99,7 +99,7 @@ OMjQuery.fn = OMjQuery.prototype = {
 	init: function( selector, context, rootOMjQuery ) {
 		var match, elem, ret, doc;
 
-		// Handle $o(""), $(null), or $(undefined)
+		// Handle $o(""), $o(null), or $o(undefined)
 		if ( !selector ) {
 			return this;
 		}
@@ -134,7 +134,7 @@ OMjQuery.fn = OMjQuery.prototype = {
 			// Verify a match, and that no context was specified for #id
 			if ( match && (match[1] || !context) ) {
 
-				// HANDLE: $o(html) -> $(array)
+				// HANDLE: $o(html) -> $o(array)
 				if ( match[1] ) {
 					context = context instanceof OMjQuery ? context[0] : context;
 					doc = ( context ? context.ownerDocument || context : document );
@@ -182,7 +182,7 @@ OMjQuery.fn = OMjQuery.prototype = {
 					return this;
 				}
 
-			// HANDLE: $o(expr, $(...))
+			// HANDLE: $o(expr, $o(...))
 			} else if ( !context || context.jquery ) {
 				return ( context || rootOMjQuery ).find( selector );
 
@@ -8521,7 +8521,7 @@ OMjQuery.fn.extend({
 					replace = hooks.expand( prop[ name ] );
 					delete prop[ name ];
 
-					// not quite $.extend, this wont overwrite keys already present.
+					// not quite $o.extend, this wont overwrite keys already present.
 					// also - reusing 'p' from above because we have the correct "name"
 					for ( p in replace ) {
 						if ( ! ( p in prop ) ) {

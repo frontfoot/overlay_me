@@ -783,16 +783,16 @@
       var docMode           = document.documentMode;
       var oldIE             = (isExplorer.exec(navigator.userAgent.toLowerCase()) && (!docMode || docMode <= 7));
       if (oldIE) {
-        this.iframe = $('<iframe src="javascript:0" tabindex="-1" />').hide().appendTo('body')[0].contentWindow;
+        this.iframe = $o('<iframe src="javascript:0" tabindex="-1" />').hide().appendTo('body')[0].contentWindow;
         this.navigate(fragment);
       }
 
       // Depending on whether we're using pushState or hashes, and whether
       // 'onhashchange' is supported, determine how we check the URL state.
       if (this._hasPushState) {
-        $(window).bind('popstate', this.checkUrl);
+        $o(window).bind('popstate', this.checkUrl);
       } else if ('onhashchange' in window && !oldIE) {
-        $(window).bind('hashchange', this.checkUrl);
+        $o(window).bind('hashchange', this.checkUrl);
       } else {
         setInterval(this.checkUrl, this.interval);
       }
@@ -885,7 +885,7 @@
   // This should be prefered to global lookups, if you're dealing with
   // a specific view.
   var selectorDelegate = function(selector) {
-    return $(selector, this.el);
+    return $o(selector, this.el);
   };
 
   // Cached regex to split keys for `delegate`.
@@ -917,7 +917,7 @@
     // Remove this view from the DOM. Note that the view isn't present in the
     // DOM by default, so calling this method may be a no-op.
     remove : function() {
-      $(this.el).remove();
+      $o(this.el).remove();
       return this;
     },
 
@@ -928,8 +928,8 @@
     //
     make : function(tagName, attributes, content) {
       var el = document.createElement(tagName);
-      if (attributes) $(el).attr(attributes);
-      if (content) $(el).html(content);
+      if (attributes) $o(el).attr(attributes);
+      if (content) $o(el).html(content);
       return el;
     },
 
@@ -949,7 +949,7 @@
     // not `change`, `submit`, and `reset` in Internet Explorer.
     delegateEvents : function(events) {
       if (!(events || (events = this.events))) return;
-      $(this.el).unbind('.delegateEvents' + this.cid);
+      $o(this.el).unbind('.delegateEvents' + this.cid);
       for (var key in events) {
         var method = this[events[key]];
         if (!method) throw new Error('Event "' + events[key] + '" does not exist');
@@ -958,9 +958,9 @@
         method = _.bind(method, this);
         eventName += '.delegateEvents' + this.cid;
         if (selector === '') {
-          $(this.el).bind(eventName, method);
+          $o(this.el).bind(eventName, method);
         } else {
-          $(this.el).delegate(selector, eventName, method);
+          $o(this.el).delegate(selector, eventName, method);
         }
       }
     },
@@ -978,7 +978,7 @@
     },
 
     // Ensure that the View has a DOM element to render into.
-    // If `this.el` is a string, pass it through `$()`, take the first
+    // If `this.el` is a string, pass it through `$o()`, take the first
     // matching element, and re-assign it to `el`. Otherwise, create
     // an element from the `id`, `className` and `tagName` proeprties.
     _ensureElement : function() {
@@ -988,7 +988,7 @@
         if (this.className) attrs['class'] = this.className;
         this.el = this.make(this.tagName, attrs);
       } else if (_.isString(this.el)) {
-        this.el = $(this.el).get(0);
+        this.el = $o(this.el).get(0);
       }
     }
 
@@ -1075,7 +1075,7 @@
     }
 
     // Make the request.
-    return $.ajax(params);
+    return $o.ajax(params);
   };
 
   // Helpers
