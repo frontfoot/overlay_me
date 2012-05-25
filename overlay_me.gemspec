@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
   s.name        = "overlay_me"
   s.version     = OverlayMe::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ["Rufus Post", "Joseph Boiteau"]
+  s.authors     = ["Joseph Boiteau"]
   s.email       = ["joseph.b@frontfoot.com.au"]
   s.homepage    = "http://github.com/frontfoot/overlay_me"
   s.summary     = "A handy toolbox for your web development"

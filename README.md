@@ -128,10 +128,14 @@ You can add some app specific menu for specific project.. Have a look at layout_
 
 
 
-## Authors / Contributors
+## Author
 
-- Rufus Post - former workmate who founded the ovelaying concept
-- Joseph Boiteau - taking Rufus's idea to 11 (and loving it) - FrontFoot Media Solutions
+- Joseph Boiteau - FrontFoot Media Solutions
+
+
+## Contributors
+
+- Rufus Post - former workmate at the origin of the ovelaying concept
 - Lachlan Sylvester - Ruby advisor - Frontfoot Media Solutions
 - Dan Smith - User Experience Strategist and Califloridian - FrontFoot Media Solutions
 
