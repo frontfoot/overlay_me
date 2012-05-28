@@ -25,7 +25,8 @@ class OverlayMe.Overlays.Image extends Backbone.View
     slider_block.appendChild @make 'label', {}, 'Opacity'
     slider_block.appendChild @slider()
     $o(@el).append @delButton() if options.destroyable
-    $o(@el).bind 'click', (event) =>
+    $o(@el).bind 'click', (e) =>
+      e.stopPropagation()
       @flickCheckbox()
     $o(@el).bind 'mouseover', (event) =>
       $o(@image.el).addClass 'highlight'

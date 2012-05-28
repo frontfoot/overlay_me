@@ -11635,7 +11635,7 @@ function style(element, styles) {
 })();
 (function() {
 
-  $o('head').append('<style rel="stylesheet" type="text/css">button{font-size:9px;margin:0 3px;padding:0 3px}#overlay_me_page_container{position:relative}#overlay_me_menu{position:fixed;right:0;z-index:990}#overlay_me_menu *{line-height:14px}#overlay_me_menu .drag-me{line-height:100%;display:block;color:black;font-size:.7em;text-align:center;background-image:-webkit-gradient(linear,0deg,0deg,color-stop(0%,#999),color-stop(30%,#ddd),color-stop(70%,#ddd),color-stop(100%,#999));background-image:-webkit-linear-gradient(0deg,#999,#ddd 30%,#ddd 70%,#999 100%);background-image:-moz-linear-gradient(0deg,#999,#ddd 30%,#ddd 70%,#999 100%);background-image:-o-linear-gradient(0deg,#999,#ddd 30%,#ddd 70%,#999 100%);background-image:-ms-linear-gradient(0deg,#999,#ddd 30%,#ddd 70%,#999 100%);background-image:linear-gradient(0deg,#999,#ddd 30%,#ddd 70%,#999 100%);padding:1px}#overlay_me_menu .drag-me:hover{cursor:move}#overlay_me_menu ul{list-style:none;margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline}.menu-item{text-align:left;background-color:#CCC;border:1px solid rgba(255,255,255,0.2);width:200px}.menu-item a.collaps-button{cursor:pointer;position:absolute;padding-top:9px;padding-left:5px;width:13px;height:9px;border:none;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAJCAYAAADpeqZqAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAIlJREFUeNpivHDhQujz589TmZiYvjMQAP/+/eOQkZGZyfD//38ZIL77nzhwG4ilQJpA2BiIPxHQ8BGIDUHqYZpAOIWApiSYWmRNIDfPxaYaKD4bWR2KJiDmA+KzaHrOQMVxagJhfSD+ALXhA5TPQEgTCCcD8V+gpmRs8rg0MQI1eANpJmzyAAEGAKD/bax/HrzbAAAAAElFTkSuQmCC) no-repeat center 3px}.menu-item a.collaps-button span{display:none;color:yellow}.menu-item a.collaps-button span:hover{color:yellow}.menu-item label.title{padding-left:20px;color:white;cursor:pointer;width:187px;line-height:1.1em;font-size:14px;background:none}.menu-item.collapsed .item-content{display:none}.menu-item.collapsed a.collaps-button{background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAANCAYAAAB7AEQGAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAKtJREFUeNpiuHz5ctD///+lgJgBF2Z68uRJOgMDw0EgNmTAAZiA4AeQVgHiA0CchFUREpsPiOcCjZ8NZWNVBAaMjIwpQGofEOvjVAQFxkATDwJxMkgNCy7HAk3kB1KzgApf4DIJBD4CcRpQ8TZcJp2D+vQiVjcBjZ8HpBxhCtAVfQbiVKDxIMd+QtbI8u/fP04gfQ+Iw4D4LDa7WSQlJUGBdxyIn+DyAUCAAQDxsEXD9kreLQAAAABJRU5ErkJggg==) no-repeat center top}#overlay_panel .content-mgnt-block{position:relative;line-height:10px}#overlay_panel .content-mgnt-block .unicorns{background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAklJREFUeNqEks1u00AQx3d27V3HdezY+SBpkKBFoBZxQEKIOwfegBs3rtwoPABvw3sgceKAuFWtUBBSaT6ctvHXer2zOElTVaoKI/2lWWl/O//ZGZi8jgSPxFv3JX93+CJvfJ4/09++vzH6S/SVH59+IohH5JagxBilC4zNHHigSLvtTCPRnLYxtB4b29ojGglBc1PG1PAyLfUxzszIX7B86MwLP/iVkS566DWeEgo+gfrWdV1VJoZgpUdqon84p1a+wxI1CA+l3Z+yqu89N5a9v65EVgK8TOpgH/edZS6JAZ97/AkfKjF3pTpRkUrlfQFnoGlaHNc2F0sAzPIFWIl9WMEGTYUZJfyB12ED2l9UE6bkDAcoy+0QznXJ8nIEBosNuIb3xLoBNIlRhNlc7Ho9dDA6l1OC8gKGUGEnhAyBFmpSu8zqf9jAzqZ/RIUxFDR0G2LQ6ueIwUzGFIuE95livS4p2RaUVQYas/p+xQ4eiavPqO2nKPUcCrvlCR50uqlirXGeiUWeua4uva6vebNDwHIJErq2fW0Mdfcxpjqmqe37Nnd73US64Ummt8a5bCpZhh5UrZanfS9gBw/5tcorGSz1TJ/rCTljoomOGDTLsh+NUz8Ypdz/ndBwlpFeIdn7Hevm9miD9QNxdVGNSQzGSR3ao6Duekm23fqT3Al/Ju3waAEnr1xyayxnymhgNcU9Z7sx5LtWA+6bquxXaeLr5J+wMZebRQwDiwW2x0O7I1y7ZxOrS+X/4Y0DXJ0pANhgM4sKRv4KMACD6UDbVgTzkgAAAABJRU5ErkJggg==) no-repeat center center;width:15px;height:15px;position:absolute;right:0;top:6px}#overlay_panel label{margin:0;font-size:14px}#overlay_panel .content-mgnt-block,#overlay_panel #images_mgnt{text-align:left;padding:3px 4px;margin:2px;border:1px #777 solid;-webkit-border-radius:5px;-moz-border-radius:5px;-ms-border-radius:5px;-o-border-radius:5px;border-radius:5px}#overlay_panel .content-mgnt-block legend,#overlay_panel #images_mgnt legend{font-size:10px;padding:0 3px;margin-left:10px}#overlay_panel .slider-block{display:block}#overlay_panel .slider-block label{font-size:70%;margin:0 5px 0 0;vertical-align:top}#overlay_panel .slider-block input[type=range]{margin:0}#overlay_panel #images_mgnt{width:186px}#overlay_panel #images_mgnt .controls{padding-bottom:5px}#overlay_panel #images_mgnt .controls label{margin-right:5px}#overlay_panel #images_mgnt .overlay-image-block{text-align:left;position:relative;width:186px;border:1px solid rgba(255,255,255,0.2);border-right:none;border-left:none}#overlay_panel #images_mgnt .overlay-image-block.hovered{background-color:rgba(255,255,0,0.5)}#overlay_panel #images_mgnt .overlay-image-block .del-button{position:absolute;right:0;top:0;margin:1px;cursor:pointer;border:1px #AAA solid;font-size:10px;line-height:13px;background-color:#444;color:white;font-weight:bold;padding:0 3px}#overlay_panel #images_mgnt .dynamic-adds label{font-size:75%}#overlay_panel #images_mgnt .dynamic-adds input{width:95px;font-size:10px}#overlay_panel input[type=checkbox],#overlay_panel label,#overlay_panel #contentSlider,#overlay_panel .zindex-switch{display:inline}#overlay_panel input[type=checkbox]{vertical-align:middle;margin:-3px 5px 0 0}#overlay_me_images_container{position:absolute;z-index:4;top:0;left:0}#overlay_me_images_container div{position:absolute}#overlay_me_images_container div.highlight{border:2px solid red;margin-top:-2px;margin-left:-2px}#overlay_me_images_container div:hover{cursor:move}#overlay_me_images_container img{position:absolute;top:0;left:0}#overlay_me_menu.collapsed .drag-me,#overlay_me_menu.collapsed .menu-item{width:25px}#overlay_me_menu.collapsed .drag-me{height:10px;overflow:hidden}#overlay_me_menu.collapsed button{height:10px;overflow:hidden}#overlay_me_menu.collapsed .overlay-image-block{height:14px;margin-top:3px}#overlay_me_menu.collapsed .overlay-image-block label,#overlay_me_menu.collapsed #content_div_management_block,#overlay_me_menu.collapsed .controls,#overlay_me_menu.collapsed input[type=range],#overlay_me_menu.collapsed #overlay_panel #contentSlider,#overlay_me_menu.collapsed legend,#overlay_me_menu.collapsed .dynamic-adds,#overlay_me_menu.collapsed .unicorns,#overlay_me_menu.collapsed button.reset,#overlay_me_menu.collapsed button.hide,#overlay_me_menu.collapsed button.del-button{display:none}</style>');
+  $o('head').append('<style rel="stylesheet" type="text/css">button{font-size:9px;margin:0 3px;padding:0 3px}#overlay_me_page_container{position:relative}#overlay_me_menu{position:fixed;right:0;z-index:990}#overlay_me_menu *{line-height:14px}#overlay_me_menu .drag-me{line-height:100%;display:block;color:black;font-size:.7em;text-align:center;background-image:-webkit-gradient(linear,0deg,0deg,color-stop(0%,#999),color-stop(30%,#ddd),color-stop(70%,#ddd),color-stop(100%,#999));background-image:-webkit-linear-gradient(0deg,#999,#ddd 30%,#ddd 70%,#999 100%);background-image:-moz-linear-gradient(0deg,#999,#ddd 30%,#ddd 70%,#999 100%);background-image:-o-linear-gradient(0deg,#999,#ddd 30%,#ddd 70%,#999 100%);background-image:-ms-linear-gradient(0deg,#999,#ddd 30%,#ddd 70%,#999 100%);background-image:linear-gradient(0deg,#999,#ddd 30%,#ddd 70%,#999 100%);padding:1px}#overlay_me_menu .drag-me:hover{cursor:move}#overlay_me_menu ul{list-style:none;margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline}.menu-item{text-align:left;background-color:#CCC;border:1px solid rgba(255,255,255,0.2);width:200px}.menu-item a.collaps-button{cursor:pointer;position:absolute;padding-top:9px;padding-left:5px;width:13px;height:9px;border:none;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAJCAYAAADpeqZqAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAIlJREFUeNpivHDhQujz589TmZiYvjMQAP/+/eOQkZGZyfD//38ZIL77nzhwG4ilQJpA2BiIPxHQ8BGIDUHqYZpAOIWApiSYWmRNIDfPxaYaKD4bWR2KJiDmA+KzaHrOQMVxagJhfSD+ALXhA5TPQEgTCCcD8V+gpmRs8rg0MQI1eANpJmzyAAEGAKD/bax/HrzbAAAAAElFTkSuQmCC) no-repeat center 3px}.menu-item a.collaps-button span{display:none;color:yellow}.menu-item a.collaps-button span:hover{color:yellow}.menu-item label.title{padding-left:20px;color:white;cursor:pointer;width:187px;line-height:1.1em;font-size:14px;background:none}.menu-item.collapsed .item-content{display:none}.menu-item.collapsed a.collaps-button{background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAANCAYAAAB7AEQGAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAKtJREFUeNpiuHz5ctD///+lgJgBF2Z68uRJOgMDw0EgNmTAAZiA4AeQVgHiA0CchFUREpsPiOcCjZ8NZWNVBAaMjIwpQGofEOvjVAQFxkATDwJxMkgNCy7HAk3kB1KzgApf4DIJBD4CcRpQ8TZcJp2D+vQiVjcBjZ8HpBxhCtAVfQbiVKDxIMd+QtbI8u/fP04gfQ+Iw4D4LDa7WSQlJUGBdxyIn+DyAUCAAQDxsEXD9kreLQAAAABJRU5ErkJggg==) no-repeat center top}#overlay_panel .content-mgnt-block{position:relative;line-height:10px}#overlay_panel .content-mgnt-block .unicorns{background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAklJREFUeNqEks1u00AQx3d27V3HdezY+SBpkKBFoBZxQEKIOwfegBs3rtwoPABvw3sgceKAuFWtUBBSaT6ctvHXer2zOElTVaoKI/2lWWl/O//ZGZi8jgSPxFv3JX93+CJvfJ4/09++vzH6S/SVH59+IohH5JagxBilC4zNHHigSLvtTCPRnLYxtB4b29ojGglBc1PG1PAyLfUxzszIX7B86MwLP/iVkS566DWeEgo+gfrWdV1VJoZgpUdqon84p1a+wxI1CA+l3Z+yqu89N5a9v65EVgK8TOpgH/edZS6JAZ97/AkfKjF3pTpRkUrlfQFnoGlaHNc2F0sAzPIFWIl9WMEGTYUZJfyB12ED2l9UE6bkDAcoy+0QznXJ8nIEBosNuIb3xLoBNIlRhNlc7Ho9dDA6l1OC8gKGUGEnhAyBFmpSu8zqf9jAzqZ/RIUxFDR0G2LQ6ueIwUzGFIuE95livS4p2RaUVQYas/p+xQ4eiavPqO2nKPUcCrvlCR50uqlirXGeiUWeua4uva6vebNDwHIJErq2fW0Mdfcxpjqmqe37Nnd73US64Ummt8a5bCpZhh5UrZanfS9gBw/5tcorGSz1TJ/rCTljoomOGDTLsh+NUz8Ypdz/ndBwlpFeIdn7Hevm9miD9QNxdVGNSQzGSR3ao6Duekm23fqT3Al/Ju3waAEnr1xyayxnymhgNcU9Z7sx5LtWA+6bquxXaeLr5J+wMZebRQwDiwW2x0O7I1y7ZxOrS+X/4Y0DXJ0pANhgM4sKRv4KMACD6UDbVgTzkgAAAABJRU5ErkJggg==) no-repeat center center;width:15px;height:15px;position:absolute;right:0;top:6px}#overlay_panel label{margin:0;font-size:14px}#overlay_panel .content-mgnt-block,#overlay_panel #images_mgnt{text-align:left;padding:3px 4px;margin:2px;border:1px #777 solid;-webkit-border-radius:5px;-moz-border-radius:5px;-ms-border-radius:5px;-o-border-radius:5px;border-radius:5px}#overlay_panel .content-mgnt-block legend,#overlay_panel #images_mgnt legend{font-size:10px;padding:0 3px;margin-left:10px}#overlay_panel .slider-block{display:block}#overlay_panel .slider-block label{font-size:70%;margin:0 5px 0 0;vertical-align:top}#overlay_panel .slider-block input[type=range]{margin:0}#overlay_panel #images_mgnt{width:186px}#overlay_panel #images_mgnt .controls{padding-bottom:5px}#overlay_panel #images_mgnt .controls label{margin-right:5px}#overlay_panel #images_mgnt .overlay-image-block{text-align:left;position:relative;width:186px;border:1px solid rgba(255,255,255,0.2);border-right:none;border-left:none}#overlay_panel #images_mgnt .overlay-image-block.hovered{background-color:rgba(255,255,0,0.5)}#overlay_panel #images_mgnt .overlay-image-block .del-button{position:absolute;right:0;top:0;margin:1px;cursor:pointer;border:1px #AAA solid;font-size:10px;line-height:13px;background-color:#444;color:white;font-weight:bold;padding:0 3px}#overlay_panel #images_mgnt .sub-block{padding-left:5px}#overlay_panel #images_mgnt .dynamic-adds label{font-size:75%}#overlay_panel #images_mgnt .dynamic-adds input{width:95px;font-size:10px}#overlay_panel input[type=checkbox],#overlay_panel label,#overlay_panel #contentSlider,#overlay_panel .zindex-switch{display:inline}#overlay_panel input[type=checkbox]{vertical-align:middle;margin:-3px 5px 0 0}#overlay_me_images_container{position:absolute;z-index:4;top:0;left:0}#overlay_me_images_container div{position:absolute}#overlay_me_images_container div.highlight{border:2px solid red;margin-top:-2px;margin-left:-2px}#overlay_me_images_container div:hover{cursor:move}#overlay_me_images_container img{position:absolute;top:0;left:0}#overlay_me_menu.collapsed .drag-me,#overlay_me_menu.collapsed .menu-item{width:25px}#overlay_me_menu.collapsed .drag-me{height:10px;overflow:hidden}#overlay_me_menu.collapsed button{height:10px;overflow:hidden}#overlay_me_menu.collapsed .overlay-image-block{height:14px;margin-top:3px}#overlay_me_menu.collapsed .overlay-image-block label,#overlay_me_menu.collapsed #content_div_management_block,#overlay_me_menu.collapsed .controls,#overlay_me_menu.collapsed input[type=range],#overlay_me_menu.collapsed #overlay_panel #contentSlider,#overlay_me_menu.collapsed legend,#overlay_me_menu.collapsed .dynamic-adds,#overlay_me_menu.collapsed .unicorns,#overlay_me_menu.collapsed button.reset,#overlay_me_menu.collapsed button.hide,#overlay_me_menu.collapsed button.del-button{display:none}</style>');
 
   window.OverlayMe = {};
 
@@ -11698,22 +11698,45 @@ function style(element, styles) {
 
   OverlayMe.Mixin.Hideable = {
     isDisplayed: function() {
-      return $o(this.el).css('display') !== 'none';
+      var element;
+      element = this.el || this;
+      return $o(element).css('display') !== 'none';
     },
     toggleDisplay: function(default_display_type) {
       if (default_display_type == null) {
         default_display_type = 'block';
       }
       if (this.isDisplayed()) {
-        $o(this.el).css({
-          display: 'none'
-        });
+        return this.hide();
       } else {
-        $o(this.el).css({
-          display: default_display_type
-        });
+        return this.show(default_display_type);
       }
-      return this.saveCss();
+    },
+    show: function(default_display_type) {
+      var element;
+      if (default_display_type == null) {
+        default_display_type = 'block';
+      }
+      element = this.el || this;
+      $o(element).css({
+        display: default_display_type
+      });
+      return this.saveState();
+    },
+    hide: function() {
+      var element;
+      element = this.el || this;
+      $o(element).css({
+        display: 'none'
+      });
+      return this.saveState();
+    },
+    saveState: function() {
+      var element;
+      element = this.el || this;
+      if (this.saveCss) {
+        return this.saveCss(element);
+      }
     }
   };
 
@@ -12142,7 +12165,8 @@ function style(element, styles) {
       if (options.destroyable) {
         $o(this.el).append(this.delButton());
       }
-      $o(this.el).bind('click', function(event) {
+      $o(this.el).bind('click', function(e) {
+        e.stopPropagation();
         return _this.flickCheckbox();
       });
       $o(this.el).bind('mouseover', function(event) {
@@ -12243,6 +12267,91 @@ function style(element, styles) {
     };
 
     return Image;
+
+  })(Backbone.View);
+
+}).call(this);
+(function() {
+  var __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+
+  OverlayMe.Overlays.ImagesDirectory = (function(_super) {
+
+    __extends(ImagesDirectory, _super);
+
+    ImagesDirectory.name = 'ImagesDirectory';
+
+    function ImagesDirectory() {
+      return ImagesDirectory.__super__.constructor.apply(this, arguments);
+    }
+
+    ImagesDirectory.prototype.tagName = 'div';
+
+    ImagesDirectory.prototype.className = 'images_dir';
+
+    ImagesDirectory.prototype.initialize = function(dirname) {
+      var _this = this;
+      this.dirname = dirname;
+      this.contentBlock = this.make('div', {
+        id: this.dirname,
+        "class": 'sub-block'
+      });
+      _.extend(this.contentBlock, OverlayMe.Mixin.Hideable);
+      _.extend(this.contentBlock, OverlayMe.Mixin.Storable);
+      this.contentBlock.css_attributes_to_save = ['display'];
+      this.contentBlock.loadCss(this.contentBlock);
+      $o(this.el).append(this.checkbox());
+      $o(this.el).append(this.label());
+      $o(this.el).append(this.contentBlock);
+      return $o(this.el).bind('click', function(e) {
+        e.stopPropagation();
+        return _this.checkbox.click();
+      });
+    };
+
+    ImagesDirectory.prototype.checkbox = function() {
+      var _this = this;
+      this.checkbox = this.make('input', {
+        type: "checkbox"
+      });
+      if (this.contentBlock.isDisplayed()) {
+        this.checkbox.checked = true;
+      }
+      $o(this.checkbox).bind('click', function(e) {
+        console.log('checkbox click');
+        e.stopPropagation();
+        return _this.flickVisibility();
+      });
+      $o(this.checkbox).bind('change', function(e) {
+        console.log('checkbox change');
+        e.stopPropagation();
+        return _this.flickVisibility();
+      });
+      return this.checkbox;
+    };
+
+    ImagesDirectory.prototype.flickVisibility = function() {
+      console.log('flickVisibility', this);
+      if (this.checkbox.checked) {
+        return this.contentBlock.show();
+      } else {
+        return this.contentBlock.hide();
+      }
+    };
+
+    ImagesDirectory.prototype.label = function() {
+      return this.label = this.make('label', {}, '/' + this.dirname + '/');
+    };
+
+    ImagesDirectory.prototype.append = function(block) {
+      return this.contentBlock.appendChild(block);
+    };
+
+    ImagesDirectory.prototype.render = function() {
+      return this.el;
+    };
+
+    return ImagesDirectory;
 
   })(Backbone.View);
 
@@ -12600,7 +12709,7 @@ function style(element, styles) {
 
 }).call(this);
 (function() {
-  var buildTree, files_tree, overlay_panel;
+  var buildTree, displayTree, files_tree, overlay_panel, shiftTofiles;
 
   if (OverlayMe.mustLoad()) {
     overlay_panel = new OverlayMe.MenuItem({
@@ -12638,19 +12747,24 @@ function style(element, styles) {
     files_tree = {};
     buildTree = function(data) {
       $o.each(data, function(index, img_path) {
-        var bit, bits, position;
+        var bit, bits, parent_path, position, _results;
         console.log(index, img_path);
         bits = img_path.split('/');
         position = files_tree;
+        parent_path = '/';
+        _results = [];
         while (bits.length > 0) {
           bit = bits[0];
           bits = bits.slice(1);
           if (bit === "") {
             continue;
           }
+          parent_path += bit + '/';
           if (position[bit] === void 0) {
             if (bits.length > 0) {
-              position[bit] = {};
+              position[bit] = {
+                parent_path: parent_path
+              };
             } else {
               if (position['files'] === void 0) {
                 position['files'] = [];
@@ -12658,15 +12772,47 @@ function style(element, styles) {
               position['files'].push(bit);
             }
           }
-          position = position[bit];
+          _results.push(position = position[bit]);
         }
-        return OverlayMe.images_management_div.append(new OverlayMe.Overlays.Image(img_path).render());
+        return _results;
       });
-      while (Object.keys(files_tree).length === 1 && Object.keys(files_tree)[0] !== "files") {
-        files_tree = files_tree[Object.keys(files_tree)[0]];
+      files_tree = shiftTofiles(files_tree);
+      return displayTree(OverlayMe.images_management_div, files_tree);
+    };
+    shiftTofiles = function(tree) {
+      var keys;
+      if (tree.files) {
+        return tree;
       }
-      window.tree = files_tree;
-      return console.log(files_tree);
+      keys = Object.keys(tree);
+      if (keys.length > 2) {
+        return tree;
+      }
+      keys = _.without(keys, 'parent_path');
+      return shiftTofiles(tree[keys[0]]);
+    };
+    displayTree = function(parent, tree) {
+      var dir, img, sub_dir, _i, _j, _len, _len1, _ref, _ref1, _results;
+      _ref = Object.keys(tree);
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        dir = _ref[_i];
+        if (dir === 'files' || dir === 'parent_path') {
+          continue;
+        }
+        sub_dir = new OverlayMe.Overlays.ImagesDirectory(dir);
+        parent.append(sub_dir.render());
+        displayTree(sub_dir, tree[dir]);
+      }
+      if (tree.files) {
+        _ref1 = tree.files;
+        _results = [];
+        for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+          img = _ref1[_j];
+          console.log(tree.parent_path + img);
+          _results.push(parent.append(new OverlayMe.Overlays.Image(tree.parent_path + img).render()));
+        }
+        return _results;
+      }
     };
   }
 

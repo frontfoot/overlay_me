@@ -2,6 +2,7 @@
 #= require 'menu_item'
 #= require 'overlays/init'
 #= require 'overlays/image'
+#= require 'overlays/images_directory'
 #= require 'overlays/dynamic_images_mngmt'
 #= require 'overlays/content_div_mngmt'
 #= require 'overlays/images_mngt_div'
@@ -52,20 +53,37 @@ if OverlayMe.mustLoad()
       console.log index, img_path
       bits = img_path.split('/')
       position = files_tree
+      parent_path = '/'
       while bits.length > 0
         bit = bits[0]
         bits = bits.slice(1)
         continue if bit == ""
+        parent_path += bit + '/'
         if position[bit] == undefined
           if bits.length > 0
-            position[bit] = {}
+            position[bit] = { parent_path: parent_path }
           else
             position['files'] = [] if position['files'] == undefined
             position['files'].push bit
         position = position[bit]
+    files_tree = shiftTofiles(files_tree)
+    displayTree(OverlayMe.images_management_div, files_tree)
 
-      OverlayMe.images_management_div.append new OverlayMe.Overlays.Image(img_path).render()
-    files_tree = files_tree[Object.keys(files_tree)[0]] while Object.keys(files_tree).length == 1 && Object.keys(files_tree)[0] != "files"
-    window.tree = files_tree
-    console.log files_tree
+  shiftTofiles = (tree) ->
+    return tree if tree.files
+    keys = Object.keys(tree)
+    return tree if keys.length > 2 # parent_path + sub_dir
+    keys = _.without(keys, 'parent_path')
+    shiftTofiles(tree[keys[0]])
+
+  displayTree = (parent, tree) ->
+    for dir in Object.keys(tree)
+      continue if dir == 'files' || dir == 'parent_path'
+      sub_dir = new OverlayMe.Overlays.ImagesDirectory(dir)
+      parent.append sub_dir.render()
+      displayTree(sub_dir, tree[dir])
+    if tree.files
+      for img in tree.files
+        console.log tree.parent_path+img
+        parent.append new OverlayMe.Overlays.Image(tree.parent_path+img).render()
 

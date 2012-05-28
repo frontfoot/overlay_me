@@ -32,9 +32,11 @@ We were struggling to see the gap between designers photoshop files and our HTML
 ## Todo
 
 - allow local image uploading (hosting on amazon s3 ?), [makiapp.com](http://makiapp.com/) does it!
+- add another dragging bar at the bottom (or not)
+- prevent the dragging bar to be out of reach
 - overlays
   - make a cycling system, by click or keypress, to iterate through overlays one by one
-  - images sub-sets (sub-directories) should appear as nestable blocks
+  - images sub-sets (sub-directories) should hide images when list collapsed
 - write some tests !!!
 
 
