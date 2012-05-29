@@ -17,28 +17,42 @@ class OverlayMe.Overlays.ImagesContainer extends Backbone.View
     @id = 'overlay_me_images_container'
     @loadCss()
 
-    # and maybe some sub-containers
-    if options.parent_path # for local images only
-      path_classes = OverlayMe.Overlays.pathToClasses(options.parent_path)
-      sub_container = $o('#overlay_me_images_container '+path_classes.replace(/\ ?(\w+)/g, '.$1'))
-      @el = sub_container
-      @id = OverlayMe.Overlays.urlToId options.parent_path
-      if sub_container.length < 1 # if the sub_container div doesn't already exist
-        sub_container = @make 'div', { class: path_classes }
-        $o(OverlayMe.images_container).append sub_container
-        @el = sub_container
-        @id = OverlayMe.Overlays.urlToId options.parent_path
-        @loadCss()
-        $o(window).bind 'overlay_me:toggle_img_container', (event, options) =>
-          if _.include(path_classes.split(' '), options.class)
-            if options.show
-              @show()
-            else
-              @hide()
-      return sub_container
+    # if it's a local file under a multi-directories structure
+    if options.parent_path
+      return @subDirContainer(options.parent_path)
 
-    # if nothing else has been returned, the default container is the main one
+    # either, the default main container is the one
     return OverlayMe.images_container
+
+  subDirContainer: (path, done_bits=[]) ->
+    path_bits = _.difference(path.split('/'), _.union(done_bits, ''))
+    the_dir = path_bits.slice(0, 1).toString()
+    if done_bits.length > 0
+      sub_container_parent_post_string = done_bits.join(' ').replace(/\ ?(\w+)/g, ' #$1_container')
+    else
+      sub_container_parent_post_string = ''
+    sub_container = $o("#overlay_me_images_container #{sub_container_parent_post_string} ##{the_dir+'_container'}")
+    @el = sub_container
+    @id = the_dir+'_container'
+    if sub_container.length < 1 # if the sub_container div doesn't already exist
+      sub_container = @make 'div', { id: the_dir+'_container' }
+      $o("#overlay_me_images_container #{sub_container_parent_post_string}").append sub_container
+      @el = sub_container
+      @id = the_dir+'_container'
+      @loadCss()
+      $o(window).bind 'overlay_me:toggle_img_container', (event, options) =>
+        if "#{options.id}_container" == @id
+          if options.show
+            @show()
+          else
+            @hide()
+    if path_bits.length > 1
+      done_bits.push the_dir
+      return @subDirContainer path, done_bits
+    else
+      return sub_container
+      
+              
 
 # extending few mixins - thx Derick - http://stackoverflow.com/questions/7853731/proper-way-of-doing-view-mixins-in-backbone
 _.extend OverlayMe.Overlays.ImagesContainer.prototype, OverlayMe.Mixin.Storable
