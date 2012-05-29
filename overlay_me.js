@@ -11667,6 +11667,9 @@ function style(element, styles) {
       if (element == null) {
         element = this.el;
       }
+      if (!this.id) {
+        return;
+      }
       if ((cssData = localStorage.getItem(this.id))) {
         return $o(element).css(JSON.parse(cssData));
       } else {
@@ -11679,6 +11682,9 @@ function style(element, styles) {
       var cssData, css_attribute, _i, _len, _ref;
       if (element == null) {
         element = this.el;
+      }
+      if (!this.id) {
+        return;
       }
       if (!this.css_attributes_to_save) {
         this.css_attributes_to_save = ['top', 'left', 'display', 'opacity'];
@@ -12009,6 +12015,10 @@ function style(element, styles) {
     return url.replace(/[.:\/]/g, '_').replace(/[^a-zA-Z0-9_\-]/g, '');
   };
 
+  OverlayMe.Overlays.pathToClasses = function(path) {
+    return _.without(path.split('/'), '').join(' ');
+  };
+
   OverlayMe.unicorns = ["http://fc07.deviantart.net/fs49/f/2009/200/b/3/Fat_Unicorn_and_the_Rainbow_by_la_ratta.jpg", "http://www.deviantart.com/download/126388773/Unicorn_Pukes_Rainbow_by_Angel35W.jpg", "http://macmcrae.com/wp-content/uploads/2010/02/unicorn.jpg", "http://4.bp.blogspot.com/-uPLiez-m9vY/TacC_Bmsn3I/AAAAAAAAAyg/jusQIA8aAME/s1600/Behold_A_Rainbow_Unicorn_Ninja_by_Jess4921.jpg", "http://www.everquestdragon.com/everquestdragon/main/image.axd?picture=2009%2F9%2FPaperPaperNewrainbow.png"];
 
 }).call(this);
@@ -12026,25 +12036,47 @@ function style(element, styles) {
       return ImagesContainer.__super__.constructor.apply(this, arguments);
     }
 
-    ImagesContainer.prototype.id = 'overlay_me_images_container';
-
     ImagesContainer.prototype.css_attributes_to_save = ['display'];
 
-    ImagesContainer.prototype.initialize = function() {
-      var container,
+    ImagesContainer.prototype.initialize = function(options) {
+      var path_classes, sub_container,
         _this = this;
-      container = $o('#overlay_me_images_container');
-      if (container.length < 1) {
-        container = this.make('div', {
-          id: 'overlay_me_images_container'
+      if (!OverlayMe.images_container) {
+        OverlayMe.images_container = this.make('div');
+        $o('body').append(OverlayMe.images_container);
+        $o(window).bind('overlay_me:toggle_all_display', function() {
+          return OverlayMe.images_container.toggleDisplay();
         });
-        $o('body').append(container);
-        this.el = container;
       }
+      this.el = OverlayMe.images_container;
+      this.id = 'overlay_me_images_container';
       this.loadCss();
-      return $o(window).bind('overlay_me:toggle_all_display', function() {
-        return _this.toggleDisplay();
-      });
+      if (options.parent_path) {
+        path_classes = OverlayMe.Overlays.pathToClasses(options.parent_path);
+        sub_container = $o('#overlay_me_images_container ' + path_classes.replace(/\ ?(\w+)/g, '.$1'));
+        this.el = sub_container;
+        this.id = OverlayMe.Overlays.urlToId(options.parent_path);
+        if (sub_container.length < 1) {
+          sub_container = this.make('div', {
+            "class": path_classes
+          });
+          $o(OverlayMe.images_container).append(sub_container);
+          this.el = sub_container;
+          this.id = OverlayMe.Overlays.urlToId(options.parent_path);
+          this.loadCss();
+          $o(window).bind('overlay_me:toggle_img_container', function(event, options) {
+            if (_.include(path_classes.split(' '), options["class"])) {
+              if (options.show) {
+                return _this.show();
+              } else {
+                return _this.hide();
+              }
+            }
+          });
+        }
+        return sub_container;
+      }
+      return OverlayMe.images_container;
     };
 
     return ImagesContainer;
@@ -12134,25 +12166,23 @@ function style(element, styles) {
     Image.prototype.className = 'overlay-image-block';
 
     Image.prototype.initialize = function(image_src, options) {
-      var slider_block,
+      var images_container, slider_block,
         _this = this;
-      if (options == null) {
-        options = {
-          destroyable: false
-        };
-      }
+      $o.extend({
+        destroyable: false
+      }, options);
       this.image_src = image_src;
       this.image_id = OverlayMe.Overlays.urlToId(image_src);
       $o(this.el).attr('data-img-id', this.image_id);
-      if (!OverlayMe.images_container) {
-        OverlayMe.images_container = new OverlayMe.Overlays.ImagesContainer();
-      }
+      images_container = new OverlayMe.Overlays.ImagesContainer({
+        parent_path: options.parent_path
+      });
       this.default_css = $o.extend({
         display: 'none',
         opacity: 0.5
       }, options.default_css);
-      if (!($o("#" + this.image_id, OverlayMe.images_container.el).length > 0)) {
-        $o(OverlayMe.images_container.el).append(this.image());
+      if (!($o("#" + this.image_id, images_container.el).length > 0)) {
+        $o(images_container.el).append(this.image());
       }
       $o(this.el).append(this.checkbox());
       $o(this.el).append(this.label());
@@ -12318,12 +12348,6 @@ function style(element, styles) {
         this.checkbox.checked = true;
       }
       $o(this.checkbox).bind('click', function(e) {
-        console.log('checkbox click');
-        e.stopPropagation();
-        return _this.flickVisibility();
-      });
-      $o(this.checkbox).bind('change', function(e) {
-        console.log('checkbox change');
         e.stopPropagation();
         return _this.flickVisibility();
       });
@@ -12331,12 +12355,15 @@ function style(element, styles) {
     };
 
     ImagesDirectory.prototype.flickVisibility = function() {
-      console.log('flickVisibility', this);
       if (this.checkbox.checked) {
-        return this.contentBlock.show();
+        this.contentBlock.show();
       } else {
-        return this.contentBlock.hide();
+        this.contentBlock.hide();
       }
+      return $o(window).trigger('overlay_me:toggle_img_container', {
+        "class": this.dirname,
+        show: this.checkbox.checked
+      });
     };
 
     ImagesDirectory.prototype.label = function() {
@@ -12748,7 +12775,6 @@ function style(element, styles) {
     buildTree = function(data) {
       $o.each(data, function(index, img_path) {
         var bit, bits, parent_path, position, _results;
-        console.log(index, img_path);
         bits = img_path.split('/');
         position = files_tree;
         parent_path = '/';
@@ -12808,8 +12834,9 @@ function style(element, styles) {
         _results = [];
         for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
           img = _ref1[_j];
-          console.log(tree.parent_path + img);
-          _results.push(parent.append(new OverlayMe.Overlays.Image(tree.parent_path + img).render()));
+          _results.push(parent.append(new OverlayMe.Overlays.Image(tree.parent_path + img, {
+            parent_path: tree.parent_path
+          }).render()));
         }
         return _results;
       }

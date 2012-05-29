@@ -3,6 +3,9 @@ OverlayMe.Overlays = {}
 OverlayMe.Overlays.urlToId = (url) ->
   return url.replace(/[.:\/]/g, '_').replace(/[^a-zA-Z0-9_\-]/g, '')
 
+OverlayMe.Overlays.pathToClasses = (path) ->
+  return _.without(path.split('/'), '').join(' ')
+
 OverlayMe.unicorns = [
   "http://fc07.deviantart.net/fs49/f/2009/200/b/3/Fat_Unicorn_and_the_Rainbow_by_la_ratta.jpg",
   "http://www.deviantart.com/download/126388773/Unicorn_Pukes_Rainbow_by_Angel35W.jpg",

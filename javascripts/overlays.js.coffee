@@ -50,7 +50,6 @@ if OverlayMe.mustLoad()
   files_tree = {}
   buildTree = (data) ->
     $o.each data, (index, img_path) ->
-      console.log index, img_path
       bits = img_path.split('/')
       position = files_tree
       parent_path = '/'
@@ -84,6 +83,5 @@ if OverlayMe.mustLoad()
       displayTree(sub_dir, tree[dir])
     if tree.files
       for img in tree.files
-        console.log tree.parent_path+img
-        parent.append new OverlayMe.Overlays.Image(tree.parent_path+img).render()
+        parent.append new OverlayMe.Overlays.Image(tree.parent_path+img, { parent_path: tree.parent_path }).render()
 

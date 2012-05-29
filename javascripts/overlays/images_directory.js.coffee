@@ -7,7 +7,6 @@ class OverlayMe.Overlays.ImagesDirectory extends Backbone.View
 
   initialize: (dirname) ->
     @dirname = dirname
-
     @contentBlock = @make 'div', { id: @dirname, class: 'sub-block' }
     _.extend @contentBlock, OverlayMe.Mixin.Hideable
     _.extend @contentBlock, OverlayMe.Mixin.Storable
@@ -25,21 +24,16 @@ class OverlayMe.Overlays.ImagesDirectory extends Backbone.View
     if @contentBlock.isDisplayed()
       @checkbox.checked = true
     $o(@checkbox).bind 'click', (e) =>
-      console.log 'checkbox click'
-      e.stopPropagation()
-      @flickVisibility()
-    $o(@checkbox).bind 'change', (e) =>
-      console.log 'checkbox change'
       e.stopPropagation()
       @flickVisibility()
     @checkbox
 
   flickVisibility: ->
-    console.log 'flickVisibility', this
     if @checkbox.checked
       @contentBlock.show()
     else
       @contentBlock.hide()
+    $o(window).trigger 'overlay_me:toggle_img_container', { class: @dirname, show: @checkbox.checked }
 
   label: ->
     @label = @make 'label', {}, '/'+@dirname+'/'
