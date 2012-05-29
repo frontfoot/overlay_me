@@ -32,20 +32,14 @@ class OverlayMe.Overlays.ImagesContainer extends Backbone.View
     else
       sub_container_parent_post_string = ''
     sub_container = $o("#overlay_me_images_container #{sub_container_parent_post_string} ##{the_dir+'_container'}")
-    @el = sub_container
-    @id = the_dir+'_container'
     if sub_container.length < 1 # if the sub_container div doesn't already exist
       sub_container = @make 'div', { id: the_dir+'_container' }
       $o("#overlay_me_images_container #{sub_container_parent_post_string}").append sub_container
-      @el = sub_container
-      @id = the_dir+'_container'
-      @loadCss()
-      $o(window).bind 'overlay_me:toggle_img_container', (event, options) =>
-        if "#{options.id}_container" == @id
-          if options.show
-            @show()
-          else
-            @hide()
+    @el = sub_container
+    @id = the_dir+'_container'
+    @loadCss()
+    $o(window).bind "overlay_me:toggle_#{the_dir}_container", (event, options) =>
+      if options.show then @show() else @hide()
     if path_bits.length > 1
       done_bits.push the_dir
       return @subDirContainer path, done_bits
