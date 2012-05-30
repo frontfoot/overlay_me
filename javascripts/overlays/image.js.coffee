@@ -6,17 +6,18 @@ class OverlayMe.Overlays.Image extends Backbone.View
   tagName: 'div'
   className: 'overlay-image-block'
 
-  initialize: (image_src, options = { destroyable: false }) ->
+  initialize: (image_src, options) ->
+    $o.extend { destroyable: false }, options
     @image_src = image_src
     @image_id = OverlayMe.Overlays.urlToId(image_src)
     $o(@el).attr 'data-img-id', @image_id
 
-    OverlayMe.images_container = new OverlayMe.Overlays.ImagesContainer() unless OverlayMe.images_container
+    images_container = new OverlayMe.Overlays.ImagesContainer({ parent_path: options.parent_path })
 
     @default_css = $o.extend {display: 'none', opacity: 0.5}, options.default_css
 
-    unless $o("##{@image_id}", OverlayMe.images_container.el).length > 0
-      $o(OverlayMe.images_container.el).append @image()
+    unless $o("##{@image_id}", images_container.el).length > 0
+      $o(images_container.el).append @image()
 
     $o(@el).append @checkbox()
     $o(@el).append @label()
@@ -25,7 +26,8 @@ class OverlayMe.Overlays.Image extends Backbone.View
     slider_block.appendChild @make 'label', {}, 'Opacity'
     slider_block.appendChild @slider()
     $o(@el).append @delButton() if options.destroyable
-    $o(@el).bind 'click', (event) =>
+    $o(@el).bind 'click', (e) =>
+      e.stopPropagation()
       @flickCheckbox()
     $o(@el).bind 'mouseover', (event) =>
       $o(@image.el).addClass 'highlight'

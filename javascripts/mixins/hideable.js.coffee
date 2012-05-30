@@ -1,13 +1,26 @@
 OverlayMe.Mixin.Hideable = {
 
   isDisplayed: ->
-    return $o(@el).css('display') != 'none'
+    element = @el || this
+    return $o(element).css('display') != 'none'
   
   toggleDisplay: (default_display_type='block') ->
     if @isDisplayed()
-      $o(@el).css { display: 'none' }
+      @hide()
     else
-      $o(@el).css { display: default_display_type }
-    @saveCss()
+      @show(default_display_type)
 
+  show: (default_display_type='block') ->
+    element = @el || this
+    $o(element).css { display: default_display_type }
+    @saveState()
+
+  hide: ->
+    element = @el || this
+    $o(element).css { display: 'none' }
+    @saveState()
+
+  saveState: ->
+    element = @el || this
+    @saveCss(element) if @saveCss
 }

@@ -9403,8 +9403,8 @@ if ( typeof define === "function" && define.amd && define.amd.OMjQuery ) {
 
 
 })( window );
-//     Underscore.js 1.1.6
-//     (c) 2011 Jeremy Ashkenas, DocumentCloud Inc.
+//     Underscore.js 1.3.3
+//     (c) 2009-2012 Jeremy Ashkenas, DocumentCloud Inc.
 //     Underscore is freely distributable under the MIT license.
 //     Portions of Underscore are inspired or borrowed from Prototype,
 //     Oliver Steele's Functional, and John Resig's Micro-Templating.
@@ -9453,36 +9453,39 @@ if ( typeof define === "function" && define.amd && define.amd.OMjQuery ) {
   // Create a safe reference to the Underscore object for use below.
   var _ = function(obj) { return new wrapper(obj); };
 
-  // Export the Underscore object for **CommonJS**, with backwards-compatibility
-  // for the old `require()` API. If we're not in CommonJS, add `_` to the
-  // global object.
-  if (typeof module !== 'undefined' && module.exports) {
-    module.exports = _;
-    _._ = _;
+  // Export the Underscore object for **Node.js**, with
+  // backwards-compatibility for the old `require()` API. If we're in
+  // the browser, add `_` as a global object via a string identifier,
+  // for Closure Compiler "advanced" mode.
+  if (typeof exports !== 'undefined') {
+    if (typeof module !== 'undefined' && module.exports) {
+      exports = module.exports = _;
+    }
+    exports._ = _;
   } else {
-    root._ = _;
+    root['_'] = _;
   }
 
   // Current version.
-  _.VERSION = '1.1.6';
+  _.VERSION = '1.3.3';
 
   // Collection Functions
   // --------------------
 
   // The cornerstone, an `each` implementation, aka `forEach`.
-  // Handles objects implementing `forEach`, arrays, and raw objects.
+  // Handles objects with the built-in `forEach`, arrays, and raw objects.
   // Delegates to **ECMAScript 5**'s native `forEach` if available.
   var each = _.each = _.forEach = function(obj, iterator, context) {
     if (obj == null) return;
     if (nativeForEach && obj.forEach === nativeForEach) {
       obj.forEach(iterator, context);
-    } else if (_.isNumber(obj.length)) {
+    } else if (obj.length === +obj.length) {
       for (var i = 0, l = obj.length; i < l; i++) {
-        if (iterator.call(context, obj[i], i, obj) === breaker) return;
+        if (i in obj && iterator.call(context, obj[i], i, obj) === breaker) return;
       }
     } else {
       for (var key in obj) {
-        if (hasOwnProperty.call(obj, key)) {
+        if (_.has(obj, key)) {
           if (iterator.call(context, obj[key], key, obj) === breaker) return;
         }
       }
@@ -9491,47 +9494,50 @@ if ( typeof define === "function" && define.amd && define.amd.OMjQuery ) {
 
   // Return the results of applying the iterator to each element.
   // Delegates to **ECMAScript 5**'s native `map` if available.
-  _.map = function(obj, iterator, context) {
+  _.map = _.collect = function(obj, iterator, context) {
     var results = [];
     if (obj == null) return results;
     if (nativeMap && obj.map === nativeMap) return obj.map(iterator, context);
     each(obj, function(value, index, list) {
       results[results.length] = iterator.call(context, value, index, list);
     });
+    if (obj.length === +obj.length) results.length = obj.length;
     return results;
   };
 
   // **Reduce** builds up a single result from a list of values, aka `inject`,
   // or `foldl`. Delegates to **ECMAScript 5**'s native `reduce` if available.
   _.reduce = _.foldl = _.inject = function(obj, iterator, memo, context) {
-    var initial = memo !== void 0;
+    var initial = arguments.length > 2;
     if (obj == null) obj = [];
     if (nativeReduce && obj.reduce === nativeReduce) {
       if (context) iterator = _.bind(iterator, context);
       return initial ? obj.reduce(iterator, memo) : obj.reduce(iterator);
     }
     each(obj, function(value, index, list) {
-      if (!initial && index === 0) {
+      if (!initial) {
         memo = value;
         initial = true;
       } else {
         memo = iterator.call(context, memo, value, index, list);
       }
     });
-    if (!initial) throw new TypeError("Reduce of empty array with no initial value");
+    if (!initial) throw new TypeError('Reduce of empty array with no initial value');
     return memo;
   };
 
   // The right-associative version of reduce, also known as `foldr`.
   // Delegates to **ECMAScript 5**'s native `reduceRight` if available.
   _.reduceRight = _.foldr = function(obj, iterator, memo, context) {
+    var initial = arguments.length > 2;
     if (obj == null) obj = [];
     if (nativeReduceRight && obj.reduceRight === nativeReduceRight) {
       if (context) iterator = _.bind(iterator, context);
-      return memo !== void 0 ? obj.reduceRight(iterator, memo) : obj.reduceRight(iterator);
+      return initial ? obj.reduceRight(iterator, memo) : obj.reduceRight(iterator);
     }
-    var reversed = (_.isArray(obj) ? obj.slice() : _.toArray(obj)).reverse();
-    return _.reduce(reversed, iterator, memo, context);
+    var reversed = _.toArray(obj).reverse();
+    if (context && !initial) iterator = _.bind(iterator, context);
+    return initial ? _.reduce(reversed, iterator, memo, context) : _.reduce(reversed, iterator);
   };
 
   // Return the first value which passes a truth test. Aliased as `detect`.
@@ -9579,7 +9585,7 @@ if ( typeof define === "function" && define.amd && define.amd.OMjQuery ) {
     each(obj, function(value, index, list) {
       if (!(result = result && iterator.call(context, value, index, list))) return breaker;
     });
-    return result;
+    return !!result;
   };
 
   // Determine if at least one element in the object matches a truth test.
@@ -9591,9 +9597,9 @@ if ( typeof define === "function" && define.amd && define.amd.OMjQuery ) {
     if (obj == null) return result;
     if (nativeSome && obj.some === nativeSome) return obj.some(iterator, context);
     each(obj, function(value, index, list) {
-      if (result = iterator.call(context, value, index, list)) return breaker;
+      if (result || (result = iterator.call(context, value, index, list))) return breaker;
     });
-    return result;
+    return !!result;
   };
 
   // Determine if a given value is included in the array or object using `===`.
@@ -9602,8 +9608,8 @@ if ( typeof define === "function" && define.amd && define.amd.OMjQuery ) {
     var found = false;
     if (obj == null) return found;
     if (nativeIndexOf && obj.indexOf === nativeIndexOf) return obj.indexOf(target) != -1;
-    any(obj, function(value) {
-      if (found = value === target) return true;
+    found = any(obj, function(value) {
+      return value === target;
     });
     return found;
   };
@@ -9612,7 +9618,7 @@ if ( typeof define === "function" && define.amd && define.amd.OMjQuery ) {
   _.invoke = function(obj, method) {
     var args = slice.call(arguments, 2);
     return _.map(obj, function(value) {
-      return (method.call ? method || value : value[method]).apply(value, args);
+      return (_.isFunction(method) ? method || value : value[method]).apply(value, args);
     });
   };
 
@@ -9623,7 +9629,8 @@ if ( typeof define === "function" && define.amd && define.amd.OMjQuery ) {
 
   // Return the maximum element or (element-based computation).
   _.max = function(obj, iterator, context) {
-    if (!iterator && _.isArray(obj)) return Math.max.apply(Math, obj);
+    if (!iterator && _.isArray(obj) && obj[0] === +obj[0]) return Math.max.apply(Math, obj);
+    if (!iterator && _.isEmpty(obj)) return -Infinity;
     var result = {computed : -Infinity};
     each(obj, function(value, index, list) {
       var computed = iterator ? iterator.call(context, value, index, list) : value;
@@ -9634,7 +9641,8 @@ if ( typeof define === "function" && define.amd && define.amd.OMjQuery ) {
 
   // Return the minimum element (or element-based computation).
   _.min = function(obj, iterator, context) {
-    if (!iterator && _.isArray(obj)) return Math.min.apply(Math, obj);
+    if (!iterator && _.isArray(obj) && obj[0] === +obj[0]) return Math.min.apply(Math, obj);
+    if (!iterator && _.isEmpty(obj)) return Infinity;
     var result = {computed : Infinity};
     each(obj, function(value, index, list) {
       var computed = iterator ? iterator.call(context, value, index, list) : value;
@@ -9643,8 +9651,20 @@ if ( typeof define === "function" && define.amd && define.amd.OMjQuery ) {
     return result.value;
   };
 
+  // Shuffle an array.
+  _.shuffle = function(obj) {
+    var shuffled = [], rand;
+    each(obj, function(value, index, list) {
+      rand = Math.floor(Math.random() * (index + 1));
+      shuffled[index] = shuffled[rand];
+      shuffled[rand] = value;
+    });
+    return shuffled;
+  };
+
   // Sort the object's values by a criterion produced by an iterator.
-  _.sortBy = function(obj, iterator, context) {
+  _.sortBy = function(obj, val, context) {
+    var iterator = _.isFunction(val) ? val : function(obj) { return obj[val]; };
     return _.pluck(_.map(obj, function(value, index, list) {
       return {
         value : value,
@@ -9652,8 +9672,22 @@ if ( typeof define === "function" && define.amd && define.amd.OMjQuery ) {
       };
     }).sort(function(left, right) {
       var a = left.criteria, b = right.criteria;
+      if (a === void 0) return 1;
+      if (b === void 0) return -1;
       return a < b ? -1 : a > b ? 1 : 0;
     }), 'value');
+  };
+
+  // Groups the object's values by a criterion. Pass either a string attribute
+  // to group by, or a function that returns the criterion.
+  _.groupBy = function(obj, val) {
+    var result = {};
+    var iterator = _.isFunction(val) ? val : function(obj) { return obj[val]; };
+    each(obj, function(value, index) {
+      var key = iterator(value, index);
+      (result[key] || (result[key] = [])).push(value);
+    });
+    return result;
   };
 
   // Use a comparator function to figure out at what index an object should
@@ -9669,27 +9703,45 @@ if ( typeof define === "function" && define.amd && define.amd.OMjQuery ) {
   };
 
   // Safely convert anything iterable into a real, live array.
-  _.toArray = function(iterable) {
-    if (!iterable)                return [];
-    if (iterable.toArray)         return iterable.toArray();
-    if (_.isArray(iterable))      return iterable;
-    if (_.isArguments(iterable))  return slice.call(iterable);
-    return _.values(iterable);
+  _.toArray = function(obj) {
+    if (!obj)                                     return [];
+    if (_.isArray(obj))                           return slice.call(obj);
+    if (_.isArguments(obj))                       return slice.call(obj);
+    if (obj.toArray && _.isFunction(obj.toArray)) return obj.toArray();
+    return _.values(obj);
   };
 
   // Return the number of elements in an object.
   _.size = function(obj) {
-    return _.toArray(obj).length;
+    return _.isArray(obj) ? obj.length : _.keys(obj).length;
   };
 
   // Array Functions
   // ---------------
 
   // Get the first element of an array. Passing **n** will return the first N
-  // values in the array. Aliased as `head`. The **guard** check allows it to work
-  // with `_.map`.
-  _.first = _.head = function(array, n, guard) {
+  // values in the array. Aliased as `head` and `take`. The **guard** check
+  // allows it to work with `_.map`.
+  _.first = _.head = _.take = function(array, n, guard) {
     return (n != null) && !guard ? slice.call(array, 0, n) : array[0];
+  };
+
+  // Returns everything but the last entry of the array. Especcialy useful on
+  // the arguments object. Passing **n** will return all the values in
+  // the array, excluding the last N. The **guard** check allows it to work with
+  // `_.map`.
+  _.initial = function(array, n, guard) {
+    return slice.call(array, 0, array.length - ((n == null) || guard ? 1 : n));
+  };
+
+  // Get the last element of an array. Passing **n** will return the last N
+  // values in the array. The **guard** check allows it to work with `_.map`.
+  _.last = function(array, n, guard) {
+    if ((n != null) && !guard) {
+      return slice.call(array, Math.max(array.length - n, 0));
+    } else {
+      return array[array.length - 1];
+    }
   };
 
   // Returns everything but the first entry of the array. Aliased as `tail`.
@@ -9700,20 +9752,15 @@ if ( typeof define === "function" && define.amd && define.amd.OMjQuery ) {
     return slice.call(array, (index == null) || guard ? 1 : index);
   };
 
-  // Get the last element of an array.
-  _.last = function(array) {
-    return array[array.length - 1];
-  };
-
   // Trim out all falsy values from an array.
   _.compact = function(array) {
     return _.filter(array, function(value){ return !!value; });
   };
 
   // Return a completely flattened version of an array.
-  _.flatten = function(array) {
+  _.flatten = function(array, shallow) {
     return _.reduce(array, function(memo, value) {
-      if (_.isArray(value)) return memo.concat(_.flatten(value));
+      if (_.isArray(value)) return memo.concat(shallow ? value : _.flatten(value));
       memo[memo.length] = value;
       return memo;
     }, []);
@@ -9721,29 +9768,49 @@ if ( typeof define === "function" && define.amd && define.amd.OMjQuery ) {
 
   // Return a version of the array that does not contain the specified value(s).
   _.without = function(array) {
-    var values = slice.call(arguments, 1);
-    return _.filter(array, function(value){ return !_.include(values, value); });
+    return _.difference(array, slice.call(arguments, 1));
   };
 
   // Produce a duplicate-free version of the array. If the array has already
   // been sorted, you have the option of using a faster algorithm.
   // Aliased as `unique`.
-  _.uniq = _.unique = function(array, isSorted) {
-    return _.reduce(array, function(memo, el, i) {
-      if (0 == i || (isSorted === true ? _.last(memo) != el : !_.include(memo, el))) memo[memo.length] = el;
+  _.uniq = _.unique = function(array, isSorted, iterator) {
+    var initial = iterator ? _.map(array, iterator) : array;
+    var results = [];
+    // The `isSorted` flag is irrelevant if the array only contains two elements.
+    if (array.length < 3) isSorted = true;
+    _.reduce(initial, function (memo, value, index) {
+      if (isSorted ? _.last(memo) !== value || !memo.length : !_.include(memo, value)) {
+        memo.push(value);
+        results.push(array[index]);
+      }
       return memo;
     }, []);
+    return results;
+  };
+
+  // Produce an array that contains the union: each distinct element from all of
+  // the passed-in arrays.
+  _.union = function() {
+    return _.uniq(_.flatten(arguments, true));
   };
 
   // Produce an array that contains every item shared between all the
-  // passed-in arrays.
-  _.intersect = function(array) {
+  // passed-in arrays. (Aliased as "intersect" for back-compat.)
+  _.intersection = _.intersect = function(array) {
     var rest = slice.call(arguments, 1);
     return _.filter(_.uniq(array), function(item) {
       return _.every(rest, function(other) {
         return _.indexOf(other, item) >= 0;
       });
     });
+  };
+
+  // Take the difference between one array and a number of other arrays.
+  // Only the elements present in just the first array will remain.
+  _.difference = function(array) {
+    var rest = _.flatten(slice.call(arguments, 1), true);
+    return _.filter(array, function(value){ return !_.include(rest, value); });
   };
 
   // Zip together multiple lists into a single array -- elements that share
@@ -9770,17 +9837,16 @@ if ( typeof define === "function" && define.amd && define.amd.OMjQuery ) {
       return array[i] === item ? i : -1;
     }
     if (nativeIndexOf && array.indexOf === nativeIndexOf) return array.indexOf(item);
-    for (i = 0, l = array.length; i < l; i++) if (array[i] === item) return i;
+    for (i = 0, l = array.length; i < l; i++) if (i in array && array[i] === item) return i;
     return -1;
   };
-
 
   // Delegates to **ECMAScript 5**'s native `lastIndexOf` if available.
   _.lastIndexOf = function(array, item) {
     if (array == null) return -1;
     if (nativeLastIndexOf && array.lastIndexOf === nativeLastIndexOf) return array.lastIndexOf(item);
     var i = array.length;
-    while (i--) if (array[i] === item) return i;
+    while (i--) if (i in array && array[i] === item) return i;
     return -1;
   };
 
@@ -9809,15 +9875,25 @@ if ( typeof define === "function" && define.amd && define.amd.OMjQuery ) {
   // Function (ahem) Functions
   // ------------------
 
+  // Reusable constructor function for prototype setting.
+  var ctor = function(){};
+
   // Create a function bound to a given object (assigning `this`, and arguments,
   // optionally). Binding with arguments is also known as `curry`.
   // Delegates to **ECMAScript 5**'s native `Function.bind` if available.
   // We check for `func.bind` first, to fail fast when `func` is undefined.
-  _.bind = function(func, obj) {
+  _.bind = function bind(func, context) {
+    var bound, args;
     if (func.bind === nativeBind && nativeBind) return nativeBind.apply(func, slice.call(arguments, 1));
-    var args = slice.call(arguments, 2);
-    return function() {
-      return func.apply(obj, args.concat(slice.call(arguments)));
+    if (!_.isFunction(func)) throw new TypeError;
+    args = slice.call(arguments, 2);
+    return bound = function() {
+      if (!(this instanceof bound)) return func.apply(context, args.concat(slice.call(arguments)));
+      ctor.prototype = func.prototype;
+      var self = new ctor;
+      var result = func.apply(self, args.concat(slice.call(arguments)));
+      if (Object(result) === result) return result;
+      return self;
     };
   };
 
@@ -9836,7 +9912,7 @@ if ( typeof define === "function" && define.amd && define.amd.OMjQuery ) {
     hasher || (hasher = _.identity);
     return function() {
       var key = hasher.apply(this, arguments);
-      return hasOwnProperty.call(memo, key) ? memo[key] : (memo[key] = func.apply(this, arguments));
+      return _.has(memo, key) ? memo[key] : (memo[key] = func.apply(this, arguments));
     };
   };
 
@@ -9844,7 +9920,7 @@ if ( typeof define === "function" && define.amd && define.amd.OMjQuery ) {
   // it with the arguments supplied.
   _.delay = function(func, wait) {
     var args = slice.call(arguments, 2);
-    return setTimeout(function(){ return func.apply(func, args); }, wait);
+    return setTimeout(function(){ return func.apply(null, args); }, wait);
   };
 
   // Defers a function, scheduling it to run after the current call stack has
@@ -9853,31 +9929,46 @@ if ( typeof define === "function" && define.amd && define.amd.OMjQuery ) {
     return _.delay.apply(_, [func, 1].concat(slice.call(arguments, 1)));
   };
 
-  // Internal function used to implement `_.throttle` and `_.debounce`.
-  var limit = function(func, wait, debounce) {
-    var timeout;
-    return function() {
-      var context = this, args = arguments;
-      var throttler = function() {
-        timeout = null;
-        func.apply(context, args);
-      };
-      if (debounce) clearTimeout(timeout);
-      if (debounce || !timeout) timeout = setTimeout(throttler, wait);
-    };
-  };
-
   // Returns a function, that, when invoked, will only be triggered at most once
   // during a given window of time.
   _.throttle = function(func, wait) {
-    return limit(func, wait, false);
+    var context, args, timeout, throttling, more, result;
+    var whenDone = _.debounce(function(){ more = throttling = false; }, wait);
+    return function() {
+      context = this; args = arguments;
+      var later = function() {
+        timeout = null;
+        if (more) func.apply(context, args);
+        whenDone();
+      };
+      if (!timeout) timeout = setTimeout(later, wait);
+      if (throttling) {
+        more = true;
+      } else {
+        result = func.apply(context, args);
+      }
+      whenDone();
+      throttling = true;
+      return result;
+    };
   };
 
   // Returns a function, that, as long as it continues to be invoked, will not
   // be triggered. The function will be called after it stops being called for
-  // N milliseconds.
-  _.debounce = function(func, wait) {
-    return limit(func, wait, true);
+  // N milliseconds. If `immediate` is passed, trigger the function on the
+  // leading edge, instead of the trailing.
+  _.debounce = function(func, wait, immediate) {
+    var timeout;
+    return function() {
+      var context = this, args = arguments;
+      var later = function() {
+        timeout = null;
+        if (!immediate) func.apply(context, args);
+      };
+      if (immediate && !timeout) func.apply(context, args);
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+    };
   };
 
   // Returns a function that will be executed at most one time, no matter how
@@ -9896,7 +9987,7 @@ if ( typeof define === "function" && define.amd && define.amd.OMjQuery ) {
   // conditionally execute the original function.
   _.wrap = function(func, wrapper) {
     return function() {
-      var args = [func].concat(slice.call(arguments));
+      var args = [func].concat(slice.call(arguments, 0));
       return wrapper.apply(this, args);
     };
   };
@@ -9904,10 +9995,10 @@ if ( typeof define === "function" && define.amd && define.amd.OMjQuery ) {
   // Returns a function that is the composition of a list of functions, each
   // consuming the return value of the function that follows.
   _.compose = function() {
-    var funcs = slice.call(arguments);
+    var funcs = arguments;
     return function() {
-      var args = slice.call(arguments);
-      for (var i=funcs.length-1; i >= 0; i--) {
+      var args = arguments;
+      for (var i = funcs.length - 1; i >= 0; i--) {
         args = [funcs[i].apply(this, args)];
       }
       return args[0];
@@ -9916,11 +10007,11 @@ if ( typeof define === "function" && define.amd && define.amd.OMjQuery ) {
 
   // Returns a function that will only be executed after being called N times.
   _.after = function(times, func) {
+    if (times <= 0) return func();
     return function() {
       if (--times < 1) { return func.apply(this, arguments); }
     };
   };
-
 
   // Object Functions
   // ----------------
@@ -9930,7 +10021,7 @@ if ( typeof define === "function" && define.amd && define.amd.OMjQuery ) {
   _.keys = nativeKeys || function(obj) {
     if (obj !== Object(obj)) throw new TypeError('Invalid object');
     var keys = [];
-    for (var key in obj) if (hasOwnProperty.call(obj, key)) keys[keys.length] = key;
+    for (var key in obj) if (_.has(obj, key)) keys[keys.length] = key;
     return keys;
   };
 
@@ -9942,17 +10033,30 @@ if ( typeof define === "function" && define.amd && define.amd.OMjQuery ) {
   // Return a sorted list of the function names available on the object.
   // Aliased as `methods`
   _.functions = _.methods = function(obj) {
-    return _.filter(_.keys(obj), function(key){ return _.isFunction(obj[key]); }).sort();
+    var names = [];
+    for (var key in obj) {
+      if (_.isFunction(obj[key])) names.push(key);
+    }
+    return names.sort();
   };
 
   // Extend a given object with all the properties in passed-in object(s).
   _.extend = function(obj) {
     each(slice.call(arguments, 1), function(source) {
       for (var prop in source) {
-        if (source[prop] !== void 0) obj[prop] = source[prop];
+        obj[prop] = source[prop];
       }
     });
     return obj;
+  };
+
+  // Return a copy of the object only containing the whitelisted properties.
+  _.pick = function(obj) {
+    var result = {};
+    each(_.flatten(slice.call(arguments, 1)), function(key) {
+      if (key in obj) result[key] = obj[key];
+    });
+    return result;
   };
 
   // Fill in a given object with default properties.
@@ -9967,6 +10071,7 @@ if ( typeof define === "function" && define.amd && define.amd.OMjQuery ) {
 
   // Create a (shallow-cloned) duplicate of an object.
   _.clone = function(obj) {
+    if (!_.isObject(obj)) return obj;
     return _.isArray(obj) ? obj.slice() : _.extend({}, obj);
   };
 
@@ -9978,49 +10083,105 @@ if ( typeof define === "function" && define.amd && define.amd.OMjQuery ) {
     return obj;
   };
 
-  // Perform a deep comparison to check if two objects are equal.
-  _.isEqual = function(a, b) {
-    // Check object identity.
-    if (a === b) return true;
-    // Different types?
-    var atype = typeof(a), btype = typeof(b);
-    if (atype != btype) return false;
-    // Basic equality test (watch out for coercions).
-    if (a == b) return true;
-    // One is falsy and the other truthy.
-    if ((!a && b) || (a && !b)) return false;
+  // Internal recursive comparison function.
+  function eq(a, b, stack) {
+    // Identical objects are equal. `0 === -0`, but they aren't identical.
+    // See the Harmony `egal` proposal: http://wiki.ecmascript.org/doku.php?id=harmony:egal.
+    if (a === b) return a !== 0 || 1 / a == 1 / b;
+    // A strict comparison is necessary because `null == undefined`.
+    if (a == null || b == null) return a === b;
     // Unwrap any wrapped objects.
     if (a._chain) a = a._wrapped;
     if (b._chain) b = b._wrapped;
-    // One of them implements an isEqual()?
-    if (a.isEqual) return a.isEqual(b);
-    // Check dates' integer values.
-    if (_.isDate(a) && _.isDate(b)) return a.getTime() === b.getTime();
-    // Both are NaN?
-    if (_.isNaN(a) && _.isNaN(b)) return false;
-    // Compare regular expressions.
-    if (_.isRegExp(a) && _.isRegExp(b))
-      return a.source     === b.source &&
-             a.global     === b.global &&
-             a.ignoreCase === b.ignoreCase &&
-             a.multiline  === b.multiline;
-    // If a is not an object by this point, we can't handle it.
-    if (atype !== 'object') return false;
-    // Check for different array lengths before comparing contents.
-    if (a.length && (a.length !== b.length)) return false;
-    // Nothing else worked, deep compare the contents.
-    var aKeys = _.keys(a), bKeys = _.keys(b);
-    // Different object sizes?
-    if (aKeys.length != bKeys.length) return false;
-    // Recursive comparison of contents.
-    for (var key in a) if (!(key in b) || !_.isEqual(a[key], b[key])) return false;
-    return true;
+    // Invoke a custom `isEqual` method if one is provided.
+    if (a.isEqual && _.isFunction(a.isEqual)) return a.isEqual(b);
+    if (b.isEqual && _.isFunction(b.isEqual)) return b.isEqual(a);
+    // Compare `[[Class]]` names.
+    var className = toString.call(a);
+    if (className != toString.call(b)) return false;
+    switch (className) {
+      // Strings, numbers, dates, and booleans are compared by value.
+      case '[object String]':
+        // Primitives and their corresponding object wrappers are equivalent; thus, `"5"` is
+        // equivalent to `new String("5")`.
+        return a == String(b);
+      case '[object Number]':
+        // `NaN`s are equivalent, but non-reflexive. An `egal` comparison is performed for
+        // other numeric values.
+        return a != +a ? b != +b : (a == 0 ? 1 / a == 1 / b : a == +b);
+      case '[object Date]':
+      case '[object Boolean]':
+        // Coerce dates and booleans to numeric primitive values. Dates are compared by their
+        // millisecond representations. Note that invalid dates with millisecond representations
+        // of `NaN` are not equivalent.
+        return +a == +b;
+      // RegExps are compared by their source patterns and flags.
+      case '[object RegExp]':
+        return a.source == b.source &&
+               a.global == b.global &&
+               a.multiline == b.multiline &&
+               a.ignoreCase == b.ignoreCase;
+    }
+    if (typeof a != 'object' || typeof b != 'object') return false;
+    // Assume equality for cyclic structures. The algorithm for detecting cyclic
+    // structures is adapted from ES 5.1 section 15.12.3, abstract operation `JO`.
+    var length = stack.length;
+    while (length--) {
+      // Linear search. Performance is inversely proportional to the number of
+      // unique nested structures.
+      if (stack[length] == a) return true;
+    }
+    // Add the first object to the stack of traversed objects.
+    stack.push(a);
+    var size = 0, result = true;
+    // Recursively compare objects and arrays.
+    if (className == '[object Array]') {
+      // Compare array lengths to determine if a deep comparison is necessary.
+      size = a.length;
+      result = size == b.length;
+      if (result) {
+        // Deep compare the contents, ignoring non-numeric properties.
+        while (size--) {
+          // Ensure commutative equality for sparse arrays.
+          if (!(result = size in a == size in b && eq(a[size], b[size], stack))) break;
+        }
+      }
+    } else {
+      // Objects with different constructors are not equivalent.
+      if ('constructor' in a != 'constructor' in b || a.constructor != b.constructor) return false;
+      // Deep compare objects.
+      for (var key in a) {
+        if (_.has(a, key)) {
+          // Count the expected number of properties.
+          size++;
+          // Deep compare each member.
+          if (!(result = _.has(b, key) && eq(a[key], b[key], stack))) break;
+        }
+      }
+      // Ensure that both objects contain the same number of properties.
+      if (result) {
+        for (key in b) {
+          if (_.has(b, key) && !(size--)) break;
+        }
+        result = !size;
+      }
+    }
+    // Remove the first object from the stack of traversed objects.
+    stack.pop();
+    return result;
+  }
+
+  // Perform a deep comparison to check if two objects are equal.
+  _.isEqual = function(a, b) {
+    return eq(a, b, []);
   };
 
-  // Is a given array or object empty?
+  // Is a given array, string, or object empty?
+  // An "empty" object has no enumerable own-properties.
   _.isEmpty = function(obj) {
+    if (obj == null) return true;
     if (_.isArray(obj) || _.isString(obj)) return obj.length === 0;
-    for (var key in obj) if (hasOwnProperty.call(obj, key)) return false;
+    for (var key in obj) if (_.has(obj, key)) return false;
     return true;
   };
 
@@ -10032,48 +10193,63 @@ if ( typeof define === "function" && define.amd && define.amd.OMjQuery ) {
   // Is a given value an array?
   // Delegates to ECMA5's native Array.isArray
   _.isArray = nativeIsArray || function(obj) {
-    return toString.call(obj) === '[object Array]';
+    return toString.call(obj) == '[object Array]';
+  };
+
+  // Is a given variable an object?
+  _.isObject = function(obj) {
+    return obj === Object(obj);
   };
 
   // Is a given variable an arguments object?
   _.isArguments = function(obj) {
-    return !!(obj && hasOwnProperty.call(obj, 'callee'));
+    return toString.call(obj) == '[object Arguments]';
   };
+  if (!_.isArguments(arguments)) {
+    _.isArguments = function(obj) {
+      return !!(obj && _.has(obj, 'callee'));
+    };
+  }
 
   // Is a given value a function?
   _.isFunction = function(obj) {
-    return !!(obj && obj.constructor && obj.call && obj.apply);
+    return toString.call(obj) == '[object Function]';
   };
 
   // Is a given value a string?
   _.isString = function(obj) {
-    return !!(obj === '' || (obj && obj.charCodeAt && obj.substr));
+    return toString.call(obj) == '[object String]';
   };
 
   // Is a given value a number?
   _.isNumber = function(obj) {
-    return !!(obj === 0 || (obj && obj.toExponential && obj.toFixed));
+    return toString.call(obj) == '[object Number]';
   };
 
-  // Is the given value `NaN`? `NaN` happens to be the only value in JavaScript
-  // that does not equal itself.
+  // Is a given object a finite number?
+  _.isFinite = function(obj) {
+    return _.isNumber(obj) && isFinite(obj);
+  };
+
+  // Is the given value `NaN`?
   _.isNaN = function(obj) {
+    // `NaN` is the only value for which `===` is not reflexive.
     return obj !== obj;
   };
 
   // Is a given value a boolean?
   _.isBoolean = function(obj) {
-    return obj === true || obj === false;
+    return obj === true || obj === false || toString.call(obj) == '[object Boolean]';
   };
 
   // Is a given value a date?
   _.isDate = function(obj) {
-    return !!(obj && obj.getTimezoneOffset && obj.setUTCFullYear);
+    return toString.call(obj) == '[object Date]';
   };
 
   // Is the given value a regular expression?
   _.isRegExp = function(obj) {
-    return !!(obj && obj.test && obj.exec && (obj.ignoreCase || obj.ignoreCase === false));
+    return toString.call(obj) == '[object RegExp]';
   };
 
   // Is a given value equal to null?
@@ -10084,6 +10260,11 @@ if ( typeof define === "function" && define.amd && define.amd.OMjQuery ) {
   // Is a given variable undefined?
   _.isUndefined = function(obj) {
     return obj === void 0;
+  };
+
+  // Has own property?
+  _.has = function(obj, key) {
+    return hasOwnProperty.call(obj, key);
   };
 
   // Utility Functions
@@ -10106,6 +10287,19 @@ if ( typeof define === "function" && define.amd && define.amd.OMjQuery ) {
     for (var i = 0; i < n; i++) iterator.call(context, i);
   };
 
+  // Escape a string for HTML interpolation.
+  _.escape = function(string) {
+    return (''+string).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#x27;').replace(/\//g,'&#x2F;');
+  };
+
+  // If the value of the named property is a function then invoke it;
+  // otherwise, return it.
+  _.result = function(object, property) {
+    if (object == null) return null;
+    var value = object[property];
+    return _.isFunction(value) ? value.call(object) : value;
+  };
+
   // Add your own custom functions to the Underscore object, ensuring that
   // they're correctly added to the OOP wrapper as well.
   _.mixin = function(obj) {
@@ -10126,31 +10320,86 @@ if ( typeof define === "function" && define.amd && define.amd.OMjQuery ) {
   // following template settings to use alternative delimiters.
   _.templateSettings = {
     evaluate    : /<%([\s\S]+?)%>/g,
-    interpolate : /<%=([\s\S]+?)%>/g
+    interpolate : /<%=([\s\S]+?)%>/g,
+    escape      : /<%-([\s\S]+?)%>/g
+  };
+
+  // When customizing `templateSettings`, if you don't want to define an
+  // interpolation, evaluation or escaping regex, we need one that is
+  // guaranteed not to match.
+  var noMatch = /.^/;
+
+  // Certain characters need to be escaped so that they can be put into a
+  // string literal.
+  var escapes = {
+    '\\': '\\',
+    "'": "'",
+    'r': '\r',
+    'n': '\n',
+    't': '\t',
+    'u2028': '\u2028',
+    'u2029': '\u2029'
+  };
+
+  for (var p in escapes) escapes[escapes[p]] = p;
+  var escaper = /\\|'|\r|\n|\t|\u2028|\u2029/g;
+  var unescaper = /\\(\\|'|r|n|t|u2028|u2029)/g;
+
+  // Within an interpolation, evaluation, or escaping, remove HTML escaping
+  // that had been previously added.
+  var unescape = function(code) {
+    return code.replace(unescaper, function(match, escape) {
+      return escapes[escape];
+    });
   };
 
   // JavaScript micro-templating, similar to John Resig's implementation.
   // Underscore templating handles arbitrary delimiters, preserves whitespace,
   // and correctly escapes quotes within interpolated code.
-  _.template = function(str, data) {
-    var c  = _.templateSettings;
-    var tmpl = 'var __p=[],print=function(){__p.push.apply(__p,arguments);};' +
-      'with(obj||{}){__p.push(\'' +
-      str.replace(/\\/g, '\\\\')
-         .replace(/'/g, "\\'")
-         .replace(c.interpolate, function(match, code) {
-           return "'," + code.replace(/\\'/g, "'") + ",'";
-         })
-         .replace(c.evaluate || null, function(match, code) {
-           return "');" + code.replace(/\\'/g, "'")
-                              .replace(/[\r\n\t]/g, ' ') + "__p.push('";
-         })
-         .replace(/\r/g, '\\r')
-         .replace(/\n/g, '\\n')
-         .replace(/\t/g, '\\t')
-         + "');}return __p.join('');";
-    var func = new Function('obj', tmpl);
-    return data ? func(data) : func;
+  _.template = function(text, data, settings) {
+    settings = _.defaults(settings || {}, _.templateSettings);
+
+    // Compile the template source, taking care to escape characters that
+    // cannot be included in a string literal and then unescape them in code
+    // blocks.
+    var source = "__p+='" + text
+      .replace(escaper, function(match) {
+        return '\\' + escapes[match];
+      })
+      .replace(settings.escape || noMatch, function(match, code) {
+        return "'+\n_.escape(" + unescape(code) + ")+\n'";
+      })
+      .replace(settings.interpolate || noMatch, function(match, code) {
+        return "'+\n(" + unescape(code) + ")+\n'";
+      })
+      .replace(settings.evaluate || noMatch, function(match, code) {
+        return "';\n" + unescape(code) + "\n;__p+='";
+      }) + "';\n";
+
+    // If a variable is not specified, place data values in local scope.
+    if (!settings.variable) source = 'with(obj||{}){\n' + source + '}\n';
+
+    source = "var __p='';" +
+      "var print=function(){__p+=Array.prototype.join.call(arguments, '')};\n" +
+      source + "return __p;\n";
+
+    var render = new Function(settings.variable || 'obj', '_', source);
+    if (data) return render(data, _);
+    var template = function(data) {
+      return render.call(this, data, _);
+    };
+
+    // Provide the compiled function source as a convenience for build time
+    // precompilation.
+    template.source = 'function(' + (settings.variable || 'obj') + '){\n' +
+      source + '}';
+
+    return template;
+  };
+
+  // Add a "chain" function, which will delegate to the wrapper.
+  _.chain = function(obj) {
+    return _(obj).chain();
   };
 
   // The OOP Wrapper
@@ -10185,8 +10434,11 @@ if ( typeof define === "function" && define.amd && define.amd.OMjQuery ) {
   each(['pop', 'push', 'reverse', 'shift', 'sort', 'splice', 'unshift'], function(name) {
     var method = ArrayProto[name];
     wrapper.prototype[name] = function() {
-      method.apply(this._wrapped, arguments);
-      return result(this._wrapped, this._chain);
+      var wrapped = this._wrapped;
+      method.apply(wrapped, arguments);
+      var length = wrapped.length;
+      if ((name == 'shift' || name == 'splice') && length === 0) delete wrapped[0];
+      return result(wrapped, this._chain);
     };
   });
 
@@ -10209,7 +10461,7 @@ if ( typeof define === "function" && define.amd && define.amd.OMjQuery ) {
     return this._wrapped;
   };
 
-})();
+}).call(this);
 //     Backbone.js 0.5.2
 //     (c) 2010 Jeremy Ashkenas, DocumentCloud Inc.
 //     Backbone may be freely distributed under the MIT license.
@@ -11635,7 +11887,7 @@ function style(element, styles) {
 })();
 (function() {
 
-  $o('head').append('<style rel="stylesheet" type="text/css">button{font-size:9px;margin:0 3px;padding:0 3px}#overlay_me_page_container{position:relative}#overlay_me_menu{position:fixed;right:0;z-index:990}#overlay_me_menu *{line-height:14px}#overlay_me_menu .drag-me{line-height:100%;display:block;color:black;font-size:.7em;text-align:center;background-image:-webkit-gradient(linear,0deg,0deg,color-stop(0%,#999),color-stop(30%,#ddd),color-stop(70%,#ddd),color-stop(100%,#999));background-image:-webkit-linear-gradient(0deg,#999,#ddd 30%,#ddd 70%,#999 100%);background-image:-moz-linear-gradient(0deg,#999,#ddd 30%,#ddd 70%,#999 100%);background-image:-o-linear-gradient(0deg,#999,#ddd 30%,#ddd 70%,#999 100%);background-image:-ms-linear-gradient(0deg,#999,#ddd 30%,#ddd 70%,#999 100%);background-image:linear-gradient(0deg,#999,#ddd 30%,#ddd 70%,#999 100%);padding:1px}#overlay_me_menu .drag-me:hover{cursor:move}#overlay_me_menu ul{list-style:none;margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline}.menu-item{text-align:left;background-color:#CCC;border:1px solid rgba(255,255,255,0.2);width:200px}.menu-item a.collaps-button{cursor:pointer;position:absolute;padding-top:9px;padding-left:5px;width:13px;height:9px;border:none;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAJCAYAAADpeqZqAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAIlJREFUeNpivHDhQujz589TmZiYvjMQAP/+/eOQkZGZyfD//38ZIL77nzhwG4ilQJpA2BiIPxHQ8BGIDUHqYZpAOIWApiSYWmRNIDfPxaYaKD4bWR2KJiDmA+KzaHrOQMVxagJhfSD+ALXhA5TPQEgTCCcD8V+gpmRs8rg0MQI1eANpJmzyAAEGAKD/bax/HrzbAAAAAElFTkSuQmCC) no-repeat center 3px}.menu-item a.collaps-button span{display:none;color:yellow}.menu-item a.collaps-button span:hover{color:yellow}.menu-item label.title{padding-left:20px;color:white;cursor:pointer;width:187px;line-height:1.1em;font-size:14px;background:none}.menu-item.collapsed .item-content{display:none}.menu-item.collapsed a.collaps-button{background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAANCAYAAAB7AEQGAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAKtJREFUeNpiuHz5ctD///+lgJgBF2Z68uRJOgMDw0EgNmTAAZiA4AeQVgHiA0CchFUREpsPiOcCjZ8NZWNVBAaMjIwpQGofEOvjVAQFxkATDwJxMkgNCy7HAk3kB1KzgApf4DIJBD4CcRpQ8TZcJp2D+vQiVjcBjZ8HpBxhCtAVfQbiVKDxIMd+QtbI8u/fP04gfQ+Iw4D4LDa7WSQlJUGBdxyIn+DyAUCAAQDxsEXD9kreLQAAAABJRU5ErkJggg==) no-repeat center top}#overlay_panel .content-mgnt-block{position:relative;line-height:10px}#overlay_panel .content-mgnt-block .unicorns{background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAklJREFUeNqEks1u00AQx3d27V3HdezY+SBpkKBFoBZxQEKIOwfegBs3rtwoPABvw3sgceKAuFWtUBBSaT6ctvHXer2zOElTVaoKI/2lWWl/O//ZGZi8jgSPxFv3JX93+CJvfJ4/09++vzH6S/SVH59+IohH5JagxBilC4zNHHigSLvtTCPRnLYxtB4b29ojGglBc1PG1PAyLfUxzszIX7B86MwLP/iVkS566DWeEgo+gfrWdV1VJoZgpUdqon84p1a+wxI1CA+l3Z+yqu89N5a9v65EVgK8TOpgH/edZS6JAZ97/AkfKjF3pTpRkUrlfQFnoGlaHNc2F0sAzPIFWIl9WMEGTYUZJfyB12ED2l9UE6bkDAcoy+0QznXJ8nIEBosNuIb3xLoBNIlRhNlc7Ho9dDA6l1OC8gKGUGEnhAyBFmpSu8zqf9jAzqZ/RIUxFDR0G2LQ6ueIwUzGFIuE95livS4p2RaUVQYas/p+xQ4eiavPqO2nKPUcCrvlCR50uqlirXGeiUWeua4uva6vebNDwHIJErq2fW0Mdfcxpjqmqe37Nnd73US64Ummt8a5bCpZhh5UrZanfS9gBw/5tcorGSz1TJ/rCTljoomOGDTLsh+NUz8Ypdz/ndBwlpFeIdn7Hevm9miD9QNxdVGNSQzGSR3ao6Duekm23fqT3Al/Ju3waAEnr1xyayxnymhgNcU9Z7sx5LtWA+6bquxXaeLr5J+wMZebRQwDiwW2x0O7I1y7ZxOrS+X/4Y0DXJ0pANhgM4sKRv4KMACD6UDbVgTzkgAAAABJRU5ErkJggg==) no-repeat center center;width:15px;height:15px;position:absolute;right:0;top:6px}#overlay_panel label{margin:0;font-size:14px}#overlay_panel .content-mgnt-block,#overlay_panel #images_mgnt{text-align:left;padding:3px 4px;margin:2px;border:1px #777 solid;-webkit-border-radius:5px;-moz-border-radius:5px;-ms-border-radius:5px;-o-border-radius:5px;border-radius:5px}#overlay_panel .content-mgnt-block legend,#overlay_panel #images_mgnt legend{font-size:10px;padding:0 3px;margin-left:10px}#overlay_panel .slider-block{display:block}#overlay_panel .slider-block label{font-size:70%;margin:0 5px 0 0;vertical-align:top}#overlay_panel .slider-block input[type=range]{margin:0}#overlay_panel #images_mgnt{width:186px}#overlay_panel #images_mgnt .controls{padding-bottom:5px}#overlay_panel #images_mgnt .controls label{margin-right:5px}#overlay_panel #images_mgnt .overlay-image-block{text-align:left;position:relative;width:186px;border:1px solid rgba(255,255,255,0.2);border-right:none;border-left:none}#overlay_panel #images_mgnt .overlay-image-block.hovered{background-color:rgba(255,255,0,0.5)}#overlay_panel #images_mgnt .overlay-image-block .del-button{position:absolute;right:0;top:0;margin:1px;cursor:pointer;border:1px #AAA solid;font-size:10px;line-height:13px;background-color:#444;color:white;font-weight:bold;padding:0 3px}#overlay_panel #images_mgnt .dynamic-adds label{font-size:75%}#overlay_panel #images_mgnt .dynamic-adds input{width:95px;font-size:10px}#overlay_panel input[type=checkbox],#overlay_panel label,#overlay_panel #contentSlider,#overlay_panel .zindex-switch{display:inline}#overlay_panel input[type=checkbox]{vertical-align:middle;margin:-3px 5px 0 0}#overlay_me_images_container{position:absolute;z-index:4;top:0;left:0}#overlay_me_images_container div{position:absolute}#overlay_me_images_container div.highlight{border:2px solid red;margin-top:-2px;margin-left:-2px}#overlay_me_images_container div:hover{cursor:move}#overlay_me_images_container img{position:absolute;top:0;left:0}#overlay_me_menu.collapsed .drag-me,#overlay_me_menu.collapsed .menu-item{width:25px}#overlay_me_menu.collapsed .drag-me{height:10px;overflow:hidden}#overlay_me_menu.collapsed button{height:10px;overflow:hidden}#overlay_me_menu.collapsed .overlay-image-block{height:14px;margin-top:3px}#overlay_me_menu.collapsed .overlay-image-block label,#overlay_me_menu.collapsed #content_div_management_block,#overlay_me_menu.collapsed .controls,#overlay_me_menu.collapsed input[type=range],#overlay_me_menu.collapsed #overlay_panel #contentSlider,#overlay_me_menu.collapsed legend,#overlay_me_menu.collapsed .dynamic-adds,#overlay_me_menu.collapsed .unicorns,#overlay_me_menu.collapsed button.reset,#overlay_me_menu.collapsed button.hide,#overlay_me_menu.collapsed button.del-button{display:none}</style>');
+  $o('head').append('<style rel="stylesheet" type="text/css">button{font-size:9px;margin:0 3px;padding:0 3px}#overlay_me_page_container{position:relative}#overlay_me_menu{position:fixed;right:0;z-index:990}#overlay_me_menu *{line-height:14px}#overlay_me_menu .drag-me{line-height:100%;display:block;color:black;font-size:.7em;text-align:center;background-image:-webkit-gradient(linear,0deg,0deg,color-stop(0%,#999),color-stop(30%,#ddd),color-stop(70%,#ddd),color-stop(100%,#999));background-image:-webkit-linear-gradient(0deg,#999,#ddd 30%,#ddd 70%,#999 100%);background-image:-moz-linear-gradient(0deg,#999,#ddd 30%,#ddd 70%,#999 100%);background-image:-o-linear-gradient(0deg,#999,#ddd 30%,#ddd 70%,#999 100%);background-image:-ms-linear-gradient(0deg,#999,#ddd 30%,#ddd 70%,#999 100%);background-image:linear-gradient(0deg,#999,#ddd 30%,#ddd 70%,#999 100%);padding:1px}#overlay_me_menu .drag-me:hover{cursor:move}#overlay_me_menu ul{list-style:none;margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline}.menu-item{text-align:left;background-color:#CCC;border:1px solid rgba(255,255,255,0.2);width:200px}.menu-item a.collaps-button{cursor:pointer;position:absolute;padding-top:9px;padding-left:5px;width:13px;height:9px;border:none;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAJCAYAAADpeqZqAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAIlJREFUeNpivHDhQujz589TmZiYvjMQAP/+/eOQkZGZyfD//38ZIL77nzhwG4ilQJpA2BiIPxHQ8BGIDUHqYZpAOIWApiSYWmRNIDfPxaYaKD4bWR2KJiDmA+KzaHrOQMVxagJhfSD+ALXhA5TPQEgTCCcD8V+gpmRs8rg0MQI1eANpJmzyAAEGAKD/bax/HrzbAAAAAElFTkSuQmCC) no-repeat center 3px}.menu-item a.collaps-button span{display:none;color:yellow}.menu-item a.collaps-button span:hover{color:yellow}.menu-item label.title{padding-left:20px;color:white;cursor:pointer;width:187px;line-height:1.1em;font-size:14px;background:none}.menu-item.collapsed .item-content{display:none}.menu-item.collapsed a.collaps-button{background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAANCAYAAAB7AEQGAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAKtJREFUeNpiuHz5ctD///+lgJgBF2Z68uRJOgMDw0EgNmTAAZiA4AeQVgHiA0CchFUREpsPiOcCjZ8NZWNVBAaMjIwpQGofEOvjVAQFxkATDwJxMkgNCy7HAk3kB1KzgApf4DIJBD4CcRpQ8TZcJp2D+vQiVjcBjZ8HpBxhCtAVfQbiVKDxIMd+QtbI8u/fP04gfQ+Iw4D4LDa7WSQlJUGBdxyIn+DyAUCAAQDxsEXD9kreLQAAAABJRU5ErkJggg==) no-repeat center top}#overlay_panel .content-mgnt-block{position:relative;line-height:10px}#overlay_panel .content-mgnt-block .unicorns{background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAklJREFUeNqEks1u00AQx3d27V3HdezY+SBpkKBFoBZxQEKIOwfegBs3rtwoPABvw3sgceKAuFWtUBBSaT6ctvHXer2zOElTVaoKI/2lWWl/O//ZGZi8jgSPxFv3JX93+CJvfJ4/09++vzH6S/SVH59+IohH5JagxBilC4zNHHigSLvtTCPRnLYxtB4b29ojGglBc1PG1PAyLfUxzszIX7B86MwLP/iVkS566DWeEgo+gfrWdV1VJoZgpUdqon84p1a+wxI1CA+l3Z+yqu89N5a9v65EVgK8TOpgH/edZS6JAZ97/AkfKjF3pTpRkUrlfQFnoGlaHNc2F0sAzPIFWIl9WMEGTYUZJfyB12ED2l9UE6bkDAcoy+0QznXJ8nIEBosNuIb3xLoBNIlRhNlc7Ho9dDA6l1OC8gKGUGEnhAyBFmpSu8zqf9jAzqZ/RIUxFDR0G2LQ6ueIwUzGFIuE95livS4p2RaUVQYas/p+xQ4eiavPqO2nKPUcCrvlCR50uqlirXGeiUWeua4uva6vebNDwHIJErq2fW0Mdfcxpjqmqe37Nnd73US64Ummt8a5bCpZhh5UrZanfS9gBw/5tcorGSz1TJ/rCTljoomOGDTLsh+NUz8Ypdz/ndBwlpFeIdn7Hevm9miD9QNxdVGNSQzGSR3ao6Duekm23fqT3Al/Ju3waAEnr1xyayxnymhgNcU9Z7sx5LtWA+6bquxXaeLr5J+wMZebRQwDiwW2x0O7I1y7ZxOrS+X/4Y0DXJ0pANhgM4sKRv4KMACD6UDbVgTzkgAAAABJRU5ErkJggg==) no-repeat center center;width:15px;height:15px;position:absolute;right:0;top:6px}#overlay_panel label{margin:0;font-size:14px}#overlay_panel .content-mgnt-block,#overlay_panel #images_mgnt{text-align:left;padding:3px 4px;margin:2px;border:1px #777 solid;-webkit-border-radius:5px;-moz-border-radius:5px;-ms-border-radius:5px;-o-border-radius:5px;border-radius:5px}#overlay_panel .content-mgnt-block legend,#overlay_panel #images_mgnt legend{font-size:10px;padding:0 3px;margin-left:10px}#overlay_panel .slider-block{display:block}#overlay_panel .slider-block label{font-size:60%;margin:0 5px 0 0;vertical-align:top}#overlay_panel .slider-block input[type=range]{margin:0;height:14px;width:120px}#overlay_panel #images_mgnt{width:186px}#overlay_panel #images_mgnt .controls{padding-bottom:2px}#overlay_panel #images_mgnt .controls label{margin-right:5px}#overlay_panel #images_mgnt .overlay-image-block,#overlay_panel #images_mgnt .images_dir{border:1px solid rgba(255,255,255,0.2);border-right:none;border-left:none;padding-top:2px}#overlay_panel #images_mgnt .overlay-image-block:first-child,#overlay_panel #images_mgnt .images_dir:first-child{border-top:none;padding-top:0}#overlay_panel #images_mgnt .overlay-image-block{text-align:left;position:relative;width:186px}#overlay_panel #images_mgnt .overlay-image-block.hovered{background-color:rgba(255,255,0,0.5)}#overlay_panel #images_mgnt .overlay-image-block .del-button{position:absolute;right:0;top:0;margin:1px;cursor:pointer;border:1px #AAA solid;font-size:10px;line-height:13px;background-color:#444;color:white;font-weight:bold;padding:0 3px}#overlay_panel #images_mgnt .images_dir{line-height:18px}#overlay_panel #images_mgnt .images_dir .sub-block{border-left:2px white solid;padding-left:2px;margin-left:5px}#overlay_panel #images_mgnt .images_dir>input[type=checkbox]{-webkit-appearance:none;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAANCAYAAAB7AEQGAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAKtJREFUeNpiuHz5ctD///+lgJgBF2Z68uRJOgMDw0EgNmTAAZiA4AeQVgHiA0CchFUREpsPiOcCjZ8NZWNVBAaMjIwpQGofEOvjVAQFxkATDwJxMkgNCy7HAk3kB1KzgApf4DIJBD4CcRpQ8TZcJp2D+vQiVjcBjZ8HpBxhCtAVfQbiVKDxIMd+QtbI8u/fP04gfQ+Iw4D4LDa7WSQlJUGBdxyIn+DyAUCAAQDxsEXD9kreLQAAAABJRU5ErkJggg==) no-repeat center center;display:inline-block;width:13px;height:13px}#overlay_panel #images_mgnt .images_dir>input[type=checkbox]:checked{background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAJCAYAAADpeqZqAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAIlJREFUeNpivHDhQujz589TmZiYvjMQAP/+/eOQkZGZyfD//38ZIL77nzhwG4ilQJpA2BiIPxHQ8BGIDUHqYZpAOIWApiSYWmRNIDfPxaYaKD4bWR2KJiDmA+KzaHrOQMVxagJhfSD+ALXhA5TPQEgTCCcD8V+gpmRs8rg0MQI1eANpJmzyAAEGAKD/bax/HrzbAAAAAElFTkSuQmCC) no-repeat center center;width:13px;height:13px;margin:-2px 5px 0 0}#overlay_panel #images_mgnt .dynamic-adds{padding-top:4px}#overlay_panel #images_mgnt .dynamic-adds label{font-size:75%}#overlay_panel #images_mgnt .dynamic-adds input{width:95px;font-size:10px;margin-left:2px}#overlay_panel #images_mgnt .dynamic-adds button{font-size:10px}#overlay_panel input[type=checkbox],#overlay_panel label,#overlay_panel #contentSlider,#overlay_panel .zindex-switch{display:inline}#overlay_panel input[type=checkbox]{vertical-align:middle;margin:-3px 5px 0 0}#overlay_me_images_container{position:absolute;z-index:4;top:0;left:0}#overlay_me_images_container div{position:absolute}#overlay_me_images_container div.highlight{border:2px solid red;margin-top:-2px;margin-left:-2px}#overlay_me_images_container div:hover{cursor:move}#overlay_me_images_container img{position:absolute;top:0;left:0}#overlay_me_menu.collapsed .drag-me,#overlay_me_menu.collapsed .menu-item{width:25px}#overlay_me_menu.collapsed .drag-me{height:10px;overflow:hidden}#overlay_me_menu.collapsed button{height:10px;overflow:hidden}#overlay_me_menu.collapsed .overlay-image-block{height:14px;margin-top:3px}#overlay_me_menu.collapsed .overlay-image-block label,#overlay_me_menu.collapsed #content_div_management_block,#overlay_me_menu.collapsed .controls,#overlay_me_menu.collapsed input[type=range],#overlay_me_menu.collapsed #overlay_panel #contentSlider,#overlay_me_menu.collapsed legend,#overlay_me_menu.collapsed .dynamic-adds,#overlay_me_menu.collapsed .unicorns,#overlay_me_menu.collapsed button.reset,#overlay_me_menu.collapsed button.hide,#overlay_me_menu.collapsed button.del-button{display:none}</style>');
 
   window.OverlayMe = {};
 
@@ -11667,6 +11919,9 @@ function style(element, styles) {
       if (element == null) {
         element = this.el;
       }
+      if (!this.id) {
+        return;
+      }
       if ((cssData = localStorage.getItem(this.id))) {
         return $o(element).css(JSON.parse(cssData));
       } else {
@@ -11679,6 +11934,9 @@ function style(element, styles) {
       var cssData, css_attribute, _i, _len, _ref;
       if (element == null) {
         element = this.el;
+      }
+      if (!this.id) {
+        return;
       }
       if (!this.css_attributes_to_save) {
         this.css_attributes_to_save = ['top', 'left', 'display', 'opacity'];
@@ -11698,22 +11956,45 @@ function style(element, styles) {
 
   OverlayMe.Mixin.Hideable = {
     isDisplayed: function() {
-      return $o(this.el).css('display') !== 'none';
+      var element;
+      element = this.el || this;
+      return $o(element).css('display') !== 'none';
     },
     toggleDisplay: function(default_display_type) {
       if (default_display_type == null) {
         default_display_type = 'block';
       }
       if (this.isDisplayed()) {
-        $o(this.el).css({
-          display: 'none'
-        });
+        return this.hide();
       } else {
-        $o(this.el).css({
-          display: default_display_type
-        });
+        return this.show(default_display_type);
       }
-      return this.saveCss();
+    },
+    show: function(default_display_type) {
+      var element;
+      if (default_display_type == null) {
+        default_display_type = 'block';
+      }
+      element = this.el || this;
+      $o(element).css({
+        display: default_display_type
+      });
+      return this.saveState();
+    },
+    hide: function() {
+      var element;
+      element = this.el || this;
+      $o(element).css({
+        display: 'none'
+      });
+      return this.saveState();
+    },
+    saveState: function() {
+      var element;
+      element = this.el || this;
+      if (this.saveCss) {
+        return this.saveCss(element);
+      }
     }
   };
 
@@ -11936,7 +12217,7 @@ function style(element, styles) {
 
 }).call(this);
 (function() {
-  var basics_panel, clear_all_button, collapse_button, hide_button,
+  var basics_panel, clear_all_button, collapse_button, hide_button, toggle_all_display,
     _this = this;
 
   if (OverlayMe.mustLoad()) {
@@ -11956,17 +12237,21 @@ function style(element, styles) {
       onClick: "javascript: OverlayMe.clearAndReload()"
     }, 'Reset All (r)');
     basics_panel.append(clear_all_button);
+    toggle_all_display = function() {
+      $o(window).trigger('overlay_me:toggle_all_display');
+      return $o(window).trigger('overlay_me:toggle_overlay_me_images_container_display');
+    };
     hide_button = (new Backbone.View).make('button', {
       "class": 'hide'
     }, 'Hide (h)');
     $o(hide_button).bind('click', function(event) {
-      return $o(window).trigger('overlay_me:toggle_all_display');
+      return toggle_all_display();
     });
     basics_panel.append(hide_button);
     OverlayMe.menu.append(basics_panel.render());
     $o(window).bind('keypress', function(event) {
       if (event.charCode === 104) {
-        $o(window).trigger('overlay_me:toggle_all_display');
+        toggle_all_display();
       }
       if (event.charCode === 99) {
         OverlayMe.menu.toggleCollapse();
@@ -11993,6 +12278,45 @@ function style(element, styles) {
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
 
+  OverlayMe.Overlays.ContainerItself = (function(_super) {
+
+    __extends(ContainerItself, _super);
+
+    ContainerItself.name = 'ContainerItself';
+
+    function ContainerItself() {
+      return ContainerItself.__super__.constructor.apply(this, arguments);
+    }
+
+    ContainerItself.prototype.tagName = 'div';
+
+    ContainerItself.prototype.css_attributes_to_save = ['display'];
+
+    ContainerItself.prototype.initialize = function(attributes, options) {
+      var _this = this;
+      ContainerItself.__super__.initialize.call(this, attributes, options);
+      this.loadCss();
+      return $o(window).bind("overlay_me:toggle_" + this.id + "_display", function(event, options) {
+        if (options) {
+          if (options.show) {
+            return _this.show();
+          } else {
+            return _this.hide();
+          }
+        } else {
+          return _this.toggleDisplay();
+        }
+      });
+    };
+
+    return ContainerItself;
+
+  })(Backbone.View);
+
+  _.extend(OverlayMe.Overlays.ContainerItself.prototype, OverlayMe.Mixin.Storable);
+
+  _.extend(OverlayMe.Overlays.ContainerItself.prototype, OverlayMe.Mixin.Hideable);
+
   OverlayMe.Overlays.ImagesContainer = (function(_super) {
 
     __extends(ImagesContainer, _super);
@@ -12003,34 +12327,52 @@ function style(element, styles) {
       return ImagesContainer.__super__.constructor.apply(this, arguments);
     }
 
-    ImagesContainer.prototype.id = 'overlay_me_images_container';
-
-    ImagesContainer.prototype.css_attributes_to_save = ['display'];
-
-    ImagesContainer.prototype.initialize = function() {
-      var container,
-        _this = this;
-      container = $o('#overlay_me_images_container');
-      if (container.length < 1) {
-        container = this.make('div', {
+    ImagesContainer.prototype.initialize = function(options) {
+      var container;
+      if (!OverlayMe.images_container) {
+        OverlayMe.images_container = new OverlayMe.Overlays.ContainerItself({
           id: 'overlay_me_images_container'
         });
-        $o('body').append(container);
-        this.el = container;
+        $o('body').append(OverlayMe.images_container.el);
       }
-      this.loadCss();
-      return $o(window).bind('overlay_me:toggle_all_display', function() {
-        return _this.toggleDisplay();
-      });
+      if (options.parent_path) {
+        container = this.subDirContainer(options.parent_path);
+      } else {
+        container = OverlayMe.images_container;
+      }
+      return this.el = container.el || container;
+    };
+
+    ImagesContainer.prototype.subDirContainer = function(path, done_bits) {
+      var path_bits, sub_container, sub_container_parent_post_string, the_dir;
+      if (done_bits == null) {
+        done_bits = [];
+      }
+      path_bits = _.difference(path.split('/'), _.union(done_bits, ''));
+      the_dir = path_bits.slice(0, 1).toString();
+      if (done_bits.length > 0) {
+        sub_container_parent_post_string = done_bits.join(' ').replace(/\ ?(\w+)/g, ' #$1_container');
+      } else {
+        sub_container_parent_post_string = '';
+      }
+      sub_container = $o("#overlay_me_images_container " + sub_container_parent_post_string + " #" + (the_dir + '_container'));
+      if (sub_container.length < 1) {
+        sub_container = new OverlayMe.Overlays.ContainerItself({
+          id: the_dir + '_container'
+        });
+        $o("#overlay_me_images_container " + sub_container_parent_post_string).append(sub_container.el);
+      }
+      if (path_bits.length > 1) {
+        done_bits.push(the_dir);
+        return this.subDirContainer(path, done_bits);
+      } else {
+        return sub_container;
+      }
     };
 
     return ImagesContainer;
 
   })(Backbone.View);
-
-  _.extend(OverlayMe.Overlays.ImagesContainer.prototype, OverlayMe.Mixin.Storable);
-
-  _.extend(OverlayMe.Overlays.ImagesContainer.prototype, OverlayMe.Mixin.Hideable);
 
 }).call(this);
 (function() {
@@ -12111,25 +12453,23 @@ function style(element, styles) {
     Image.prototype.className = 'overlay-image-block';
 
     Image.prototype.initialize = function(image_src, options) {
-      var slider_block,
+      var images_container, slider_block,
         _this = this;
-      if (options == null) {
-        options = {
-          destroyable: false
-        };
-      }
+      $o.extend({
+        destroyable: false
+      }, options);
       this.image_src = image_src;
       this.image_id = OverlayMe.Overlays.urlToId(image_src);
       $o(this.el).attr('data-img-id', this.image_id);
-      if (!OverlayMe.images_container) {
-        OverlayMe.images_container = new OverlayMe.Overlays.ImagesContainer();
-      }
+      images_container = new OverlayMe.Overlays.ImagesContainer({
+        parent_path: options.parent_path
+      });
       this.default_css = $o.extend({
         display: 'none',
         opacity: 0.5
       }, options.default_css);
-      if (!($o("#" + this.image_id, OverlayMe.images_container.el).length > 0)) {
-        $o(OverlayMe.images_container.el).append(this.image());
+      if (!($o("#" + this.image_id, images_container.el).length > 0)) {
+        $o(images_container.el).append(this.image());
       }
       $o(this.el).append(this.checkbox());
       $o(this.el).append(this.label());
@@ -12142,7 +12482,8 @@ function style(element, styles) {
       if (options.destroyable) {
         $o(this.el).append(this.delButton());
       }
-      $o(this.el).bind('click', function(event) {
+      $o(this.el).bind('click', function(e) {
+        e.stopPropagation();
         return _this.flickCheckbox();
       });
       $o(this.el).bind('mouseover', function(event) {
@@ -12243,6 +12584,87 @@ function style(element, styles) {
     };
 
     return Image;
+
+  })(Backbone.View);
+
+}).call(this);
+(function() {
+  var __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+
+  OverlayMe.Overlays.ImagesDirectory = (function(_super) {
+
+    __extends(ImagesDirectory, _super);
+
+    ImagesDirectory.name = 'ImagesDirectory';
+
+    function ImagesDirectory() {
+      return ImagesDirectory.__super__.constructor.apply(this, arguments);
+    }
+
+    ImagesDirectory.prototype.tagName = 'div';
+
+    ImagesDirectory.prototype.className = 'images_dir';
+
+    ImagesDirectory.prototype.initialize = function(dirname) {
+      var _this = this;
+      this.dirname = dirname;
+      this.contentBlock = this.make('div', {
+        id: this.dirname,
+        "class": 'sub-block'
+      });
+      _.extend(this.contentBlock, OverlayMe.Mixin.Hideable);
+      _.extend(this.contentBlock, OverlayMe.Mixin.Storable);
+      this.contentBlock.css_attributes_to_save = ['display'];
+      this.contentBlock.loadCss(this.contentBlock);
+      $o(this.el).append(this.checkbox());
+      $o(this.el).append(this.label());
+      $o(this.el).append(this.contentBlock);
+      return $o(this.el).bind('click', function(e) {
+        e.stopPropagation();
+        return _this.checkbox.click();
+      });
+    };
+
+    ImagesDirectory.prototype.checkbox = function() {
+      var _this = this;
+      this.checkbox = this.make('input', {
+        type: "checkbox"
+      });
+      if (this.contentBlock.isDisplayed()) {
+        this.checkbox.checked = true;
+      }
+      $o(this.checkbox).bind('click', function(e) {
+        e.stopPropagation();
+        return _this.flickVisibility();
+      });
+      return this.checkbox;
+    };
+
+    ImagesDirectory.prototype.flickVisibility = function() {
+      if (this.checkbox.checked) {
+        this.contentBlock.show();
+      } else {
+        this.contentBlock.hide();
+      }
+      return $o(window).trigger("overlay_me:toggle_" + this.dirname + "_container_display", {
+        show: this.checkbox.checked
+      });
+    };
+
+    ImagesDirectory.prototype.label = function() {
+      return this.label = this.make('label', {}, '/' + this.dirname + '/');
+    };
+
+    ImagesDirectory.prototype.append = function(block) {
+      return this.contentBlock.appendChild(block);
+    };
+
+    ImagesDirectory.prototype.render = function() {
+      return this.el;
+    };
+
+    return ImagesDirectory;
 
   })(Backbone.View);
 
@@ -12504,19 +12926,7 @@ function style(element, styles) {
     ImagesManagementDiv.prototype.id = 'images_mgnt';
 
     ImagesManagementDiv.prototype.initialize = function() {
-      var check_all_label,
-        _this = this;
       $o(this.el).append(this.make('legend', {}, 'Overlaying images'));
-      this.controlBlock = this.make('div', {
-        "class": 'controls'
-      });
-      $o(this.el).append(this.controlBlock);
-      this.controlBlock.appendChild(this.checkAllbox());
-      check_all_label = this.make('label', {}, 'All/None');
-      $o(check_all_label).bind('click', function() {
-        return $o(_this.checkAllBox).trigger('click');
-      });
-      this.controlBlock.appendChild(check_all_label);
       this.overlaysListBlock = this.make('div', {
         "class": 'overlays-list'
       });
@@ -12563,33 +12973,6 @@ function style(element, styles) {
       return this.image_url_input.value = '';
     };
 
-    ImagesManagementDiv.prototype.checkAllbox = function() {
-      var _this = this;
-      this.checkAllBox = this.make('input', {
-        type: "checkbox",
-        "class": 'check-all'
-      });
-      $o(this.checkAllBox).bind('change', function(event) {
-        return _this.checkAll();
-      });
-      return this.checkAllBox;
-    };
-
-    ImagesManagementDiv.prototype.checkAll = function() {
-      var checkbox, checkbox_state, _i, _len, _ref;
-      checkbox_state = this.checkAllBox.checked;
-      _ref = $o('.overlay-image-block input[type=checkbox]');
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        checkbox = _ref[_i];
-        if (checkbox.checked !== checkbox_state) {
-          $o(checkbox).trigger('click');
-        }
-      }
-      return this.saveState();
-    };
-
-    ImagesManagementDiv.prototype.saveState = function() {};
-
     ImagesManagementDiv.prototype.render = function() {
       return this.el;
     };
@@ -12600,7 +12983,7 @@ function style(element, styles) {
 
 }).call(this);
 (function() {
-  var overlay_panel;
+  var buildTree, displayTree, files_tree, overlay_panel, shiftTofiles;
 
   if (OverlayMe.mustLoad()) {
     overlay_panel = new OverlayMe.MenuItem({
@@ -12628,15 +13011,83 @@ function style(element, styles) {
         if (data.length === 0) {
           return OverlayMe.loadDefaultImage();
         } else {
-          return $o.each(data, function(index, img_path) {
-            return OverlayMe.images_management_div.append(new OverlayMe.Overlays.Image(img_path).render());
-          });
+          return buildTree(data);
         }
       },
       error: function() {
         return OverlayMe.loadDefaultImage();
       }
     });
+    files_tree = {};
+    buildTree = function(data) {
+      $o.each(data, function(index, img_path) {
+        var bit, bits, parent_path, position, _results;
+        bits = img_path.split('/');
+        position = files_tree;
+        parent_path = '/';
+        _results = [];
+        while (bits.length > 0) {
+          bit = bits[0];
+          bits = bits.slice(1);
+          if (bit === "") {
+            continue;
+          }
+          parent_path += bit + '/';
+          if (position[bit] === void 0) {
+            if (bits.length > 0) {
+              position[bit] = {
+                parent_path: parent_path
+              };
+            } else {
+              if (position['files'] === void 0) {
+                position['files'] = [];
+              }
+              position['files'].push(bit);
+            }
+          }
+          _results.push(position = position[bit]);
+        }
+        return _results;
+      });
+      files_tree = shiftTofiles(files_tree);
+      return displayTree(OverlayMe.images_management_div, files_tree);
+    };
+    shiftTofiles = function(tree) {
+      var keys;
+      if (tree.files) {
+        return tree;
+      }
+      keys = Object.keys(tree);
+      if (keys.length > 2) {
+        return tree;
+      }
+      keys = _.without(keys, 'parent_path');
+      return shiftTofiles(tree[keys[0]]);
+    };
+    displayTree = function(parent, tree) {
+      var dir, img, sub_dir, _i, _j, _len, _len1, _ref, _ref1, _results;
+      _ref = Object.keys(tree);
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        dir = _ref[_i];
+        if (dir === 'files' || dir === 'parent_path') {
+          continue;
+        }
+        sub_dir = new OverlayMe.Overlays.ImagesDirectory(dir);
+        parent.append(sub_dir.render());
+        displayTree(sub_dir, tree[dir]);
+      }
+      if (tree.files) {
+        _ref1 = tree.files;
+        _results = [];
+        for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+          img = _ref1[_j];
+          _results.push(parent.append(new OverlayMe.Overlays.Image(tree.parent_path + img, {
+            parent_path: tree.parent_path
+          }).render()));
+        }
+        return _results;
+      }
+    };
   }
 
 }).call(this);

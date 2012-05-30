@@ -13,9 +13,13 @@ if OverlayMe.mustLoad() # dont do it twice
   clear_all_button = (new Backbone.View).make 'button', { class: 'reset', onClick: "javascript: OverlayMe.clearAndReload()" }, 'Reset All (r)'
   basics_panel.append clear_all_button
 
+  toggle_all_display = ->
+    $o(window).trigger 'overlay_me:toggle_all_display'
+    $o(window).trigger 'overlay_me:toggle_overlay_me_images_container_display'
+
   hide_button = (new Backbone.View).make 'button', { class: 'hide' }, 'Hide (h)'
   $o(hide_button).bind 'click', (event) =>
-    $o(window).trigger 'overlay_me:toggle_all_display'
+    toggle_all_display()
   basics_panel.append hide_button
 
   # add the element to the page menu
@@ -25,7 +29,7 @@ if OverlayMe.mustLoad() # dont do it twice
   $o(window).bind('keypress', (event) =>
     # console.log event.keyCode, event.charCode
     if event.charCode == 104 # h
-      $o(window).trigger 'overlay_me:toggle_all_display'
+      toggle_all_display()
     if event.charCode == 99 # c
       OverlayMe.menu.toggleCollapse()
     if event.charCode == 114 # r

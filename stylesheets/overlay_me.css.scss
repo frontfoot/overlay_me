@@ -46,6 +46,9 @@ button {
   }
 }
 
+$right_arrow: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAANCAYAAAB7AEQGAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAKtJREFUeNpiuHz5ctD///+lgJgBF2Z68uRJOgMDw0EgNmTAAZiA4AeQVgHiA0CchFUREpsPiOcCjZ8NZWNVBAaMjIwpQGofEOvjVAQFxkATDwJxMkgNCy7HAk3kB1KzgApf4DIJBD4CcRpQ8TZcJp2D+vQiVjcBjZ8HpBxhCtAVfQbiVKDxIMd+QtbI8u/fP04gfQ+Iw4D4LDa7WSQlJUGBdxyIn+DyAUCAAQDxsEXD9kreLQAAAABJRU5ErkJggg==);
+$down_arrow: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAJCAYAAADpeqZqAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAIlJREFUeNpivHDhQujz589TmZiYvjMQAP/+/eOQkZGZyfD//38ZIL77nzhwG4ilQJpA2BiIPxHQ8BGIDUHqYZpAOIWApiSYWmRNIDfPxaYaKD4bWR2KJiDmA+KzaHrOQMVxagJhfSD+ALXhA5TPQEgTCCcD8V+gpmRs8rg0MQI1eANpJmzyAAEGAKD/bax/HrzbAAAAAElFTkSuQmCC);
+
 .menu-item {
   text-align: left;
   background-color: #CCC;
@@ -59,7 +62,7 @@ button {
     width: 13px;
     height: 9px;
     border: none;
-    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAJCAYAAADpeqZqAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAIlJREFUeNpivHDhQujz589TmZiYvjMQAP/+/eOQkZGZyfD//38ZIL77nzhwG4ilQJpA2BiIPxHQ8BGIDUHqYZpAOIWApiSYWmRNIDfPxaYaKD4bWR2KJiDmA+KzaHrOQMVxagJhfSD+ALXhA5TPQEgTCCcD8V+gpmRs8rg0MQI1eANpJmzyAAEGAKD/bax/HrzbAAAAAElFTkSuQmCC) no-repeat center 3px;
+    background: $down_arrow no-repeat center 3px;
     span {
       display: none;
       color: yellow;
@@ -80,7 +83,7 @@ button {
   &.collapsed {
     .item-content { display: none; }
     a.collaps-button {
-      background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAANCAYAAAB7AEQGAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAKtJREFUeNpiuHz5ctD///+lgJgBF2Z68uRJOgMDw0EgNmTAAZiA4AeQVgHiA0CchFUREpsPiOcCjZ8NZWNVBAaMjIwpQGofEOvjVAQFxkATDwJxMkgNCy7HAk3kB1KzgApf4DIJBD4CcRpQ8TZcJp2D+vQiVjcBjZ8HpBxhCtAVfQbiVKDxIMd+QtbI8u/fP04gfQ+Iw4D4LDa7WSQlJUGBdxyIn+DyAUCAAQDxsEXD9kreLQAAAABJRU5ErkJggg==) no-repeat center top;
+      background: $right_arrow no-repeat center top;
     }
   }
 }
@@ -123,12 +126,14 @@ button {
   .slider-block {
     display: block;
     label {
-      font-size: 70%;
+      font-size: 60%;
       margin: 0 5px 0 0;
       vertical-align: top;
     }
     input[type=range] {
       margin: 0;
+      height: 14px;
+      width: 120px;
     }
   }
 
@@ -137,9 +142,20 @@ button {
     width: $image_mgnt_width;
 
     .controls {
-      padding-bottom: 5px;
+      padding-bottom: 2px;
       label {
         margin-right: 5px;
+      }
+    }
+
+    .overlay-image-block, .images_dir {
+      border: $border;
+      border-right: none;
+      border-left: none;
+      padding-top: 2px;
+      &:first-child {
+        border-top: none;
+        padding-top: 0;
       }
     }
 
@@ -147,9 +163,6 @@ button {
       text-align: left;
       position: relative;
       width: $image_mgnt_width;
-      border: $border;
-      border-right: none;
-      border-left: none;
       &.hovered {
         background-color: rgba(yellow, 0.5);
       }
@@ -168,13 +181,40 @@ button {
         padding: 0 3px;
       }
     }
+    
+    .images_dir {
+      line-height: 18px;
+      .sub-block {
+        border-left: 2px white solid;        
+        padding-left: 2px;
+        margin-left: 5px;
+      }
+      &>input[type=checkbox] {
+        -webkit-appearance: none;
+        background: $right_arrow no-repeat center center;
+        display: inline-block;
+        width: 13px;
+        height: 13px;
+        &:checked {
+          background: $down_arrow no-repeat center center;
+          width: 13px;
+          height: 13px;
+          margin: -2px 5px 0 0;
+        }
+      }
+    }
 
     .dynamic-adds {
+      padding-top: 4px;
       label {
         font-size: 75%;
       }
       input {
         width: 95px;
+        font-size: 10px;
+        margin-left: 2px;
+      }
+      button {
         font-size: 10px;
       }
     }

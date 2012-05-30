@@ -31,10 +31,12 @@ We were struggling to see the gap between designers photoshop files and our HTML
 
 ## Todo
 
+- fix styles for firefox
 - allow local image uploading (hosting on amazon s3 ?), [makiapp.com](http://makiapp.com/) does it!
+- add another dragging bar at the bottom (or not)
+- prevent the dragging bar(s) to be out of reach
 - overlays
   - make a cycling system, by click or keypress, to iterate through overlays one by one
-  - images sub-sets (sub-directories) should appear as nestable blocks
 - write some tests !!!
 
 
@@ -137,5 +139,5 @@ You can add some app specific menu for specific project.. Have a look at layout_
 
 - Rufus Post - former workmate at the origin of the ovelaying concept
 - Lachlan Sylvester - Ruby advisor - Frontfoot Media Solutions
-- Dan Smith - User Experience Strategist and Califloridian - FrontFoot Media Solutions
+- Dan Smith - User Experience Strategist and Califloridian - former workmate
 
