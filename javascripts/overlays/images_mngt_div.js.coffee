@@ -4,16 +4,6 @@ class OverlayMe.Overlays.ImagesManagementDiv extends Backbone.View
   id: 'images_mgnt'
 
   initialize: ->
-    $o(@el).append @make 'legend', {}, 'Overlaying images'
-    @controlBlock = @make 'div', { class: 'controls' }
-    $o(@el).append @controlBlock
-
-    @controlBlock.appendChild @checkAllbox()
-    check_all_label = @make 'label', {}, 'All/None'
-    $o(check_all_label).bind 'click', =>
-      $o(@checkAllBox).trigger 'click'
-    @controlBlock.appendChild check_all_label
-
     @overlaysListBlock = @make 'div', { class: 'overlays-list' }
     $o(@el).append @overlaysListBlock
 
@@ -42,24 +32,6 @@ class OverlayMe.Overlays.ImagesManagementDiv extends Backbone.View
   pushImage: ->
     OverlayMe.dyn_manager.addImage @image_url_input.value
     @image_url_input.value = ''
-
-  checkAllbox: ->
-    @checkAllBox = @make 'input', { type: "checkbox", class: 'check-all' }
-    $o(@checkAllBox).bind 'change', (event) =>
-      @checkAll()
-    @checkAllBox
-
-  checkAll: ->
-    checkbox_state = @checkAllBox.checked
-    for checkbox in $o('.overlay-image-block input[type=checkbox]')
-      if checkbox.checked != checkbox_state
-        $o(checkbox).trigger 'click'
-    @saveState()
-
-  # adding some retention (or not)
-  saveState: ->
-    # localStorage.setItem(@id, JSON.stringify({
-    # }))
 
   render: ->
     this.el
