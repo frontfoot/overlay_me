@@ -33,7 +33,7 @@ class OverlayMe.Overlays.ImagesDirectory extends Backbone.View
       @contentBlock.show()
     else
       @contentBlock.hide()
-    $o(window).trigger "overlay_me:toggle_#{@dirname}_container", { show: @checkbox.checked }
+    $o(window).trigger "overlay_me:toggle_#{@dirname}_container_display", { show: @checkbox.checked }
 
   label: ->
     @label = @make 'label', {}, '/'+@dirname+'/'

@@ -12217,7 +12217,7 @@ function style(element, styles) {
 
 }).call(this);
 (function() {
-  var basics_panel, clear_all_button, collapse_button, hide_button,
+  var basics_panel, clear_all_button, collapse_button, hide_button, toggle_all_display,
     _this = this;
 
   if (OverlayMe.mustLoad()) {
@@ -12237,17 +12237,21 @@ function style(element, styles) {
       onClick: "javascript: OverlayMe.clearAndReload()"
     }, 'Reset All (r)');
     basics_panel.append(clear_all_button);
+    toggle_all_display = function() {
+      $o(window).trigger('overlay_me:toggle_all_display');
+      return $o(window).trigger('overlay_me:toggle_overlay_me_images_container_display');
+    };
     hide_button = (new Backbone.View).make('button', {
       "class": 'hide'
     }, 'Hide (h)');
     $o(hide_button).bind('click', function(event) {
-      return $o(window).trigger('overlay_me:toggle_all_display');
+      return toggle_all_display();
     });
     basics_panel.append(hide_button);
     OverlayMe.menu.append(basics_panel.render());
     $o(window).bind('keypress', function(event) {
       if (event.charCode === 104) {
-        $o(window).trigger('overlay_me:toggle_all_display');
+        toggle_all_display();
       }
       if (event.charCode === 99) {
         OverlayMe.menu.toggleCollapse();
@@ -12274,6 +12278,45 @@ function style(element, styles) {
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
 
+  OverlayMe.Overlays.ContainerItself = (function(_super) {
+
+    __extends(ContainerItself, _super);
+
+    ContainerItself.name = 'ContainerItself';
+
+    function ContainerItself() {
+      return ContainerItself.__super__.constructor.apply(this, arguments);
+    }
+
+    ContainerItself.prototype.tagName = 'div';
+
+    ContainerItself.prototype.css_attributes_to_save = ['display'];
+
+    ContainerItself.prototype.initialize = function(attributes, options) {
+      var _this = this;
+      ContainerItself.__super__.initialize.call(this, attributes, options);
+      this.loadCss();
+      return $o(window).bind("overlay_me:toggle_" + this.id + "_display", function(event, options) {
+        if (options) {
+          if (options.show) {
+            return _this.show();
+          } else {
+            return _this.hide();
+          }
+        } else {
+          return _this.toggleDisplay();
+        }
+      });
+    };
+
+    return ContainerItself;
+
+  })(Backbone.View);
+
+  _.extend(OverlayMe.Overlays.ContainerItself.prototype, OverlayMe.Mixin.Storable);
+
+  _.extend(OverlayMe.Overlays.ContainerItself.prototype, OverlayMe.Mixin.Hideable);
+
   OverlayMe.Overlays.ImagesContainer = (function(_super) {
 
     __extends(ImagesContainer, _super);
@@ -12284,31 +12327,24 @@ function style(element, styles) {
       return ImagesContainer.__super__.constructor.apply(this, arguments);
     }
 
-    ImagesContainer.prototype.css_attributes_to_save = ['display'];
-
     ImagesContainer.prototype.initialize = function(options) {
-      var _this = this;
+      var container;
       if (!OverlayMe.images_container) {
-        OverlayMe.images_container = this.make('div', {
+        OverlayMe.images_container = new OverlayMe.Overlays.ContainerItself({
           id: 'overlay_me_images_container'
         });
-        $o('body').append(OverlayMe.images_container);
-        $o(window).bind('overlay_me:toggle_all_display', function() {
-          return _this.toggleDisplay();
-        });
+        $o('body').append(OverlayMe.images_container.el);
       }
-      this.el = OverlayMe.images_container;
-      this.id = 'overlay_me_images_container';
-      this.loadCss();
       if (options.parent_path) {
-        return this.subDirContainer(options.parent_path);
+        container = this.subDirContainer(options.parent_path);
+      } else {
+        container = OverlayMe.images_container;
       }
-      return OverlayMe.images_container;
+      return this.el = container.el || container;
     };
 
     ImagesContainer.prototype.subDirContainer = function(path, done_bits) {
-      var path_bits, sub_container, sub_container_parent_post_string, the_dir,
-        _this = this;
+      var path_bits, sub_container, sub_container_parent_post_string, the_dir;
       if (done_bits == null) {
         done_bits = [];
       }
@@ -12321,21 +12357,11 @@ function style(element, styles) {
       }
       sub_container = $o("#overlay_me_images_container " + sub_container_parent_post_string + " #" + (the_dir + '_container'));
       if (sub_container.length < 1) {
-        sub_container = this.make('div', {
+        sub_container = new OverlayMe.Overlays.ContainerItself({
           id: the_dir + '_container'
         });
-        $o("#overlay_me_images_container " + sub_container_parent_post_string).append(sub_container);
+        $o("#overlay_me_images_container " + sub_container_parent_post_string).append(sub_container.el);
       }
-      this.el = sub_container;
-      this.id = the_dir + '_container';
-      this.loadCss();
-      $o(window).bind("overlay_me:toggle_" + the_dir + "_container", function(event, options) {
-        if (options.show) {
-          return _this.show();
-        } else {
-          return _this.hide();
-        }
-      });
       if (path_bits.length > 1) {
         done_bits.push(the_dir);
         return this.subDirContainer(path, done_bits);
@@ -12347,10 +12373,6 @@ function style(element, styles) {
     return ImagesContainer;
 
   })(Backbone.View);
-
-  _.extend(OverlayMe.Overlays.ImagesContainer.prototype, OverlayMe.Mixin.Storable);
-
-  _.extend(OverlayMe.Overlays.ImagesContainer.prototype, OverlayMe.Mixin.Hideable);
 
 }).call(this);
 (function() {
@@ -12625,7 +12647,7 @@ function style(element, styles) {
       } else {
         this.contentBlock.hide();
       }
-      return $o(window).trigger("overlay_me:toggle_" + this.dirname + "_container", {
+      return $o(window).trigger("overlay_me:toggle_" + this.dirname + "_container_display", {
         show: this.checkbox.checked
       });
     };

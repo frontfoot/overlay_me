@@ -139,5 +139,5 @@ You can add some app specific menu for specific project.. Have a look at layout_
 
 - Rufus Post - former workmate at the origin of the ovelaying concept
 - Lachlan Sylvester - Ruby advisor - Frontfoot Media Solutions
-- Dan Smith - User Experience Strategist and Califloridian - FrontFoot Media Solutions
+- Dan Smith - User Experience Strategist and Califloridian - former workmate
 

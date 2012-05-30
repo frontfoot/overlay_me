@@ -12,7 +12,7 @@ class OverlayMe.Overlays.Image extends Backbone.View
     @image_id = OverlayMe.Overlays.urlToId(image_src)
     $o(@el).attr 'data-img-id', @image_id
 
-    images_container = new OverlayMe.Overlays.ImagesContainer({parent_path: options.parent_path })
+    images_container = new OverlayMe.Overlays.ImagesContainer({ parent_path: options.parent_path })
 
     @default_css = $o.extend {display: 'none', opacity: 0.5}, options.default_css
 
