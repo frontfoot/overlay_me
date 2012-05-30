@@ -155,6 +155,7 @@ $down_arrow: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAJCAYAAADpe
       padding-top: 2px;
       &:first-child {
         border-top: none;
+        padding-top: 0;
       }
     }
 

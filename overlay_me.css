@@ -171,18 +171,19 @@ button {
 /* line 156, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
 #overlay_panel #images_mgnt .overlay-image-block:first-child, #overlay_panel #images_mgnt .images_dir:first-child {
   border-top: none;
+  padding-top: 0;
 }
-/* line 161, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
+/* line 162, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
 #overlay_panel #images_mgnt .overlay-image-block {
   text-align: left;
   position: relative;
   width: 186px;
 }
-/* line 165, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
+/* line 166, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
 #overlay_panel #images_mgnt .overlay-image-block.hovered {
   background-color: rgba(255, 255, 0, 0.5);
 }
-/* line 168, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
+/* line 169, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
 #overlay_panel #images_mgnt .overlay-image-block .del-button {
   position: absolute;
   right: 0;
@@ -197,17 +198,17 @@ button {
   font-weight: bold;
   padding: 0 3px;
 }
-/* line 184, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
+/* line 185, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
 #overlay_panel #images_mgnt .images_dir {
   line-height: 18px;
 }
-/* line 186, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
+/* line 187, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
 #overlay_panel #images_mgnt .images_dir .sub-block {
   border-left: 2px white solid;
   padding-left: 2px;
   margin-left: 5px;
 }
-/* line 191, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
+/* line 192, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
 #overlay_panel #images_mgnt .images_dir > input[type=checkbox] {
   -webkit-appearance: none;
   background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAANCAYAAAB7AEQGAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAKtJREFUeNpiuHz5ctD///+lgJgBF2Z68uRJOgMDw0EgNmTAAZiA4AeQVgHiA0CchFUREpsPiOcCjZ8NZWNVBAaMjIwpQGofEOvjVAQFxkATDwJxMkgNCy7HAk3kB1KzgApf4DIJBD4CcRpQ8TZcJp2D+vQiVjcBjZ8HpBxhCtAVfQbiVKDxIMd+QtbI8u/fP04gfQ+Iw4D4LDa7WSQlJUGBdxyIn+DyAUCAAQDxsEXD9kreLQAAAABJRU5ErkJggg==) no-repeat center center;
@@ -215,89 +216,89 @@ button {
   width: 13px;
   height: 13px;
 }
-/* line 197, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
+/* line 198, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
 #overlay_panel #images_mgnt .images_dir > input[type=checkbox]:checked {
   background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAJCAYAAADpeqZqAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAIlJREFUeNpivHDhQujz589TmZiYvjMQAP/+/eOQkZGZyfD//38ZIL77nzhwG4ilQJpA2BiIPxHQ8BGIDUHqYZpAOIWApiSYWmRNIDfPxaYaKD4bWR2KJiDmA+KzaHrOQMVxagJhfSD+ALXhA5TPQEgTCCcD8V+gpmRs8rg0MQI1eANpJmzyAAEGAKD/bax/HrzbAAAAAElFTkSuQmCC) no-repeat center center;
   width: 13px;
   height: 13px;
   margin: -2px 5px 0 0;
 }
-/* line 206, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
+/* line 207, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
 #overlay_panel #images_mgnt .dynamic-adds {
   padding-top: 4px;
 }
-/* line 208, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
+/* line 209, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
 #overlay_panel #images_mgnt .dynamic-adds label {
   font-size: 75%;
 }
-/* line 211, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
+/* line 212, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
 #overlay_panel #images_mgnt .dynamic-adds input {
   width: 95px;
   font-size: 10px;
   margin-left: 2px;
 }
-/* line 216, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
+/* line 217, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
 #overlay_panel #images_mgnt .dynamic-adds button {
   font-size: 10px;
 }
-/* line 222, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
+/* line 223, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
 #overlay_panel input[type=checkbox], #overlay_panel label, #overlay_panel #contentSlider, #overlay_panel .zindex-switch {
   display: inline;
 }
-/* line 226, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
+/* line 227, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
 #overlay_panel input[type=checkbox] {
   vertical-align: middle;
   margin: -3px 5px 0 0;
 }
 
-/* line 233, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
+/* line 234, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
 #overlay_me_images_container {
   position: absolute;
   z-index: 4;
   top: 0;
   left: 0;
 }
-/* line 238, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
+/* line 239, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
 #overlay_me_images_container div {
   position: absolute;
 }
-/* line 240, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
+/* line 241, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
 #overlay_me_images_container div.highlight {
   border: 2px solid red;
   margin-top: -2px;
   margin-left: -2px;
 }
-/* line 245, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
+/* line 246, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
 #overlay_me_images_container div:hover {
   cursor: move;
 }
-/* line 249, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
+/* line 250, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
 #overlay_me_images_container img {
   position: absolute;
   top: 0;
   left: 0;
 }
 
-/* line 257, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
+/* line 258, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
 #overlay_me_menu.collapsed .drag-me, #overlay_me_menu.collapsed .menu-item {
   width: 25px;
 }
-/* line 260, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
+/* line 261, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
 #overlay_me_menu.collapsed .drag-me {
   height: 10px;
   overflow: hidden;
 }
-/* line 264, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
+/* line 265, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
 #overlay_me_menu.collapsed button {
   height: 10px;
   overflow: hidden;
 }
-/* line 268, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
+/* line 269, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
 #overlay_me_menu.collapsed .overlay-image-block {
   height: 14px;
   margin-top: 3px;
 }
-/* line 272, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
+/* line 273, /Users/ffmini/Programming/overlay_me/stylesheets/overlay_me.css.scss */
 #overlay_me_menu.collapsed .overlay-image-block label, #overlay_me_menu.collapsed #content_div_management_block, #overlay_me_menu.collapsed .controls, #overlay_me_menu.collapsed input[type=range], #overlay_me_menu.collapsed #overlay_panel #contentSlider, #overlay_me_menu.collapsed legend, #overlay_me_menu.collapsed .dynamic-adds, #overlay_me_menu.collapsed .unicorns, #overlay_me_menu.collapsed button.reset, #overlay_me_menu.collapsed button.hide, #overlay_me_menu.collapsed button.del-button {
   display: none;
 }

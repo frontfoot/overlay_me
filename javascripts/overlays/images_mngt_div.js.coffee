@@ -4,6 +4,7 @@ class OverlayMe.Overlays.ImagesManagementDiv extends Backbone.View
   id: 'images_mgnt'
 
   initialize: ->
+    $o(@el).append @make 'legend', {}, 'Overlaying images'
     @overlaysListBlock = @make 'div', { class: 'overlays-list' }
     $o(@el).append @overlaysListBlock
 
