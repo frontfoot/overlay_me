@@ -29,6 +29,14 @@ The purpose of this tool is to help the developer to meet designers requirements
 We were struggling to see the gap between designers photoshop files and our HTML/CSS implementation, the best way to figure it out was to load their rendered work in the page and play with opacity to see the differences, that's what this tool facilitate.
 
 
+## Compare
+
+I've found 2 other similar tools
+
+- [http://makiapp.com/](http://makiapp.com/) - really nice if you're not a dev guy and want to upload local files
+- [http://pixelperfectplugin.com/](http://pixelperfectplugin.com/) - same idea than overlay_me but firefox only (extension) and really less smooth on the dragging
+
+
 ## Todo
 
 - fix styles for firefox
