@@ -35,4 +35,5 @@ class OverlayMe.MenuClass extends OverlayMe.Draggable
 
 
 # create only 1 menu
-OverlayMe.menu = new OverlayMe.MenuClass() unless OverlayMe.menu_box
+if OverlayMe.mustLoad() # dont do it anytime
+  OverlayMe.menu = new OverlayMe.MenuClass() unless OverlayMe.menu_box
