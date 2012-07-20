@@ -25,8 +25,8 @@ class OverlayMe.Overlays.DynamicManager extends Backbone.Model
 
   loadImage: (src, options = {} ) ->
     image_id = OverlayMe.Overlays.urlToId(src)
-    unless $("#overlay_me_images_container ##{image_id}").length > 0
-      _default_css = $.extend { visibility: 'visible' }, options.default_css
+    unless $o("#overlay_me_images_container ##{image_id}").length > 0
+      _default_css = $o.extend { display: 'block' }, options.default_css
       image = new OverlayMe.Overlays.Image(src, { destroyable: true, default_css: _default_css })
       OverlayMe.images_management_div.append image.render()
     image

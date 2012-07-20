@@ -1,29 +1,30 @@
+#= require 'mixins/storable'
+#= require 'mixins/hideable'
+
 class OverlayMe.Draggable extends Backbone.View
 
   tagName: 'div'
+  css_attributes_to_save: ['top', 'left', 'display', 'opacity']
 
   initialize: (attributes, options) ->
     super(attributes, options)
-    if ( cssData = localStorage.getItem(@id) )
-      $(@el).css(JSON.parse(cssData))
-    else
-      $(@el).css(options.default_css) unless options.default_css == undefined
+    @loadCss(@el, options.default_css)
 
   engageMove: (event) ->
     event.preventDefault()
     @moving = true
     @lastX = event.clientX
     @lastY = event.clientY
-    $(window).bind 'mymousemove', (event, mouseEvent) =>
+    $o(window).bind 'mymousemove', (event, mouseEvent) =>
       @updateOverlay(mouseEvent.clientX - @lastX, mouseEvent.clientY - @lastY)
       @lastX = mouseEvent.clientX
       @lastY = mouseEvent.clientY
-    $(@el).addClass 'on-move'
+    $o(@el).addClass 'on-move'
 
   endMove: (event) ->
     @moving = false
-    $(window).unbind('mymousemove')
-    $(@el).removeClass 'on-move'
+    $o(window).unbind('mymousemove')
+    $o(@el).removeClass 'on-move'
 
   toggleMove: (event) ->
     if @moving
@@ -32,20 +33,15 @@ class OverlayMe.Draggable extends Backbone.View
       @engageMove(event)
 
   updateOverlay: (x, y) ->
-    newX = parseInt($(@el).css('left')) + x
-    newY = parseInt($(@el).css('top')) + y
-    $(@el).css({ top:"#{newY}px", left:"#{newX}px", right: "auto"})
+    newX = parseInt($o(@el).css('left')) + x
+    newY = parseInt($o(@el).css('top')) + y
+    $o(@el).css({ top:"#{newY}px", left:"#{newX}px"})
     @saveCss()
-
-  saveCss: () ->
-    cssData = {
-      top:$(@el).css('top'),
-      left:$(@el).css('left'),
-      visibility:$(@el).css('visibility'),
-      opacity: $(@el).css('opacity')
-    }
-    localStorage.setItem(@id, JSON.stringify(cssData))
 
   render: ->
     @el
+
+# extending few mixins - thx Derick - http://stackoverflow.com/questions/7853731/proper-way-of-doing-view-mixins-in-backbone
+_.extend OverlayMe.Draggable.prototype, OverlayMe.Mixin.Storable
+_.extend OverlayMe.Draggable.prototype, OverlayMe.Mixin.Hideable
 

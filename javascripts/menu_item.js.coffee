@@ -7,7 +7,7 @@ class OverlayMe.MenuItem extends Backbone.View
     @id = attributes.id
     @el.appendChild @collapseButton()
     @title = this.make 'label', { class: 'title' }, attributes.title
-    $(@title).bind 'click', =>
+    $o(@title).bind 'click', =>
       @toggleCollapse()
     @el.appendChild @title
     @content = this.make 'div', { class: 'item-content' }
@@ -17,7 +17,7 @@ class OverlayMe.MenuItem extends Backbone.View
 
   collapseButton: () ->
     @collapseButton = this.make 'a', { class: 'collaps-button' }, '<span>o</span>'
-    $(@collapseButton).bind 'click', =>
+    $o(@collapseButton).bind 'click', =>
       @toggleCollapse()
     @collapseButton
 
@@ -28,9 +28,9 @@ class OverlayMe.MenuItem extends Backbone.View
 
   setCollapse: (toCollapse) ->
     if toCollapse
-      $(@el).addClass 'collapsed'
+      $o(@el).addClass 'collapsed'
     else
-      $(@el).removeClass 'collapsed'
+      $o(@el).removeClass 'collapsed'
 
   append: (childElemt) ->
     @content.appendChild childElemt

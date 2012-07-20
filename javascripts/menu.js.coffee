@@ -1,29 +1,39 @@
 #= require 'draggable'
 
-if OverlayMe.mustLoad()
+class OverlayMe.MenuClass extends OverlayMe.Draggable
 
-  # create elements
-  OverlayMe.menu_box = new OverlayMe.Draggable { id: 'overlay_me_dev_tools_menu' }, { default_css: { left: document.documentElement.clientWidth-300+'px', top: '0px' } }
-  drag_me_line = (new Backbone.View).make 'div', { class: 'drag-me' }, 'Drag me'
-  OverlayMe.Menu = (new Backbone.View).make 'ul'
+  id: 'overlay_me_menu'
 
-  # stack them together
-  $(OverlayMe.menu_box.el).append drag_me_line
-  $(OverlayMe.menu_box.el).append OverlayMe.Menu
+  initialize: (attributes) ->
+    super(attributes, { default_css: { top: '50px' } })
+    drag_me_line = (new Backbone.View).make 'div', { class: 'drag-me' }, 'Drag me up and down'
+    @menu_list = (new Backbone.View).make 'ul'
 
-  # add it to the page
-  $('body').append OverlayMe.menu_box.render()
+    # stack them together
+    $o(@el).append drag_me_line
+    $o(@el).append @menu_list
 
-  # add listeners
-  $(drag_me_line).bind 'mousedown', (event) =>
-    OverlayMe.menu_box.toggleMove(event)
-  $(window).bind 'mouseup', (event) =>
-    OverlayMe.menu_box.endMove(event)
-  $(OverlayMe.menu_box).bind 'toggle:visibility', (event) =>
-    if $(OverlayMe.menu_box.el).css('visibility') == 'visible'
-      css = { visibility: 'hidden' }
+    # add it to the page
+    $o('body').append @render()
+
+    # add listeners
+    $o(drag_me_line).bind 'mousedown', (event) =>
+      @toggleMove(event)
+    $o(window).bind 'mouseup', (event) =>
+      @endMove(event)
+    $o(window).bind 'overlay_me:toggle_all_display', =>
+      @toggleDisplay()
+
+  append: (element) ->
+    @menu_list.appendChild element
+
+  toggleCollapse: ->
+    if $o(@el).hasClass('collapsed')
+      $o(@el).removeClass('collapsed')
     else
-      css = { visibility: 'visible' }
-    $(OverlayMe.menu_box.el).css(css)
-    OverlayMe.menu_box.saveCss()
+      $o(@el).addClass('collapsed')
 
+
+# create only 1 menu
+if OverlayMe.mustLoad() # dont do it anytime
+  OverlayMe.menu = new OverlayMe.MenuClass() unless OverlayMe.menu_box

@@ -1,6 +1,6 @@
 ## Use it now!
 
-Store the bookmarklet from [this page](http://dev.frontfoot.com.au/overlay_me/demo_page.html) and load OverlayMe on top of any web page!
+Store the bookmarklet from [this page](http://frontfoot.github.com/overlay_me/demo_page.html) and load OverlayMe on top of any web page!
 
 If you just want download the compiled, minified archive: [overlay_me.min.js](https://raw.github.com/frontfoot/overlay_me/master/vendor/assets/javascripts/overlay_me/overlay_me.min.js) (CSS embedded!)
 
@@ -29,28 +29,39 @@ The purpose of this tool is to help the developer to meet designers requirements
 We were struggling to see the gap between designers photoshop files and our HTML/CSS implementation, the best way to figure it out was to load their rendered work in the page and play with opacity to see the differences, that's what this tool facilitate.
 
 
+## Compare
+
+I've found 2 other similar tools
+
+- [http://makiapp.com/](http://makiapp.com/) - really nice if you're not a dev guy and want to upload local files
+- [http://pixelperfectplugin.com/](http://pixelperfectplugin.com/) - same idea than overlay_me but firefox only (extension) and really less smooth on the dragging
+
+
 ## Todo
 
-- allow local image uploading (a temporary hosting on amazon s3 ?), [makiapp.com](http://makiapp.com/) does it!
+- fix styles for firefox
+- allow local image uploading (hosting on amazon s3 ?), [makiapp.com](http://makiapp.com/) does it!
+- add another dragging bar at the bottom (or not)
+- prevent the dragging bar(s) to be out of reach
 - overlays
   - make a cycling system, by click or keypress, to iterate through overlays one by one
-  - overlay images sub-sets (sub-directories) should appear as nested blocks
-  - make another version of the toolbar fixed on top of the screen
+- write some tests !!!
+
 
 
 ## Usage
 
-- You can use this tool on the go, over any site, via [the bookmarket](http://dev.frontfoot.com.au/overlay_me/demo_page.html)
+- You can use this tool on the go, over any site, via [the bookmarket](http://frontfoot.github.com/overlay_me/demo_page.html)
 
 - If you want to include it in a non-Ruby project, use the precompiled/minified script ([overlay_me.min.js](https://raw.github.com/frontfoot/overlay_me/master/vendor/assets/javascripts/overlay_me/overlay_me.min.js))
   
 - And if you're using Ruby, install the gem :)
 
-  if using bundler:
+if using bundler:
 
-    # Gemfile
+    #Gemfile
     
-    gem "overlay_me", :git => "git://github.com/frontfoot/overlay_me.git"
+    gem "overlay_me"
 
 
 ### Load the script at the end of your body tag
@@ -127,10 +138,14 @@ You can add some app specific menu for specific project.. Have a look at layout_
 
 
 
-## Authors / Contributors
+## Author
 
-- Rufus Post - former workmate who founded the ovelaying concept
-- Joseph Boiteau - taking Rufus's idea to 11 (and loving it) - FrontFoot Media Solutions
+- Joseph Boiteau - FrontFoot Media Solutions
+
+
+## Contributors
+
+- Rufus Post - former workmate at the origin of the ovelaying concept
 - Lachlan Sylvester - Ruby advisor - Frontfoot Media Solutions
-- Dan Smith - User Experience Strategist and Califloridian - FrontFoot Media Solutions
+- Dan Smith - User Experience Strategist and Califloridian - former workmate
 

@@ -1,20 +1,21 @@
 @import "compass/css3";
 
-$menu_width: 250px;
+$menu_width: 200px;
 $border: 1px solid rgba(white, 0.2);
 
 button {
-  font-size: 10px;
-  margin: 0 5px;
-  padding: 0px 5px;
+  font-size: 9px;
+  margin: 0 3px;
+  padding: 0px 3px;
 }
 
 #overlay_me_page_container {
   position: relative;
 }
 
-#overlay_me_dev_tools_menu {
-  position: absolute;
+#overlay_me_menu {
+  position: fixed;
+  right: 0;
   z-index: 990; //to pass over Google Toolbar ;)
 
   * {
@@ -27,11 +28,11 @@ button {
     color: black;
     font-size: 0.7em;
     text-align: center;
+    @include background-image(linear-gradient(0deg, #999999, #DDD 30%,#DDD 70%,#999999 100.0%));
+    padding: 1px;
     &:hover {
       cursor: move;
     }
-    @include background-image(linear-gradient(0deg, #999999, #DDD 30%,#DDD 70%,#999999 100.0%));
-    padding: 1px;
   }
 
   ul {
@@ -44,6 +45,9 @@ button {
     vertical-align: baseline;
   }
 }
+
+$right_arrow: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAANCAYAAAB7AEQGAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAKtJREFUeNpiuHz5ctD///+lgJgBF2Z68uRJOgMDw0EgNmTAAZiA4AeQVgHiA0CchFUREpsPiOcCjZ8NZWNVBAaMjIwpQGofEOvjVAQFxkATDwJxMkgNCy7HAk3kB1KzgApf4DIJBD4CcRpQ8TZcJp2D+vQiVjcBjZ8HpBxhCtAVfQbiVKDxIMd+QtbI8u/fP04gfQ+Iw4D4LDa7WSQlJUGBdxyIn+DyAUCAAQDxsEXD9kreLQAAAABJRU5ErkJggg==);
+$down_arrow: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAJCAYAAADpeqZqAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAIlJREFUeNpivHDhQujz589TmZiYvjMQAP/+/eOQkZGZyfD//38ZIL77nzhwG4ilQJpA2BiIPxHQ8BGIDUHqYZpAOIWApiSYWmRNIDfPxaYaKD4bWR2KJiDmA+KzaHrOQMVxagJhfSD+ALXhA5TPQEgTCCcD8V+gpmRs8rg0MQI1eANpJmzyAAEGAKD/bax/HrzbAAAAAElFTkSuQmCC);
 
 .menu-item {
   text-align: left;
@@ -58,7 +62,7 @@ button {
     width: 13px;
     height: 9px;
     border: none;
-    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAJCAYAAADpeqZqAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAIlJREFUeNpivHDhQujz589TmZiYvjMQAP/+/eOQkZGZyfD//38ZIL77nzhwG4ilQJpA2BiIPxHQ8BGIDUHqYZpAOIWApiSYWmRNIDfPxaYaKD4bWR2KJiDmA+KzaHrOQMVxagJhfSD+ALXhA5TPQEgTCCcD8V+gpmRs8rg0MQI1eANpJmzyAAEGAKD/bax/HrzbAAAAAElFTkSuQmCC) no-repeat center center;
+    background: $down_arrow no-repeat center 3px;
     span {
       display: none;
       color: yellow;
@@ -79,7 +83,7 @@ button {
   &.collapsed {
     .item-content { display: none; }
     a.collaps-button {
-      background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAANCAYAAAB7AEQGAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAKtJREFUeNpiuHz5ctD///+lgJgBF2Z68uRJOgMDw0EgNmTAAZiA4AeQVgHiA0CchFUREpsPiOcCjZ8NZWNVBAaMjIwpQGofEOvjVAQFxkATDwJxMkgNCy7HAk3kB1KzgApf4DIJBD4CcRpQ8TZcJp2D+vQiVjcBjZ8HpBxhCtAVfQbiVKDxIMd+QtbI8u/fP04gfQ+Iw4D4LDa7WSQlJUGBdxyIn+DyAUCAAQDxsEXD9kreLQAAAABJRU5ErkJggg==) no-repeat center center;
+      background: $right_arrow no-repeat center top;
     }
   }
 }
@@ -101,7 +105,7 @@ button {
 
 
   label {
-    margin: 0 5px 0 0;
+    margin: 0;
     font-size: 14px;
   }
 
@@ -122,11 +126,14 @@ button {
   .slider-block {
     display: block;
     label {
-      font-size: 70%;
+      font-size: 60%;
+      margin: 0 5px 0 0;
       vertical-align: top;
     }
     input[type=range] {
       margin: 0;
+      height: 14px;
+      width: 120px;
     }
   }
 
@@ -135,16 +142,27 @@ button {
     width: $image_mgnt_width;
 
     .controls {
-      padding-bottom: 5px;
+      padding-bottom: 2px;
+      label {
+        margin-right: 5px;
+      }
+    }
+
+    .overlay-image-block, .images_dir {
+      border: $border;
+      border-right: none;
+      border-left: none;
+      padding-top: 2px;
+      &:first-child {
+        border-top: none;
+        padding-top: 0;
+      }
     }
 
     .overlay-image-block {
       text-align: left;
       position: relative;
       width: $image_mgnt_width;
-      border: $border;
-      border-right: none;
-      border-left: none;
       &.hovered {
         background-color: rgba(yellow, 0.5);
       }
@@ -152,23 +170,51 @@ button {
         position: absolute;
         right: 0;
         top: 0;
-        margin: 3px 7px;
+        margin: 1px;
         cursor: pointer;
         border: 1px #AAA solid;
-        font-size: 80%;
+        font-size: 10px;
+        line-height: 13px;
         background-color: #444;
         color: white;
         font-weight: bold;
-        padding: 0 4px 2px 4px;
+        padding: 0 3px;
+      }
+    }
+    
+    .images_dir {
+      line-height: 18px;
+      .sub-block {
+        border-left: 2px white solid;        
+        padding-left: 2px;
+        margin-left: 5px;
+      }
+      &>input[type=checkbox] {
+        -webkit-appearance: none;
+        background: $right_arrow no-repeat center center;
+        display: inline-block;
+        width: 13px;
+        height: 13px;
+        &:checked {
+          background: $down_arrow no-repeat center center;
+          width: 13px;
+          height: 13px;
+          margin: -2px 5px 0 0;
+        }
       }
     }
 
     .dynamic-adds {
+      padding-top: 4px;
       label {
         font-size: 75%;
       }
       input {
-        width: 105px;
+        width: 95px;
+        font-size: 10px;
+        margin-left: 2px;
+      }
+      button {
         font-size: 10px;
       }
     }
@@ -192,13 +238,10 @@ button {
   left: 0;
   div {
     position: absolute;
-    visibility: hidden;
     &.highlight {
-      background: rgba(255, 255, 0, 0.5);
-      opacity: 1;
-      img {
-        opacity: .7;
-      }
+      border: 2px solid red;
+      margin-top: -2px;
+      margin-left: -2px
     }
     &:hover {
       cursor: move;
@@ -211,3 +254,23 @@ button {
   }
 }
 
+#overlay_me_menu.collapsed {
+  .drag-me, .menu-item {
+    width: 25px;
+  }
+  .drag-me {
+    height: 10px;
+    overflow: hidden;
+  }
+  button {
+    height: 10px;
+    overflow: hidden;
+  }
+  .overlay-image-block {
+    height: 14px;
+    margin-top: 3px;
+  }
+  .overlay-image-block label, #content_div_management_block, .controls, input[type=range], #overlay_panel #contentSlider, legend, .dynamic-adds, .unicorns, button.reset, button.hide, button.del-button {
+    display: none;
+  }
+}

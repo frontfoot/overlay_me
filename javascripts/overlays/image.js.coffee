@@ -1,3 +1,4 @@
+#= require 'overlays/images_container'
 #= require 'overlays/draggable_image'
 
 class OverlayMe.Overlays.Image extends Backbone.View
@@ -5,38 +6,35 @@ class OverlayMe.Overlays.Image extends Backbone.View
   tagName: 'div'
   className: 'overlay-image-block'
 
-  initialize: (image_src, options = { destroyable: false }) ->
+  initialize: (image_src, options) ->
+    $o.extend { destroyable: false }, options
     @image_src = image_src
     @image_id = OverlayMe.Overlays.urlToId(image_src)
-    $(@el).attr 'data-img-id', @image_id
+    $o(@el).attr 'data-img-id', @image_id
 
-    @images_container = $('#overlay_me_images_container')
-    if @images_container.length < 1
-      $('body').append (new Backbone.View).make 'div', { id: 'overlay_me_images_container' }
-      @images_container = $('#overlay_me_images_container')
+    images_container = new OverlayMe.Overlays.ImagesContainer({ parent_path: options.parent_path })
 
-    @default_css = $.extend {visibility: 'hidden', opacity: 0.5}, options.default_css
+    @default_css = $o.extend {display: 'none', opacity: 0.5}, options.default_css
 
-    unless $("##{@image_id}", @images_container).length > 0
-      $(@images_container).append @image()
+    unless $o("##{@image_id}", images_container.el).length > 0
+      $o(images_container.el).append @image()
 
-    $(@el).append @checkbox()
-    $(@el).append @label()
+    $o(@el).append @checkbox()
+    $o(@el).append @label()
     slider_block = @make 'div', { class: 'slider-block' }
-    $(@el).append slider_block
+    $o(@el).append slider_block
     slider_block.appendChild @make 'label', {}, 'Opacity'
     slider_block.appendChild @slider()
-    $(@el).append @delButton() if options.destroyable
-    $(@el).bind 'click', (event) =>
+    $o(@el).append @delButton() if options.destroyable
+    $o(@el).bind 'click', (e) =>
+      e.stopPropagation()
       @flickCheckbox()
-    $(@el).bind 'mouseover', (event) =>
-      $(@image.el).css('opacity', 1)
-      $(@image.el).addClass 'highlight'
-      $(@el).addClass 'hovered'
-    $(@el).bind 'mouseout', (event) =>
-      $(@image.el).removeClass 'highlight'
-      $(@el).removeClass 'hovered'
-      $(@image.el).css('opacity', $(@slider)[0].value/100)
+    $o(@el).bind 'mouseover', (event) =>
+      $o(@image.el).addClass 'highlight'
+      $o(@el).addClass 'hovered'
+    $o(@el).bind 'mouseout', (event) =>
+      $o(@image.el).removeClass 'highlight'
+      $o(@el).removeClass 'hovered'
 
 
   image: ->
@@ -45,19 +43,19 @@ class OverlayMe.Overlays.Image extends Backbone.View
 
   checkbox: ->
     @checkbox = @make 'input', { type: "checkbox" }
-    if $(@image.el).css('visibility') == 'visible'
+    if @image.isDisplayed()
       @checkbox.checked = true
-    $(@checkbox).bind 'click', (e) =>
+    $o(@checkbox).bind 'click', (e) =>
       e.stopPropagation()
       @flickVisibility()
-    $(@checkbox).bind 'change', (e) =>
+    $o(@checkbox).bind 'change', (e) =>
       e.stopPropagation()
       @flickVisibility()
     @checkbox
 
   delButton: ->
     @delButton = @make 'button', { class: 'del-button', title: 'Delete' }, 'x'
-    $(@delButton).bind 'click', (e) =>
+    $o(@delButton).bind 'click', (e) =>
       OverlayMe.dyn_manager.delImage @image_id
     @delButton
 
@@ -66,11 +64,10 @@ class OverlayMe.Overlays.Image extends Backbone.View
     @flickVisibility()
 
   flickVisibility: ->
-    @image.fitDivToImage()
     if @checkbox.checked
-      $(@image.el).css('visibility', 'visible')
+      $o(@image.el).css('display', 'block')
     else
-      $(@image.el).css('visibility', 'hidden')
+      $o(@image.el).css('display', 'none')
     @image.saveCss()
 
   label: ->
@@ -80,19 +77,19 @@ class OverlayMe.Overlays.Image extends Backbone.View
   slider: ->
     @slider = @make 'input', {
       type: "range",
-      value: $(@image.el).css('opacity')*100
+      value: $o(@image.el).css('opacity')*100
     }
-    $(@slider).bind 'click', (e) =>
+    $o(@slider).bind 'click', (e) =>
       e.stopPropagation()
-    $(@slider).bind 'change', (e) =>
-      $(@image.el).css('opacity', $(@slider)[0].value/100)
+    $o(@slider).bind 'change', (e) =>
+      $o(@image.el).css('opacity', $o(@slider)[0].value/100)
       @image.saveCss()
-    $(@slider).bind 'mouseover', (e) =>
+    $o(@slider).bind 'mouseover', (e) =>
       e.stopPropagation()
-      $(@el).addClass 'hovered'
-    $(@slider).bind 'mouseout', (e) =>
+      $o(@el).addClass 'hovered'
+    $o(@slider).bind 'mouseout', (e) =>
       e.stopPropagation()
-      $(@el).removeClass 'hovered'
+      $o(@el).removeClass 'hovered'
     @slider
 
   render: ->
