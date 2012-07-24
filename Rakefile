@@ -20,11 +20,10 @@ Rake::SprocketsTask.new do |t|
   environment = Sprockets::Environment.new
   environment.append_path 'javascripts'
   environment.append_path 'stylesheets'
-  environment.append_path 'spec/javascripts/coffeescript'
 
   t.environment = environment
   t.output      = "./"
-  t.assets      = [ ENV['js_sprocket'], ENV['css_sprocket'], ENV['addon_layout_resizer'], ENV['addon_layout_resizer'] ]
+  t.assets      = [ ENV['js_sprocket'], ENV['css_sprocket'], ENV['addon_layout_resizer'] ]
 end
 
 desc "remove DIGEST from filenames"
@@ -37,7 +36,7 @@ task :remove_digest do
   end
 end
 
-desc "compile assets with Sprockets, remove DIGEST, move some files"
+desc "compile assets with Sprockets, remove DIGEST, move the addons files to their final path (vendor/)"
 task :compile => [:assets, :remove_digest] do
   puts "\n** Move addons into vendor/asssets/ **"
   `rm -rf vendor/assets/javascripts/overlay_me/addons`
@@ -97,6 +96,7 @@ namespace :minify do
   end
 
   task :all_in_one => [:css, :add_minified_css_to_js, :js, :prepend_header]
+  task :only_css_for_js_debug => [:css, :add_minified_css_to_js]
 end
 
 desc "package, aka prepare the minified .js"
@@ -114,3 +114,28 @@ task :watch do
   listener.start
 end
 
+
+desc "compile assets for jasmine debug"
+task :debug_comp => [:compile, 'minify:only_css_for_js_debug']
+
+desc "Watch javascripts and stylesheets folders but do not minify the js (debug mode)"
+task :watch_debug do
+  callback = Proc.new do
+    `rake debug_comp`  # trust me I'm not proud... but couldn't find any better
+    puts 'done'
+  end
+  listener = Listen.to('stylesheets', 'javascripts', 'spec/javascripts/coffeescripts')
+  listener.latency(0.5)
+  listener.change(&callback)
+  listener.start
+end
+
+
+begin
+  require 'jasmine'
+  load 'jasmine/tasks/jasmine.rake'
+rescue LoadError
+  task :jasmine do
+    abort "Jasmine is not available. In order to run jasmine, you must: (sudo) gem install jasmine"
+  end
+end

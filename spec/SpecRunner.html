@@ -9,8 +9,15 @@
   <script type="text/javascript" src="lib/jasmine-1.2.0.rc3/jasmine.js"></script>
   <script type="text/javascript" src="lib/jasmine-1.2.0.rc3/jasmine-html.js"></script>
 
+</head>
+
+<body>
+
+  <div id="original_root_level_div">
+    Stuff pre-existing in the page
+  </div>
   <!-- include source files here... -->
-  <script type="text/javascript" src="../vendor/assets/javascripts/overlay_me/overlay_me.min.js"></script>
+  <script type="text/javascript" src="../overlay_me.js"></script>
 
   <!-- include spec files here... -->
   <script type="text/javascript" src="javascripts/menu.spec.js"></script>
@@ -43,9 +50,5 @@
 
     })();
   </script>
-
-</head>
-
-<body>
 </body>
 </html>
