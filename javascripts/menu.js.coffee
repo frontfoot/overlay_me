@@ -37,7 +37,8 @@ class OverlayMe.MenuClass extends OverlayMe.Draggable
     $o(@el).hasClass('collapsed')
 
 
-# create only 1 menu
+# create a unique menu if conditions
 if OverlayMe.mustLoad() # dont do it anytime
+  # at DOM loaded
   $o ->
     OverlayMe.menu = new OverlayMe.MenuClass() unless OverlayMe.menu

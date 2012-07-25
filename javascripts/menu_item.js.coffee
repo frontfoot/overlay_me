@@ -4,7 +4,7 @@ class OverlayMe.MenuItem extends Backbone.View
   className: 'menu-item'
 
   initialize: (attributes, options) ->
-    @id = attributes.id
+    $o(@el).addClass attributes.class
     @el.appendChild @collapseButton()
     @title = this.make 'label', { class: 'title' }, attributes.title
     $o(@title).bind 'click', =>
