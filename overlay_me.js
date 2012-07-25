@@ -11897,8 +11897,12 @@ function style(element, styles) {
     return window.overlay_me_loaded;
   };
 
+  OverlayMe.setLoaded = function() {
+    return window.overlay_me_loaded = true;
+  };
+
   OverlayMe.isMobile = function() {
-    return navigator.userAgent.match(/(iPhone|iPod|iPad|Android)/);
+    return OverlayMe.userAgent().match(/(iPhone|iPod|iPad|Android)/);
   };
 
   OverlayMe.mustLoad = function() {
@@ -11907,7 +11911,15 @@ function style(element, styles) {
 
   OverlayMe.clearAndReload = function() {
     localStorage.clear();
+    return OverlayMe.pageReload();
+  };
+
+  OverlayMe.pageReload = function() {
     return window.location.reload();
+  };
+
+  OverlayMe.userAgent = function() {
+    return navigator.userAgent;
   };
 
 }).call(this);
@@ -12121,19 +12133,27 @@ function style(element, styles) {
     };
 
     MenuClass.prototype.toggleCollapse = function() {
-      if ($o(this.el).hasClass('collapsed')) {
+      if (this.collapsed()) {
         return $o(this.el).removeClass('collapsed');
       } else {
         return $o(this.el).addClass('collapsed');
       }
     };
 
+    MenuClass.prototype.collapsed = function() {
+      return $o(this.el).hasClass('collapsed');
+    };
+
     return MenuClass;
 
   })(OverlayMe.Draggable);
 
-  if (!OverlayMe.menu_box) {
-    OverlayMe.menu = new OverlayMe.MenuClass();
+  if (OverlayMe.mustLoad()) {
+    $o(function() {
+      if (!OverlayMe.menu) {
+        return OverlayMe.menu = new OverlayMe.MenuClass();
+      }
+    });
   }
 
 }).call(this);
@@ -13093,6 +13113,6 @@ function style(element, styles) {
 }).call(this);
 (function() {
 
-  window.overlay_me_loaded = true;
+  OverlayMe.setLoaded();
 
 }).call(this);

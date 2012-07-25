@@ -25,25 +25,26 @@ module Jasmine
 
     # this method compiles all the same javascript files your app will
     def precompile_app_assets
-      puts "Precompiling assets..."
+      puts "PLEASE RUN bundle exec rake assets:watch_debug ASIDE..."
 
       # make sure the Rails environment is loaded
-      ::Rake.application['environment'].invoke
+      #::Rake.application['environment'].invoke
 
       # temporarily set the static assets location from public/assets to our spec directory
-      ::Rails.application.assets.static_root = Rails.root.join("spec/javascripts/generated/assets")
+      #::Rails.application.assets.static_root = Rails.root.join("spec/javascripts/generated/assets")
 
       # rake won't let you run the same task twice in the same process without re-enabling it
 
       # once the assets have been cleared, recompile them into the spec directory
-      ::Rake.application['assets:precompile'].reenable
-      ::Rake.application['assets:precompile'].invoke
+      ::Rake.application['assets:compile'].reenable
+      ::Rake.application['assets:compile'].invoke
+      
     end
 
     # this method compiles all of the spec files into js files that jasmine can run
     def compile_jasmine_javascripts
       puts "Compiling jasmine coffee scripts into javascript..."
-      root = File.expand_path("../../../../spec/javascripts/coffee", __FILE__)
+      root = File.expand_path("../../../../spec/javascripts/coffeescripts", __FILE__)
       destination_dir = File.expand_path("../../generated/specs", __FILE__)
 
       glob = File.expand_path("**/*.js.coffee", root)
@@ -58,13 +59,4 @@ module Jasmine
 
   end
 end
-
-# reference the compiled production javascript file
-# we need the asterisk because the generated file is named something like application-123482746352.js
-src_files:
-  - spec/javascripts/generated/assets/application*.js
-
-# this directive (the default) finds all spec files in all subdirectories, so no need to change it
-spec_files:
-  - '**/*[sS]pec.js'
 

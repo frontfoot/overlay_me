@@ -3,5 +3,5 @@
 #= require 'overlays'
 
 # flag as loaded
-window.overlay_me_loaded = true
+OverlayMe.setLoaded()
 
