@@ -14,6 +14,7 @@ button {
 }
 
 #overlay_me_menu {
+  font-family: Arial, sans-serif;
   position: fixed;
   right: 0;
   z-index: 990; //to pass over Google Toolbar ;)
@@ -88,7 +89,7 @@ $down_arrow: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAJCAYAAADpe
   }
 }
 
-#overlay_panel {
+.overlays-panel {
 
   .content-mgnt-block {
     position: relative;

@@ -1,6 +1,7 @@
 describe "Init", ->
 
   it "must load if loaded flag not set and not mobile", ->
+    window.overlay_me_loaded = null
     expect(OverlayMe.mustLoad()).toBe(true)
 
   it "must not load if loaded flag set", ->
