@@ -26,9 +26,11 @@ describe "Menu", ->
   it "should have been added at the root of the page as #overlay_me_dev_tools_menu", ->
     expect($o('body > #overlay_me_menu').length).toEqual 1
 
+  it "should have moved any content from the original page root into a div #overlay_me_page_container", ->
+   expect($o('#overlay_me_page_container #original_root_level_div').length).toEqual 1
 
 
-  xit "should have moved any content from the original page root into a div #overlay_me_page_container", ->
 
   xit "should change of location when dragged", ->
+
 

@@ -2,11 +2,10 @@ source "http://www.rubygems.org"
 
 gemspec
 
+# packaging
 gem 'jsmin'
 gem 'yui-compressor'
-gem 'listen'
-
 
 # tests
-gem 'jasmine'
 gem 'guard-coffeescript'
+gem 'guard-rake'

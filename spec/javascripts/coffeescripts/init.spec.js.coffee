@@ -1,10 +1,10 @@
 describe "Init", ->
 
-  it "must load if loaded flag not set and not mobile", ->
+  it "must load if loaded flag is not set and the browser is not mobile", ->
     window.overlay_me_loaded = null
     expect(OverlayMe.mustLoad()).toBe(true)
 
-  it "must not load if loaded flag set", ->
+  it "must not load if loaded flag is set", ->
     OverlayMe.setLoaded()
     expect(OverlayMe.mustLoad()).toBe(false)
 
@@ -12,7 +12,7 @@ describe "Init", ->
     spyOn(OverlayMe, 'userAgent').andReturn('stuff Android stuff')
     expect(OverlayMe.mustLoad()).toBe(false)
 
-  it "clearAndReload should delete everything from localStorage and try reload page", ->
+  it "clearAndReload should delete everything from localStorage and try reload the page", ->
     localStorage.setItem('test', 'test')
     spyOn(OverlayMe, 'pageReload').andReturn()
     OverlayMe.clearAndReload()

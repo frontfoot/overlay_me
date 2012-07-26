@@ -29,8 +29,10 @@
     it("should have been added at the root of the page as #overlay_me_dev_tools_menu", function() {
       return expect($o('body > #overlay_me_menu').length).toEqual(1);
     });
-    xit("should have moved any content from the original page root into a div #overlay_me_page_container", function() {});
-    return xit("should changed of location when dragged", function() {});
+    it("should have moved any content from the original page root into a div #overlay_me_page_container", function() {
+      return expect($o('#overlay_me_page_container #original_root_level_div').length).toEqual(1);
+    });
+    return xit("should change of location when dragged", function() {});
   });
 
 }).call(this);

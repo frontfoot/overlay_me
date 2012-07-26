@@ -6,7 +6,6 @@ require 'compass'
 require 'rake/sprocketstask'
 require 'jsmin'
 require 'yui/compressor'
-require 'listen'
 
 namespace :assets do
 
@@ -105,40 +104,8 @@ namespace :assets do
   desc "package, aka prepare the minified .js"
   task :package => [:compile, 'minify:all_in_one']
 
-  desc "Watch javascripts and stylesheets folders re-package the assets at each change"
-  task :watch do
-    callback = Proc.new do
-      `rake assets:package`  # trust me I'm not proud... but couldn't find any better
-      puts 'done'
-    end
-    listener = Listen.to('stylesheets', 'javascripts')
-    listener.latency(0.5)
-    listener.change(&callback)
-    listener.start
-  end
-
-  desc "compile js (no minifying)"
+  desc "compile all js in 1, but no minifying (useful for jasmine tests via guard-rake)"
   task :compile_debug => [:compile, 'minify:only_css_for_js_debug']
 
-  desc "Watch javascripts and stylesheets folders and re-compile including specs"
-  task :watch_debug do
-    callback = Proc.new do
-      `rake assets:compile_debug`  # trust me I'm not proud... but couldn't find any better
-      puts 'done'
-    end
-    listener = Listen.to('stylesheets', 'javascripts')
-    listener.latency(0.5)
-    listener.change(&callback)
-    listener.start
-  end
-
 end
 
-begin
-  require 'jasmine'
-  load 'jasmine/tasks/jasmine.rake'
-rescue LoadError
-  task :jasmine do
-    abort "Jasmine is not available. In order to run jasmine, you must: (sudo) gem install jasmine"
-  end
-end
