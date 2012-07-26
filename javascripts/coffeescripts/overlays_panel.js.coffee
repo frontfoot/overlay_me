@@ -33,7 +33,7 @@ class OverlayMe.OverlaysPanel extends OverlayMe.MenuItem
     OverlayMe.loadDefaultImage = ->
       # double check that the dynamic loading list is also empty
       if OverlayMe.dyn_manager.isEmpty()
-        OverlayMe.dyn_manager.addImage('https://a248.e.akamai.net/assets.github.com/images/modules/about_page/octocat.png')
+        OverlayMe.dyn_manager.addImage('https://a248.e.akamai.net/assets.github.com/images/modules/about_page/octocat.png', {default_css: { left: "#{window.document.width*.6}px"}} )
 
     # adding all overlay images
     $o.ajax

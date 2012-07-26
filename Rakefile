@@ -21,7 +21,6 @@ namespace :assets do
     environment = Sprockets::Environment.new
     environment.append_path 'javascripts'
     environment.append_path 'stylesheets'
-    environment.append_path 'spec/javascripts/coffeescripts'
 
     t.environment = environment
     t.output      = "./"
