@@ -4,7 +4,8 @@ class OverlayMe.MenuItem extends Backbone.View
   className: 'menu-item'
 
   initialize: (attributes, options) ->
-    $o(@el).addClass attributes.class
+    @id = attributes.id
+    $o(@el).addClass attributes.id
     @el.appendChild @collapseButton()
     @title = this.make 'label', { class: 'title' }, attributes.title
     $o(@title).bind 'click', =>
@@ -12,8 +13,7 @@ class OverlayMe.MenuItem extends Backbone.View
     @el.appendChild @title
     @content = this.make 'div', { class: 'item-content' }
     @el.appendChild @content
-    @collapsed = (if localStorage.getItem("#{@id}-collapsed") == '' then false else true)
-    @setCollapse @collapsed
+    @setCollapse (if localStorage.getItem("#{@id}-collapsed") == '1' then true else false)
 
   collapseButton: () ->
     @collapseButton = this.make 'a', { class: 'collaps-button' }, '<span>o</span>'
@@ -22,11 +22,11 @@ class OverlayMe.MenuItem extends Backbone.View
     @collapseButton
 
   toggleCollapse: ->
-    @collapsed = !@collapsed
-    @setCollapse @collapsed
+    @setCollapse !@collapsed
     @saveState()
 
   setCollapse: (toCollapse) ->
+    @collapsed = toCollapse
     if toCollapse
       $o(@el).addClass 'collapsed'
     else
@@ -39,4 +39,4 @@ class OverlayMe.MenuItem extends Backbone.View
     @el
 
   saveState: ->
-    localStorage.setItem "#{@id}-collapsed", (if @collapsed then 1 else '')
+    localStorage.setItem "#{@id}-collapsed", (if @collapsed then 1 else 0)

@@ -4,7 +4,7 @@
 class OverlayMe.BasicsPanel extends OverlayMe.MenuItem
 
   initialize: (attributes, options) ->
-    super({class: "basics-options-panel", title: "Basics" }, options)
+    super({id: "basics-options-panel", title: "Basics" }, options)
 
     collapse_button = (new Backbone.View).make 'button', { class: 'collapse'}, 'Collapse (c)'
     $o(collapse_button).bind 'click', (event) =>

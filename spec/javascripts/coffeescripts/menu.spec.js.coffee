@@ -29,5 +29,6 @@ describe "Menu", ->
 
 
   xit "should have moved any content from the original page root into a div #overlay_me_page_container", ->
-  xit "should changed of location when dragged", ->
+
+  xit "should change of location when dragged", ->
 

@@ -10,7 +10,7 @@
 class OverlayMe.OverlaysPanel extends OverlayMe.MenuItem
 
   initialize: (attributes, options) ->
-    super({class: "overlays-panel", title: "Overlays" }, options)
+    super({id: "overlays-panel", title: "Overlays" }, options)
 
     # adding the #container management block
     @append new OverlayMe.Overlays.ContentDivManagementBlock().render()
