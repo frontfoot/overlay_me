@@ -45,7 +45,8 @@ I've found 2 other similar tools
 - prevent the dragging bar(s) to be out of reach
 - overlays
   - make a cycling system, by click or keypress, to iterate through overlays one by one
-- write some tests !!!
+- write more tests ! - [http://pivotal.github.com/jasmine/]
+- revisit the rake / compiling process, [https://github.com/maccman/spine/blob/master/Cakefile](spine) project might be a lead
 
 
 

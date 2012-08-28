@@ -9,3 +9,6 @@ gem 'yui-compressor'
 # tests
 gem 'guard-coffeescript'
 gem 'guard-rake'
+
+# debug
+gem 'ruby-debug'
