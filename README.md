@@ -4,22 +4,12 @@ Store the bookmarklet from [this page](http://frontfoot.github.com/overlay_me/de
 
 If you just want download the compiled, minified archive: [overlay_me.min.js](https://raw.github.com/frontfoot/overlay_me/master/vendor/assets/javascripts/overlay_me/overlay_me.min.js) (CSS embedded!)
 
-note: overlay_me.js and overlay_me.css are both generated unminified archives, original source code is in javascripts/ and stylesheets/ folders
+note: overlay_me.js and overlay_me.css are both compiled/jammed but unminified archives, original source code is in javascripts/ and stylesheets/ folders
+
 
 ## Screenshot
 
 ![Screenshot](http://github.com/frontfoot/overlay_me/raw/master/screenshot_frontfoot_website.jpg)
-
-
-## Features
-
-- overlay images over a web page saving their position/opacity locally (using HTML5 localStorage)
-  - images can be loaded from a project local directory (see Project base use)
-  - an image can be added on the fly with its absolute url
-- bring back your HTML on top of the overlays
-  - control the opacity of the page content
-  - keep on playing with the CSS while having with a visual overlay
-- addon layout_resizer, to switch between pre-recorded devices format
 
 
 ## Why
@@ -27,6 +17,18 @@ note: overlay_me.js and overlay_me.css are both generated unminified archives, o
 The purpose of this tool is to help the developer to meet designers requirements by overlaying images on the page.
 
 We were struggling to see the gap between designers photoshop files and our HTML/CSS implementation, the best way to figure it out was to load their rendered work in the page and play with opacity to see the differences, that's what this tool facilitate.
+
+
+## Features
+
+- overlay images over a web page
+  - position and opacity of each image will be saved locally (using HTML5 localStorage)
+  - images can be loaded from a project directory (see Project base use underneath)
+  - an image can be added on the fly with its absolute url
+- bring back your HTML on top of the overlays
+  - control the opacity of the page content
+  - keep on playing with the CSS while having the visual overlay by transparency
+- addon layout_resizer, to switch between pre-defined device formats
 
 
 ## Compare
@@ -39,14 +41,16 @@ I've found 2 other similar tools
 
 ## Todo
 
-- fix styles for firefox
+- fix styles for firefox and IE (may not happen)
 - allow local image uploading (hosting on amazon s3 ?), [makiapp.com](http://makiapp.com/) does it!
 - add another dragging bar at the bottom (or not)
 - prevent the dragging bar(s) to be out of reach
 - overlays
   - make a cycling system, by click or keypress, to iterate through overlays one by one
-- write some tests !!!
-
+  - make a pixel by pixel motion feature - see https://github.com/madrobby/keymaster
+- write more tests
+  - tests are in progress - branch jasmine
+  - why not a CI service - see [http://travis-ci.org/#!/michelson/lazy_high_charts/builds/527014](travis-ci.org)
 
 
 ## Usage
@@ -122,7 +126,6 @@ using middleman
     end
 
 
-
 ## Plug on!
 
 You can add some app specific menu for specific project.. Have a look at layout_resizer.coffee addon to have a quick view of how to use OverlayMe.Menu and OverlayMe.MenuItem
@@ -130,12 +133,10 @@ You can add some app specific menu for specific project.. Have a look at layout_
     = javascript_include_tag 'overlay_me/addons/layout_resizer.js'
 
     
-
 ## Known problems
 
 - you can't find the panel? it's probably hidden aside (previous bigger screen location) or hidden (press 'h')
 - you see the overlay but can't drag it? the 'Content on Top' option is probably on (press 'c')
-
 
 
 ## Author
@@ -149,3 +150,7 @@ You can add some app specific menu for specific project.. Have a look at layout_
 - Lachlan Sylvester - Ruby advisor - Frontfoot Media Solutions
 - Dan Smith - User Experience Strategist and Califloridian - former workmate
 
+
+## License
+
+MIT License
