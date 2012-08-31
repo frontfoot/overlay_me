@@ -1,10 +1,10 @@
 GIT
-  remote: https://github.com/pferdefleisch/guard-sprockets.git
-  revision: 0aeac52e9f63caa188d10c0bb92948614776b8d0
+  remote: git@github.com:jobwat/guard-sprockets.git
+  revision: 1a1fa28ebb95822d7156c2e881a9d60fa30a1386
   specs:
     guard-sprockets (0.3.1)
-      guard (~> 0.2.2)
-      sprockets (~> 2)
+      guard (>= 0.2.2)
+      sprockets (>= 2)
 
 PATH
   remote: .
@@ -25,45 +25,56 @@ GEM
       Platform (>= 0.4.0)
       open4
     Platform (0.4.0)
-    chunky_png (1.2.5)
+    chunky_png (1.2.6)
     coffee-script (2.2.0)
       coffee-script-source
       execjs
-    coffee-script-source (1.3.1)
-    compass (0.12.1)
+    coffee-script-source (1.3.3)
+    compass (0.12.2)
       chunky_png (~> 1.2)
       fssm (>= 0.2.7)
       sass (~> 3.1)
-    configuration (1.3.2)
-    execjs (1.3.1)
+    execjs (1.4.0)
       multi_json (~> 1.0)
+    ffi (1.1.5)
     fssm (0.2.9)
-    guard (0.2.2)
-      open_gem (~> 1.4.2)
-      thor (~> 0.14.3)
-    haml (3.1.4)
+    growl (1.0.3)
+    guard (1.3.2)
+      listen (>= 0.4.2)
+      thor (>= 0.14.6)
+    guard-coffeescript (1.2.0)
+      coffee-script (>= 2.2.0)
+      guard (>= 1.1.0)
+    guard-rake (0.0.7)
+      guard
+      rake
+    haml (3.1.7)
     hike (1.2.1)
     jsmin (1.0.1)
-    json (1.7.0)
-    launchy (0.3.7)
-      configuration (>= 0.0.5)
-      rake (>= 0.8.1)
-    multi_json (1.3.4)
+    json (1.7.5)
+    listen (0.4.7)
+      rb-fchange (~> 0.0.5)
+      rb-fsevent (~> 0.9.1)
+      rb-inotify (~> 0.8.8)
+    multi_json (1.3.6)
     open4 (1.3.0)
-    open_gem (1.4.2)
-      launchy (~> 0.3.5)
     rack (1.4.1)
     rake (0.9.2.2)
-    sass (3.1.15)
-    sprockets (2.4.1)
+    rb-fchange (0.0.5)
+      ffi
+    rb-fsevent (0.9.1)
+    rb-inotify (0.8.8)
+      ffi (>= 0.5.0)
+    sass (3.2.1)
+    sprockets (2.4.5)
       hike (~> 1.2)
       multi_json (~> 1.0)
       rack (~> 1.0)
       tilt (~> 1.1, != 1.3.0)
-    sprockets-sass (0.8.0)
+    sprockets-sass (0.9.0)
       sprockets (~> 2.0)
       tilt (~> 1.1)
-    thor (0.14.6)
+    thor (0.16.0)
     tilt (1.3.3)
     yui-compressor (0.9.6)
       POpen4 (>= 0.1.4)
@@ -72,7 +83,11 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  growl
+  guard-coffeescript (~> 1.2.0)
+  guard-rake
   guard-sprockets!
   jsmin
   overlay_me!
+  rb-fsevent
   yui-compressor
