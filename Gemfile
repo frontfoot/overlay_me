@@ -1,11 +1,13 @@
 source "http://www.rubygems.org"
 
+## gems dependencies in overlay_me.gemspec
 gemspec
 
-# packaging
+## packaging
 gem 'jsmin'
 gem 'yui-compressor'
 
-# tests
-gem 'guard-coffeescript'
+## tests
+gem 'guard-coffeescript', "~>1.2.0"
+gem 'rb-fsevent'
 gem 'guard-rake'
