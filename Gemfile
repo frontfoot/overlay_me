@@ -11,3 +11,6 @@ gem 'yui-compressor'
 gem 'guard-coffeescript', "~>1.2.0"
 gem 'rb-fsevent'
 gem 'guard-rake'
+
+# debug
+gem 'ruby-debug'
