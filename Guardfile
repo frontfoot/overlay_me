@@ -9,7 +9,7 @@ end
 
 guard 'rake', :task => 'assets:compile_debug' do
   watch(%r{^javascripts/overlay_me.js})
-  watch(%r{^stylesheets/overlay_me.css.scss})
+  watch(%r{^stylesheets/scss/overlay_me.css.scss})
 end
 
 guard 'coffeescript', :input => 'spec/javascripts/coffeescripts', :output => 'spec/javascripts', :all_on_start => true

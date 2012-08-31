@@ -3,50 +3,30 @@ require "bundler/setup"
 require 'sprockets'
 require 'sprockets-sass'
 require 'compass'
-require 'rake/sprocketstask'
 require 'jsmin'
 require 'yui/compressor'
 
 namespace :assets do
 
-  ENV['js_sprocket'] = "overlay_me.js"
+  ENV['js_sprocket'] = "javascripts/overlay_me.js"
   ENV['js_minified'] = "vendor/assets/javascripts/overlay_me/overlay_me.min.js"
-  ENV['css_sprocket'] = "overlay_me.css"
-  ENV['css_minified'] = "style.min.css"
-
-  ENV['addon_layout_resizer'] = "addons/layout_resizer.js"
+  ENV['css_sprocket'] = "stylesheets/overlay_me.css"
+  ENV['css_minified'] = "stylesheets/overlay_me.min.css"
+  ENV['addon_layout_resizer'] = "vendor/assets/javascripts/overlay_me/addons/layout_resizer.js"
 
   # config to remove the original filenames into generated css (bloody useful for dev though)
   Sprockets::Sass.options[:line_comments] = false
 
-  desc "default sprockets [:assets] compiling"
-  Rake::SprocketsTask.new do |t|
+  desc "sprockets compiling/jamming"
+  task :compile do
     environment = Sprockets::Environment.new
     environment.append_path 'javascripts/coffeescripts'
-    environment.append_path 'stylesheets'
+    environment.append_path 'stylesheets/scss'
 
-    t.environment = environment
-    t.output      = "./"
-    t.assets      = [ ENV['js_sprocket'], ENV['css_sprocket'], ENV['addon_layout_resizer'] ]
+    File.open(ENV['js_sprocket'], 'w'){ |f| f.write(environment[File.basename(f.path)].to_s) }
+    File.open(ENV['css_sprocket'], 'w'){ |f| f.write(environment[File.basename(f.path)].to_s) }
+    File.open(ENV['addon_layout_resizer'], 'w'){ |f| f.write(environment[File.basename(f.path)].to_s) }
   end
-
-  desc "remove DIGEST from filenames"
-  task :remove_digest do
-    puts "\n** Rename compiled files without generated DIGEST **"
-    Dir["{.,addons}/*-*.{js,css}"].each do |file|
-      new_file = file.sub /(.*)-[^\.]+(\.[^\.]+)/, '\1\2'
-      puts "#{file} -> #{new_file}"
-      `mv #{file} #{new_file}`
-    end
-  end
-
-  desc "compile assets with Sprockets, remove DIGEST, move the addons files to their final path (vendor/)"
-  task :compile => [:assets, :remove_digest] do
-    puts "\n** Move addons into vendor/asssets/ **"
-    `rm -rf vendor/assets/javascripts/overlay_me/addons`
-    `mv addons vendor/assets/javascripts/overlay_me/`
-  end
-
 
   desc "minify the assets"
   namespace :minify do
