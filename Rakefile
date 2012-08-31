@@ -9,6 +9,7 @@ require 'yui/compressor'
 namespace :assets do
 
   ENV['js_sprocket'] = "javascripts/overlay_me.js"
+  ENV['js_with_css'] = "javascripts/overlay_me.css_embedded.js"
   ENV['js_minified'] = "vendor/assets/javascripts/overlay_me/overlay_me.min.js"
   ENV['css_sprocket'] = "stylesheets/overlay_me.css"
   ENV['css_minified'] = "stylesheets/overlay_me.min.css"
@@ -18,6 +19,7 @@ namespace :assets do
   Sprockets::Sass.options[:line_comments] = false
 
   desc "sprockets compiling/jamming"
+  puts "\n** Sprocketting #{ENV['js_sprocket']}, #{ENV['css_sprocket']}, #{ENV['addon_layout_resizer']} **"
   task :compile do
     environment = Sprockets::Environment.new
     environment.append_path 'javascripts/coffeescripts'
@@ -43,15 +45,16 @@ namespace :assets do
 
       css_blob = File.read(ENV['css_minified'])
       js_string = File.read(ENV['js_sprocket']).gsub(/#CSS_BLOB#/, css_blob)
-      File.open(ENV['js_sprocket'], 'w') { |f| f.write(js_string) }
+      File.open(ENV['js_with_css'], 'w') { |f| f.write(js_string) }
       `rm #{ENV['css_minified']}` # remove minified css file
     end
 
     task :js do
-      puts "\n** Minify JS file #{ENV['js_sprocket']} -> #{ENV['js_minified']} **"
+      puts "\n** Minify JS file #{ENV['js_with_css']} -> #{ENV['js_minified']} **"
       File.open(ENV['js_minified'], 'w') do |file|
-        file.write(JSMin.minify(File.read(ENV['js_sprocket'])))
+        file.write(JSMin.minify(File.read(ENV['js_with_css'])))
       end
+      `rm #{ENV['js_with_css']}` # remove unminified js with css file
     end
 
     desc "add a header on the minified js file to properly redirect curious"
