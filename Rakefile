@@ -16,6 +16,9 @@ namespace :assets do
 
   ENV['addon_layout_resizer'] = "addons/layout_resizer.js"
 
+  # config to remove the original filenames into generated css (bloody useful for dev though)
+  Sprockets::Sass.options[:line_comments] = false
+
   desc "default sprockets [:assets] compiling"
   Rake::SprocketsTask.new do |t|
     environment = Sprockets::Environment.new
