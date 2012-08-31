@@ -19,7 +19,7 @@ namespace :assets do
   desc "default sprockets [:assets] compiling"
   Rake::SprocketsTask.new do |t|
     environment = Sprockets::Environment.new
-    environment.append_path 'javascripts'
+    environment.append_path 'javascripts/coffeescripts'
     environment.append_path 'stylesheets'
 
     t.environment = environment
