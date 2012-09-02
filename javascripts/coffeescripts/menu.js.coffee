@@ -28,12 +28,17 @@ class OverlayMe.MenuClass extends OverlayMe.Draggable
     @menu_list.appendChild element
 
   toggleCollapse: ->
-    if $o(@el).hasClass('collapsed')
+    if @collapsed()
       $o(@el).removeClass('collapsed')
     else
       $o(@el).addClass('collapsed')
 
+  collapsed: ->
+    $o(@el).hasClass('collapsed')
 
-# create only 1 menu
+
+# create a unique menu if conditions
 if OverlayMe.mustLoad() # dont do it anytime
-  OverlayMe.menu = new OverlayMe.MenuClass() unless OverlayMe.menu_box
+  # at DOM loaded
+  $o ->
+    OverlayMe.menu = new OverlayMe.MenuClass() unless OverlayMe.menu

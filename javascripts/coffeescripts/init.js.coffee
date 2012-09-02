@@ -15,16 +15,25 @@ window.OverlayMe.Mixin = {}
 OverlayMe.isLoaded = ->
   window.overlay_me_loaded
 
+OverlayMe.setLoaded = ->
+  window.overlay_me_loaded = true
+
 # check if browser is a mobile device
 OverlayMe.isMobile = ->
-  return navigator.userAgent.match /(iPhone|iPod|iPad|Android)/
+  OverlayMe.userAgent().match /(iPhone|iPod|iPad|Android)/
 
 # give a shortName method for checks in the app
 OverlayMe.mustLoad = ->
-  return !OverlayMe.isLoaded() && !OverlayMe.isMobile()
+  !OverlayMe.isLoaded() && !OverlayMe.isMobile()
 
 # helper to clear all stored informations and reload the page
 OverlayMe.clearAndReload = ->
   localStorage.clear()
+  OverlayMe.pageReload()
+
+# separate system calls in a local functions (allow tests stubing)
+OverlayMe.pageReload = ->
   window.location.reload()
+OverlayMe.userAgent = ->
+  navigator.userAgent
 

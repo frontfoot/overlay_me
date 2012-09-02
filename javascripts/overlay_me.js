@@ -11887,7 +11887,7 @@ function style(element, styles) {
 })();
 (function() {
 
-  $o('head').append('<style rel="stylesheet" type="text/css">button{font-size:9px;margin:0 3px;padding:0 3px}#overlay_me_page_container{position:relative}#overlay_me_menu{position:fixed;right:0;z-index:990}#overlay_me_menu *{line-height:14px}#overlay_me_menu .drag-me{line-height:100%;display:block;color:black;font-size:.7em;text-align:center;background-image:-webkit-gradient(linear,0deg,0deg,color-stop(0%,#999),color-stop(30%,#ddd),color-stop(70%,#ddd),color-stop(100%,#999));background-image:-webkit-linear-gradient(0deg,#999,#ddd 30%,#ddd 70%,#999 100%);background-image:-moz-linear-gradient(0deg,#999,#ddd 30%,#ddd 70%,#999 100%);background-image:-o-linear-gradient(0deg,#999,#ddd 30%,#ddd 70%,#999 100%);background-image:-ms-linear-gradient(0deg,#999,#ddd 30%,#ddd 70%,#999 100%);background-image:linear-gradient(0deg,#999,#ddd 30%,#ddd 70%,#999 100%);padding:1px}#overlay_me_menu .drag-me:hover{cursor:move}#overlay_me_menu ul{list-style:none;margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline}.menu-item{text-align:left;background-color:#CCC;border:1px solid rgba(255,255,255,0.2);width:200px}.menu-item a.collaps-button{cursor:pointer;position:absolute;padding-top:9px;padding-left:5px;width:13px;height:9px;border:none;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAJCAYAAADpeqZqAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAIlJREFUeNpivHDhQujz589TmZiYvjMQAP/+/eOQkZGZyfD//38ZIL77nzhwG4ilQJpA2BiIPxHQ8BGIDUHqYZpAOIWApiSYWmRNIDfPxaYaKD4bWR2KJiDmA+KzaHrOQMVxagJhfSD+ALXhA5TPQEgTCCcD8V+gpmRs8rg0MQI1eANpJmzyAAEGAKD/bax/HrzbAAAAAElFTkSuQmCC) no-repeat center 3px}.menu-item a.collaps-button span{display:none;color:yellow}.menu-item a.collaps-button span:hover{color:yellow}.menu-item label.title{padding-left:20px;color:white;cursor:pointer;width:187px;line-height:1.1em;font-size:14px;background:none}.menu-item.collapsed .item-content{display:none}.menu-item.collapsed a.collaps-button{background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAANCAYAAAB7AEQGAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAKtJREFUeNpiuHz5ctD///+lgJgBF2Z68uRJOgMDw0EgNmTAAZiA4AeQVgHiA0CchFUREpsPiOcCjZ8NZWNVBAaMjIwpQGofEOvjVAQFxkATDwJxMkgNCy7HAk3kB1KzgApf4DIJBD4CcRpQ8TZcJp2D+vQiVjcBjZ8HpBxhCtAVfQbiVKDxIMd+QtbI8u/fP04gfQ+Iw4D4LDa7WSQlJUGBdxyIn+DyAUCAAQDxsEXD9kreLQAAAABJRU5ErkJggg==) no-repeat center top}#overlay_panel .content-mgnt-block{position:relative;line-height:10px}#overlay_panel .content-mgnt-block .unicorns{background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAklJREFUeNqEks1u00AQx3d27V3HdezY+SBpkKBFoBZxQEKIOwfegBs3rtwoPABvw3sgceKAuFWtUBBSaT6ctvHXer2zOElTVaoKI/2lWWl/O//ZGZi8jgSPxFv3JX93+CJvfJ4/09++vzH6S/SVH59+IohH5JagxBilC4zNHHigSLvtTCPRnLYxtB4b29ojGglBc1PG1PAyLfUxzszIX7B86MwLP/iVkS566DWeEgo+gfrWdV1VJoZgpUdqon84p1a+wxI1CA+l3Z+yqu89N5a9v65EVgK8TOpgH/edZS6JAZ97/AkfKjF3pTpRkUrlfQFnoGlaHNc2F0sAzPIFWIl9WMEGTYUZJfyB12ED2l9UE6bkDAcoy+0QznXJ8nIEBosNuIb3xLoBNIlRhNlc7Ho9dDA6l1OC8gKGUGEnhAyBFmpSu8zqf9jAzqZ/RIUxFDR0G2LQ6ueIwUzGFIuE95livS4p2RaUVQYas/p+xQ4eiavPqO2nKPUcCrvlCR50uqlirXGeiUWeua4uva6vebNDwHIJErq2fW0Mdfcxpjqmqe37Nnd73US64Ummt8a5bCpZhh5UrZanfS9gBw/5tcorGSz1TJ/rCTljoomOGDTLsh+NUz8Ypdz/ndBwlpFeIdn7Hevm9miD9QNxdVGNSQzGSR3ao6Duekm23fqT3Al/Ju3waAEnr1xyayxnymhgNcU9Z7sx5LtWA+6bquxXaeLr5J+wMZebRQwDiwW2x0O7I1y7ZxOrS+X/4Y0DXJ0pANhgM4sKRv4KMACD6UDbVgTzkgAAAABJRU5ErkJggg==) no-repeat center center;width:15px;height:15px;position:absolute;right:0;top:6px}#overlay_panel label{margin:0;font-size:14px}#overlay_panel .content-mgnt-block,#overlay_panel #images_mgnt{text-align:left;padding:3px 4px;margin:2px;border:1px #777 solid;-webkit-border-radius:5px;-moz-border-radius:5px;-ms-border-radius:5px;-o-border-radius:5px;border-radius:5px}#overlay_panel .content-mgnt-block legend,#overlay_panel #images_mgnt legend{font-size:10px;padding:0 3px;margin-left:10px}#overlay_panel .slider-block{display:block}#overlay_panel .slider-block label{font-size:60%;margin:0 5px 0 0;vertical-align:top}#overlay_panel .slider-block input[type=range]{margin:0;height:14px;width:120px}#overlay_panel #images_mgnt{width:186px}#overlay_panel #images_mgnt .controls{padding-bottom:2px}#overlay_panel #images_mgnt .controls label{margin-right:5px}#overlay_panel #images_mgnt .overlay-image-block,#overlay_panel #images_mgnt .images_dir{border:1px solid rgba(255,255,255,0.2);border-right:none;border-left:none;padding-top:2px}#overlay_panel #images_mgnt .overlay-image-block:first-child,#overlay_panel #images_mgnt .images_dir:first-child{border-top:none;padding-top:0}#overlay_panel #images_mgnt .overlay-image-block{text-align:left;position:relative;width:186px}#overlay_panel #images_mgnt .overlay-image-block.hovered{background-color:rgba(255,255,0,0.5)}#overlay_panel #images_mgnt .overlay-image-block .del-button{position:absolute;right:0;top:0;margin:1px;cursor:pointer;border:1px #AAA solid;font-size:10px;line-height:13px;background-color:#444;color:white;font-weight:bold;padding:0 3px}#overlay_panel #images_mgnt .images_dir{line-height:18px}#overlay_panel #images_mgnt .images_dir .sub-block{border-left:2px white solid;padding-left:2px;margin-left:5px}#overlay_panel #images_mgnt .images_dir>input[type=checkbox]{-webkit-appearance:none;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAANCAYAAAB7AEQGAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAKtJREFUeNpiuHz5ctD///+lgJgBF2Z68uRJOgMDw0EgNmTAAZiA4AeQVgHiA0CchFUREpsPiOcCjZ8NZWNVBAaMjIwpQGofEOvjVAQFxkATDwJxMkgNCy7HAk3kB1KzgApf4DIJBD4CcRpQ8TZcJp2D+vQiVjcBjZ8HpBxhCtAVfQbiVKDxIMd+QtbI8u/fP04gfQ+Iw4D4LDa7WSQlJUGBdxyIn+DyAUCAAQDxsEXD9kreLQAAAABJRU5ErkJggg==) no-repeat center center;display:inline-block;width:13px;height:13px}#overlay_panel #images_mgnt .images_dir>input[type=checkbox]:checked{background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAJCAYAAADpeqZqAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAIlJREFUeNpivHDhQujz589TmZiYvjMQAP/+/eOQkZGZyfD//38ZIL77nzhwG4ilQJpA2BiIPxHQ8BGIDUHqYZpAOIWApiSYWmRNIDfPxaYaKD4bWR2KJiDmA+KzaHrOQMVxagJhfSD+ALXhA5TPQEgTCCcD8V+gpmRs8rg0MQI1eANpJmzyAAEGAKD/bax/HrzbAAAAAElFTkSuQmCC) no-repeat center center;width:13px;height:13px;margin:-2px 5px 0 0}#overlay_panel #images_mgnt .dynamic-adds{padding-top:4px}#overlay_panel #images_mgnt .dynamic-adds label{font-size:75%}#overlay_panel #images_mgnt .dynamic-adds input{width:95px;font-size:10px;margin-left:2px}#overlay_panel #images_mgnt .dynamic-adds button{font-size:10px}#overlay_panel input[type=checkbox],#overlay_panel label,#overlay_panel #contentSlider,#overlay_panel .zindex-switch{display:inline}#overlay_panel input[type=checkbox]{vertical-align:middle;margin:-3px 5px 0 0}#overlay_me_images_container{position:absolute;z-index:4;top:0;left:0}#overlay_me_images_container div{position:absolute}#overlay_me_images_container div.highlight{border:2px solid red;margin-top:-2px;margin-left:-2px}#overlay_me_images_container div:hover{cursor:move}#overlay_me_images_container img{position:absolute;top:0;left:0}#overlay_me_menu.collapsed .drag-me,#overlay_me_menu.collapsed .menu-item{width:25px}#overlay_me_menu.collapsed .drag-me{height:10px;overflow:hidden}#overlay_me_menu.collapsed button{height:10px;overflow:hidden}#overlay_me_menu.collapsed .overlay-image-block{height:14px;margin-top:3px}#overlay_me_menu.collapsed .overlay-image-block label,#overlay_me_menu.collapsed #content_div_management_block,#overlay_me_menu.collapsed .controls,#overlay_me_menu.collapsed input[type=range],#overlay_me_menu.collapsed #overlay_panel #contentSlider,#overlay_me_menu.collapsed legend,#overlay_me_menu.collapsed .dynamic-adds,#overlay_me_menu.collapsed .unicorns,#overlay_me_menu.collapsed button.reset,#overlay_me_menu.collapsed button.hide,#overlay_me_menu.collapsed button.del-button{display:none}</style>');
+  $o('head').append('<style rel="stylesheet" type="text/css">#CSS_BLOB#</style>');
 
   window.OverlayMe = {};
 
@@ -11897,8 +11897,12 @@ function style(element, styles) {
     return window.overlay_me_loaded;
   };
 
+  OverlayMe.setLoaded = function() {
+    return window.overlay_me_loaded = true;
+  };
+
   OverlayMe.isMobile = function() {
-    return navigator.userAgent.match(/(iPhone|iPod|iPad|Android)/);
+    return OverlayMe.userAgent().match(/(iPhone|iPod|iPad|Android)/);
   };
 
   OverlayMe.mustLoad = function() {
@@ -11907,7 +11911,15 @@ function style(element, styles) {
 
   OverlayMe.clearAndReload = function() {
     localStorage.clear();
+    return OverlayMe.pageReload();
+  };
+
+  OverlayMe.pageReload = function() {
     return window.location.reload();
+  };
+
+  OverlayMe.userAgent = function() {
+    return navigator.userAgent;
   };
 
 }).call(this);
@@ -12001,13 +12013,11 @@ function style(element, styles) {
 }).call(this);
 (function() {
   var __hasProp = {}.hasOwnProperty,
-    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
   OverlayMe.Draggable = (function(_super) {
 
     __extends(Draggable, _super);
-
-    Draggable.name = 'Draggable';
 
     function Draggable() {
       return Draggable.__super__.constructor.apply(this, arguments);
@@ -12076,13 +12086,11 @@ function style(element, styles) {
 }).call(this);
 (function() {
   var __hasProp = {}.hasOwnProperty,
-    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
   OverlayMe.MenuClass = (function(_super) {
 
     __extends(MenuClass, _super);
-
-    MenuClass.name = 'MenuClass';
 
     function MenuClass() {
       return MenuClass.__super__.constructor.apply(this, arguments);
@@ -12121,31 +12129,37 @@ function style(element, styles) {
     };
 
     MenuClass.prototype.toggleCollapse = function() {
-      if ($o(this.el).hasClass('collapsed')) {
+      if (this.collapsed()) {
         return $o(this.el).removeClass('collapsed');
       } else {
         return $o(this.el).addClass('collapsed');
       }
     };
 
+    MenuClass.prototype.collapsed = function() {
+      return $o(this.el).hasClass('collapsed');
+    };
+
     return MenuClass;
 
   })(OverlayMe.Draggable);
 
-  if (!OverlayMe.menu_box) {
-    OverlayMe.menu = new OverlayMe.MenuClass();
+  if (OverlayMe.mustLoad()) {
+    $o(function() {
+      if (!OverlayMe.menu) {
+        return OverlayMe.menu = new OverlayMe.MenuClass();
+      }
+    });
   }
 
 }).call(this);
 (function() {
   var __hasProp = {}.hasOwnProperty,
-    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
   OverlayMe.MenuItem = (function(_super) {
 
     __extends(MenuItem, _super);
-
-    MenuItem.name = 'MenuItem';
 
     function MenuItem() {
       return MenuItem.__super__.constructor.apply(this, arguments);
@@ -12158,6 +12172,7 @@ function style(element, styles) {
     MenuItem.prototype.initialize = function(attributes, options) {
       var _this = this;
       this.id = attributes.id;
+      $o(this.el).addClass(attributes.id);
       this.el.appendChild(this.collapseButton());
       this.title = this.make('label', {
         "class": 'title'
@@ -12170,8 +12185,7 @@ function style(element, styles) {
         "class": 'item-content'
       });
       this.el.appendChild(this.content);
-      this.collapsed = (localStorage.getItem("" + this.id + "-collapsed") === '' ? false : true);
-      return this.setCollapse(this.collapsed);
+      return this.setCollapse((localStorage.getItem("" + this.id + "-collapsed") === '1' ? true : false));
     };
 
     MenuItem.prototype.collapseButton = function() {
@@ -12186,12 +12200,12 @@ function style(element, styles) {
     };
 
     MenuItem.prototype.toggleCollapse = function() {
-      this.collapsed = !this.collapsed;
-      this.setCollapse(this.collapsed);
+      this.setCollapse(!this.collapsed);
       return this.saveState();
     };
 
     MenuItem.prototype.setCollapse = function(toCollapse) {
+      this.collapsed = toCollapse;
       if (toCollapse) {
         return $o(this.el).addClass('collapsed');
       } else {
@@ -12208,7 +12222,7 @@ function style(element, styles) {
     };
 
     MenuItem.prototype.saveState = function() {
-      return localStorage.setItem("" + this.id + "-collapsed", (this.collapsed ? 1 : ''));
+      return localStorage.setItem("" + this.id + "-collapsed", (this.collapsed ? 1 : 0));
     };
 
     return MenuItem;
@@ -12217,50 +12231,70 @@ function style(element, styles) {
 
 }).call(this);
 (function() {
-  var basics_panel, clear_all_button, collapse_button, hide_button, toggle_all_display,
-    _this = this;
+  var __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  if (OverlayMe.mustLoad()) {
-    basics_panel = new OverlayMe.MenuItem({
-      id: "bacis-options",
-      title: "Basics"
-    });
-    collapse_button = (new Backbone.View).make('button', {
-      "class": 'collapse'
-    }, 'Collapse (c)');
-    $o(collapse_button).bind('click', function(event) {
-      return OverlayMe.menu.toggleCollapse();
-    });
-    basics_panel.append(collapse_button);
-    clear_all_button = (new Backbone.View).make('button', {
-      "class": 'reset',
-      onClick: "javascript: OverlayMe.clearAndReload()"
-    }, 'Reset All (r)');
-    basics_panel.append(clear_all_button);
-    toggle_all_display = function() {
-      $o(window).trigger('overlay_me:toggle_all_display');
-      return $o(window).trigger('overlay_me:toggle_overlay_me_images_container_display');
+  OverlayMe.BasicsPanel = (function(_super) {
+
+    __extends(BasicsPanel, _super);
+
+    function BasicsPanel() {
+      return BasicsPanel.__super__.constructor.apply(this, arguments);
+    }
+
+    BasicsPanel.prototype.initialize = function(attributes, options) {
+      var clear_all_button, collapse_button, hide_button, toggle_all_display,
+        _this = this;
+      BasicsPanel.__super__.initialize.call(this, {
+        id: "basics-options-panel",
+        title: "Basics"
+      }, options);
+      collapse_button = (new Backbone.View).make('button', {
+        "class": 'collapse'
+      }, 'Collapse (c)');
+      $o(collapse_button).bind('click', function(event) {
+        return OverlayMe.menu.toggleCollapse();
+      });
+      this.append(collapse_button);
+      clear_all_button = (new Backbone.View).make('button', {
+        "class": 'reset',
+        onClick: "javascript: OverlayMe.clearAndReload()"
+      }, 'Reset All (r)');
+      this.append(clear_all_button);
+      toggle_all_display = function() {
+        $o(window).trigger('overlay_me:toggle_all_display');
+        return $o(window).trigger('overlay_me:toggle_overlay_me_images_container_display');
+      };
+      hide_button = (new Backbone.View).make('button', {
+        "class": 'hide'
+      }, 'Hide (h)');
+      $o(hide_button).bind('click', function(event) {
+        return toggle_all_display();
+      });
+      this.append(hide_button);
+      OverlayMe.menu.append(this.render());
+      return $o(window).bind('keypress', function(event) {
+        if (event.charCode === 104) {
+          toggle_all_display();
+        }
+        if (event.charCode === 99) {
+          OverlayMe.menu.toggleCollapse();
+        }
+        if (event.charCode === 114) {
+          return OverlayMe.clearAndReload();
+        }
+      });
     };
-    hide_button = (new Backbone.View).make('button', {
-      "class": 'hide'
-    }, 'Hide (h)');
-    $o(hide_button).bind('click', function(event) {
-      return toggle_all_display();
-    });
-    basics_panel.append(hide_button);
-    OverlayMe.menu.append(basics_panel.render());
-    $o(window).bind('keypress', function(event) {
-      if (event.charCode === 104) {
-        toggle_all_display();
-      }
-      if (event.charCode === 99) {
-        OverlayMe.menu.toggleCollapse();
-      }
-      if (event.charCode === 114) {
-        return OverlayMe.clearAndReload();
-      }
-    });
-  }
+
+    return BasicsPanel;
+
+  })(OverlayMe.MenuItem);
+
+  $o(function() {
+    if (!OverlayMe.basics_panel) {
+      return OverlayMe.basics_panel = new OverlayMe.BasicsPanel();
+    }
+  });
 
 }).call(this);
 (function() {
@@ -12276,13 +12310,11 @@ function style(element, styles) {
 }).call(this);
 (function() {
   var __hasProp = {}.hasOwnProperty,
-    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
   OverlayMe.Overlays.ContainerItself = (function(_super) {
 
     __extends(ContainerItself, _super);
-
-    ContainerItself.name = 'ContainerItself';
 
     function ContainerItself() {
       return ContainerItself.__super__.constructor.apply(this, arguments);
@@ -12320,8 +12352,6 @@ function style(element, styles) {
   OverlayMe.Overlays.ImagesContainer = (function(_super) {
 
     __extends(ImagesContainer, _super);
-
-    ImagesContainer.name = 'ImagesContainer';
 
     function ImagesContainer() {
       return ImagesContainer.__super__.constructor.apply(this, arguments);
@@ -12377,13 +12407,11 @@ function style(element, styles) {
 }).call(this);
 (function() {
   var __hasProp = {}.hasOwnProperty,
-    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
   OverlayMe.Overlays.DraggableImage = (function(_super) {
 
     __extends(DraggableImage, _super);
-
-    DraggableImage.name = 'DraggableImage';
 
     function DraggableImage() {
       return DraggableImage.__super__.constructor.apply(this, arguments);
@@ -12436,13 +12464,11 @@ function style(element, styles) {
 }).call(this);
 (function() {
   var __hasProp = {}.hasOwnProperty,
-    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
   OverlayMe.Overlays.Image = (function(_super) {
 
     __extends(Image, _super);
-
-    Image.name = 'Image';
 
     function Image() {
       return Image.__super__.constructor.apply(this, arguments);
@@ -12590,13 +12616,11 @@ function style(element, styles) {
 }).call(this);
 (function() {
   var __hasProp = {}.hasOwnProperty,
-    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
   OverlayMe.Overlays.ImagesDirectory = (function(_super) {
 
     __extends(ImagesDirectory, _super);
-
-    ImagesDirectory.name = 'ImagesDirectory';
 
     function ImagesDirectory() {
       return ImagesDirectory.__super__.constructor.apply(this, arguments);
@@ -12671,13 +12695,11 @@ function style(element, styles) {
 }).call(this);
 (function() {
   var __hasProp = {}.hasOwnProperty,
-    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
   OverlayMe.Overlays.DynamicManager = (function(_super) {
 
     __extends(DynamicManager, _super);
-
-    DynamicManager.name = 'DynamicManager';
 
     function DynamicManager() {
       return DynamicManager.__super__.constructor.apply(this, arguments);
@@ -12779,13 +12801,11 @@ function style(element, styles) {
 }).call(this);
 (function() {
   var __hasProp = {}.hasOwnProperty,
-    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
   OverlayMe.Overlays.ContentDivManagementBlock = (function(_super) {
 
     __extends(ContentDivManagementBlock, _super);
-
-    ContentDivManagementBlock.name = 'ContentDivManagementBlock';
 
     function ContentDivManagementBlock() {
       return ContentDivManagementBlock.__super__.constructor.apply(this, arguments);
@@ -12909,13 +12929,11 @@ function style(element, styles) {
 }).call(this);
 (function() {
   var __hasProp = {}.hasOwnProperty,
-    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
   OverlayMe.Overlays.ImagesManagementDiv = (function(_super) {
 
     __extends(ImagesManagementDiv, _super);
-
-    ImagesManagementDiv.name = 'ImagesManagementDiv';
 
     function ImagesManagementDiv() {
       return ImagesManagementDiv.__super__.constructor.apply(this, arguments);
@@ -12983,116 +13001,140 @@ function style(element, styles) {
 
 }).call(this);
 (function() {
-  var buildTree, displayTree, files_tree, overlay_panel, shiftTofiles;
+  var __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  if (OverlayMe.mustLoad()) {
-    overlay_panel = new OverlayMe.MenuItem({
-      id: "overlay_panel",
-      title: "Overlays"
-    });
-    overlay_panel.append(new OverlayMe.Overlays.ContentDivManagementBlock().render());
-    OverlayMe.images_management_div = new OverlayMe.Overlays.ImagesManagementDiv();
-    overlay_panel.append(OverlayMe.images_management_div.render());
-    OverlayMe.menu.append(overlay_panel.render());
-    $o(window).bind('mousemove', function(event) {
-      return $o(window).trigger('mymousemove', event);
-    });
-    OverlayMe.dyn_manager = new OverlayMe.Overlays.DynamicManager();
-    OverlayMe.dyn_manager.loadAll();
-    OverlayMe.loadDefaultImage = function() {
-      if (OverlayMe.dyn_manager.isEmpty()) {
-        return OverlayMe.dyn_manager.addImage('https://a248.e.akamai.net/assets.github.com/images/modules/about_page/octocat.png');
-      }
-    };
-    $o.ajax({
-      url: '/overlay_images',
-      dataType: 'json',
-      success: function(data) {
-        if (data.length === 0) {
-          return OverlayMe.loadDefaultImage();
-        } else {
-          return buildTree(data);
+  OverlayMe.OverlaysPanel = (function(_super) {
+
+    __extends(OverlaysPanel, _super);
+
+    function OverlaysPanel() {
+      return OverlaysPanel.__super__.constructor.apply(this, arguments);
+    }
+
+    OverlaysPanel.prototype.initialize = function(attributes, options) {
+      var buildTree, displayTree, files_tree, shiftTofiles;
+      OverlaysPanel.__super__.initialize.call(this, {
+        id: "overlays-panel",
+        title: "Overlays"
+      }, options);
+      this.append(new OverlayMe.Overlays.ContentDivManagementBlock().render());
+      OverlayMe.images_management_div = new OverlayMe.Overlays.ImagesManagementDiv();
+      this.append(OverlayMe.images_management_div.render());
+      OverlayMe.menu.append(this.render());
+      $o(window).bind('mousemove', function(event) {
+        return $o(window).trigger('mymousemove', event);
+      });
+      OverlayMe.dyn_manager = new OverlayMe.Overlays.DynamicManager();
+      OverlayMe.dyn_manager.loadAll();
+      OverlayMe.loadDefaultImage = function() {
+        if (OverlayMe.dyn_manager.isEmpty()) {
+          return OverlayMe.dyn_manager.addImage('https://a248.e.akamai.net/assets.github.com/images/modules/about_page/octocat.png', {
+            default_css: {
+              left: "" + (window.document.width * .6) + "px"
+            }
+          });
         }
-      },
-      error: function() {
-        return OverlayMe.loadDefaultImage();
-      }
-    });
-    files_tree = {};
-    buildTree = function(data) {
-      $o.each(data, function(index, img_path) {
-        var bit, bits, parent_path, position, _results;
-        bits = img_path.split('/');
-        position = files_tree;
-        parent_path = '/';
-        _results = [];
-        while (bits.length > 0) {
-          bit = bits[0];
-          bits = bits.slice(1);
-          if (bit === "") {
+      };
+      $o.ajax({
+        url: '/overlay_images',
+        dataType: 'json',
+        success: function(data) {
+          if (data.length === 0) {
+            return OverlayMe.loadDefaultImage();
+          } else {
+            return buildTree(data);
+          }
+        },
+        error: function() {
+          return OverlayMe.loadDefaultImage();
+        }
+      });
+      files_tree = {};
+      buildTree = function(data) {
+        $o.each(data, function(index, img_path) {
+          var bit, bits, parent_path, position, _results;
+          bits = img_path.split('/');
+          position = files_tree;
+          parent_path = '/';
+          _results = [];
+          while (bits.length > 0) {
+            bit = bits[0];
+            bits = bits.slice(1);
+            if (bit === "") {
+              continue;
+            }
+            parent_path += bit + '/';
+            if (position[bit] === void 0) {
+              if (bits.length > 0) {
+                position[bit] = {
+                  parent_path: parent_path
+                };
+              } else {
+                if (position['files'] === void 0) {
+                  position['files'] = [];
+                }
+                position['files'].push(bit);
+              }
+            }
+            _results.push(position = position[bit]);
+          }
+          return _results;
+        });
+        files_tree = shiftTofiles(files_tree);
+        return displayTree(OverlayMe.images_management_div, files_tree);
+      };
+      shiftTofiles = function(tree) {
+        var keys;
+        if (tree.files) {
+          return tree;
+        }
+        keys = Object.keys(tree);
+        if (keys.length > 2) {
+          return tree;
+        }
+        keys = _.without(keys, 'parent_path');
+        return shiftTofiles(tree[keys[0]]);
+      };
+      return displayTree = function(parent, tree) {
+        var dir, img, sub_dir, _i, _j, _len, _len1, _ref, _ref1, _results;
+        _ref = Object.keys(tree);
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          dir = _ref[_i];
+          if (dir === 'files' || dir === 'parent_path') {
             continue;
           }
-          parent_path += bit + '/';
-          if (position[bit] === void 0) {
-            if (bits.length > 0) {
-              position[bit] = {
-                parent_path: parent_path
-              };
-            } else {
-              if (position['files'] === void 0) {
-                position['files'] = [];
-              }
-              position['files'].push(bit);
-            }
+          sub_dir = new OverlayMe.Overlays.ImagesDirectory(dir);
+          parent.append(sub_dir.render());
+          displayTree(sub_dir, tree[dir]);
+        }
+        if (tree.files) {
+          _ref1 = tree.files;
+          _results = [];
+          for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+            img = _ref1[_j];
+            _results.push(parent.append(new OverlayMe.Overlays.Image(tree.parent_path + img, {
+              parent_path: tree.parent_path
+            }).render()));
           }
-          _results.push(position = position[bit]);
+          return _results;
         }
-        return _results;
-      });
-      files_tree = shiftTofiles(files_tree);
-      return displayTree(OverlayMe.images_management_div, files_tree);
+      };
     };
-    shiftTofiles = function(tree) {
-      var keys;
-      if (tree.files) {
-        return tree;
-      }
-      keys = Object.keys(tree);
-      if (keys.length > 2) {
-        return tree;
-      }
-      keys = _.without(keys, 'parent_path');
-      return shiftTofiles(tree[keys[0]]);
-    };
-    displayTree = function(parent, tree) {
-      var dir, img, sub_dir, _i, _j, _len, _len1, _ref, _ref1, _results;
-      _ref = Object.keys(tree);
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        dir = _ref[_i];
-        if (dir === 'files' || dir === 'parent_path') {
-          continue;
-        }
-        sub_dir = new OverlayMe.Overlays.ImagesDirectory(dir);
-        parent.append(sub_dir.render());
-        displayTree(sub_dir, tree[dir]);
-      }
-      if (tree.files) {
-        _ref1 = tree.files;
-        _results = [];
-        for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
-          img = _ref1[_j];
-          _results.push(parent.append(new OverlayMe.Overlays.Image(tree.parent_path + img, {
-            parent_path: tree.parent_path
-          }).render()));
-        }
-        return _results;
-      }
-    };
-  }
+
+    return OverlaysPanel;
+
+  })(OverlayMe.MenuItem);
+
+  $o(function() {
+    if (!OverlayMe.overlay_panel) {
+      return OverlayMe.overlay_panel = new OverlayMe.OverlaysPanel();
+    }
+  });
 
 }).call(this);
 (function() {
 
-  window.overlay_me_loaded = true;
+  OverlayMe.setLoaded();
 
 }).call(this);
