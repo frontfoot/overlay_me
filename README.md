@@ -24,8 +24,9 @@ We were struggling to see the gap between designers photoshop files and our HTML
   - position and opacity of each image is saved locally to the browser (using HTML5 localStorage)
   - images can be loaded from a project directory (see Project base use underneath)
   - an image can be added on the fly with its absolute url
+  - hideable / collapsible toolbox ('h' and 'c' keys)
 - HTML on top of the overlays
-  - page content can be brought back on top of the overlays ('c' key switch)
+  - page content can be brought back on top of the overlays ('t' key switch)
   - control the opacity of the page content
   - keep on playing with the CSS while having the visual overlay by transparency
 - addon layout_resizer: switch between pre-recorded devices format
@@ -138,7 +139,7 @@ You can add some app specific menu for specific project.. Have a look at layout_
 ## Known problems
 
 - you can't find the panel? it's probably hidden aside (previous bigger screen location) or hidden (press 'h')
-- you see the overlay but can't drag it? the 'Content on Top' option is probably on (press 'c')
+- you see the overlay but can't drag it? the 'Content on Top' option is probably on (press 't')
 
 
 ## Author
