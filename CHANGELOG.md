@@ -1,4 +1,13 @@
-### 0.13.0 - [Diff](https://github.com/frontfoot/overlay_me/compare/v0.12.1...v0.13)
+- add jasmine tests
+- refactorings
+
+### 0.13.2 - [Diff](https://github.com/frontfoot/overlay_me/compare/v0.13.1...v0.13.2)
+- handle Rails assets pipeline
+
+### 0.13.1 - [Diff](https://github.com/frontfoot/overlay_me/compare/v0.13.0...v0.13.1)
+- wrong gem push....
+
+### 0.13.0 - [Diff](https://github.com/frontfoot/overlay_me/compare/v0.12.1...v0.13.0)
 - multi/sub directories images can be added !
 - updated style and collapsing events
 
