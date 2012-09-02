@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    overlay_me (0.13.0)
+    overlay_me (0.13.2)
       coffee-script
       compass
       haml
@@ -23,7 +23,7 @@ GEM
       execjs
     coffee-script-source (1.3.1)
     columnize (0.3.2)
-    compass (0.12.1)
+    compass (0.12.2)
       chunky_png (~> 1.2)
       fssm (>= 0.2.7)
       sass (~> 3.1)
@@ -64,7 +64,7 @@ GEM
     ruby-debug-base (0.10.4)
       linecache (>= 0.3)
     sass (3.2.1)
-    sprockets (2.4.1)
+    sprockets (2.4.5)
       hike (~> 1.2)
       multi_json (~> 1.0)
       rack (~> 1.0)

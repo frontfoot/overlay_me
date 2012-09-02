@@ -49,8 +49,10 @@ I've found 2 other similar tools
   - make a cycling system, by click or keypress, to iterate through overlays one by one
   - make a pixel by pixel motion feature - see https://github.com/madrobby/keymaster
 - write more tests
-  - tests are in progress - branch jasmine
-  - why not a CI service - see [http://travis-ci.org/#!/michelson/lazy_high_charts/builds/527014](travis-ci.org)
+  - tests are in progress
+  - why not a CI service - see [travis-ci.org](http://travis-ci.org/#!/michelson/lazy_high_charts/builds/527014)
+- investigate non working sites
+  - http://www.informit.com/articles/article.aspx?p=1383760
 
 
 ## Usage
