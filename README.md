@@ -4,7 +4,7 @@ Store the bookmarklet from [this page](http://frontfoot.github.com/overlay_me/de
 
 If you just want download the compiled, minified archive: [overlay_me.min.js](https://raw.github.com/frontfoot/overlay_me/master/vendor/assets/javascripts/overlay_me/overlay_me.min.js) (CSS embedded!)
 
-note: overlay_me.js and overlay_me.css are both generated unminified archives, original source code is in javascripts/ and stylesheets/ folders
+note: javascripts/*.js and stylesheets/*.css are both generated unminified archives, original source code is in respective coofeescripts and scss subfolders
 
 ## Screenshot
 
@@ -13,13 +13,15 @@ note: overlay_me.js and overlay_me.css are both generated unminified archives, o
 
 ## Features
 
-- overlay images over a web page saving their position/opacity locally (using HTML5 localStorage)
-  - images can be loaded from a project local directory (see Project base use)
+- overlay images over a web page
+  - position and opacity of each image is saved locally to the browser (using HTML5 localStorage)
+  - images can be loaded automatically from a project local directory (see Project base use)
   - an image can be added on the fly with its absolute url
-- bring back your HTML on top of the overlays
+- HTML on top of the overlays
+  - page content can be brought back on top of the overlays ('c' key switch)
   - control the opacity of the page content
   - keep on playing with the CSS while having with a visual overlay
-- addon layout_resizer, to switch between pre-recorded devices format
+- addon layout_resizer: switch between pre-recorded devices format
 
 
 ## Why

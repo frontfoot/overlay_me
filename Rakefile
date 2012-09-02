@@ -54,7 +54,6 @@ namespace :assets do
       File.open(ENV['js_minified'], 'w') do |file|
         file.write(JSMin.minify(File.read(ENV['js_with_css'])))
       end
-      `rm #{ENV['js_with_css']}` # remove unminified js with css file
     end
 
     desc "add a header on the minified js file to properly redirect curious"
