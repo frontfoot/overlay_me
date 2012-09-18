@@ -111,7 +111,8 @@ button {
 .overlays-panel .content-mgnt-block legend, .overlays-panel #images_mgnt legend {
   font-size: 10px;
   padding: 0 3px;
-  margin-left: 10px;
+  margin: 0 0 0 10px;
+  border: 0;
 }
 .overlays-panel .slider-block {
   display: block;

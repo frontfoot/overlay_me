@@ -88,7 +88,7 @@ namespace :assets do
   desc "package, aka prepare the minified .js"
   task :package => [:compile, 'minify:all_in_one']
 
-  desc "compile all js in 1, but no minifying (useful for jasmine tests via guard-rake)"
+  desc "compile all js in 1, but no minifying (useful for jasmine tests via guard; use 'rake guard')"
   task :compile_debug => [:compile, 'minify:only_css_for_js_debug']
 
 end
