@@ -50,10 +50,14 @@ I've found 2 other similar tools
   - make a cycling system, by click or keypress, to iterate through overlays one by one
   - make a pixel by pixel motion feature - see https://github.com/madrobby/keymaster
 - write more tests
-  - tests are in progress
+  - tests - in progress !
+    - more tests!!
+    - and the gem side ? - maybe [this](http://rakeroutes.com/blog/write-a-gem-for-the-rails-asset-pipeline/)
   - why not a CI service - see [travis-ci.org](http://travis-ci.org/#!/michelson/lazy_high_charts/builds/527014)
 - investigate non working sites
   - http://www.informit.com/articles/article.aspx?p=1383760
+- addons
+  - the layout_resizer addon does not work anymore...
 
 
 ## Usage
