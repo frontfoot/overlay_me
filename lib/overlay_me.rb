@@ -4,6 +4,7 @@ module OverlayMe
   self.root_dir = ''
   self.overlays_directory = 'images/overlays'
 
+  # the App is used to list the images contained into the 'self.overlays_directory' directory
   class App
     def self.call(env)
       Dir.chdir OverlayMe.root_dir if Dir[OverlayMe.root_dir]
@@ -23,5 +24,14 @@ module OverlayMe
 
   end
 
+  # this module is defined to make Rails handle our assets
+  module Rails
+    if defined? ::Rails
+      class Engine < ::Rails::Engine
+      end
+    end
+  end
+
 end
+
 
