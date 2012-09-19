@@ -1,3 +1,5 @@
+- fixed wrong ChangeDir from the App (gem side)
+
 ### 0.13.4 - [Diff](https://github.com/frontfoot/overlay_me/compare/v0.13.0...v0.13.4)
 - handle Rails assets pipeline
 - add some jasmine tests

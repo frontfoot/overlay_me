@@ -1,14 +1,16 @@
 module OverlayMe
   
   mattr_accessor :root_dir, :overlays_directory
-  self.root_dir = ''
+  self.root_dir = Dir.pwd
   self.overlays_directory = 'images/overlays'
 
   # the App is used to list the images contained into the 'self.overlays_directory' directory
   class App
     def self.call(env)
-      Dir.chdir OverlayMe.root_dir if Dir[OverlayMe.root_dir]
-      images_urls = Dir[ OverlayMe.overlays_directory + '/**/*.*' ].map{|path| '/'+path}
+      images_urls = []
+      Dir.chdir OverlayMe.root_dir do 
+        images_urls = Dir[ OverlayMe.overlays_directory + '/**/*.*' ].map{|path| '/'+path}
+      end
       images_urls = images_urls.map{|path| path.sub(/images/, 'assets') } if self.rails_and_assets_pipeline_enabled?
       [200, {"Content-Type" => "text/html"}, images_urls.to_json]
     end
