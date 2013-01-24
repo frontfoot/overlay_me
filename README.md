@@ -43,7 +43,7 @@ I've found 2 other similar tools
 ## Todo
 
 - fix styles for firefox and IE (may not happen)
-- allow local image uploading (hosting on amazon s3 ?), [makiapp.com](http://makiapp.com/) does it!
+- allow local image uploading - http://css-tricks.com/html5-drag-and-drop-avatar-changer-with-resizing-and-cropping/
 - add another dragging bar at the bottom (or not)
 - prevent the dragging bar(s) to be out of reach
 - overlays

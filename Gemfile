@@ -13,4 +13,4 @@ gem 'rb-fsevent'
 gem 'guard-rake'
 
 # debug
-gem 'ruby-debug'
+gem 'debugger'

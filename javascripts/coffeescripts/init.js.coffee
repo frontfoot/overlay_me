@@ -1,6 +1,7 @@
 #= require 'lib/jquery.js'
 #= require 'lib/underscore.js'
 #= require 'lib/backbone.js'
+#= require 'lib/keymaster.js'
 #= require 'lib/html5slider.js'
 
 # to build the 1 file minified version, we insert the minified CSS directly there
@@ -36,4 +37,7 @@ OverlayMe.pageReload = ->
   window.location.reload()
 OverlayMe.userAgent = ->
   navigator.userAgent
+
+OverlayMe.moveLast = (relative_x, relative_y) ->
+  console.log relative_x, relative_y
 
