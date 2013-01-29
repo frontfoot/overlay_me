@@ -7,6 +7,7 @@ class OverlayMe.Overlays.DraggableImage extends OverlayMe.Draggable
     @image = new Image()
     $o(@image).load => # when image loaded
       @fitDivToImage()
+      @setAsLastMoved()
     $o(@image).attr 'src', options.image_src
     $o(@el).append @image
 
@@ -33,5 +34,9 @@ class OverlayMe.Overlays.DraggableImage extends OverlayMe.Draggable
 
   render: ->
     @el
+
+  setAsLastMoved: ->
+    localStorage.setItem "last-moved", @id
+    
 
 
