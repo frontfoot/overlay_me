@@ -1,6 +1,5 @@
-
-### 0.14.0 - [Diff](https://github.com/frontfoot/overlay_me/compare/v0.13.4...v0.14.0)
-- add keypress to move using keyboard arrows pixel by pixel (+Shift = x15)
+### 0.14.1 - [Diff](https://github.com/frontfoot/overlay_me/compare/v0.13.4...v0.14.1)
+- move overlays pixel by pixel using keyboard arrows (+Shift = x15)
 
 ### 0.13.4 - [Diff](https://github.com/frontfoot/overlay_me/compare/v0.13.0...v0.13.4)
 - fixed wrong ChangeDir from the App (gem side)

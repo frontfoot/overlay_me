@@ -15,6 +15,7 @@ class OverlayMe.Draggable extends Backbone.View
 
   engageMove: (event) ->
     event.preventDefault()
+    @setAsLastMoved()
     @moving = true
     @lastX = event.clientX
     @lastY = event.clientY
@@ -40,6 +41,9 @@ class OverlayMe.Draggable extends Backbone.View
     newY = parseInt($o(@el).css('top')) + y
     $o(@el).css({ top:"#{newY}px", left:"#{newX}px"})
     @save()
+
+  setAsLastMoved: ->
+    localStorage.setItem "last-moved", @id
 
   save: ->
     @saveCss()

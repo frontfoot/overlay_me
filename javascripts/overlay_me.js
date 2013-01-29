@@ -12112,6 +12112,7 @@ function style(element, styles) {
 
 })();
 (function() {
+  var moves;
 
   $o('head').append('<style rel="stylesheet" type="text/css">#CSS_BLOB#</style>');
 
@@ -12148,45 +12149,34 @@ function style(element, styles) {
     return navigator.userAgent;
   };
 
-  OverlayMe.moveLast = function(relative_x, relative_y) {
+  OverlayMe.moveLast = function(relative_move_coords, multiplier) {
     var image, last_moved_id;
+    if (multiplier == null) {
+      multiplier = 1;
+    }
     last_moved_id = localStorage.getItem("last-moved");
     image = $o("#" + last_moved_id);
-    image.css('left', image.position().left + relative_x);
-    image.css('top', image.position().top + relative_y);
+    image.css('left', image.position().left + relative_move_coords[0] * multiplier);
+    image.css('top', image.position().top + relative_move_coords[1] * multiplier);
     return image.trigger('save');
   };
 
-  key('left', function() {
-    return OverlayMe.moveLast(-1, 0);
-  });
+  moves = {
+    'left': [-1, 0],
+    'right': [1, 0],
+    'down': [0, 1],
+    'up': [0, -1]
+  };
 
-  key('shift+left', function() {
-    return OverlayMe.moveLast(-15, 0);
-  });
-
-  key('right', function() {
-    return OverlayMe.moveLast(1, 0);
-  });
-
-  key('shift+right', function() {
-    return OverlayMe.moveLast(15, 0);
-  });
-
-  key('up', function() {
-    return OverlayMe.moveLast(0, -1);
-  });
-
-  key('shift+up', function() {
-    return OverlayMe.moveLast(0, -15);
-  });
-
-  key('down', function() {
-    return OverlayMe.moveLast(0, 1);
-  });
-
-  key('shift+down', function() {
-    return OverlayMe.moveLast(0, 15);
+  $o.each(moves, function(key_string, move_comb) {
+    key(key_string, function() {
+      OverlayMe.moveLast(move_comb);
+      return false;
+    });
+    return key('shift+' + key_string, function() {
+      OverlayMe.moveLast(move_comb, 15);
+      return false;
+    });
   });
 
 }).call(this);
@@ -12308,6 +12298,7 @@ function style(element, styles) {
     Draggable.prototype.engageMove = function(event) {
       var _this = this;
       event.preventDefault();
+      this.setAsLastMoved();
       this.moving = true;
       this.lastX = event.clientX;
       this.lastY = event.clientY;
@@ -12342,6 +12333,10 @@ function style(element, styles) {
         left: "" + newX + "px"
       });
       return this.save();
+    };
+
+    Draggable.prototype.setAsLastMoved = function() {
+      return localStorage.setItem("last-moved", this.id);
     };
 
     Draggable.prototype.save = function() {
@@ -12743,10 +12738,6 @@ function style(element, styles) {
 
     DraggableImage.prototype.render = function() {
       return this.el;
-    };
-
-    DraggableImage.prototype.setAsLastMoved = function() {
-      return localStorage.setItem("last-moved", this.id);
     };
 
     return DraggableImage;

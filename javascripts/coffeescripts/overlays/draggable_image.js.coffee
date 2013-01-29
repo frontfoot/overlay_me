@@ -35,8 +35,3 @@ class OverlayMe.Overlays.DraggableImage extends OverlayMe.Draggable
   render: ->
     @el
 
-  setAsLastMoved: ->
-    localStorage.setItem "last-moved", @id
-    
-
-

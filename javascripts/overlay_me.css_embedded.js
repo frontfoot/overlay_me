@@ -12112,6 +12112,7 @@ function style(element, styles) {
 
 })();
 (function() {
+  var moves;
 
   $o('head').append('<style rel="stylesheet" type="text/css">button{font-size:9px;margin:0 3px;padding:0 3px}#overlay_me_page_container{position:relative}#overlay_me_menu{font-family:Arial,sans-serif;position:fixed;right:0;z-index:990}#overlay_me_menu *{line-height:14px}#overlay_me_menu .drag-me{line-height:100%;display:block;color:black;font-size:.7em;text-align:center;background-image:-webkit-linear-gradient(0deg,#999,#ddd 30%,#ddd 70%,#999 100%);background-image:-moz-linear-gradient(0deg,#999,#ddd 30%,#ddd 70%,#999 100%);background-image:-o-linear-gradient(0deg,#999,#ddd 30%,#ddd 70%,#999 100%);background-image:linear-gradient(0deg,#999,#ddd 30%,#ddd 70%,#999 100%);padding:1px}#overlay_me_menu .drag-me:hover{cursor:move}#overlay_me_menu ul{list-style:none;margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline}.menu-item{text-align:left;background-color:#CCC;border:1px solid rgba(255,255,255,0.2);width:200px}.menu-item a.collaps-button{cursor:pointer;position:absolute;padding-top:9px;padding-left:5px;width:13px;height:9px;border:none;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAJCAYAAADpeqZqAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAIlJREFUeNpivHDhQujz589TmZiYvjMQAP/+/eOQkZGZyfD//38ZIL77nzhwG4ilQJpA2BiIPxHQ8BGIDUHqYZpAOIWApiSYWmRNIDfPxaYaKD4bWR2KJiDmA+KzaHrOQMVxagJhfSD+ALXhA5TPQEgTCCcD8V+gpmRs8rg0MQI1eANpJmzyAAEGAKD/bax/HrzbAAAAAElFTkSuQmCC) no-repeat center 3px}.menu-item a.collaps-button span{display:none;color:yellow}.menu-item a.collaps-button span:hover{color:yellow}.menu-item label.title{padding-left:20px;color:white;cursor:pointer;width:187px;line-height:1.1em;font-size:14px;background:none}.menu-item.collapsed .item-content{display:none}.menu-item.collapsed a.collaps-button{background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAANCAYAAAB7AEQGAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAKtJREFUeNpiuHz5ctD///+lgJgBF2Z68uRJOgMDw0EgNmTAAZiA4AeQVgHiA0CchFUREpsPiOcCjZ8NZWNVBAaMjIwpQGofEOvjVAQFxkATDwJxMkgNCy7HAk3kB1KzgApf4DIJBD4CcRpQ8TZcJp2D+vQiVjcBjZ8HpBxhCtAVfQbiVKDxIMd+QtbI8u/fP04gfQ+Iw4D4LDa7WSQlJUGBdxyIn+DyAUCAAQDxsEXD9kreLQAAAABJRU5ErkJggg==) no-repeat center top}.overlays-panel .content-mgnt-block{position:relative;line-height:10px}.overlays-panel .content-mgnt-block .unicorns{background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAklJREFUeNqEks1u00AQx3d27V3HdezY+SBpkKBFoBZxQEKIOwfegBs3rtwoPABvw3sgceKAuFWtUBBSaT6ctvHXer2zOElTVaoKI/2lWWl/O//ZGZi8jgSPxFv3JX93+CJvfJ4/09++vzH6S/SVH59+IohH5JagxBilC4zNHHigSLvtTCPRnLYxtB4b29ojGglBc1PG1PAyLfUxzszIX7B86MwLP/iVkS566DWeEgo+gfrWdV1VJoZgpUdqon84p1a+wxI1CA+l3Z+yqu89N5a9v65EVgK8TOpgH/edZS6JAZ97/AkfKjF3pTpRkUrlfQFnoGlaHNc2F0sAzPIFWIl9WMEGTYUZJfyB12ED2l9UE6bkDAcoy+0QznXJ8nIEBosNuIb3xLoBNIlRhNlc7Ho9dDA6l1OC8gKGUGEnhAyBFmpSu8zqf9jAzqZ/RIUxFDR0G2LQ6ueIwUzGFIuE95livS4p2RaUVQYas/p+xQ4eiavPqO2nKPUcCrvlCR50uqlirXGeiUWeua4uva6vebNDwHIJErq2fW0Mdfcxpjqmqe37Nnd73US64Ummt8a5bCpZhh5UrZanfS9gBw/5tcorGSz1TJ/rCTljoomOGDTLsh+NUz8Ypdz/ndBwlpFeIdn7Hevm9miD9QNxdVGNSQzGSR3ao6Duekm23fqT3Al/Ju3waAEnr1xyayxnymhgNcU9Z7sx5LtWA+6bquxXaeLr5J+wMZebRQwDiwW2x0O7I1y7ZxOrS+X/4Y0DXJ0pANhgM4sKRv4KMACD6UDbVgTzkgAAAABJRU5ErkJggg==) no-repeat center center;width:15px;height:15px;position:absolute;right:0;top:6px}.overlays-panel label{margin:0;font-size:14px}.overlays-panel .content-mgnt-block,.overlays-panel #images_mgnt{text-align:left;padding:3px 4px;margin:2px;border:1px #777 solid;-webkit-border-radius:5px;-moz-border-radius:5px;-ms-border-radius:5px;-o-border-radius:5px;border-radius:5px}.overlays-panel .content-mgnt-block legend,.overlays-panel #images_mgnt legend{font-size:10px;padding:0 3px;margin:0 0 0 10px;border:0}.overlays-panel .slider-block{display:block}.overlays-panel .slider-block label{font-size:60%;margin:0 5px 0 0;vertical-align:top}.overlays-panel .slider-block input[type=range]{margin:0;height:14px;width:120px}.overlays-panel #images_mgnt{width:186px}.overlays-panel #images_mgnt .controls{padding-bottom:2px}.overlays-panel #images_mgnt .controls label{margin-right:5px}.overlays-panel #images_mgnt .overlay-image-block,.overlays-panel #images_mgnt .images_dir{border:1px solid rgba(255,255,255,0.2);border-right:none;border-left:none;padding-top:2px}.overlays-panel #images_mgnt .overlay-image-block:first-child,.overlays-panel #images_mgnt .images_dir:first-child{border-top:none;padding-top:0}.overlays-panel #images_mgnt .overlay-image-block{text-align:left;position:relative;width:186px}.overlays-panel #images_mgnt .overlay-image-block.hovered{background-color:rgba(255,255,0,0.5)}.overlays-panel #images_mgnt .overlay-image-block .del-button{position:absolute;right:0;top:0;margin:1px;cursor:pointer;border:1px #AAA solid;font-size:10px;line-height:13px;background-color:#444;color:white;font-weight:bold;padding:0 3px}.overlays-panel #images_mgnt .images_dir{line-height:18px}.overlays-panel #images_mgnt .images_dir .sub-block{border-left:2px white solid;padding-left:2px;margin-left:5px}.overlays-panel #images_mgnt .images_dir>input[type=checkbox]{-webkit-appearance:none;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAANCAYAAAB7AEQGAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAKtJREFUeNpiuHz5ctD///+lgJgBF2Z68uRJOgMDw0EgNmTAAZiA4AeQVgHiA0CchFUREpsPiOcCjZ8NZWNVBAaMjIwpQGofEOvjVAQFxkATDwJxMkgNCy7HAk3kB1KzgApf4DIJBD4CcRpQ8TZcJp2D+vQiVjcBjZ8HpBxhCtAVfQbiVKDxIMd+QtbI8u/fP04gfQ+Iw4D4LDa7WSQlJUGBdxyIn+DyAUCAAQDxsEXD9kreLQAAAABJRU5ErkJggg==) no-repeat center center;display:inline-block;width:13px;height:13px}.overlays-panel #images_mgnt .images_dir>input[type=checkbox]:checked{background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAJCAYAAADpeqZqAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAIlJREFUeNpivHDhQujz589TmZiYvjMQAP/+/eOQkZGZyfD//38ZIL77nzhwG4ilQJpA2BiIPxHQ8BGIDUHqYZpAOIWApiSYWmRNIDfPxaYaKD4bWR2KJiDmA+KzaHrOQMVxagJhfSD+ALXhA5TPQEgTCCcD8V+gpmRs8rg0MQI1eANpJmzyAAEGAKD/bax/HrzbAAAAAElFTkSuQmCC) no-repeat center center;width:13px;height:13px;margin:-2px 5px 0 0}.overlays-panel #images_mgnt .dynamic-adds{padding-top:4px}.overlays-panel #images_mgnt .dynamic-adds label{font-size:75%}.overlays-panel #images_mgnt .dynamic-adds input{width:95px;font-size:10px;margin-left:2px}.overlays-panel #images_mgnt .dynamic-adds button{font-size:10px}.overlays-panel input[type=checkbox],.overlays-panel label,.overlays-panel #contentSlider,.overlays-panel .zindex-switch{display:inline}.overlays-panel input[type=checkbox]{vertical-align:middle;margin:-3px 5px 0 0}#overlay_me_images_container{position:absolute;z-index:4;top:0;left:0}#overlay_me_images_container div{position:absolute}#overlay_me_images_container div.highlight{border:2px solid red;margin-top:-2px;margin-left:-2px}#overlay_me_images_container div:hover{cursor:move}#overlay_me_images_container img{position:absolute;top:0;left:0}#overlay_me_menu.collapsed .drag-me,#overlay_me_menu.collapsed .menu-item{width:25px}#overlay_me_menu.collapsed .drag-me{height:10px;overflow:hidden}#overlay_me_menu.collapsed button{height:10px;overflow:hidden}#overlay_me_menu.collapsed .overlay-image-block{height:14px;margin-top:3px}#overlay_me_menu.collapsed .overlay-image-block label,#overlay_me_menu.collapsed #content_div_management_block,#overlay_me_menu.collapsed .controls,#overlay_me_menu.collapsed input[type=range],#overlay_me_menu.collapsed #overlay_panel #contentSlider,#overlay_me_menu.collapsed legend,#overlay_me_menu.collapsed .dynamic-adds,#overlay_me_menu.collapsed .unicorns,#overlay_me_menu.collapsed button.reset,#overlay_me_menu.collapsed button.hide,#overlay_me_menu.collapsed button.del-button{display:none}</style>');
 
@@ -12148,45 +12149,34 @@ function style(element, styles) {
     return navigator.userAgent;
   };
 
-  OverlayMe.moveLast = function(relative_x, relative_y) {
+  OverlayMe.moveLast = function(relative_move_coords, multiplier) {
     var image, last_moved_id;
+    if (multiplier == null) {
+      multiplier = 1;
+    }
     last_moved_id = localStorage.getItem("last-moved");
     image = $o("#" + last_moved_id);
-    image.css('left', image.position().left + relative_x);
-    image.css('top', image.position().top + relative_y);
+    image.css('left', image.position().left + relative_move_coords[0] * multiplier);
+    image.css('top', image.position().top + relative_move_coords[1] * multiplier);
     return image.trigger('save');
   };
 
-  key('left', function() {
-    return OverlayMe.moveLast(-1, 0);
-  });
+  moves = {
+    'left': [-1, 0],
+    'right': [1, 0],
+    'down': [0, 1],
+    'up': [0, -1]
+  };
 
-  key('shift+left', function() {
-    return OverlayMe.moveLast(-15, 0);
-  });
-
-  key('right', function() {
-    return OverlayMe.moveLast(1, 0);
-  });
-
-  key('shift+right', function() {
-    return OverlayMe.moveLast(15, 0);
-  });
-
-  key('up', function() {
-    return OverlayMe.moveLast(0, -1);
-  });
-
-  key('shift+up', function() {
-    return OverlayMe.moveLast(0, -15);
-  });
-
-  key('down', function() {
-    return OverlayMe.moveLast(0, 1);
-  });
-
-  key('shift+down', function() {
-    return OverlayMe.moveLast(0, 15);
+  $o.each(moves, function(key_string, move_comb) {
+    key(key_string, function() {
+      OverlayMe.moveLast(move_comb);
+      return false;
+    });
+    return key('shift+' + key_string, function() {
+      OverlayMe.moveLast(move_comb, 15);
+      return false;
+    });
   });
 
 }).call(this);
@@ -12308,6 +12298,7 @@ function style(element, styles) {
     Draggable.prototype.engageMove = function(event) {
       var _this = this;
       event.preventDefault();
+      this.setAsLastMoved();
       this.moving = true;
       this.lastX = event.clientX;
       this.lastY = event.clientY;
@@ -12342,6 +12333,10 @@ function style(element, styles) {
         left: "" + newX + "px"
       });
       return this.save();
+    };
+
+    Draggable.prototype.setAsLastMoved = function() {
+      return localStorage.setItem("last-moved", this.id);
     };
 
     Draggable.prototype.save = function() {
@@ -12743,10 +12738,6 @@ function style(element, styles) {
 
     DraggableImage.prototype.render = function() {
       return this.el;
-    };
-
-    DraggableImage.prototype.setAsLastMoved = function() {
-      return localStorage.setItem("last-moved", this.id);
     };
 
     return DraggableImage;
