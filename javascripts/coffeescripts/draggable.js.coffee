@@ -6,6 +6,9 @@ class OverlayMe.Draggable extends Backbone.View
   tagName: 'div'
   css_attributes_to_save: ['top', 'left', 'display', 'opacity']
 
+  events:
+    'save': 'save'
+
   initialize: (attributes, options) ->
     super(attributes, options)
     @loadCss(@el, options.default_css)
@@ -16,7 +19,7 @@ class OverlayMe.Draggable extends Backbone.View
     @lastX = event.clientX
     @lastY = event.clientY
     $o(window).bind 'mymousemove', (event, mouseEvent) =>
-      @updateOverlay(mouseEvent.clientX - @lastX, mouseEvent.clientY - @lastY)
+      @updatePosition(mouseEvent.clientX - @lastX, mouseEvent.clientY - @lastY)
       @lastX = mouseEvent.clientX
       @lastY = mouseEvent.clientY
     $o(@el).addClass 'on-move'
@@ -32,10 +35,13 @@ class OverlayMe.Draggable extends Backbone.View
     else
       @engageMove(event)
 
-  updateOverlay: (x, y) ->
+  updatePosition: (x, y) ->
     newX = parseInt($o(@el).css('left')) + x
     newY = parseInt($o(@el).css('top')) + y
     $o(@el).css({ top:"#{newY}px", left:"#{newX}px"})
+    @save()
+
+  save: ->
     @saveCss()
 
   render: ->

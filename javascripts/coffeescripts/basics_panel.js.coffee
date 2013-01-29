@@ -26,21 +26,13 @@ class OverlayMe.BasicsPanel extends OverlayMe.MenuItem
     # add the element to the menu (so yes it has to be there!)
     OverlayMe.menu.append @render()
 
-    # add listener for keypress - thx to https://github.com/madrobby/keymaster
+    # add listeners using keypress - thx to https://github.com/madrobby/keymaster
     key 'h', ->
       toggle_all_display()
     key 'c', ->
       OverlayMe.menu.toggleCollapse()
     key 'r', ->
       OverlayMe.clearAndReload()
-    key 'left', ->
-      OverlayMe.moveLast -1, 0
-    key 'right', ->
-      OverlayMe.moveLast 1, 0
-    key 'up', ->
-      OverlayMe.moveLast 0, -1
-    key 'down', ->
-      OverlayMe.moveLast 0, 1
 
 # create one at DOM loaded
 $o ->
