@@ -21,6 +21,7 @@ We were struggling to see the gap between designers photoshop files and our HTML
 ## Features
 
 - overlay images over a web page
+  - move each image by mouse drag or using the arrows (shift arrow to move quicker)
   - position and opacity of each image is saved locally to the browser (using HTML5 localStorage)
   - images can be loaded from a project directory (see Project base use underneath)
   - an image can be added on the fly with its absolute url
@@ -46,11 +47,8 @@ I've found 2 other similar tools
 - allow local image uploading - http://css-tricks.com/html5-drag-and-drop-avatar-changer-with-resizing-and-cropping/
 - add another dragging bar at the bottom (or not)
 - prevent the dragging bar(s) to be out of reach
-- overlays
-  - make a cycling system, by click or keypress, to iterate through overlays one by one
-  - make a pixel by pixel motion feature - see https://github.com/madrobby/keymaster
 - write more tests
-  - tests - in progress !
+  - tests - in progress (forever ?)
     - more tests!!
     - and the gem side ? - maybe [this](http://rakeroutes.com/blog/write-a-gem-for-the-rails-asset-pipeline/)
   - why not a CI service - see [travis-ci.org](http://travis-ci.org/#!/michelson/lazy_high_charts/builds/527014)

@@ -70,6 +70,7 @@ namespace :assets do
       header += "// - jQuery - http://jquery.com/ - Copyright 2011, John Resig\n"
       header += "// - Backbone.js - http://documentcloud.github.com/backbone - (c) 2010 Jeremy Ashkenas, DocumentCloud Inc.\n"
       header += "// - Underscore.js - http://documentcloud.github.com/underscore - (c) 2011 Jeremy Ashkenas, DocumentCloud Inc.\n"
+      header += "// - keymaster - http://github.com/madrobby/keymaster - Copyright (c) 2011-2012 Thomas Fuchs\n"
       header += "// - html5slider - https://github.com/fryn/html5slider - Copyright (c) 2010-2011 Frank Yan\n"
       header += "\n"
       puts header

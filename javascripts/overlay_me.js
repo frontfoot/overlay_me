@@ -12149,8 +12149,45 @@ function style(element, styles) {
   };
 
   OverlayMe.moveLast = function(relative_x, relative_y) {
-    return console.log(relative_x, relative_y);
+    var image, last_moved_id;
+    last_moved_id = localStorage.getItem("last-moved");
+    image = $o("#" + last_moved_id);
+    image.css('left', image.position().left + relative_x);
+    image.css('top', image.position().top + relative_y);
+    return image.trigger('save');
   };
+
+  key('left', function() {
+    return OverlayMe.moveLast(-1, 0);
+  });
+
+  key('shift+left', function() {
+    return OverlayMe.moveLast(-15, 0);
+  });
+
+  key('right', function() {
+    return OverlayMe.moveLast(1, 0);
+  });
+
+  key('shift+right', function() {
+    return OverlayMe.moveLast(15, 0);
+  });
+
+  key('up', function() {
+    return OverlayMe.moveLast(0, -1);
+  });
+
+  key('shift+up', function() {
+    return OverlayMe.moveLast(0, -15);
+  });
+
+  key('down', function() {
+    return OverlayMe.moveLast(0, 1);
+  });
+
+  key('shift+down', function() {
+    return OverlayMe.moveLast(0, 15);
+  });
 
 }).call(this);
 (function() {
@@ -12259,6 +12296,10 @@ function style(element, styles) {
 
     Draggable.prototype.css_attributes_to_save = ['top', 'left', 'display', 'opacity'];
 
+    Draggable.prototype.events = {
+      'save': 'save'
+    };
+
     Draggable.prototype.initialize = function(attributes, options) {
       Draggable.__super__.initialize.call(this, attributes, options);
       return this.loadCss(this.el, options.default_css);
@@ -12271,7 +12312,7 @@ function style(element, styles) {
       this.lastX = event.clientX;
       this.lastY = event.clientY;
       $o(window).bind('mymousemove', function(event, mouseEvent) {
-        _this.updateOverlay(mouseEvent.clientX - _this.lastX, mouseEvent.clientY - _this.lastY);
+        _this.updatePosition(mouseEvent.clientX - _this.lastX, mouseEvent.clientY - _this.lastY);
         _this.lastX = mouseEvent.clientX;
         return _this.lastY = mouseEvent.clientY;
       });
@@ -12292,7 +12333,7 @@ function style(element, styles) {
       }
     };
 
-    Draggable.prototype.updateOverlay = function(x, y) {
+    Draggable.prototype.updatePosition = function(x, y) {
       var newX, newY;
       newX = parseInt($o(this.el).css('left')) + x;
       newY = parseInt($o(this.el).css('top')) + y;
@@ -12300,6 +12341,10 @@ function style(element, styles) {
         top: "" + newY + "px",
         left: "" + newX + "px"
       });
+      return this.save();
+    };
+
+    Draggable.prototype.save = function() {
       return this.saveCss();
     };
 
@@ -12517,20 +12562,8 @@ function style(element, styles) {
       key('c', function() {
         return OverlayMe.menu.toggleCollapse();
       });
-      key('r', function() {
+      return key('r', function() {
         return OverlayMe.clearAndReload();
-      });
-      key('left', function() {
-        return OverlayMe.moveLast(-1, 0);
-      });
-      key('right', function() {
-        return OverlayMe.moveLast(1, 0);
-      });
-      key('up', function() {
-        return OverlayMe.moveLast(0, -1);
-      });
-      return key('down', function() {
-        return OverlayMe.moveLast(0, 1);
       });
     };
 
@@ -12676,7 +12709,8 @@ function style(element, styles) {
       DraggableImage.__super__.initialize.call(this, attributes, options);
       this.image = new Image();
       $o(this.image).load(function() {
-        return _this.fitDivToImage();
+        _this.fitDivToImage();
+        return _this.setAsLastMoved();
       });
       $o(this.image).attr('src', options.image_src);
       $o(this.el).append(this.image);
@@ -12709,6 +12743,10 @@ function style(element, styles) {
 
     DraggableImage.prototype.render = function() {
       return this.el;
+    };
+
+    DraggableImage.prototype.setAsLastMoved = function() {
+      return localStorage.setItem("last-moved", this.id);
     };
 
     return DraggableImage;

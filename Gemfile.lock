@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    overlay_me (0.13.4)
+    overlay_me (0.14.0)
       coffee-script
       compass
       haml
