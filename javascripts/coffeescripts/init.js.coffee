@@ -21,11 +21,12 @@ OverlayMe.setLoaded = ->
 
 # check if browser is a mobile device
 OverlayMe.isMobile = ->
+  return true
   OverlayMe.userAgent().match /(iPhone|iPod|iPad|Android)/
 
 # give a shortName method for checks in the app
 OverlayMe.mustLoad = ->
-  !OverlayMe.isLoaded() && !OverlayMe.isMobile()
+  !OverlayMe.isLoaded()
 
 # helper to clear all stored informations and reload the page
 OverlayMe.clearAndReload = ->

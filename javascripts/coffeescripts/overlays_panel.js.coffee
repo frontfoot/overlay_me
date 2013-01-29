@@ -13,7 +13,7 @@ class OverlayMe.OverlaysPanel extends OverlayMe.MenuItem
     super({id: "overlays-panel", title: "Overlays" }, options)
 
     # adding the #container management block
-    @append new OverlayMe.Overlays.ContentDivManagementBlock().render()
+    @append new OverlayMe.Overlays.ContentDivManagementBlock().render() unless OverlayMe.isMobile()
 
     # adding image management block
     OverlayMe.images_management_div = new OverlayMe.Overlays.ImagesManagementDiv()
