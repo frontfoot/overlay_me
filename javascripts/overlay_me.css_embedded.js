@@ -12445,34 +12445,24 @@ function style(element, styles) {
 
     MenuItem.prototype.className = 'menu-item';
 
+    MenuItem.prototype.template = '\
+    <a class="collaps-button">\
+      <span>o</span>\
+    </a>\
+    <label class="title"><%= title %></label>\
+    <div class="item-content"></div>\
+  ';
+
     MenuItem.prototype.initialize = function(attributes, options) {
       var _this = this;
       this.id = attributes.id;
       $o(this.el).addClass(attributes.id);
-      this.el.appendChild(this.collapseButton());
-      this.title = this.make('label', {
-        "class": 'title'
-      }, attributes.title);
-      $o(this.title).bind('click', function() {
+      this.title = attributes.title;
+      $o(this.el).on('click', '.collaps-button, .title', function() {
         return _this.toggleCollapse();
       });
-      this.el.appendChild(this.title);
-      this.content = this.make('div', {
-        "class": 'item-content'
-      });
-      this.el.appendChild(this.content);
-      return this.setCollapse((localStorage.getItem("" + this.id + "-collapsed") === '1' ? true : false));
-    };
-
-    MenuItem.prototype.collapseButton = function() {
-      var _this = this;
-      this.collapseButton = this.make('a', {
-        "class": 'collaps-button'
-      }, '<span>o</span>');
-      $o(this.collapseButton).bind('click', function() {
-        return _this.toggleCollapse();
-      });
-      return this.collapseButton;
+      this.content = [];
+      return this.setCollapse(localStorage.getItem("" + this.id + "-collapsed") === '1');
     };
 
     MenuItem.prototype.toggleCollapse = function() {
@@ -12490,10 +12480,20 @@ function style(element, styles) {
     };
 
     MenuItem.prototype.append = function(childElemt) {
-      return this.content.appendChild(childElemt);
+      return this.content.push(childElemt);
     };
 
     MenuItem.prototype.render = function() {
+      var $content, params, template;
+      params = {
+        title: this.title
+      };
+      template = _.template(this.template, params);
+      $o(this.el).html(template);
+      $content = $o(this.el).find('.item-content');
+      _.each(this.content, function(el) {
+        return $content.append($o(el));
+      });
       return this.el;
     };
 
