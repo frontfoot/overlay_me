@@ -13214,17 +13214,29 @@ function style(element, styles) {
 
     ImagesManagementDiv.prototype.id = 'images_mgnt';
 
+    ImagesManagementDiv.prototype.template = '\
+    <legend>Overlaying images</legend>\
+    <div class="overlays-list"></div>\
+    <div class="dynamic-adds">\
+      <label>Add image</label>\
+      <input class="image-url-input" type="text" placeholder="http://">\
+      <button>+</button>\
+    </div>\
+  ';
+
     ImagesManagementDiv.prototype.initialize = function() {
-      $o(this.el).append(this.make('legend', {}, 'Overlaying images'));
-      this.overlaysListBlock = this.make('div', {
-        "class": 'overlays-list'
+      var _this = this;
+      return $o(this.el).on('keypress', 'input', function(e) {
+        if (e.keyCode === 13) {
+          return _this.pushImage();
+        }
+      }).on('click', 'button', function(e) {
+        return _this.pushImage();
       });
-      $o(this.el).append(this.overlaysListBlock);
-      return $o(this.el).append(this.dynamicAddsBlock());
     };
 
     ImagesManagementDiv.prototype.append = function(block) {
-      return this.overlaysListBlock.appendChild(block);
+      return $o(this.el).find('.overlays-list').append(block);
     };
 
     ImagesManagementDiv.prototype.del = function(image_id) {
@@ -13232,37 +13244,17 @@ function style(element, styles) {
       return $o("#overlay_me_images_container #" + image_id).remove();
     };
 
-    ImagesManagementDiv.prototype.dynamicAddsBlock = function() {
-      var dynamicAddsBlock, push_image_button,
-        _this = this;
-      dynamicAddsBlock = this.make('div', {
-        "class": 'dynamic-adds'
-      });
-      dynamicAddsBlock.appendChild(this.make('label', {}, 'Add image'));
-      this.image_url_input = this.make('input', {
-        type: 'text',
-        placeholder: "http://"
-      });
-      dynamicAddsBlock.appendChild(this.image_url_input);
-      push_image_button = this.make('button', {}, '+');
-      dynamicAddsBlock.appendChild(push_image_button);
-      $o(this.image_url_input).bind('keypress', function(e) {
-        if (e.keyCode === 13) {
-          return _this.pushImage();
-        }
-      });
-      $o(push_image_button).bind('click', function(e) {
-        return _this.pushImage();
-      });
-      return dynamicAddsBlock;
-    };
-
     ImagesManagementDiv.prototype.pushImage = function() {
-      OverlayMe.dyn_manager.addImage(this.image_url_input.value);
-      return this.image_url_input.value = '';
+      var $urlInput;
+      $urlInput = $o(this.el).find('.image-url-input');
+      OverlayMe.dyn_manager.addImage($urlInput.val());
+      return $urlInput.val('');
     };
 
     ImagesManagementDiv.prototype.render = function() {
+      var template;
+      template = _.template(this.template, {});
+      $o(this.el).html(template);
       return this.el;
     };
 
