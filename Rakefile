@@ -23,7 +23,7 @@ namespace :assets do
   task :compile do
     environment = Sprockets::Environment.new
     environment.append_path 'javascripts/coffeescripts'
-    environment.append_path 'stylesheets/scss'
+    environment.append_path 'stylesheets/sass'
 
     File.open(ENV['js_sprocket'], 'w'){ |f| f.write(environment[File.basename(f.path)].to_s) }
     File.open(ENV['css_sprocket'], 'w'){ |f| f.write(environment[File.basename(f.path)].to_s) }

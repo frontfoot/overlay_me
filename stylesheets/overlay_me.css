@@ -44,7 +44,7 @@ button {
 
 .menu-item {
   text-align: left;
-  background-color: #CCC;
+  background-color: #cccccc;
   border: 1px solid rgba(255, 255, 255, 0.2);
   width: 200px;
 }
@@ -101,7 +101,7 @@ button {
   text-align: left;
   padding: 3px 4px;
   margin: 2px;
-  border: 1px #777 solid;
+  border: 1px #777777 solid;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   -ms-border-radius: 5px;
@@ -160,10 +160,10 @@ button {
   top: 0;
   margin: 1px;
   cursor: pointer;
-  border: 1px #AAA solid;
+  border: 1px #aaaaaa solid;
   font-size: 10px;
   line-height: 13px;
-  background-color: #444;
+  background-color: #444444;
   color: white;
   font-weight: bold;
   padding: 0 3px;
