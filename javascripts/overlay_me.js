@@ -13088,13 +13088,25 @@ function style(element, styles) {
 
     ContentDivManagementBlock.prototype.css_attributes_to_save = ['z-index', 'opacity'];
 
-    ContentDivManagementBlock.prototype.normal_zindex = '0';
+    ContentDivManagementBlock.prototype.normal_zindex = 0;
 
-    ContentDivManagementBlock.prototype.over_zindex = '5';
+    ContentDivManagementBlock.prototype.over_zindex = 5;
+
+    ContentDivManagementBlock.prototype.template = '\
+    <div class="unicorns" title="Feeling corny?"></div>\
+    <legend>Page content</legend>\
+    <div class="slider-block">\
+      <label>Opacity</label>\
+      <input id="contentSlider" type="range" value="100">\
+    </div>\
+    <div class="zindex-switch">\
+      <input type="checkbox" id="zindex-toggle">\
+      <label for="zindex-toggle">Content on top (t)</label>\
+    </div>\
+  ';
 
     ContentDivManagementBlock.prototype.initialize = function() {
-      var slider_block, unicorn_button,
-        _this = this;
+      var _this = this;
       this.page_container_div = this.make('div', {
         id: 'overlay_me_page_container'
       });
@@ -13107,85 +13119,44 @@ function style(element, styles) {
       this.loadCss(this.page_container_div, {
         'z-index': this.normal_zindex
       });
-      unicorn_button = this.make('div', {
-        "class": 'unicorns',
-        title: 'Feeling corny?'
-      });
-      $o(unicorn_button).bind('click', function() {
+      setTimeout(function() {
+        if (parseInt($o("#overlay_me_page_container").css('z-index'), 10) === _this.over_zindex) {
+          return $o('#zindex-toggle')[0].checked = true;
+        }
+      }, 500);
+      $o(this.el).on('click', '.unicorns', function() {
         return OverlayMe.dyn_manager.addImage(OverlayMe.unicorns[Math.floor(Math.random() * OverlayMe.unicorns.length)], {
           default_css: {
             opacity: 1
           }
         });
-      });
-      $o(this.el).append(unicorn_button);
-      $o(this.el).append(this.make('legend', {}, 'Page content'));
-      slider_block = this.make('div', {
-        "class": 'slider-block'
-      });
-      $o(this.el).append(slider_block);
-      slider_block.appendChild(this.make('label', {}, 'Opacity'));
-      slider_block.appendChild(this.contentSlider());
-      $o(this.el).append(this.zIndexSwitch());
-      return this.bindEvents();
-    };
-
-    ContentDivManagementBlock.prototype.zIndexSwitch = function() {
-      var block, label,
-        _this = this;
-      block = this.make('div', {
-        "class": 'zindex-switch'
-      });
-      this.zIndexSwitch = this.make('input', {
-        type: "checkbox"
-      });
-      $o(block).append(this.zIndexSwitch);
-      setTimeout(function() {
-        if ($o("#overlay_me_page_container").css('z-index') === _this.over_zindex) {
-          return _this.zIndexSwitch.checked = true;
-        }
-      }, 500);
-      label = this.make('label', {}, 'Content on top (t)');
-      $o(label).bind('click', function() {
-        return $o(_this.zIndexSwitch).trigger('click');
-      });
-      return $o(block).append(label);
-    };
-
-    ContentDivManagementBlock.prototype.contentSlider = function() {
-      return this.contentSlider = this.make('input', {
-        id: "contentSlider",
-        type: "range",
-        value: $o("#overlay_me_page_container").css('opacity') * 100
-      });
-    };
-
-    ContentDivManagementBlock.prototype.bindEvents = function() {
-      var _this = this;
-      $o(this.contentSlider).bind('change', function() {
-        $o("#overlay_me_page_container").css('opacity', $o(_this.contentSlider)[0].value / 100);
+      }).on('change', '#contentSlider', function() {
+        var $slider, opacity;
+        $slider = $o('#contentSlider');
+        opacity = parseInt($slider.val(), 10) / 100;
+        $o("#overlay_me_page_container").css('opacity', opacity);
         return _this.saveCss(_this.page_container_div);
-      });
-      $o(this.zIndexSwitch).bind('change', function(event) {
-        if (_this.zIndexSwitch.checked) {
-          $o("#overlay_me_page_container").css({
-            'z-index': _this.over_zindex
-          });
+      }).on('change', '#zindex-toggle', function() {
+        var isChecked;
+        isChecked = $o('#zindex-toggle').is(':checked');
+        if (isChecked) {
+          $o('#overlay_me_page_container').css('z-index', _this.over_zindex);
         } else {
-          $o("#overlay_me_page_container").css({
-            'z-index': _this.normal_zindex
-          });
+          $o('#overlay_me_page_container').css('z-index', _this.normal_zindex);
         }
         return _this.saveCss(_this.page_container_div);
       });
-      return $o(window).bind('keypress', function(event) {
+      return $o(window).on('keypress', function(e) {
         if (event.charCode === 116) {
-          return $o(_this.zIndexSwitch).trigger('click');
+          return $o('#zindex-toggle').trigger('click');
         }
       });
     };
 
     ContentDivManagementBlock.prototype.render = function() {
+      var template;
+      template = _.template(this.template, {});
+      $o(this.el).html(template);
       return this.el;
     };
 
