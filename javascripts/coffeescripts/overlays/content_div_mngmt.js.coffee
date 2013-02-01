@@ -7,8 +7,21 @@ class OverlayMe.Overlays.ContentDivManagementBlock extends Backbone.View
   id: 'content_div_management_block'
   css_attributes_to_save: ['z-index', 'opacity']
 
-  normal_zindex: '0'
-  over_zindex: '5'
+  normal_zindex: 0
+  over_zindex: 5
+
+  template: '
+    <div class="unicorns" title="Feeling corny?"></div>
+    <legend>Page content</legend>
+    <div class="slider-block">
+      <label>Opacity</label>
+      <input id="contentSlider" type="range" value="100">
+    </div>
+    <div class="zindex-switch">
+      <input type="checkbox" id="zindex-toggle">
+      <label for="zindex-toggle">Content on top (t)</label>
+    </div>
+  '
 
   initialize: ->
 
@@ -22,65 +35,36 @@ class OverlayMe.Overlays.ContentDivManagementBlock extends Backbone.View
     # load previous css features of that container div
     @loadCss(@page_container_div, {'z-index': @normal_zindex})
 
-    # adding a hidden unicorny button
-    unicorn_button = @make 'div', { class: 'unicorns', title: 'Feeling corny?' }
-    $o(unicorn_button).bind 'click', ->
-      OverlayMe.dyn_manager.addImage(OverlayMe.unicorns[Math.floor(Math.random()*OverlayMe.unicorns.length)], { default_css: { opacity: 1 } })
-    $o(@el).append unicorn_button
-
-    # adding panel elements
-    $o(@el).append @make 'legend', {}, 'Page content'
-    slider_block = @make 'div', { class: 'slider-block' }
-    $o(@el).append slider_block
-    slider_block.appendChild @make 'label', {}, 'Opacity'
-    slider_block.appendChild @contentSlider()
-    $o(@el).append @zIndexSwitch()
-    @bindEvents()
-
-  # adding a checkbox to flip HTML over images
-  zIndexSwitch: ->
-    block = @make 'div', { class: 'zindex-switch' }
-
-    @zIndexSwitch = @make 'input', { type: "checkbox" }
-    $o(block).append @zIndexSwitch
-
     setTimeout => # have to wait a bit to make sure to access the loaded css
-      @zIndexSwitch.checked = true if $o("#overlay_me_page_container").css('z-index') == @over_zindex
+      $o('#zindex-toggle')[0].checked = true if parseInt($o("#overlay_me_page_container").css('z-index'), 10) == @over_zindex
     , 500
 
-    label = @make 'label', {}, 'Content on top (t)'
-    $o(label).bind 'click', =>
-      $o(@zIndexSwitch).trigger 'click'
-    $o(block).append label
+    $o(@el)
+      .on 'click', '.unicorns', ->
+        OverlayMe.dyn_manager.addImage(OverlayMe.unicorns[Math.floor(Math.random()*OverlayMe.unicorns.length)], { default_css: { opacity: 1 } })
 
+      .on 'change', '#contentSlider', =>
+        $slider = $o('#contentSlider')
+        opacity = parseInt($slider.val(), 10) / 100
+        $o("#overlay_me_page_container").css 'opacity', opacity
+        @saveCss @page_container_div
 
-  contentSlider: ->
-    @contentSlider = @make 'input', {
-      id: "contentSlider",
-      type: "range",
-      value: $o("#overlay_me_page_container").css('opacity')*100
-    }
+      .on 'change', '#zindex-toggle', =>
+        isChecked = $o('#zindex-toggle').is ':checked'
+        if isChecked  
+          $o('#overlay_me_page_container').css 'z-index', @over_zindex 
+        else 
+          $o('#overlay_me_page_container').css 'z-index',@normal_zindex
+        @saveCss @page_container_div
 
-  bindEvents: ->
-    $o(@contentSlider).bind('change', =>
-      $o("#overlay_me_page_container").css('opacity', $o(@contentSlider)[0].value/100)
-      @saveCss(@page_container_div)
-    )
-    $o(@zIndexSwitch).bind('change', (event) =>
-      if @zIndexSwitch.checked
-        $o("#overlay_me_page_container").css({'z-index': @over_zindex})
-      else
-        $o("#overlay_me_page_container").css({'z-index': @normal_zindex})
-      @saveCss(@page_container_div)
-    )
     # if click is kind of boring
-    $o(window).bind('keypress', (event) =>
-      #console.log event.keyCode, event.charCode
-      if event.charCode == 116 # t
-        $o(@zIndexSwitch).trigger('click')
-    )
+    $o(window).on 'keypress', (e) =>
+      $o('#zindex-toggle').trigger('click') if event.charCode == 116 # t
+
 
   render: ->
+    template = _.template @template, {}
+    $o(@el).html template
     @el
 
 # extending few mixins - thx Derick - http://stackoverflow.com/questions/7853731/proper-way-of-doing-view-mixins-in-backbone

@@ -1,0 +1,237 @@
+@import compass/css3
+
+$menu_width: 200px
+$border: 1px solid rgba(white, 0.2)
+$right_arrow: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAANCAYAAAB7AEQGAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAKtJREFUeNpiuHz5ctD///+lgJgBF2Z68uRJOgMDw0EgNmTAAZiA4AeQVgHiA0CchFUREpsPiOcCjZ8NZWNVBAaMjIwpQGofEOvjVAQFxkATDwJxMkgNCy7HAk3kB1KzgApf4DIJBD4CcRpQ8TZcJp2D+vQiVjcBjZ8HpBxhCtAVfQbiVKDxIMd+QtbI8u/fP04gfQ+Iw4D4LDa7WSQlJUGBdxyIn+DyAUCAAQDxsEXD9kreLQAAAABJRU5ErkJggg==)
+$down_arrow: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAJCAYAAADpeqZqAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAIlJREFUeNpivHDhQujz589TmZiYvjMQAP/+/eOQkZGZyfD//38ZIL77nzhwG4ilQJpA2BiIPxHQ8BGIDUHqYZpAOIWApiSYWmRNIDfPxaYaKD4bWR2KJiDmA+KzaHrOQMVxagJhfSD+ALXhA5TPQEgTCCcD8V+gpmRs8rg0MQI1eANpJmzyAAEGAKD/bax/HrzbAAAAAElFTkSuQmCC)
+
+
+#overlay_me_page_container
+  position: relative
+
+#overlay_me_menu
+  font-family: Arial, sans-serif
+  position: fixed
+  right: 0
+  z-index: 990 //to pass over Google Toolbar ;)
+  line-height: 16px
+
+  button
+    font-size: 9px
+    margin: 0 3px
+    padding: 0px 3px
+  
+  .drag-me
+    display: block
+    color: #000
+    text-align: center
+    font-size: 0.7em
+    +background-image(linear-gradient(0, #999, #ddd 30%, #ddd 70%, #999 100%))
+    padding: 1px
+    cursor: move
+  
+  ul
+    list-style: none
+    margin: 0
+    padding: 0
+    border: 0
+    font-size: 100%
+    font: inherit
+    vertical-align: baseline
+
+.menu-item
+  text-align: left
+  background-color: #CCC
+  border: $border
+  width: $menu_width
+
+  a.collapse-button
+    position: absolute
+    cursor: pointer
+    padding:
+      top: 9px
+      left: 5px
+    width: 13px
+    height: 9px
+    border: none
+    background: $down_arrow no-repeat center 3px
+
+  label.title
+    padding-left: 20px
+    color: white
+    cursor: pointer
+    width: $menu_width - 13px
+    line-height: 1.1em
+    font-size: 14px
+    background: none
+  
+  &.collapsed
+    .item-content
+      display: none
+
+    a.collapse-button
+      background: $right_arrow no-repeat center top
+
+.overlays-panel
+  .content-mgnt-block
+    position: relative
+    line-height: 10px
+
+    .unicorns
+      background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAklJREFUeNqEks1u00AQx3d27V3HdezY+SBpkKBFoBZxQEKIOwfegBs3rtwoPABvw3sgceKAuFWtUBBSaT6ctvHXer2zOElTVaoKI/2lWWl/O//ZGZi8jgSPxFv3JX93+CJvfJ4/09++vzH6S/SVH59+IohH5JagxBilC4zNHHigSLvtTCPRnLYxtB4b29ojGglBc1PG1PAyLfUxzszIX7B86MwLP/iVkS566DWeEgo+gfrWdV1VJoZgpUdqon84p1a+wxI1CA+l3Z+yqu89N5a9v65EVgK8TOpgH/edZS6JAZ97/AkfKjF3pTpRkUrlfQFnoGlaHNc2F0sAzPIFWIl9WMEGTYUZJfyB12ED2l9UE6bkDAcoy+0QznXJ8nIEBosNuIb3xLoBNIlRhNlc7Ho9dDA6l1OC8gKGUGEnhAyBFmpSu8zqf9jAzqZ/RIUxFDR0G2LQ6ueIwUzGFIuE95livS4p2RaUVQYas/p+xQ4eiavPqO2nKPUcCrvlCR50uqlirXGeiUWeua4uva6vebNDwHIJErq2fW0Mdfcxpjqmqe37Nnd73US64Ummt8a5bCpZhh5UrZanfS9gBw/5tcorGSz1TJ/rCTljoomOGDTLsh+NUz8Ypdz/ndBwlpFeIdn7Hevm9miD9QNxdVGNSQzGSR3ao6Duekm23fqT3Al/Ju3waAEnr1xyayxnymhgNcU9Z7sx5LtWA+6bquxXaeLr5J+wMZebRQwDiwW2x0O7I1y7ZxOrS+X/4Y0DXJ0pANhgM4sKRv4KMACD6UDbVgTzkgAAAABJRU5ErkJggg==) no-repeat center center
+      width: 15px
+      height: 15px
+      position: absolute
+      right: 0
+      top: 6px
+  label
+    margin: 0
+    font-size: 14px
+
+  .content-mgnt-block, #images_mgnt
+    text-align: left
+    padding: 3px 4px
+    margin: 2px
+    border: 1px #777 solid
+    +border-radius(5px)
+    legend
+      font-size: 10px
+      padding: 0 3px
+      margin: 0 0 0 10px
+      border: 0
+
+  .slider-block
+    display: block
+    label
+      font-size: 60%
+      margin: 0 5px 0 0
+      vertical-align: top
+    input[type=range]
+      margin: 0
+      height: 14px
+      width: 120px
+
+  #images_mgnt
+    $image_mgnt_width: $menu_width - 14px
+    width: $image_mgnt_width
+
+    .controls
+      padding-bottom: 2px
+      label
+        margin-right: 5px
+
+    .overlay-image-block, .images_dir
+      padding-top: 2px
+      border: $border
+      border
+        right: none
+        left: none
+
+      &:first-child
+        border-top: none
+        padding-top: 0
+
+    .overlay-image-block
+      position: relative
+      width: $image_mgnt_width
+      text-align: left
+
+      &.hovered
+        background-color: rgba(yellow, 0.5)
+
+      .del-button
+        position: absolute
+        right: 0
+        top: 0
+        margin: 1px
+        cursor: pointer
+        border: 1px #aaa solid
+        font-size: 10px
+        line-height: 13px
+        background-color: #444
+        color: #fff
+        font-weight: bold
+        padding: 0 3px
+
+    .images_dir
+      line-height: 18px
+
+      .sub-block
+        padding-left: 2px
+        margin-left: 5px
+        border-left: 2px #fff solid
+
+      & > input[type=checkbox]
+        -webkit-appearance: none
+        background: $right_arrow no-repeat center center
+        display: inline-block
+        width: 13px
+        height: 13px
+
+        &:checked
+          width: 13px
+          height: 13px
+          margin: -2px 5px 0 0
+          background: $down_arrow no-repeat center center
+
+    .dynamic-adds
+      padding-top: 4px
+
+      label
+        font-size: 75%
+
+      input
+        width: 95px
+        font-size: 10px
+        margin-left: 2px
+
+      button
+        font-size: 10px
+
+  input[type=checkbox], label, #contentSlider, .zindex-switch
+    display: inline
+
+  input[type=checkbox]
+    vertical-align: middle
+    margin: -3px 5px 0 0
+
+#overlay_me_images_container
+  position: absolute
+  z-index: 4
+  // same than the caroussel images
+  top: 0
+  left: 0
+
+  div
+    position: absolute
+
+    &.highlight
+      border: 2px solid red
+      margin:
+        top: -2px
+        left: -2px
+      cursor: move
+
+  img
+    position: absolute
+    top: 0
+    left: 0
+
+#overlay_me_menu.collapsed
+  .drag-me, .menu-item
+    width: 25px
+
+  .drag-me
+    height: 10px
+    overflow: hidden
+
+  button
+    height: 10px
+    overflow: hidden
+
+  .overlay-image-block
+    height: 14px
+    margin-top: 3px
+
+  .overlay-image-block label, #content_div_management_block, .controls, input[type=range], #overlay_panel #contentSlider, legend, .dynamic-adds, .unicorns, button.reset, button.hide, button.del-button
+    display: none

@@ -12372,46 +12372,47 @@ function style(element, styles) {
 
     MenuClass.prototype.id = 'overlay_me_menu';
 
+    MenuClass.prototype.template = '\
+    <div class="drag-me">Drag me up and down</div>\
+    <ul class="menu-list">\
+    </ul>\
+  ';
+
     MenuClass.prototype.initialize = function(attributes) {
-      var drag_me_line,
-        _this = this;
+      var _this = this;
       MenuClass.__super__.initialize.call(this, attributes, {
         default_css: {
-          top: '50px'
+          top: 50
         }
       });
-      drag_me_line = (new Backbone.View).make('div', {
-        "class": 'drag-me'
-      }, 'Drag me up and down');
-      this.menu_list = (new Backbone.View).make('ul');
-      $o(this.el).append(drag_me_line);
-      $o(this.el).append(this.menu_list);
       $o('body').append(this.render());
-      $o(drag_me_line).bind('mousedown', function(event) {
-        return _this.toggleMove(event);
+      $o(this.el).on('mousedown', '.drag-me', function(e) {
+        return _this.toggleMove(e);
       });
-      $o(window).bind('mouseup', function(event) {
-        return _this.endMove(event);
-      });
-      return $o(window).bind('overlay_me:toggle_all_display', function() {
+      return $o(window).on('mouseup', function(e) {
+        return _this.endMove(e);
+      }).on('overlay_me:toggle_all_display', function() {
         return _this.toggleDisplay();
       });
     };
 
     MenuClass.prototype.append = function(element) {
-      return this.menu_list.appendChild(element);
+      return $o(this.el).find('.menu-list').append(element);
     };
 
     MenuClass.prototype.toggleCollapse = function() {
-      if (this.collapsed()) {
-        return $o(this.el).removeClass('collapsed');
-      } else {
-        return $o(this.el).addClass('collapsed');
-      }
+      return $o(this.el).toggleClass('collapsed');
     };
 
     MenuClass.prototype.collapsed = function() {
       return $o(this.el).hasClass('collapsed');
+    };
+
+    MenuClass.prototype.render = function() {
+      var template;
+      template = _.template(this.template, {});
+      $o(this.el).html(template);
+      return this.el;
     };
 
     return MenuClass;
@@ -12445,34 +12446,22 @@ function style(element, styles) {
 
     MenuItem.prototype.className = 'menu-item';
 
+    MenuItem.prototype.template = '\
+    <a class="collapse-button"></a>\
+    <label class="title"><%= title %></label>\
+    <div class="item-content"></div>\
+  ';
+
     MenuItem.prototype.initialize = function(attributes, options) {
       var _this = this;
       this.id = attributes.id;
       $o(this.el).addClass(attributes.id);
-      this.el.appendChild(this.collapseButton());
-      this.title = this.make('label', {
-        "class": 'title'
-      }, attributes.title);
-      $o(this.title).bind('click', function() {
+      this.title = attributes.title;
+      $o(this.el).on('click', '.collapse-button, .title', function() {
         return _this.toggleCollapse();
       });
-      this.el.appendChild(this.title);
-      this.content = this.make('div', {
-        "class": 'item-content'
-      });
-      this.el.appendChild(this.content);
-      return this.setCollapse((localStorage.getItem("" + this.id + "-collapsed") === '1' ? true : false));
-    };
-
-    MenuItem.prototype.collapseButton = function() {
-      var _this = this;
-      this.collapseButton = this.make('a', {
-        "class": 'collaps-button'
-      }, '<span>o</span>');
-      $o(this.collapseButton).bind('click', function() {
-        return _this.toggleCollapse();
-      });
-      return this.collapseButton;
+      this.content = [];
+      return this.setCollapse(localStorage.getItem("" + this.id + "-collapsed") === '1');
     };
 
     MenuItem.prototype.toggleCollapse = function() {
@@ -12490,10 +12479,20 @@ function style(element, styles) {
     };
 
     MenuItem.prototype.append = function(childElemt) {
-      return this.content.appendChild(childElemt);
+      return this.content.push(childElemt);
     };
 
     MenuItem.prototype.render = function() {
+      var $content, params, template;
+      params = {
+        title: this.title
+      };
+      template = _.template(this.template, params);
+      $o(this.el).html(template);
+      $content = $o(this.el).find('.item-content');
+      _.each(this.content, function(el) {
+        return $content.append($o(el));
+      });
       return this.el;
     };
 
@@ -12520,36 +12519,32 @@ function style(element, styles) {
       return BasicsPanel.__super__.constructor.apply(this, arguments);
     }
 
+    BasicsPanel.prototype.panelContent = '\
+    <button class="collapse">Collapse (c)</button>\
+    <button class="reset">Reset All (r)</button>\
+    <button class="hide">Hide (h)</button>\
+  ';
+
     BasicsPanel.prototype.initialize = function(attributes, options) {
-      var clear_all_button, collapse_button, hide_button, toggle_all_display,
+      var template, toggle_all_display,
         _this = this;
       BasicsPanel.__super__.initialize.call(this, {
         id: "basics-options-panel",
         title: "Basics"
       }, options);
-      collapse_button = (new Backbone.View).make('button', {
-        "class": 'collapse'
-      }, 'Collapse (c)');
-      $o(collapse_button).bind('click', function(event) {
-        return OverlayMe.menu.toggleCollapse();
-      });
-      this.append(collapse_button);
-      clear_all_button = (new Backbone.View).make('button', {
-        "class": 'reset',
-        onClick: "javascript: OverlayMe.clearAndReload()"
-      }, 'Reset All (r)');
-      this.append(clear_all_button);
       toggle_all_display = function() {
         $o(window).trigger('overlay_me:toggle_all_display');
         return $o(window).trigger('overlay_me:toggle_overlay_me_images_container_display');
       };
-      hide_button = (new Backbone.View).make('button', {
-        "class": 'hide'
-      }, 'Hide (h)');
-      $o(hide_button).bind('click', function(event) {
+      $o(this.el).on('click', '.collapse', function(e) {
+        return OverlayMe.menu.toggleCollapse();
+      }).on('click', '.reset', function(e) {
+        return OverlayMe.clearAndReload();
+      }).on('click', '.hide', function(e) {
         return toggle_all_display();
       });
-      this.append(hide_button);
+      template = _.template(this.panelContent, {});
+      this.append(template);
       OverlayMe.menu.append(this.render());
       key('h', function() {
         return toggle_all_display();
@@ -12710,22 +12705,20 @@ function style(element, styles) {
       $o(this.image).attr('src', options.image_src);
       $o(this.el).append(this.image);
       if ($o(this.el).css('left') === 'auto' || $o(this.el).css('left') === '') {
-        $o(this.el).css('left', '0px');
+        $o(this.el).css('left', 0);
       }
       if ($o(this.el).css('top') === 'auto' || $o(this.el).css('top') === '') {
-        $o(this.el).css('top', '0px');
+        $o(this.el).css('top', 0);
       }
-      $o(this.el).bind('mousedown', function(event) {
-        return _this.toggleMove(event);
-      });
-      $o(window).bind('mouseup', function(event) {
-        return _this.endMove(event);
-      });
-      $o(this.el).bind('mouseover', function(event) {
+      $o(this.el).on('mousedown', function(e) {
+        return _this.toggleMove(e);
+      }).on('mouseover', function(e) {
         return $o(".overlay-image-block[data-img-id=" + _this.id + "]").addClass('hovered');
-      });
-      return $o(this.el).bind('mouseout', function(event) {
+      }).on('mouseout', function(e) {
         return $o(".overlay-image-block[data-img-id=" + _this.id + "]").removeClass('hovered');
+      });
+      return $o(window).bind('mouseup', function(e) {
+        return _this.endMove(e);
       });
     };
 
@@ -12763,45 +12756,61 @@ function style(element, styles) {
 
     Image.prototype.className = 'overlay-image-block';
 
-    Image.prototype.initialize = function(image_src, options) {
-      var images_container, slider_block,
+    Image.prototype.template = '\
+    <input type="checkbox" checked="<%= checked %>">\
+    <label><%= name %></label>\
+    <div class="slider-block">\
+      <label>Opacity</label>\
+      <input type="range" value="<%= opacity %>">\
+    </div>\
+    <% if(destroyable) { %>\
+      <button class="del-button" title="Delete">x</button>\
+    <% } %>\
+  ';
+
+    Image.prototype.initialize = function(imageSrc, options) {
+      var imagesContainer,
         _this = this;
       $o.extend({
         destroyable: false
       }, options);
-      this.image_src = image_src;
-      this.image_id = OverlayMe.Overlays.urlToId(image_src);
+      this.image_src = imageSrc;
+      this.image_id = OverlayMe.Overlays.urlToId(imageSrc);
       $o(this.el).attr('data-img-id', this.image_id);
-      images_container = new OverlayMe.Overlays.ImagesContainer({
+      imagesContainer = new OverlayMe.Overlays.ImagesContainer({
         parent_path: options.parent_path
       });
       this.default_css = $o.extend({
         display: 'none',
         opacity: 0.5
       }, options.default_css);
-      if (!($o("#" + this.image_id, images_container.el).length > 0)) {
-        $o(images_container.el).append(this.image());
+      if (!$o(imagesContainer.el).find("#" + this.image_id).length) {
+        $o(imagesContainer.el).append(this.image());
       }
-      $o(this.el).append(this.checkbox());
-      $o(this.el).append(this.label());
-      slider_block = this.make('div', {
-        "class": 'slider-block'
-      });
-      $o(this.el).append(slider_block);
-      slider_block.appendChild(this.make('label', {}, 'Opacity'));
-      slider_block.appendChild(this.slider());
-      if (options.destroyable) {
-        $o(this.el).append(this.delButton());
-      }
-      $o(this.el).bind('click', function(e) {
+      this.destroyable = options.destroyable;
+      return $o(this.el).on('change', '[type=checkbox]', function(e) {
         e.stopPropagation();
-        return _this.flickCheckbox();
-      });
-      $o(this.el).bind('mouseover', function(event) {
+        return _this.toggleVisibility();
+      }).on('click', '[type=range]', function(e) {
+        return e.stopPropagation();
+      }).on('change', '[type=range]', function(e) {
+        $o(_this.image.el).css('opacity', parseInt($o(_this.el).find('[type=range]').val(), 10) / 100);
+        return _this.image.saveCss();
+      }).on('mouseover', '[type=range]', function(e) {
+        e.stopPropagation();
+        return $o(_this.el).addClass('hovered');
+      }).on('mouseout', '[type=range]', function(e) {
+        e.stopPropagation();
+        return $o(_this.el).removeClass('hovered');
+      }).on('click', '.del-button', function(e) {
+        return OverlayMe.dyn_manager.delImage(_this.image_id);
+      }).on('click', function(e) {
+        e.stopPropagation();
+        return _this.toggleChechbox();
+      }).on('mouseover', function(e) {
         $o(_this.image.el).addClass('highlight');
         return $o(_this.el).addClass('hovered');
-      });
-      return $o(this.el).bind('mouseout', function(event) {
+      }).on('mouseout', function(e) {
         $o(_this.image.el).removeClass('highlight');
         return $o(_this.el).removeClass('hovered');
       });
@@ -12817,80 +12826,42 @@ function style(element, styles) {
       return this.image.render();
     };
 
-    Image.prototype.checkbox = function() {
-      var _this = this;
-      this.checkbox = this.make('input', {
-        type: "checkbox"
-      });
-      if (this.image.isDisplayed()) {
-        this.checkbox.checked = true;
-      }
-      $o(this.checkbox).bind('click', function(e) {
-        e.stopPropagation();
-        return _this.flickVisibility();
-      });
-      $o(this.checkbox).bind('change', function(e) {
-        e.stopPropagation();
-        return _this.flickVisibility();
-      });
-      return this.checkbox;
+    Image.prototype.toggleChechbox = function() {
+      var $cb;
+      $cb = $o(this.el).find('[type=checkbox]');
+      $cb[0].checked = !$cb[0].checked;
+      return this.toggleVisibility();
     };
 
-    Image.prototype.delButton = function() {
-      var _this = this;
-      this.delButton = this.make('button', {
-        "class": 'del-button',
-        title: 'Delete'
-      }, 'x');
-      $o(this.delButton).bind('click', function(e) {
-        return OverlayMe.dyn_manager.delImage(_this.image_id);
-      });
-      return this.delButton;
-    };
-
-    Image.prototype.flickCheckbox = function() {
-      this.checkbox.checked = !this.checkbox.checked;
-      return this.flickVisibility();
-    };
-
-    Image.prototype.flickVisibility = function() {
-      if (this.checkbox.checked) {
-        $o(this.image.el).css('display', 'block');
-      } else {
-        $o(this.image.el).css('display', 'none');
-      }
+    Image.prototype.toggleVisibility = function() {
+      var $cb;
+      $cb = $o(this.el).find('[type=checkbox]');
+      $o(this.image.el).toggle($cb.is(':checked'));
       return this.image.saveCss();
     };
 
-    Image.prototype.label = function() {
-      return this.label = this.make('label', {}, this.image_src.replace(/.*\//, '').slice(-22));
+    Image.prototype.opacity = function() {
+      return $o(this.image.el).css('opacity') * 100;
     };
 
-    Image.prototype.slider = function() {
-      var _this = this;
-      this.slider = this.make('input', {
-        type: "range",
-        value: $o(this.image.el).css('opacity') * 100
-      });
-      $o(this.slider).bind('click', function(e) {
-        return e.stopPropagation();
-      });
-      $o(this.slider).bind('change', function(e) {
-        $o(_this.image.el).css('opacity', $o(_this.slider)[0].value / 100);
-        return _this.image.saveCss();
-      });
-      $o(this.slider).bind('mouseover', function(e) {
-        e.stopPropagation();
-        return $o(_this.el).addClass('hovered');
-      });
-      $o(this.slider).bind('mouseout', function(e) {
-        e.stopPropagation();
-        return $o(_this.el).removeClass('hovered');
-      });
-      return this.slider;
+    Image.prototype.label = function() {
+      return this.label = this.make('label', {}, this.name());
+    };
+
+    Image.prototype.name = function() {
+      return this.image_src.replace(/.*\//, '').slice(-22);
     };
 
     Image.prototype.render = function() {
+      var params, template;
+      params = {
+        checked: this.image.isDisplayed() ? 'checked' : false,
+        name: this.name(),
+        opacity: this.opacity(),
+        destroyable: this.destroyable
+      };
+      template = _.template(this.template, params);
+      $o(this.el).html(template);
       return this.el;
     };
 
@@ -13110,13 +13081,25 @@ function style(element, styles) {
 
     ContentDivManagementBlock.prototype.css_attributes_to_save = ['z-index', 'opacity'];
 
-    ContentDivManagementBlock.prototype.normal_zindex = '0';
+    ContentDivManagementBlock.prototype.normal_zindex = 0;
 
-    ContentDivManagementBlock.prototype.over_zindex = '5';
+    ContentDivManagementBlock.prototype.over_zindex = 5;
+
+    ContentDivManagementBlock.prototype.template = '\
+    <div class="unicorns" title="Feeling corny?"></div>\
+    <legend>Page content</legend>\
+    <div class="slider-block">\
+      <label>Opacity</label>\
+      <input id="contentSlider" type="range" value="100">\
+    </div>\
+    <div class="zindex-switch">\
+      <input type="checkbox" id="zindex-toggle">\
+      <label for="zindex-toggle">Content on top (t)</label>\
+    </div>\
+  ';
 
     ContentDivManagementBlock.prototype.initialize = function() {
-      var slider_block, unicorn_button,
-        _this = this;
+      var _this = this;
       this.page_container_div = this.make('div', {
         id: 'overlay_me_page_container'
       });
@@ -13129,85 +13112,44 @@ function style(element, styles) {
       this.loadCss(this.page_container_div, {
         'z-index': this.normal_zindex
       });
-      unicorn_button = this.make('div', {
-        "class": 'unicorns',
-        title: 'Feeling corny?'
-      });
-      $o(unicorn_button).bind('click', function() {
+      setTimeout(function() {
+        if (parseInt($o("#overlay_me_page_container").css('z-index'), 10) === _this.over_zindex) {
+          return $o('#zindex-toggle')[0].checked = true;
+        }
+      }, 500);
+      $o(this.el).on('click', '.unicorns', function() {
         return OverlayMe.dyn_manager.addImage(OverlayMe.unicorns[Math.floor(Math.random() * OverlayMe.unicorns.length)], {
           default_css: {
             opacity: 1
           }
         });
-      });
-      $o(this.el).append(unicorn_button);
-      $o(this.el).append(this.make('legend', {}, 'Page content'));
-      slider_block = this.make('div', {
-        "class": 'slider-block'
-      });
-      $o(this.el).append(slider_block);
-      slider_block.appendChild(this.make('label', {}, 'Opacity'));
-      slider_block.appendChild(this.contentSlider());
-      $o(this.el).append(this.zIndexSwitch());
-      return this.bindEvents();
-    };
-
-    ContentDivManagementBlock.prototype.zIndexSwitch = function() {
-      var block, label,
-        _this = this;
-      block = this.make('div', {
-        "class": 'zindex-switch'
-      });
-      this.zIndexSwitch = this.make('input', {
-        type: "checkbox"
-      });
-      $o(block).append(this.zIndexSwitch);
-      setTimeout(function() {
-        if ($o("#overlay_me_page_container").css('z-index') === _this.over_zindex) {
-          return _this.zIndexSwitch.checked = true;
-        }
-      }, 500);
-      label = this.make('label', {}, 'Content on top (t)');
-      $o(label).bind('click', function() {
-        return $o(_this.zIndexSwitch).trigger('click');
-      });
-      return $o(block).append(label);
-    };
-
-    ContentDivManagementBlock.prototype.contentSlider = function() {
-      return this.contentSlider = this.make('input', {
-        id: "contentSlider",
-        type: "range",
-        value: $o("#overlay_me_page_container").css('opacity') * 100
-      });
-    };
-
-    ContentDivManagementBlock.prototype.bindEvents = function() {
-      var _this = this;
-      $o(this.contentSlider).bind('change', function() {
-        $o("#overlay_me_page_container").css('opacity', $o(_this.contentSlider)[0].value / 100);
+      }).on('change', '#contentSlider', function() {
+        var $slider, opacity;
+        $slider = $o('#contentSlider');
+        opacity = parseInt($slider.val(), 10) / 100;
+        $o("#overlay_me_page_container").css('opacity', opacity);
         return _this.saveCss(_this.page_container_div);
-      });
-      $o(this.zIndexSwitch).bind('change', function(event) {
-        if (_this.zIndexSwitch.checked) {
-          $o("#overlay_me_page_container").css({
-            'z-index': _this.over_zindex
-          });
+      }).on('change', '#zindex-toggle', function() {
+        var isChecked;
+        isChecked = $o('#zindex-toggle').is(':checked');
+        if (isChecked) {
+          $o('#overlay_me_page_container').css('z-index', _this.over_zindex);
         } else {
-          $o("#overlay_me_page_container").css({
-            'z-index': _this.normal_zindex
-          });
+          $o('#overlay_me_page_container').css('z-index', _this.normal_zindex);
         }
         return _this.saveCss(_this.page_container_div);
       });
-      return $o(window).bind('keypress', function(event) {
+      return $o(window).on('keypress', function(e) {
         if (event.charCode === 116) {
-          return $o(_this.zIndexSwitch).trigger('click');
+          return $o('#zindex-toggle').trigger('click');
         }
       });
     };
 
     ContentDivManagementBlock.prototype.render = function() {
+      var template;
+      template = _.template(this.template, {});
+      $o(this.el).html(template);
       return this.el;
     };
 
@@ -13236,17 +13178,29 @@ function style(element, styles) {
 
     ImagesManagementDiv.prototype.id = 'images_mgnt';
 
+    ImagesManagementDiv.prototype.template = '\
+    <legend>Overlaying images</legend>\
+    <div class="overlays-list"></div>\
+    <div class="dynamic-adds">\
+      <label>Add image</label>\
+      <input class="image-url-input" type="text" placeholder="http://">\
+      <button>+</button>\
+    </div>\
+  ';
+
     ImagesManagementDiv.prototype.initialize = function() {
-      $o(this.el).append(this.make('legend', {}, 'Overlaying images'));
-      this.overlaysListBlock = this.make('div', {
-        "class": 'overlays-list'
+      var _this = this;
+      return $o(this.el).on('keypress', 'input', function(e) {
+        if (e.keyCode === 13) {
+          return _this.pushImage();
+        }
+      }).on('click', 'button', function(e) {
+        return _this.pushImage();
       });
-      $o(this.el).append(this.overlaysListBlock);
-      return $o(this.el).append(this.dynamicAddsBlock());
     };
 
     ImagesManagementDiv.prototype.append = function(block) {
-      return this.overlaysListBlock.appendChild(block);
+      return $o(this.el).find('.overlays-list').append(block);
     };
 
     ImagesManagementDiv.prototype.del = function(image_id) {
@@ -13254,37 +13208,17 @@ function style(element, styles) {
       return $o("#overlay_me_images_container #" + image_id).remove();
     };
 
-    ImagesManagementDiv.prototype.dynamicAddsBlock = function() {
-      var dynamicAddsBlock, push_image_button,
-        _this = this;
-      dynamicAddsBlock = this.make('div', {
-        "class": 'dynamic-adds'
-      });
-      dynamicAddsBlock.appendChild(this.make('label', {}, 'Add image'));
-      this.image_url_input = this.make('input', {
-        type: 'text',
-        placeholder: "http://"
-      });
-      dynamicAddsBlock.appendChild(this.image_url_input);
-      push_image_button = this.make('button', {}, '+');
-      dynamicAddsBlock.appendChild(push_image_button);
-      $o(this.image_url_input).bind('keypress', function(e) {
-        if (e.keyCode === 13) {
-          return _this.pushImage();
-        }
-      });
-      $o(push_image_button).bind('click', function(e) {
-        return _this.pushImage();
-      });
-      return dynamicAddsBlock;
-    };
-
     ImagesManagementDiv.prototype.pushImage = function() {
-      OverlayMe.dyn_manager.addImage(this.image_url_input.value);
-      return this.image_url_input.value = '';
+      var $urlInput;
+      $urlInput = $o(this.el).find('.image-url-input');
+      OverlayMe.dyn_manager.addImage($urlInput.val());
+      return $urlInput.val('');
     };
 
     ImagesManagementDiv.prototype.render = function() {
+      var template;
+      template = _.template(this.template, {});
+      $o(this.el).html(template);
       return this.el;
     };
 

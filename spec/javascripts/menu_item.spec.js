@@ -35,13 +35,7 @@
       return expect(menu_item.collapsed).toEqual(false);
     });
     it("should have a collapsing button (link)", function() {
-      return expect($o('a.collaps-button', menu_item.el).length).toEqual(1);
-    });
-    it("should have an append method appending stuff inside it", function() {
-      var test_span;
-      test_span = $o('<span id="test-append-span">Just a test :)</span>')[0];
-      menu_item.append(test_span);
-      return expect($o('#test-append-span', menu_item.el).length).toEqual(1);
+      return expect($o('a.collapse-button', menu_item.render()).length).toEqual(1);
     });
     it("should have a saveState method", function() {
       return expect(menu_item.saveState).toBeDefined();
