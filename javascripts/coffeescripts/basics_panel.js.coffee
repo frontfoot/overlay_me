@@ -3,7 +3,7 @@
 
 class OverlayMe.BasicsPanel extends OverlayMe.MenuItem
 
-  template: '
+  panelContent: '
     <button class="collapse">Collapse (c)</button>
     <button class="reset">Reset All (r)</button>
     <button class="hide">Hide (h)</button>
@@ -24,8 +24,8 @@ class OverlayMe.BasicsPanel extends OverlayMe.MenuItem
       .on 'click', '.hide', (e) =>
         toggle_all_display()
 
-    template = _.template @template, {}
-    @append $o(@el).html template
+    template = _.template @panelContent, {}
+    @append template
 
     # add the element to the menu (so yes it has to be there!)
     OverlayMe.menu.append @render()

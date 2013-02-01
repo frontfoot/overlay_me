@@ -12404,6 +12404,10 @@ function style(element, styles) {
       return $o(this.el).toggleClass('collapsed');
     };
 
+    MenuClass.prototype.collapsed = function() {
+      return $o(this.el).hasClass('collapsed');
+    };
+
     MenuClass.prototype.render = function() {
       var template;
       template = _.template(this.template, {});
@@ -12443,9 +12447,7 @@ function style(element, styles) {
     MenuItem.prototype.className = 'menu-item';
 
     MenuItem.prototype.template = '\
-    <a class="collaps-button">\
-      <span>o</span>\
-    </a>\
+    <a class="collapse-button"></a>\
     <label class="title"><%= title %></label>\
     <div class="item-content"></div>\
   ';
@@ -12455,7 +12457,7 @@ function style(element, styles) {
       this.id = attributes.id;
       $o(this.el).addClass(attributes.id);
       this.title = attributes.title;
-      $o(this.el).on('click', '.collaps-button, .title', function() {
+      $o(this.el).on('click', '.collapse-button, .title', function() {
         return _this.toggleCollapse();
       });
       this.content = [];
@@ -12517,7 +12519,7 @@ function style(element, styles) {
       return BasicsPanel.__super__.constructor.apply(this, arguments);
     }
 
-    BasicsPanel.prototype.template = '\
+    BasicsPanel.prototype.panelContent = '\
     <button class="collapse">Collapse (c)</button>\
     <button class="reset">Reset All (r)</button>\
     <button class="hide">Hide (h)</button>\
@@ -12541,8 +12543,8 @@ function style(element, styles) {
       }).on('click', '.hide', function(e) {
         return toggle_all_display();
       });
-      template = _.template(this.template, {});
-      this.append($o(this.el).html(template));
+      template = _.template(this.panelContent, {});
+      this.append(template);
       OverlayMe.menu.append(this.render());
       key('h', function() {
         return toggle_all_display();

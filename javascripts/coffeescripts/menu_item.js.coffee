@@ -4,9 +4,7 @@ class OverlayMe.MenuItem extends Backbone.View
   className: 'menu-item'
 
   template: '
-    <a class="collaps-button">
-      <span>o</span>
-    </a>
+    <a class="collapse-button"></a>
     <label class="title"><%= title %></label>
     <div class="item-content"></div>
   '
@@ -18,7 +16,7 @@ class OverlayMe.MenuItem extends Backbone.View
     @title = attributes.title
 
     $o(@el)
-      .on 'click', '.collaps-button, .title', =>
+      .on 'click', '.collapse-button, .title', =>
         @toggleCollapse()
 
     @content = []

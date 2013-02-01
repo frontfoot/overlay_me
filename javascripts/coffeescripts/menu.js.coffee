@@ -33,6 +33,9 @@ class OverlayMe.MenuClass extends OverlayMe.Draggable
   toggleCollapse: ->
     $o(@el).toggleClass 'collapsed'
 
+  collapsed: ->
+    $o(@el).hasClass 'collapsed'
+
   render: ->
     template = _.template @template, {}
     $o(@el).html template
