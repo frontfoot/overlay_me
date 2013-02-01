@@ -12763,45 +12763,61 @@ function style(element, styles) {
 
     Image.prototype.className = 'overlay-image-block';
 
-    Image.prototype.initialize = function(image_src, options) {
-      var images_container, slider_block,
+    Image.prototype.template = '\
+    <input type="checkbox" checked="<%= checked %>">\
+    <label><%= name %></label>\
+    <div class="slider-block">\
+      <label>Opacity</label>\
+      <input type="range" value="<%= opacity %>">\
+    </div>\
+    <% if(destroyable) { %>\
+      <button class="del-button" title="Delete">x</button>\
+    <% } %>\
+  ';
+
+    Image.prototype.initialize = function(imageSrc, options) {
+      var imagesContainer,
         _this = this;
       $o.extend({
         destroyable: false
       }, options);
-      this.image_src = image_src;
-      this.image_id = OverlayMe.Overlays.urlToId(image_src);
+      this.image_src = imageSrc;
+      this.image_id = OverlayMe.Overlays.urlToId(imageSrc);
       $o(this.el).attr('data-img-id', this.image_id);
-      images_container = new OverlayMe.Overlays.ImagesContainer({
+      imagesContainer = new OverlayMe.Overlays.ImagesContainer({
         parent_path: options.parent_path
       });
       this.default_css = $o.extend({
         display: 'none',
         opacity: 0.5
       }, options.default_css);
-      if (!($o("#" + this.image_id, images_container.el).length > 0)) {
-        $o(images_container.el).append(this.image());
+      if (!$o(imagesContainer.el).find("#" + this.image_id).length) {
+        $o(imagesContainer.el).append(this.image());
       }
-      $o(this.el).append(this.checkbox());
-      $o(this.el).append(this.label());
-      slider_block = this.make('div', {
-        "class": 'slider-block'
-      });
-      $o(this.el).append(slider_block);
-      slider_block.appendChild(this.make('label', {}, 'Opacity'));
-      slider_block.appendChild(this.slider());
-      if (options.destroyable) {
-        $o(this.el).append(this.delButton());
-      }
-      $o(this.el).bind('click', function(e) {
+      this.destroyable = options.destroyable;
+      return $o(this.el).on('change', '[type=checkbox]', function(e) {
         e.stopPropagation();
-        return _this.flickCheckbox();
-      });
-      $o(this.el).bind('mouseover', function(event) {
+        return _this.toggleVisibility();
+      }).on('click', '[type=range]', function(e) {
+        return e.stopPropagation();
+      }).on('change', '[type=range]', function(e) {
+        $o(_this.image.el).css('opacity', parseInt($o(_this.el).find('[type=range]').val(), 10) / 100);
+        return _this.image.saveCss();
+      }).on('mouseover', '[type=range]', function(e) {
+        e.stopPropagation();
+        return $o(_this.el).addClass('hovered');
+      }).on('mouseout', '[type=range]', function(e) {
+        e.stopPropagation();
+        return $o(_this.el).removeClass('hovered');
+      }).on('click', '.del-button', function(e) {
+        return OverlayMe.dyn_manager.delImage(_this.image_id);
+      }).on('click', function(e) {
+        e.stopPropagation();
+        return _this.toggleChechbox();
+      }).on('mouseover', function(e) {
         $o(_this.image.el).addClass('highlight');
         return $o(_this.el).addClass('hovered');
-      });
-      return $o(this.el).bind('mouseout', function(event) {
+      }).on('mouseout', function(e) {
         $o(_this.image.el).removeClass('highlight');
         return $o(_this.el).removeClass('hovered');
       });
@@ -12817,80 +12833,42 @@ function style(element, styles) {
       return this.image.render();
     };
 
-    Image.prototype.checkbox = function() {
-      var _this = this;
-      this.checkbox = this.make('input', {
-        type: "checkbox"
-      });
-      if (this.image.isDisplayed()) {
-        this.checkbox.checked = true;
-      }
-      $o(this.checkbox).bind('click', function(e) {
-        e.stopPropagation();
-        return _this.flickVisibility();
-      });
-      $o(this.checkbox).bind('change', function(e) {
-        e.stopPropagation();
-        return _this.flickVisibility();
-      });
-      return this.checkbox;
+    Image.prototype.toggleChechbox = function() {
+      var $cb;
+      $cb = $o(this.el).find('[type=checkbox]');
+      $cb[0].checked = !$cb[0].checked;
+      return this.toggleVisibility();
     };
 
-    Image.prototype.delButton = function() {
-      var _this = this;
-      this.delButton = this.make('button', {
-        "class": 'del-button',
-        title: 'Delete'
-      }, 'x');
-      $o(this.delButton).bind('click', function(e) {
-        return OverlayMe.dyn_manager.delImage(_this.image_id);
-      });
-      return this.delButton;
-    };
-
-    Image.prototype.flickCheckbox = function() {
-      this.checkbox.checked = !this.checkbox.checked;
-      return this.flickVisibility();
-    };
-
-    Image.prototype.flickVisibility = function() {
-      if (this.checkbox.checked) {
-        $o(this.image.el).css('display', 'block');
-      } else {
-        $o(this.image.el).css('display', 'none');
-      }
+    Image.prototype.toggleVisibility = function() {
+      var $cb;
+      $cb = $o(this.el).find('[type=checkbox]');
+      $o(this.image.el).toggle($cb.is(':checked'));
       return this.image.saveCss();
     };
 
-    Image.prototype.label = function() {
-      return this.label = this.make('label', {}, this.image_src.replace(/.*\//, '').slice(-22));
+    Image.prototype.opacity = function() {
+      return $o(this.image.el).css('opacity') * 100;
     };
 
-    Image.prototype.slider = function() {
-      var _this = this;
-      this.slider = this.make('input', {
-        type: "range",
-        value: $o(this.image.el).css('opacity') * 100
-      });
-      $o(this.slider).bind('click', function(e) {
-        return e.stopPropagation();
-      });
-      $o(this.slider).bind('change', function(e) {
-        $o(_this.image.el).css('opacity', $o(_this.slider)[0].value / 100);
-        return _this.image.saveCss();
-      });
-      $o(this.slider).bind('mouseover', function(e) {
-        e.stopPropagation();
-        return $o(_this.el).addClass('hovered');
-      });
-      $o(this.slider).bind('mouseout', function(e) {
-        e.stopPropagation();
-        return $o(_this.el).removeClass('hovered');
-      });
-      return this.slider;
+    Image.prototype.label = function() {
+      return this.label = this.make('label', {}, this.name());
+    };
+
+    Image.prototype.name = function() {
+      return this.image_src.replace(/.*\//, '').slice(-22);
     };
 
     Image.prototype.render = function() {
+      var params, template;
+      params = {
+        checked: this.image.isDisplayed() ? 'checked' : false,
+        name: this.name(),
+        opacity: this.opacity(),
+        destroyable: this.destroyable
+      };
+      template = _.template(this.template, params);
+      $o(this.el).html(template);
       return this.el;
     };
 
