@@ -12520,36 +12520,32 @@ function style(element, styles) {
       return BasicsPanel.__super__.constructor.apply(this, arguments);
     }
 
+    BasicsPanel.prototype.template = '\
+    <button class="collapse">Collapse (c)</button>\
+    <button class="reset">Reset All (r)</button>\
+    <button class="hide">Hide (h)</button>\
+  ';
+
     BasicsPanel.prototype.initialize = function(attributes, options) {
-      var clear_all_button, collapse_button, hide_button, toggle_all_display,
+      var template, toggle_all_display,
         _this = this;
       BasicsPanel.__super__.initialize.call(this, {
         id: "basics-options-panel",
         title: "Basics"
       }, options);
-      collapse_button = (new Backbone.View).make('button', {
-        "class": 'collapse'
-      }, 'Collapse (c)');
-      $o(collapse_button).bind('click', function(event) {
-        return OverlayMe.menu.toggleCollapse();
-      });
-      this.append(collapse_button);
-      clear_all_button = (new Backbone.View).make('button', {
-        "class": 'reset',
-        onClick: "javascript: OverlayMe.clearAndReload()"
-      }, 'Reset All (r)');
-      this.append(clear_all_button);
       toggle_all_display = function() {
         $o(window).trigger('overlay_me:toggle_all_display');
         return $o(window).trigger('overlay_me:toggle_overlay_me_images_container_display');
       };
-      hide_button = (new Backbone.View).make('button', {
-        "class": 'hide'
-      }, 'Hide (h)');
-      $o(hide_button).bind('click', function(event) {
+      $o(this.el).on('click', '.collapse', function(e) {
+        return OverlayMe.menu.toggleCollapse();
+      }).on('click', '.reset', function(e) {
+        return OverlayMe.clearAndReload();
+      }).on('click', '.hide', function(e) {
         return toggle_all_display();
       });
-      this.append(hide_button);
+      template = _.template(this.template, {});
+      this.append($o(this.el).html(template));
       OverlayMe.menu.append(this.render());
       key('h', function() {
         return toggle_all_display();
