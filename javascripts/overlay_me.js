@@ -12372,46 +12372,43 @@ function style(element, styles) {
 
     MenuClass.prototype.id = 'overlay_me_menu';
 
+    MenuClass.prototype.template = '\
+    <div class="drag-me">Drag me up and down</div>\
+    <ul class="menu-list">\
+    </ul>\
+  ';
+
     MenuClass.prototype.initialize = function(attributes) {
-      var drag_me_line,
-        _this = this;
+      var _this = this;
       MenuClass.__super__.initialize.call(this, attributes, {
         default_css: {
-          top: '50px'
+          top: 50
         }
       });
-      drag_me_line = (new Backbone.View).make('div', {
-        "class": 'drag-me'
-      }, 'Drag me up and down');
-      this.menu_list = (new Backbone.View).make('ul');
-      $o(this.el).append(drag_me_line);
-      $o(this.el).append(this.menu_list);
       $o('body').append(this.render());
-      $o(drag_me_line).bind('mousedown', function(event) {
-        return _this.toggleMove(event);
+      $o(this.el).on('mousedown', '.drag-me', function(e) {
+        return _this.toggleMove(e);
       });
-      $o(window).bind('mouseup', function(event) {
-        return _this.endMove(event);
-      });
-      return $o(window).bind('overlay_me:toggle_all_display', function() {
+      return $o(window).on('mouseup', function(e) {
+        return _this.endMove(e);
+      }).on('overlay_me:toggle_all_display', function() {
         return _this.toggleDisplay();
       });
     };
 
     MenuClass.prototype.append = function(element) {
-      return this.menu_list.appendChild(element);
+      return $o(this.el).find('.menu-list').append(element);
     };
 
     MenuClass.prototype.toggleCollapse = function() {
-      if (this.collapsed()) {
-        return $o(this.el).removeClass('collapsed');
-      } else {
-        return $o(this.el).addClass('collapsed');
-      }
+      return $o(this.el).toggleClass('collapsed');
     };
 
-    MenuClass.prototype.collapsed = function() {
-      return $o(this.el).hasClass('collapsed');
+    MenuClass.prototype.render = function() {
+      var template;
+      template = _.template(this.template, {});
+      $o(this.el).html(template);
+      return this.el;
     };
 
     return MenuClass;
