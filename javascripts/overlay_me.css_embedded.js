@@ -12703,22 +12703,20 @@ function style(element, styles) {
       $o(this.image).attr('src', options.image_src);
       $o(this.el).append(this.image);
       if ($o(this.el).css('left') === 'auto' || $o(this.el).css('left') === '') {
-        $o(this.el).css('left', '0px');
+        $o(this.el).css('left', 0);
       }
       if ($o(this.el).css('top') === 'auto' || $o(this.el).css('top') === '') {
-        $o(this.el).css('top', '0px');
+        $o(this.el).css('top', 0);
       }
-      $o(this.el).bind('mousedown', function(event) {
-        return _this.toggleMove(event);
-      });
-      $o(window).bind('mouseup', function(event) {
-        return _this.endMove(event);
-      });
-      $o(this.el).bind('mouseover', function(event) {
+      $o(this.el).on('mousedown', function(e) {
+        return _this.toggleMove(e);
+      }).on('mouseover', function(e) {
         return $o(".overlay-image-block[data-img-id=" + _this.id + "]").addClass('hovered');
-      });
-      return $o(this.el).bind('mouseout', function(event) {
+      }).on('mouseout', function(e) {
         return $o(".overlay-image-block[data-img-id=" + _this.id + "]").removeClass('hovered');
+      });
+      return $o(window).bind('mouseup', function(e) {
+        return _this.endMove(e);
       });
     };
 
