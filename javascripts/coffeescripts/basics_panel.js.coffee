@@ -4,9 +4,8 @@
 class OverlayMe.BasicsPanel extends OverlayMe.MenuItem
 
   panelContent: '
-    <button class="collapse">Collapse (c)</button>
-    <button class="reset">Reset All (r)</button>
-    <button class="hide">Hide (h)</button>
+    <span class="reset menu-action" title="Reset All (r)">Reset All</span><!--
+    --><span class="hide menu-action" title="Hide (h)">Hide</span>
   '
 
   initialize: (attributes, options) ->
@@ -17,8 +16,6 @@ class OverlayMe.BasicsPanel extends OverlayMe.MenuItem
       $o(window).trigger 'overlay_me:toggle_overlay_me_images_container_display'
 
     $o(@el)
-      .on 'click', '.collapse', (e) =>
-        OverlayMe.menu.toggleCollapse()
       .on 'click', '.reset', (e) =>
         OverlayMe.clearAndReload()
       .on 'click', '.hide', (e) =>

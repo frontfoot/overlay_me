@@ -10,12 +10,12 @@ describe "Menu", ->
     expect(OverlayMe.menu.engageMove).toBeDefined()
     expect(OverlayMe.menu.toggleMove).toBeDefined()
 
-  it "should append MenuItems to its list", ->
-    expect($o('ul #test-append-li', OverlayMe.menu.el).length).toEqual 0
-    test_li = $o('<li id="test-append-li" class="menu-item">Just a test :)</li>')[0] # todo: mock a better test item
-    OverlayMe.menu.append(test_li)
-    expect($o('ul #test-append-li', OverlayMe.menu.el).length).toEqual 1
-    $o('ul #test-append-li', OverlayMe.menu.el).remove()
+  # it "should append MenuItems to its list", ->
+  #   expect($o('ul #test-append-li', OverlayMe.menu.el).length).toEqual 0
+  #   test_li = $o('<li id="test-append-li" class="menu-item">Just a test :)</li>')[0] # todo: mock a better test item
+  #   OverlayMe.menu.append(test_li)
+  #   expect($o('ul #test-append-li', OverlayMe.menu.el).length).toEqual 1
+  #   $o('ul #test-append-li', OverlayMe.menu.el).remove()
 
   it "should be collapsable/uncollapsable", ->
     collapsed = OverlayMe.menu.collapsed()

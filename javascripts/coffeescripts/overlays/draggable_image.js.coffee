@@ -2,16 +2,19 @@
 
 class OverlayMe.Overlays.DraggableImage extends OverlayMe.Draggable
 
+  className: 'image'
+
   initialize: (attributes, options) ->
     super(attributes, options)
 
     @image = new Image()
+    @src   = options.image_src
 
     $o(@image).load => # when image loaded
       @fitDivToImage()
       @setAsLastMoved()
       
-    $o(@image).attr 'src', options.image_src
+    $o(@image).attr 'src', @src
     $o(@el).append @image
 
     # force positioning to 0 by default

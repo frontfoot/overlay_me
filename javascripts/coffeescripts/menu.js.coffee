@@ -4,10 +4,15 @@ class OverlayMe.MenuClass extends OverlayMe.Draggable
 
   id: 'overlay_me_menu'
 
+  className: 'overlayme-menu'
+
   template: '
-    <div class="drag-me">Drag me up and down</div>
-    <ul class="menu-list">
-    </ul>
+    <div class="drag-me menu-header">
+      Overlay Me
+      <span class="menu-header__toggle"></span>
+    </div>
+    <div class="menu-list">
+    </div>
   '
 
   initialize: (attributes) ->
@@ -20,6 +25,12 @@ class OverlayMe.MenuClass extends OverlayMe.Draggable
     $o(@el)
       .on 'mousedown', '.drag-me', (e) =>
         @toggleMove e
+
+      .on 'mousedown', '.menu-header__toggle', (e) ->
+        e.stopPropagation()
+
+      .on 'click', '.menu-header__toggle', (e) ->
+        OverlayMe.menu.toggleCollapse()
 
     $o(window)
       .on 'mouseup', (e) =>

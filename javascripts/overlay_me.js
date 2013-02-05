@@ -12372,10 +12372,15 @@ function style(element, styles) {
 
     MenuClass.prototype.id = 'overlay_me_menu';
 
+    MenuClass.prototype.className = 'overlayme-menu';
+
     MenuClass.prototype.template = '\
-    <div class="drag-me">Drag me up and down</div>\
-    <ul class="menu-list">\
-    </ul>\
+    <div class="drag-me menu-header">\
+      Overlay Me\
+      <span class="menu-header__toggle"></span>\
+    </div>\
+    <div class="menu-list">\
+    </div>\
   ';
 
     MenuClass.prototype.initialize = function(attributes) {
@@ -12388,6 +12393,10 @@ function style(element, styles) {
       $o('body').append(this.render());
       $o(this.el).on('mousedown', '.drag-me', function(e) {
         return _this.toggleMove(e);
+      }).on('mousedown', '.menu-header__toggle', function(e) {
+        return e.stopPropagation();
+      }).on('click', '.menu-header__toggle', function(e) {
+        return OverlayMe.menu.toggleCollapse();
       });
       return $o(window).on('mouseup', function(e) {
         return _this.endMove(e);
@@ -12442,13 +12451,12 @@ function style(element, styles) {
       return MenuItem.__super__.constructor.apply(this, arguments);
     }
 
-    MenuItem.prototype.tagName = 'li';
+    MenuItem.prototype.tagName = 'section';
 
-    MenuItem.prototype.className = 'menu-item';
+    MenuItem.prototype.className = 'menu-item section';
 
     MenuItem.prototype.template = '\
     <a class="collapse-button"></a>\
-    <label class="title"><%= title %></label>\
     <div class="item-content"></div>\
   ';
 
@@ -12520,9 +12528,8 @@ function style(element, styles) {
     }
 
     BasicsPanel.prototype.panelContent = '\
-    <button class="collapse">Collapse (c)</button>\
-    <button class="reset">Reset All (r)</button>\
-    <button class="hide">Hide (h)</button>\
+    <span class="reset menu-action" title="Reset All (r)">Reset All</span><!--\
+    --><span class="hide menu-action" title="Hide (h)">Hide</span>\
   ';
 
     BasicsPanel.prototype.initialize = function(attributes, options) {
@@ -12536,9 +12543,7 @@ function style(element, styles) {
         $o(window).trigger('overlay_me:toggle_all_display');
         return $o(window).trigger('overlay_me:toggle_overlay_me_images_container_display');
       };
-      $o(this.el).on('click', '.collapse', function(e) {
-        return OverlayMe.menu.toggleCollapse();
-      }).on('click', '.reset', function(e) {
+      $o(this.el).on('click', '.reset', function(e) {
         return OverlayMe.clearAndReload();
       }).on('click', '.hide', function(e) {
         return toggle_all_display();
@@ -12636,7 +12641,8 @@ function style(element, styles) {
       var container;
       if (!OverlayMe.images_container) {
         OverlayMe.images_container = new OverlayMe.Overlays.ContainerItself({
-          id: 'overlay_me_images_container'
+          id: 'overlay_me_images_container',
+          className: 'overlayme-images-container'
         });
         $o('body').append(OverlayMe.images_container.el);
       }
@@ -12694,15 +12700,18 @@ function style(element, styles) {
       return DraggableImage.__super__.constructor.apply(this, arguments);
     }
 
+    DraggableImage.prototype.className = 'image';
+
     DraggableImage.prototype.initialize = function(attributes, options) {
       var _this = this;
       DraggableImage.__super__.initialize.call(this, attributes, options);
       this.image = new Image();
+      this.src = options.image_src;
       $o(this.image).load(function() {
         _this.fitDivToImage();
         return _this.setAsLastMoved();
       });
-      $o(this.image).attr('src', options.image_src);
+      $o(this.image).attr('src', this.src);
       $o(this.el).append(this.image);
       if ($o(this.el).css('left') === 'auto' || $o(this.el).css('left') === '') {
         $o(this.el).css('left', 0);
@@ -12752,20 +12761,24 @@ function style(element, styles) {
       return Image.__super__.constructor.apply(this, arguments);
     }
 
-    Image.prototype.tagName = 'div';
+    Image.prototype.tagName = 'article';
 
-    Image.prototype.className = 'overlay-image-block';
+    Image.prototype.className = 'overlay-image-block image media';
 
     Image.prototype.template = '\
-    <input type="checkbox" checked="<%= checked %>">\
-    <label><%= name %></label>\
-    <div class="slider-block">\
-      <label>Opacity</label>\
-      <input type="range" value="<%= opacity %>">\
-    </div>\
     <% if(destroyable) { %>\
-      <button class="del-button" title="Delete">x</button>\
+      <div class="media__action">\
+        <span class="del-button image__destroy" title="Delete">x</span>\
+      </div>\
     <% } %>\
+    <div class="media__img">\
+      <img src="<%= url %>" height=50 width=50 alt="<%= name %>">\
+    </div>\
+    <div class="media__body">\
+      <input class="image__toggle" type="checkbox" checked="<%= checked %>">\
+      <div class="image__name"><%= name %></div>\
+      <input type="range" class="image__opacity-controller" value="<%= opacity %>">\
+    </div>\
   ';
 
     Image.prototype.initialize = function(imageSrc, options) {
@@ -12834,9 +12847,11 @@ function style(element, styles) {
     };
 
     Image.prototype.toggleVisibility = function() {
-      var $cb;
+      var $cb, isChecked;
       $cb = $o(this.el).find('[type=checkbox]');
-      $o(this.image.el).toggle($cb.is(':checked'));
+      isChecked = $cb.is(':checked');
+      $o(this.image.el).toggle(isChecked);
+      $o(this.el).toggleClass('image--hidden', !isChecked);
       return this.image.saveCss();
     };
 
@@ -12858,7 +12873,8 @@ function style(element, styles) {
         checked: this.image.isDisplayed() ? 'checked' : false,
         name: this.name(),
         opacity: this.opacity(),
-        destroyable: this.destroyable
+        destroyable: this.destroyable,
+        url: this.image.src
       };
       template = _.template(this.template, params);
       $o(this.el).html(template);
@@ -13073,9 +13089,9 @@ function style(element, styles) {
       return ContentDivManagementBlock.__super__.constructor.apply(this, arguments);
     }
 
-    ContentDivManagementBlock.prototype.tagName = 'fieldset';
+    ContentDivManagementBlock.prototype.tagName = 'div';
 
-    ContentDivManagementBlock.prototype.className = 'content-mgnt-block';
+    ContentDivManagementBlock.prototype.className = 'content-mgnt-block section';
 
     ContentDivManagementBlock.prototype.id = 'content_div_management_block';
 
@@ -13086,15 +13102,13 @@ function style(element, styles) {
     ContentDivManagementBlock.prototype.over_zindex = 5;
 
     ContentDivManagementBlock.prototype.template = '\
-    <div class="unicorns" title="Feeling corny?"></div>\
-    <legend>Page content</legend>\
     <div class="slider-block">\
-      <label>Opacity</label>\
+      <label for="contentSlider">Page Opacity</label>\
       <input id="contentSlider" type="range" value="100">\
     </div>\
     <div class="zindex-switch">\
+      <label for="zindex-toggle" title="t">Content on top</label>\
       <input type="checkbox" id="zindex-toggle">\
-      <label for="zindex-toggle">Content on top (t)</label>\
     </div>\
   ';
 
@@ -13117,13 +13131,7 @@ function style(element, styles) {
           return $o('#zindex-toggle')[0].checked = true;
         }
       }, 500);
-      $o(this.el).on('click', '.unicorns', function() {
-        return OverlayMe.dyn_manager.addImage(OverlayMe.unicorns[Math.floor(Math.random() * OverlayMe.unicorns.length)], {
-          default_css: {
-            opacity: 1
-          }
-        });
-      }).on('change', '#contentSlider', function() {
+      $o(this.el).on('change', '#contentSlider', function() {
         var $slider, opacity;
         $slider = $o('#contentSlider');
         opacity = parseInt($slider.val(), 10) / 100;
@@ -13174,15 +13182,17 @@ function style(element, styles) {
       return ImagesManagementDiv.__super__.constructor.apply(this, arguments);
     }
 
-    ImagesManagementDiv.prototype.tagName = 'fieldset';
+    ImagesManagementDiv.prototype.tagName = 'div';
 
     ImagesManagementDiv.prototype.id = 'images_mgnt';
 
+    ImagesManagementDiv.prototype.className = 'images-manager';
+
     ImagesManagementDiv.prototype.template = '\
-    <legend>Overlaying images</legend>\
     <div class="overlays-list"></div>\
-    <div class="dynamic-adds">\
-      <label>Add image</label>\
+    <div class="dynamic-adds image-manager__adder">\
+      <div class="unicorns image-manager__adder--unicorns" title="Feeling corny?"></div>\
+      Add image\
       <input class="image-url-input" type="text" placeholder="http://">\
       <button>+</button>\
     </div>\
@@ -13190,7 +13200,13 @@ function style(element, styles) {
 
     ImagesManagementDiv.prototype.initialize = function() {
       var _this = this;
-      return $o(this.el).on('keypress', 'input', function(e) {
+      return $o(this.el).on('click', '.unicorns', function() {
+        return OverlayMe.dyn_manager.addImage(OverlayMe.unicorns[Math.floor(Math.random() * OverlayMe.unicorns.length)], {
+          default_css: {
+            opacity: 1
+          }
+        });
+      }).on('keypress', 'input', function(e) {
         if (e.keyCode === 13) {
           return _this.pushImage();
         }
@@ -13258,7 +13274,7 @@ function style(element, styles) {
       OverlayMe.dyn_manager.loadAll();
       OverlayMe.loadDefaultImage = function() {
         if (OverlayMe.dyn_manager.isEmpty()) {
-          return OverlayMe.dyn_manager.addImage('https://a248.e.akamai.net/assets.github.com/images/modules/about_page/octocat.png', {
+          return OverlayMe.dyn_manager.addImage('http://octodex.github.com/images/original.jpg', {
             default_css: {
               left: "" + (window.document.width * .6) + "px"
             }

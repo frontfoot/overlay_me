@@ -1,11 +1,10 @@
 class OverlayMe.MenuItem extends Backbone.View
 
-  tagName: 'li'
-  className: 'menu-item'
+  tagName: 'section'
+  className: 'menu-item section'
 
   template: '
     <a class="collapse-button"></a>
-    <label class="title"><%= title %></label>
     <div class="item-content"></div>
   '
 

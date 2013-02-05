@@ -3,19 +3,23 @@
 
 class OverlayMe.Overlays.Image extends Backbone.View
 
-  tagName: 'div'
-  className: 'overlay-image-block'
+  tagName: 'article'
+  className: 'overlay-image-block image media'
 
   template: '
-    <input type="checkbox" checked="<%= checked %>">
-    <label><%= name %></label>
-    <div class="slider-block">
-      <label>Opacity</label>
-      <input type="range" value="<%= opacity %>">
-    </div>
     <% if(destroyable) { %>
-      <button class="del-button" title="Delete">x</button>
+      <div class="media__action">
+        <span class="del-button image__destroy" title="Delete">x</span>
+      </div>
     <% } %>
+    <div class="media__img">
+      <img src="<%= url %>" height=50 width=50 alt="<%= name %>">
+    </div>
+    <div class="media__body">
+      <input class="image__toggle" type="checkbox" checked="<%= checked %>">
+      <div class="image__name"><%= name %></div>
+      <input type="range" class="image__opacity-controller" value="<%= opacity %>">
+    </div>
   '
 
   initialize: (imageSrc, options) ->
@@ -74,7 +78,9 @@ class OverlayMe.Overlays.Image extends Backbone.View
 
   toggleVisibility: ->
     $cb = $o(@el).find('[type=checkbox]')
-    $o(@image.el).toggle $cb.is(':checked')
+    isChecked = $cb.is(':checked')
+    $o(@image.el).toggle isChecked
+    $o(@el).toggleClass 'image--hidden', !isChecked
     @image.saveCss()
 
   opacity: ->
@@ -93,7 +99,8 @@ class OverlayMe.Overlays.Image extends Backbone.View
       checked: if @image.isDisplayed() then 'checked' else false,
       name: @name(),
       opacity: @opacity(),
-      destroyable: @destroyable
+      destroyable: @destroyable,
+      url: @image.src
     }
     template = _.template @template, params
     $o(@el).html template

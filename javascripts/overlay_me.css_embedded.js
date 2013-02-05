@@ -12114,7 +12114,7 @@ function style(element, styles) {
 (function() {
   var moves;
 
-  $o('head').append('<style rel="stylesheet" type="text/css">#overlay_me_page_container{position:relative}#overlay_me_menu{font-family:Arial,sans-serif;position:fixed;right:0;z-index:990;line-height:16px}#overlay_me_menu button{font-size:9px;margin:0 3px;padding:0 3px}#overlay_me_menu .drag-me{display:block;color:black;text-align:center;font-size:.7em;background-image:-webkit-gradient(linear,0,0,color-stop(0%,#999),color-stop(30%,#ddd),color-stop(70%,#ddd),color-stop(100%,#999));background-image:-webkit-linear-gradient(0,#999,#ddd 30%,#ddd 70%,#999 100%);background-image:-moz-linear-gradient(0,#999,#ddd 30%,#ddd 70%,#999 100%);background-image:-o-linear-gradient(0,#999,#ddd 30%,#ddd 70%,#999 100%);background-image:linear-gradient(0,#999,#ddd 30%,#ddd 70%,#999 100%);padding:1px;cursor:move}#overlay_me_menu ul{list-style:none;margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline}.menu-item{text-align:left;background-color:#ccc;border:1px solid rgba(255,255,255,0.2);width:200px}.menu-item a.collapse-button{position:absolute;cursor:pointer;padding-top:9px;padding-left:5px;width:13px;height:9px;border:none;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAJCAYAAADpeqZqAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAIlJREFUeNpivHDhQujz589TmZiYvjMQAP/+/eOQkZGZyfD//38ZIL77nzhwG4ilQJpA2BiIPxHQ8BGIDUHqYZpAOIWApiSYWmRNIDfPxaYaKD4bWR2KJiDmA+KzaHrOQMVxagJhfSD+ALXhA5TPQEgTCCcD8V+gpmRs8rg0MQI1eANpJmzyAAEGAKD/bax/HrzbAAAAAElFTkSuQmCC) no-repeat center 3px}.menu-item label.title{padding-left:20px;color:white;cursor:pointer;width:187px;line-height:1.1em;font-size:14px;background:none}.menu-item.collapsed .item-content{display:none}.menu-item.collapsed a.collapse-button{background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAANCAYAAAB7AEQGAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAKtJREFUeNpiuHz5ctD///+lgJgBF2Z68uRJOgMDw0EgNmTAAZiA4AeQVgHiA0CchFUREpsPiOcCjZ8NZWNVBAaMjIwpQGofEOvjVAQFxkATDwJxMkgNCy7HAk3kB1KzgApf4DIJBD4CcRpQ8TZcJp2D+vQiVjcBjZ8HpBxhCtAVfQbiVKDxIMd+QtbI8u/fP04gfQ+Iw4D4LDa7WSQlJUGBdxyIn+DyAUCAAQDxsEXD9kreLQAAAABJRU5ErkJggg==) no-repeat center top}.overlays-panel .content-mgnt-block{position:relative;line-height:10px}.overlays-panel .content-mgnt-block .unicorns{background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAklJREFUeNqEks1u00AQx3d27V3HdezY+SBpkKBFoBZxQEKIOwfegBs3rtwoPABvw3sgceKAuFWtUBBSaT6ctvHXer2zOElTVaoKI/2lWWl/O//ZGZi8jgSPxFv3JX93+CJvfJ4/09++vzH6S/SVH59+IohH5JagxBilC4zNHHigSLvtTCPRnLYxtB4b29ojGglBc1PG1PAyLfUxzszIX7B86MwLP/iVkS566DWeEgo+gfrWdV1VJoZgpUdqon84p1a+wxI1CA+l3Z+yqu89N5a9v65EVgK8TOpgH/edZS6JAZ97/AkfKjF3pTpRkUrlfQFnoGlaHNc2F0sAzPIFWIl9WMEGTYUZJfyB12ED2l9UE6bkDAcoy+0QznXJ8nIEBosNuIb3xLoBNIlRhNlc7Ho9dDA6l1OC8gKGUGEnhAyBFmpSu8zqf9jAzqZ/RIUxFDR0G2LQ6ueIwUzGFIuE95livS4p2RaUVQYas/p+xQ4eiavPqO2nKPUcCrvlCR50uqlirXGeiUWeua4uva6vebNDwHIJErq2fW0Mdfcxpjqmqe37Nnd73US64Ummt8a5bCpZhh5UrZanfS9gBw/5tcorGSz1TJ/rCTljoomOGDTLsh+NUz8Ypdz/ndBwlpFeIdn7Hevm9miD9QNxdVGNSQzGSR3ao6Duekm23fqT3Al/Ju3waAEnr1xyayxnymhgNcU9Z7sx5LtWA+6bquxXaeLr5J+wMZebRQwDiwW2x0O7I1y7ZxOrS+X/4Y0DXJ0pANhgM4sKRv4KMACD6UDbVgTzkgAAAABJRU5ErkJggg==) no-repeat center center;width:15px;height:15px;position:absolute;right:0;top:6px}.overlays-panel label{margin:0;font-size:14px}.overlays-panel .content-mgnt-block,.overlays-panel #images_mgnt{text-align:left;padding:3px 4px;margin:2px;border:1px #777 solid;-webkit-border-radius:5px;-moz-border-radius:5px;-ms-border-radius:5px;-o-border-radius:5px;border-radius:5px}.overlays-panel .content-mgnt-block legend,.overlays-panel #images_mgnt legend{font-size:10px;padding:0 3px;margin:0 0 0 10px;border:0}.overlays-panel .slider-block{display:block}.overlays-panel .slider-block label{font-size:60%;margin:0 5px 0 0;vertical-align:top}.overlays-panel .slider-block input[type=range]{margin:0;height:14px;width:120px}.overlays-panel #images_mgnt{width:186px}.overlays-panel #images_mgnt .controls{padding-bottom:2px}.overlays-panel #images_mgnt .controls label{margin-right:5px}.overlays-panel #images_mgnt .overlay-image-block,.overlays-panel #images_mgnt .images_dir{padding-top:2px;border:1px solid rgba(255,255,255,0.2)}.overlays-panel #images_mgnt .overlay-image-block border,.overlays-panel #images_mgnt .images_dir border{right:none;left:none}.overlays-panel #images_mgnt .overlay-image-block:first-child,.overlays-panel #images_mgnt .images_dir:first-child{border-top:none;padding-top:0}.overlays-panel #images_mgnt .overlay-image-block{position:relative;width:186px;text-align:left}.overlays-panel #images_mgnt .overlay-image-block.hovered{background-color:rgba(255,255,0,0.5)}.overlays-panel #images_mgnt .overlay-image-block .del-button{position:absolute;right:0;top:0;margin:1px;cursor:pointer;border:1px #aaa solid;font-size:10px;line-height:13px;background-color:#444;color:white;font-weight:bold;padding:0 3px}.overlays-panel #images_mgnt .images_dir{line-height:18px}.overlays-panel #images_mgnt .images_dir .sub-block{padding-left:2px;margin-left:5px;border-left:2px white solid}.overlays-panel #images_mgnt .images_dir>input[type=checkbox]{-webkit-appearance:none;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAANCAYAAAB7AEQGAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAKtJREFUeNpiuHz5ctD///+lgJgBF2Z68uRJOgMDw0EgNmTAAZiA4AeQVgHiA0CchFUREpsPiOcCjZ8NZWNVBAaMjIwpQGofEOvjVAQFxkATDwJxMkgNCy7HAk3kB1KzgApf4DIJBD4CcRpQ8TZcJp2D+vQiVjcBjZ8HpBxhCtAVfQbiVKDxIMd+QtbI8u/fP04gfQ+Iw4D4LDa7WSQlJUGBdxyIn+DyAUCAAQDxsEXD9kreLQAAAABJRU5ErkJggg==) no-repeat center center;display:inline-block;width:13px;height:13px}.overlays-panel #images_mgnt .images_dir>input[type=checkbox]:checked{width:13px;height:13px;margin:-2px 5px 0 0;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAJCAYAAADpeqZqAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAIlJREFUeNpivHDhQujz589TmZiYvjMQAP/+/eOQkZGZyfD//38ZIL77nzhwG4ilQJpA2BiIPxHQ8BGIDUHqYZpAOIWApiSYWmRNIDfPxaYaKD4bWR2KJiDmA+KzaHrOQMVxagJhfSD+ALXhA5TPQEgTCCcD8V+gpmRs8rg0MQI1eANpJmzyAAEGAKD/bax/HrzbAAAAAElFTkSuQmCC) no-repeat center center}.overlays-panel #images_mgnt .dynamic-adds{padding-top:4px}.overlays-panel #images_mgnt .dynamic-adds label{font-size:75%}.overlays-panel #images_mgnt .dynamic-adds input{width:95px;font-size:10px;margin-left:2px}.overlays-panel #images_mgnt .dynamic-adds button{font-size:10px}.overlays-panel input[type=checkbox],.overlays-panel label,.overlays-panel #contentSlider,.overlays-panel .zindex-switch{display:inline}.overlays-panel input[type=checkbox]{vertical-align:middle;margin:-3px 5px 0 0}#overlay_me_images_container{position:absolute;z-index:4;top:0;left:0}#overlay_me_images_container div{position:absolute}#overlay_me_images_container div.highlight{border:2px solid red;margin-top:-2px;margin-left:-2px;cursor:move}#overlay_me_images_container img{position:absolute;top:0;left:0}#overlay_me_menu.collapsed .drag-me,#overlay_me_menu.collapsed .menu-item{width:25px}#overlay_me_menu.collapsed .drag-me{height:10px;overflow:hidden}#overlay_me_menu.collapsed button{height:10px;overflow:hidden}#overlay_me_menu.collapsed .overlay-image-block{height:14px;margin-top:3px}#overlay_me_menu.collapsed .overlay-image-block label,#overlay_me_menu.collapsed #content_div_management_block,#overlay_me_menu.collapsed .controls,#overlay_me_menu.collapsed input[type=range],#overlay_me_menu.collapsed #overlay_panel #contentSlider,#overlay_me_menu.collapsed legend,#overlay_me_menu.collapsed .dynamic-adds,#overlay_me_menu.collapsed .unicorns,#overlay_me_menu.collapsed button.reset,#overlay_me_menu.collapsed button.hide,#overlay_me_menu.collapsed button.del-button{display:none}</style>');
+  $o('head').append('<style rel="stylesheet" type="text/css">#overlay_me_page_container{position:relative}.overlayme-menu{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;position:fixed;right:0;z-index:990;width:200px;border:5px solid rgba(0,0,0,0.2);border-right:none;background-color:#333235;background-image:-webkit-gradient(linear,0% 50%,100% 50%,color-stop(0%,#38373a),color-stop(100%,#2e2d30));background-image:-webkit-linear-gradient(left,#38373a,#2e2d30);background-image:-moz-linear-gradient(left,#38373a,#2e2d30);background-image:-o-linear-gradient(left,#38373a,#2e2d30);background-image:linear-gradient(left,#38373a,#2e2d30);color:white;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:13px;line-height:1.5;-webkit-transition:-webkit-transform .2s;-moz-transition:-moz-transform .2s;-o-transition:-o-transform .2s;transition:transform .2s}.overlayme-menu *,.overlayme-menu:before,.overlayme-menu:after{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box}.overlayme-menu.collapsed{-webkit-transform-origin:bottom right;-moz-transform-origin:bottom right;-ms-transform-origin:bottom right;-o-transform-origin:bottom right;transform-origin:bottom right;-webkit-transform:rotate(-90deg);-moz-transform:rotate(-90deg);-ms-transform:rotate(-90deg);-o-transform:rotate(-90deg);transform:rotate(-90deg)}.overlayme-menu.collapsed .menu-list{display:none}.overlayme-menu.collapsed .menu-header__toggle:after{content:"+"}.overlayme-menu .media,.overlayme-menu .media__body{overflow:hidden;*zoom:1}.overlayme-menu .media__img{float:left;margin-right:10px}.overlayme-menu .media__img img{display:block}.overlayme-menu .media__action{float:right;margin-left:10px}.overlayme-menu .menu-header{position:relative;padding:8px;text-align:center;letter-spacing:2px;cursor:move;font-size:16px;text-shadow:1px 1px 1px black;background-image:-webkit-gradient(linear,50% 0,50% 100%,color-stop(0%,rgba(51,50,53,0)),color-stop(100%,#2d2c2e));background-image:-webkit-linear-gradient(rgba(51,50,53,0),#2d2c2e);background-image:-moz-linear-gradient(rgba(51,50,53,0),#2d2c2e);background-image:-o-linear-gradient(rgba(51,50,53,0),#2d2c2e);background-image:linear-gradient(rgba(51,50,53,0),#2d2c2e)}.overlayme-menu .menu-header__toggle{cursor:pointer;position:absolute;right:10px;font-weight:bold;font-size:20px;line-height:24px;width:24px;height:24px;text-shadow:none}.overlayme-menu .menu-header__toggle:after{content:"-"}.overlayme-menu .menu-action{display:inline-block;cursor:pointer;width:50%;text-align:center;line-height:30px;height:30px;background:#212123;border-left:1px solid #333235}.overlayme-menu .menu-action:first-child{border-left:none}.overlayme-menu .menu-action:hover{background:#262628}.overlayme-menu .overlays-panel{padding:5px}.overlayme-menu .images-manager{background:white;color:#333235;-webkit-border-radius:2px;-moz-border-radius:2px;-ms-border-radius:2px;-o-border-radius:2px;border-radius:2px;padding-bottom:1px}.overlayme-menu .image{padding:7px 5px;cursor:pointer;border-top:1px solid #eee}.overlayme-menu .image:first-child{border-top:none}.overlayme-menu .image.hovered{-webkit-border-radius:2px 2px 0 0;-moz-border-radius:2px 2px 0 0;-ms-border-radius:2px 2px 0 0;-o-border-radius:2px 2px 0 0;border-radius:2px 2px 0 0;background:#dbecf6}.overlayme-menu .image--hidden{filter:alpha(opacity=20);opacity:.2}.overlayme-menu .image__toggle{display:none}.overlayme-menu .image__destroy{display:block;height:15px;width:15px;line-height:15px;font-size:11px;text-align:center}.overlayme-menu .image__opacity-controller{width:100%}.overlayme-menu .image-manager__adder{position:relative;-webkit-user-select:none;-moz-user-select:none;user-select:none;cursor:default;padding:5px;margin:5px;-webkit-border-radius:4px;-moz-border-radius:4px;-ms-border-radius:4px;-o-border-radius:4px;border-radius:4px;border:2px dashed #ddd;text-align:center;color:#ccc}.overlayme-menu .image-manager__adder:hover .image-manager__adder--unicorns{filter:alpha(opacity=100);opacity:1}.overlayme-menu .image-manager__adder--unicorns{cursor:pointer;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAklJREFUeNqEks1u00AQx3d27V3HdezY+SBpkKBFoBZxQEKIOwfegBs3rtwoPABvw3sgceKAuFWtUBBSaT6ctvHXer2zOElTVaoKI/2lWWl/O//ZGZi8jgSPxFv3JX93+CJvfJ4/09++vzH6S/SVH59+IohH5JagxBilC4zNHHigSLvtTCPRnLYxtB4b29ojGglBc1PG1PAyLfUxzszIX7B86MwLP/iVkS566DWeEgo+gfrWdV1VJoZgpUdqon84p1a+wxI1CA+l3Z+yqu89N5a9v65EVgK8TOpgH/edZS6JAZ97/AkfKjF3pTpRkUrlfQFnoGlaHNc2F0sAzPIFWIl9WMEGTYUZJfyB12ED2l9UE6bkDAcoy+0QznXJ8nIEBosNuIb3xLoBNIlRhNlc7Ho9dDA6l1OC8gKGUGEnhAyBFmpSu8zqf9jAzqZ/RIUxFDR0G2LQ6ueIwUzGFIuE95livS4p2RaUVQYas/p+xQ4eiavPqO2nKPUcCrvlCR50uqlirXGeiUWeua4uva6vebNDwHIJErq2fW0Mdfcxpjqmqe37Nnd73US64Ummt8a5bCpZhh5UrZanfS9gBw/5tcorGSz1TJ/rCTljoomOGDTLsh+NUz8Ypdz/ndBwlpFeIdn7Hevm9miD9QNxdVGNSQzGSR3ao6Duekm23fqT3Al/Ju3waAEnr1xyayxnymhgNcU9Z7sx5LtWA+6bquxXaeLr5J+wMZebRQwDiwW2x0O7I1y7ZxOrS+X/4Y0DXJ0pANhgM4sKRv4KMACD6UDbVgTzkgAAAABJRU5ErkJggg==) no-repeat center center;width:15px;height:15px;position:absolute;right:0;top:0;filter:alpha(opacity=0);opacity:0;-webkit-transition:linear .2s;-moz-transition:linear .2s;-o-transition:linear .2s;transition:linear .2s}.overlayme-images-container{position:absolute;z-index:4;top:0;left:0}.overlayme-images-container .image{cursor:move;position:absolute;border:2px solid transparent;margin-top:-2px;margin-left:-2px}.overlayme-images-container .image.highlight{border-color:red;cursor:move}.overlayme-images-container img{position:absolute;top:0;left:0}</style>');
 
   window.OverlayMe = {};
 
@@ -12372,10 +12372,15 @@ function style(element, styles) {
 
     MenuClass.prototype.id = 'overlay_me_menu';
 
+    MenuClass.prototype.className = 'overlayme-menu';
+
     MenuClass.prototype.template = '\
-    <div class="drag-me">Drag me up and down</div>\
-    <ul class="menu-list">\
-    </ul>\
+    <div class="drag-me menu-header">\
+      Overlay Me\
+      <span class="menu-header__toggle"></span>\
+    </div>\
+    <div class="menu-list">\
+    </div>\
   ';
 
     MenuClass.prototype.initialize = function(attributes) {
@@ -12388,6 +12393,10 @@ function style(element, styles) {
       $o('body').append(this.render());
       $o(this.el).on('mousedown', '.drag-me', function(e) {
         return _this.toggleMove(e);
+      }).on('mousedown', '.menu-header__toggle', function(e) {
+        return e.stopPropagation();
+      }).on('click', '.menu-header__toggle', function(e) {
+        return OverlayMe.menu.toggleCollapse();
       });
       return $o(window).on('mouseup', function(e) {
         return _this.endMove(e);
@@ -12442,13 +12451,12 @@ function style(element, styles) {
       return MenuItem.__super__.constructor.apply(this, arguments);
     }
 
-    MenuItem.prototype.tagName = 'li';
+    MenuItem.prototype.tagName = 'section';
 
-    MenuItem.prototype.className = 'menu-item';
+    MenuItem.prototype.className = 'menu-item section';
 
     MenuItem.prototype.template = '\
     <a class="collapse-button"></a>\
-    <label class="title"><%= title %></label>\
     <div class="item-content"></div>\
   ';
 
@@ -12520,9 +12528,8 @@ function style(element, styles) {
     }
 
     BasicsPanel.prototype.panelContent = '\
-    <button class="collapse">Collapse (c)</button>\
-    <button class="reset">Reset All (r)</button>\
-    <button class="hide">Hide (h)</button>\
+    <span class="reset menu-action" title="Reset All (r)">Reset All</span><!--\
+    --><span class="hide menu-action" title="Hide (h)">Hide</span>\
   ';
 
     BasicsPanel.prototype.initialize = function(attributes, options) {
@@ -12536,9 +12543,7 @@ function style(element, styles) {
         $o(window).trigger('overlay_me:toggle_all_display');
         return $o(window).trigger('overlay_me:toggle_overlay_me_images_container_display');
       };
-      $o(this.el).on('click', '.collapse', function(e) {
-        return OverlayMe.menu.toggleCollapse();
-      }).on('click', '.reset', function(e) {
+      $o(this.el).on('click', '.reset', function(e) {
         return OverlayMe.clearAndReload();
       }).on('click', '.hide', function(e) {
         return toggle_all_display();
@@ -12636,7 +12641,8 @@ function style(element, styles) {
       var container;
       if (!OverlayMe.images_container) {
         OverlayMe.images_container = new OverlayMe.Overlays.ContainerItself({
-          id: 'overlay_me_images_container'
+          id: 'overlay_me_images_container',
+          className: 'overlayme-images-container'
         });
         $o('body').append(OverlayMe.images_container.el);
       }
@@ -12694,15 +12700,18 @@ function style(element, styles) {
       return DraggableImage.__super__.constructor.apply(this, arguments);
     }
 
+    DraggableImage.prototype.className = 'image';
+
     DraggableImage.prototype.initialize = function(attributes, options) {
       var _this = this;
       DraggableImage.__super__.initialize.call(this, attributes, options);
       this.image = new Image();
+      this.src = options.image_src;
       $o(this.image).load(function() {
         _this.fitDivToImage();
         return _this.setAsLastMoved();
       });
-      $o(this.image).attr('src', options.image_src);
+      $o(this.image).attr('src', this.src);
       $o(this.el).append(this.image);
       if ($o(this.el).css('left') === 'auto' || $o(this.el).css('left') === '') {
         $o(this.el).css('left', 0);
@@ -12752,20 +12761,24 @@ function style(element, styles) {
       return Image.__super__.constructor.apply(this, arguments);
     }
 
-    Image.prototype.tagName = 'div';
+    Image.prototype.tagName = 'article';
 
-    Image.prototype.className = 'overlay-image-block';
+    Image.prototype.className = 'overlay-image-block image media';
 
     Image.prototype.template = '\
-    <input type="checkbox" checked="<%= checked %>">\
-    <label><%= name %></label>\
-    <div class="slider-block">\
-      <label>Opacity</label>\
-      <input type="range" value="<%= opacity %>">\
-    </div>\
     <% if(destroyable) { %>\
-      <button class="del-button" title="Delete">x</button>\
+      <div class="media__action">\
+        <span class="del-button image__destroy" title="Delete">x</span>\
+      </div>\
     <% } %>\
+    <div class="media__img">\
+      <img src="<%= url %>" height=50 width=50 alt="<%= name %>">\
+    </div>\
+    <div class="media__body">\
+      <input class="image__toggle" type="checkbox" checked="<%= checked %>">\
+      <div class="image__name"><%= name %></div>\
+      <input type="range" class="image__opacity-controller" value="<%= opacity %>">\
+    </div>\
   ';
 
     Image.prototype.initialize = function(imageSrc, options) {
@@ -12834,9 +12847,11 @@ function style(element, styles) {
     };
 
     Image.prototype.toggleVisibility = function() {
-      var $cb;
+      var $cb, isChecked;
       $cb = $o(this.el).find('[type=checkbox]');
-      $o(this.image.el).toggle($cb.is(':checked'));
+      isChecked = $cb.is(':checked');
+      $o(this.image.el).toggle(isChecked);
+      $o(this.el).toggleClass('image--hidden', !isChecked);
       return this.image.saveCss();
     };
 
@@ -12858,7 +12873,8 @@ function style(element, styles) {
         checked: this.image.isDisplayed() ? 'checked' : false,
         name: this.name(),
         opacity: this.opacity(),
-        destroyable: this.destroyable
+        destroyable: this.destroyable,
+        url: this.image.src
       };
       template = _.template(this.template, params);
       $o(this.el).html(template);
@@ -13073,9 +13089,9 @@ function style(element, styles) {
       return ContentDivManagementBlock.__super__.constructor.apply(this, arguments);
     }
 
-    ContentDivManagementBlock.prototype.tagName = 'fieldset';
+    ContentDivManagementBlock.prototype.tagName = 'div';
 
-    ContentDivManagementBlock.prototype.className = 'content-mgnt-block';
+    ContentDivManagementBlock.prototype.className = 'content-mgnt-block section';
 
     ContentDivManagementBlock.prototype.id = 'content_div_management_block';
 
@@ -13086,15 +13102,13 @@ function style(element, styles) {
     ContentDivManagementBlock.prototype.over_zindex = 5;
 
     ContentDivManagementBlock.prototype.template = '\
-    <div class="unicorns" title="Feeling corny?"></div>\
-    <legend>Page content</legend>\
     <div class="slider-block">\
-      <label>Opacity</label>\
+      <label for="contentSlider">Page Opacity</label>\
       <input id="contentSlider" type="range" value="100">\
     </div>\
     <div class="zindex-switch">\
+      <label for="zindex-toggle" title="t">Content on top</label>\
       <input type="checkbox" id="zindex-toggle">\
-      <label for="zindex-toggle">Content on top (t)</label>\
     </div>\
   ';
 
@@ -13117,13 +13131,7 @@ function style(element, styles) {
           return $o('#zindex-toggle')[0].checked = true;
         }
       }, 500);
-      $o(this.el).on('click', '.unicorns', function() {
-        return OverlayMe.dyn_manager.addImage(OverlayMe.unicorns[Math.floor(Math.random() * OverlayMe.unicorns.length)], {
-          default_css: {
-            opacity: 1
-          }
-        });
-      }).on('change', '#contentSlider', function() {
+      $o(this.el).on('change', '#contentSlider', function() {
         var $slider, opacity;
         $slider = $o('#contentSlider');
         opacity = parseInt($slider.val(), 10) / 100;
@@ -13174,15 +13182,17 @@ function style(element, styles) {
       return ImagesManagementDiv.__super__.constructor.apply(this, arguments);
     }
 
-    ImagesManagementDiv.prototype.tagName = 'fieldset';
+    ImagesManagementDiv.prototype.tagName = 'div';
 
     ImagesManagementDiv.prototype.id = 'images_mgnt';
 
+    ImagesManagementDiv.prototype.className = 'images-manager';
+
     ImagesManagementDiv.prototype.template = '\
-    <legend>Overlaying images</legend>\
     <div class="overlays-list"></div>\
-    <div class="dynamic-adds">\
-      <label>Add image</label>\
+    <div class="dynamic-adds image-manager__adder">\
+      <div class="unicorns image-manager__adder--unicorns" title="Feeling corny?"></div>\
+      Add image\
       <input class="image-url-input" type="text" placeholder="http://">\
       <button>+</button>\
     </div>\
@@ -13190,7 +13200,13 @@ function style(element, styles) {
 
     ImagesManagementDiv.prototype.initialize = function() {
       var _this = this;
-      return $o(this.el).on('keypress', 'input', function(e) {
+      return $o(this.el).on('click', '.unicorns', function() {
+        return OverlayMe.dyn_manager.addImage(OverlayMe.unicorns[Math.floor(Math.random() * OverlayMe.unicorns.length)], {
+          default_css: {
+            opacity: 1
+          }
+        });
+      }).on('keypress', 'input', function(e) {
         if (e.keyCode === 13) {
           return _this.pushImage();
         }
@@ -13258,7 +13274,7 @@ function style(element, styles) {
       OverlayMe.dyn_manager.loadAll();
       OverlayMe.loadDefaultImage = function() {
         if (OverlayMe.dyn_manager.isEmpty()) {
-          return OverlayMe.dyn_manager.addImage('https://a248.e.akamai.net/assets.github.com/images/modules/about_page/octocat.png', {
+          return OverlayMe.dyn_manager.addImage('http://octodex.github.com/images/original.jpg', {
             default_css: {
               left: "" + (window.document.width * .6) + "px"
             }

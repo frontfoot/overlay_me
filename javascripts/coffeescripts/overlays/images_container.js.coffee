@@ -26,7 +26,7 @@ class OverlayMe.Overlays.ImagesContainer extends Backbone.View
   initialize: (options) ->
     # the master image_container will be referenced publicly
     unless OverlayMe.images_container
-      OverlayMe.images_container = new OverlayMe.Overlays.ContainerItself id:'overlay_me_images_container'
+      OverlayMe.images_container = new OverlayMe.Overlays.ContainerItself id:'overlay_me_images_container', className: 'overlayme-images-container'
       $o('body').append OverlayMe.images_container.el
 
     # if it's a local file, we build its eventual multi-directories structure

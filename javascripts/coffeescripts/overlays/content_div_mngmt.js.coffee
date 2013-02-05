@@ -2,8 +2,8 @@
 
 class OverlayMe.Overlays.ContentDivManagementBlock extends Backbone.View
 
-  tagName: 'fieldset'
-  className: 'content-mgnt-block'
+  tagName: 'div'
+  className: 'content-mgnt-block section'
   id: 'content_div_management_block'
   css_attributes_to_save: ['z-index', 'opacity']
 
@@ -11,15 +11,13 @@ class OverlayMe.Overlays.ContentDivManagementBlock extends Backbone.View
   over_zindex: 5
 
   template: '
-    <div class="unicorns" title="Feeling corny?"></div>
-    <legend>Page content</legend>
     <div class="slider-block">
-      <label>Opacity</label>
+      <label for="contentSlider">Page Opacity</label>
       <input id="contentSlider" type="range" value="100">
     </div>
     <div class="zindex-switch">
+      <label for="zindex-toggle" title="t">Content on top</label>
       <input type="checkbox" id="zindex-toggle">
-      <label for="zindex-toggle">Content on top (t)</label>
     </div>
   '
 
@@ -40,9 +38,6 @@ class OverlayMe.Overlays.ContentDivManagementBlock extends Backbone.View
     , 500
 
     $o(@el)
-      .on 'click', '.unicorns', ->
-        OverlayMe.dyn_manager.addImage(OverlayMe.unicorns[Math.floor(Math.random()*OverlayMe.unicorns.length)], { default_css: { opacity: 1 } })
-
       .on 'change', '#contentSlider', =>
         $slider = $o('#contentSlider')
         opacity = parseInt($slider.val(), 10) / 100

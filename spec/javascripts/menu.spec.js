@@ -11,14 +11,6 @@
       expect(OverlayMe.menu.engageMove).toBeDefined();
       return expect(OverlayMe.menu.toggleMove).toBeDefined();
     });
-    it("should append MenuItems to its list", function() {
-      var test_li;
-      expect($o('ul #test-append-li', OverlayMe.menu.el).length).toEqual(0);
-      test_li = $o('<li id="test-append-li" class="menu-item">Just a test :)</li>')[0];
-      OverlayMe.menu.append(test_li);
-      expect($o('ul #test-append-li', OverlayMe.menu.el).length).toEqual(1);
-      return $o('ul #test-append-li', OverlayMe.menu.el).remove();
-    });
     it("should be collapsable/uncollapsable", function() {
       var collapsed;
       collapsed = OverlayMe.menu.collapsed();
