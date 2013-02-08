@@ -86,11 +86,6 @@ class OverlayMe.Overlays.Image extends Backbone.View
   opacity: ->
     $o(@image.el).css('opacity') * 100
 
-  # Keept it for legacy
-  label: ->
-    # keep only 22 characters
-    @label = @make 'label', {}, @name()
-
   name: ->
     @image_src.replace(/.*\//, '').slice -22
 

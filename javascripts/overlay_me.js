@@ -12325,12 +12325,13 @@ function style(element, styles) {
     };
 
     Draggable.prototype.updatePosition = function(x, y) {
-      var newX, newY;
-      newX = parseInt($o(this.el).css('left')) + x;
-      newY = parseInt($o(this.el).css('top')) + y;
-      $o(this.el).css({
-        top: "" + newY + "px",
-        left: "" + newX + "px"
+      var $el, newX, newY;
+      $el = $o(this.el);
+      newX = parseInt($el.css('left'), 10) + x;
+      newY = parseInt($el.css('top'), 10) + y;
+      $el.css({
+        top: newY,
+        left: newX
       });
       return this.save();
     };
@@ -12859,10 +12860,6 @@ function style(element, styles) {
       return $o(this.image.el).css('opacity') * 100;
     };
 
-    Image.prototype.label = function() {
-      return this.label = this.make('label', {}, this.name());
-    };
-
     Image.prototype.name = function() {
       return this.image_src.replace(/.*\//, '').slice(-22);
     };
@@ -13114,9 +13111,9 @@ function style(element, styles) {
 
     ContentDivManagementBlock.prototype.initialize = function() {
       var _this = this;
-      this.page_container_div = this.make('div', {
+      this.page_container_div = $o('<div />', {
         id: 'overlay_me_page_container'
-      });
+      })[0];
       $o('body').append(this.page_container_div);
       $o('body > *').each(function(index, thing) {
         if (!(thing.id.match(/^overlay_me/) || thing.tagName === 'SCRIPT')) {

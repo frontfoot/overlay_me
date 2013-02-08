@@ -37,9 +37,13 @@ class OverlayMe.Draggable extends Backbone.View
       @engageMove(event)
 
   updatePosition: (x, y) ->
-    newX = parseInt($o(@el).css('left')) + x
-    newY = parseInt($o(@el).css('top')) + y
-    $o(@el).css({ top:"#{newY}px", left:"#{newX}px"})
+    $el = $o(@el)
+    newX = parseInt($el.css('left'), 10) + x
+    newY = parseInt($el.css('top'), 10) + y
+    $el.css { 
+      top: newY, 
+      left: newX
+    }
     @save()
 
   setAsLastMoved: ->

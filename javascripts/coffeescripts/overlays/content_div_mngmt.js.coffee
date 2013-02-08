@@ -24,7 +24,7 @@ class OverlayMe.Overlays.ContentDivManagementBlock extends Backbone.View
   initialize: ->
 
     # move all page content to a sub-Div
-    @page_container_div = @make 'div', { id: 'overlay_me_page_container' }
+    @page_container_div = $o('<div />', {id: 'overlay_me_page_container' })[0]
     $o('body').append @page_container_div
     $o('body > *').each (index, thing) =>
       unless thing.id.match(/^overlay_me/) || thing.tagName == 'SCRIPT'
