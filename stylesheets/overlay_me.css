@@ -136,7 +136,7 @@
   -ms-border-radius: 2px 2px 0 0;
   -o-border-radius: 2px 2px 0 0;
   border-radius: 2px 2px 0 0;
-  background: #dbecf6;
+  background: #c2e8ff;
 }
 .overlayme-menu .image--hidden {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=20);
@@ -207,7 +207,7 @@
   margin-left: -2px;
 }
 .overlayme-images-container .image.highlight {
-  border-color: red;
+  border-color: #009af5;
   cursor: move;
 }
 .overlayme-images-container img {

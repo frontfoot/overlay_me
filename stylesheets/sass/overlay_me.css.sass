@@ -4,6 +4,7 @@
 $menu-width: 200px
 $background-color: #333235
 $color: #fff
+$alt-color: #009af5
 
 =set-box-sizing
   +box-sizing(border-box)
@@ -117,7 +118,7 @@ $color: #fff
 
     &.hovered
       +border-radius(2px 2px 0 0)
-      background: #dbecf6
+      background: lighten($alt-color, 40%)
 
   .image--hidden
     +opacity(0.2)
@@ -178,7 +179,7 @@ $color: #fff
       left: -2px
 
     &.highlight
-      border-color: red
+      border-color: $alt-color
       cursor: move
 
   img
