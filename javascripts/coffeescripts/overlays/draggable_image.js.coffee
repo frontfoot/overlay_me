@@ -7,6 +7,8 @@ class OverlayMe.Overlays.DraggableImage extends OverlayMe.Draggable
   initialize: (attributes, options) ->
     super(attributes, options)
 
+    @$el = $o(@el)
+
     @image = new Image()
     @src   = options.image_src
 
@@ -15,13 +17,13 @@ class OverlayMe.Overlays.DraggableImage extends OverlayMe.Draggable
       @setAsLastMoved()
       
     $o(@image).attr 'src', @src
-    $o(@el).append @image
+    @$el.append @image
 
     # force positioning to 0 by default
-    $o(@el).css('left', 0) if $o(@el).css('left') == 'auto' || $o(@el).css('left') == ''
-    $o(@el).css('top', 0) if $o(@el).css('top') == 'auto' || $o(@el).css('top') == ''
+    @$el.css('left', 0) if $o(@el).css('left') == 'auto' || @$el.css('left') == ''
+    @$el.css('top', 0) if $o(@el).css('top') == 'auto' || @$el.css('top') == ''
 
-    $o(@el)
+    @$el
       .on 'mousedown', (e) =>
         @toggleMove e
       .on 'mouseover', (e) =>
@@ -34,9 +36,10 @@ class OverlayMe.Overlays.DraggableImage extends OverlayMe.Draggable
 
   fitDivToImage: ->
     if @image.width > 0
-      $o(@el).css 'width', @image.width
-      $o(@el).css 'height', @image.height
+      @$el.css 
+        width: @image.width
+        height: @image.height
 
   render: ->
-    @el
+    @$el
 

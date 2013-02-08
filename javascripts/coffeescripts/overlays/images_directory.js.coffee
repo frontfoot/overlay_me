@@ -6,16 +6,18 @@ class OverlayMe.Overlays.ImagesDirectory extends Backbone.View
   className: 'images_dir'
 
   initialize: (dirname) ->
+    @$el = $o(@el)
+
     @dirname = dirname
     @contentBlock = @make 'div', { id: @dirname, class: 'sub-block' }
     _.extend @contentBlock, OverlayMe.Mixin.Hideable
     _.extend @contentBlock, OverlayMe.Mixin.Storable
     @contentBlock.css_attributes_to_save = ['display']
     @contentBlock.loadCss(@contentBlock)
-    $o(@el).append @checkbox()
-    $o(@el).append @label()
-    $o(@el).append @contentBlock
-    $o(@el).bind 'click', (e) =>
+    @$el.append @checkbox()
+    @$el.append @label()
+    @$el.append @contentBlock
+    @$el.bind 'click', (e) =>
       e.stopPropagation()
       @checkbox.click()
 

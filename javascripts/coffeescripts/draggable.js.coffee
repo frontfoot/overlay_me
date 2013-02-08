@@ -11,7 +11,10 @@ class OverlayMe.Draggable extends Backbone.View
 
   initialize: (attributes, options) ->
     super(attributes, options)
+    @$el = $o(@el)
+
     @loadCss(@el, options.default_css)
+
 
   engageMove: (event) ->
     event.preventDefault()
@@ -23,12 +26,12 @@ class OverlayMe.Draggable extends Backbone.View
       @updatePosition(mouseEvent.clientX - @lastX, mouseEvent.clientY - @lastY)
       @lastX = mouseEvent.clientX
       @lastY = mouseEvent.clientY
-    $o(@el).addClass 'on-move'
+    @$el.addClass 'on-move'
 
   endMove: (event) ->
     @moving = false
     $o(window).unbind('mymousemove')
-    $o(@el).removeClass 'on-move'
+    @$el.removeClass 'on-move'
 
   toggleMove: (event) ->
     if @moving
@@ -37,10 +40,9 @@ class OverlayMe.Draggable extends Backbone.View
       @engageMove(event)
 
   updatePosition: (x, y) ->
-    $el = $o(@el)
-    newX = parseInt($el.css('left'), 10) + x
-    newY = parseInt($el.css('top'), 10) + y
-    $el.css { 
+    newX = parseInt(@$el.css('left'), 10) + x
+    newY = parseInt(@$el.css('top'), 10) + y
+    @$el.css { 
       top: newY, 
       left: newX
     }
@@ -53,7 +55,7 @@ class OverlayMe.Draggable extends Backbone.View
     @saveCss()
 
   render: ->
-    @el
+    @$el
 
 # extending few mixins - thx Derick - http://stackoverflow.com/questions/7853731/proper-way-of-doing-view-mixins-in-backbone
 _.extend OverlayMe.Draggable.prototype, OverlayMe.Mixin.Storable

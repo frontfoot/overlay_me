@@ -11,11 +11,13 @@ class OverlayMe.BasicsPanel extends OverlayMe.MenuItem
   initialize: (attributes, options) ->
     super({id: "basics-options-panel", title: "Basics" }, options)
 
+    @$el = $o(@el)
+
     toggle_all_display = ->
       $o(window).trigger 'overlay_me:toggle_all_display'
       $o(window).trigger 'overlay_me:toggle_overlay_me_images_container_display'
 
-    $o(@el)
+    @$el
       .on 'click', '.reset', (e) =>
         OverlayMe.clearAndReload()
       .on 'click', '.hide', (e) =>

@@ -12292,6 +12292,7 @@ function style(element, styles) {
 
     Draggable.prototype.initialize = function(attributes, options) {
       Draggable.__super__.initialize.call(this, attributes, options);
+      this.$el = $o(this.el);
       return this.loadCss(this.el, options.default_css);
     };
 
@@ -12307,13 +12308,13 @@ function style(element, styles) {
         _this.lastX = mouseEvent.clientX;
         return _this.lastY = mouseEvent.clientY;
       });
-      return $o(this.el).addClass('on-move');
+      return this.$el.addClass('on-move');
     };
 
     Draggable.prototype.endMove = function(event) {
       this.moving = false;
       $o(window).unbind('mymousemove');
-      return $o(this.el).removeClass('on-move');
+      return this.$el.removeClass('on-move');
     };
 
     Draggable.prototype.toggleMove = function(event) {
@@ -12325,11 +12326,10 @@ function style(element, styles) {
     };
 
     Draggable.prototype.updatePosition = function(x, y) {
-      var $el, newX, newY;
-      $el = $o(this.el);
-      newX = parseInt($el.css('left'), 10) + x;
-      newY = parseInt($el.css('top'), 10) + y;
-      $el.css({
+      var newX, newY;
+      newX = parseInt(this.$el.css('left'), 10) + x;
+      newY = parseInt(this.$el.css('top'), 10) + y;
+      this.$el.css({
         top: newY,
         left: newX
       });
@@ -12345,7 +12345,7 @@ function style(element, styles) {
     };
 
     Draggable.prototype.render = function() {
-      return this.el;
+      return this.$el;
     };
 
     return Draggable;
@@ -12391,8 +12391,9 @@ function style(element, styles) {
           top: 50
         }
       });
+      this.$el = $o(this.el);
       $o('body').append(this.render());
-      $o(this.el).on('mousedown', '.drag-me', function(e) {
+      this.$el.on('mousedown', '.drag-me', function(e) {
         return _this.toggleMove(e);
       }).on('mousedown', '.menu-header__toggle', function(e) {
         return e.stopPropagation();
@@ -12407,22 +12408,21 @@ function style(element, styles) {
     };
 
     MenuClass.prototype.append = function(element) {
-      return $o(this.el).find('.menu-list').append(element);
+      return this.$el.find('.menu-list').append(element);
     };
 
     MenuClass.prototype.toggleCollapse = function() {
-      return $o(this.el).toggleClass('collapsed');
+      return this.$el.toggleClass('collapsed');
     };
 
     MenuClass.prototype.collapsed = function() {
-      return $o(this.el).hasClass('collapsed');
+      return this.$el.hasClass('collapsed');
     };
 
     MenuClass.prototype.render = function() {
       var template;
       template = _.template(this.template, {});
-      $o(this.el).html(template);
-      return this.el;
+      return this.$el.html(template);
     };
 
     return MenuClass;
@@ -12463,10 +12463,11 @@ function style(element, styles) {
 
     MenuItem.prototype.initialize = function(attributes, options) {
       var _this = this;
+      this.$el = $o(this.el);
       this.id = attributes.id;
-      $o(this.el).addClass(attributes.id);
+      this.$el.addClass(attributes.id);
       this.title = attributes.title;
-      $o(this.el).on('click', '.collapse-button, .title', function() {
+      this.$el.on('click', '.collapse-button, .title', function() {
         return _this.toggleCollapse();
       });
       this.content = [];
@@ -12481,9 +12482,9 @@ function style(element, styles) {
     MenuItem.prototype.setCollapse = function(toCollapse) {
       this.collapsed = toCollapse;
       if (toCollapse) {
-        return $o(this.el).addClass('collapsed');
+        return this.$el.addClass('collapsed');
       } else {
-        return $o(this.el).removeClass('collapsed');
+        return this.$el.removeClass('collapsed');
       }
     };
 
@@ -12497,7 +12498,7 @@ function style(element, styles) {
         title: this.title
       };
       template = _.template(this.template, params);
-      $o(this.el).html(template);
+      this.$el.html(template);
       $content = $o(this.el).find('.item-content');
       _.each(this.content, function(el) {
         return $content.append($o(el));
@@ -12540,11 +12541,12 @@ function style(element, styles) {
         id: "basics-options-panel",
         title: "Basics"
       }, options);
+      this.$el = $o(this.el);
       toggle_all_display = function() {
         $o(window).trigger('overlay_me:toggle_all_display');
         return $o(window).trigger('overlay_me:toggle_overlay_me_images_container_display');
       };
-      $o(this.el).on('click', '.reset', function(e) {
+      this.$el.on('click', '.reset', function(e) {
         return OverlayMe.clearAndReload();
       }).on('click', '.hide', function(e) {
         return toggle_all_display();
@@ -12706,6 +12708,7 @@ function style(element, styles) {
     DraggableImage.prototype.initialize = function(attributes, options) {
       var _this = this;
       DraggableImage.__super__.initialize.call(this, attributes, options);
+      this.$el = $o(this.el);
       this.image = new Image();
       this.src = options.image_src;
       $o(this.image).load(function() {
@@ -12713,14 +12716,14 @@ function style(element, styles) {
         return _this.setAsLastMoved();
       });
       $o(this.image).attr('src', this.src);
-      $o(this.el).append(this.image);
-      if ($o(this.el).css('left') === 'auto' || $o(this.el).css('left') === '') {
-        $o(this.el).css('left', 0);
+      this.$el.append(this.image);
+      if ($o(this.el).css('left') === 'auto' || this.$el.css('left') === '') {
+        this.$el.css('left', 0);
       }
-      if ($o(this.el).css('top') === 'auto' || $o(this.el).css('top') === '') {
-        $o(this.el).css('top', 0);
+      if ($o(this.el).css('top') === 'auto' || this.$el.css('top') === '') {
+        this.$el.css('top', 0);
       }
-      $o(this.el).on('mousedown', function(e) {
+      this.$el.on('mousedown', function(e) {
         return _this.toggleMove(e);
       }).on('mouseover', function(e) {
         return $o(".overlay-image-block[data-img-id=" + _this.id + "]").addClass('hovered');
@@ -12734,13 +12737,15 @@ function style(element, styles) {
 
     DraggableImage.prototype.fitDivToImage = function() {
       if (this.image.width > 0) {
-        $o(this.el).css('width', this.image.width);
-        return $o(this.el).css('height', this.image.height);
+        return this.$el.css({
+          width: this.image.width,
+          height: this.image.height
+        });
       }
     };
 
     DraggableImage.prototype.render = function() {
-      return this.el;
+      return this.$el;
     };
 
     return DraggableImage;
@@ -12788,9 +12793,10 @@ function style(element, styles) {
       $o.extend({
         destroyable: false
       }, options);
+      this.$el = $o(this.el);
       this.image_src = imageSrc;
       this.image_id = OverlayMe.Overlays.urlToId(imageSrc);
-      $o(this.el).attr('data-img-id', this.image_id);
+      this.$el.attr('data-img-id', this.image_id);
       imagesContainer = new OverlayMe.Overlays.ImagesContainer({
         parent_path: options.parent_path
       });
@@ -12802,20 +12808,20 @@ function style(element, styles) {
         $o(imagesContainer.el).append(this.image());
       }
       this.destroyable = options.destroyable;
-      return $o(this.el).on('change', '[type=checkbox]', function(e) {
+      return this.$el.on('change', '[type=checkbox]', function(e) {
         e.stopPropagation();
         return _this.toggleVisibility();
       }).on('click', '[type=range]', function(e) {
         return e.stopPropagation();
       }).on('change', '[type=range]', function(e) {
-        $o(_this.image.el).css('opacity', parseInt($o(_this.el).find('[type=range]').val(), 10) / 100);
+        $o(_this.image.el).css('opacity', parseInt(_this.$el.find('[type=range]').val(), 10) / 100);
         return _this.image.saveCss();
       }).on('mouseover', '[type=range]', function(e) {
         e.stopPropagation();
-        return $o(_this.el).addClass('hovered');
+        return _this.$el.addClass('hovered');
       }).on('mouseout', '[type=range]', function(e) {
         e.stopPropagation();
-        return $o(_this.el).removeClass('hovered');
+        return _this.$el.removeClass('hovered');
       }).on('click', '.del-button', function(e) {
         return OverlayMe.dyn_manager.delImage(_this.image_id);
       }).on('click', function(e) {
@@ -12823,10 +12829,10 @@ function style(element, styles) {
         return _this.toggleChechbox();
       }).on('mouseover', function(e) {
         $o(_this.image.el).addClass('highlight');
-        return $o(_this.el).addClass('hovered');
+        return _this.$el.addClass('hovered');
       }).on('mouseout', function(e) {
         $o(_this.image.el).removeClass('highlight');
-        return $o(_this.el).removeClass('hovered');
+        return _this.$el.removeClass('hovered');
       });
     };
 
@@ -12842,17 +12848,17 @@ function style(element, styles) {
 
     Image.prototype.toggleChechbox = function() {
       var $cb;
-      $cb = $o(this.el).find('[type=checkbox]');
+      $cb = this.$el.find('[type=checkbox]');
       $cb[0].checked = !$cb[0].checked;
       return this.toggleVisibility();
     };
 
     Image.prototype.toggleVisibility = function() {
       var $cb, isChecked;
-      $cb = $o(this.el).find('[type=checkbox]');
+      $cb = this.$el.find('[type=checkbox]');
       isChecked = $cb.is(':checked');
       $o(this.image.el).toggle(isChecked);
-      $o(this.el).toggleClass('image--hidden', !isChecked);
+      this.$el.toggleClass('image--hidden', !isChecked);
       return this.image.saveCss();
     };
 
@@ -12874,8 +12880,7 @@ function style(element, styles) {
         url: this.image.src
       };
       template = _.template(this.template, params);
-      $o(this.el).html(template);
-      return this.el;
+      return this.$el.html(template);
     };
 
     return Image;
@@ -12903,6 +12908,7 @@ function style(element, styles) {
 
     ImagesDirectory.prototype.initialize = function(dirname) {
       var _this = this;
+      this.$el = $o(this.el);
       this.dirname = dirname;
       this.contentBlock = this.make('div', {
         id: this.dirname,
@@ -12912,10 +12918,10 @@ function style(element, styles) {
       _.extend(this.contentBlock, OverlayMe.Mixin.Storable);
       this.contentBlock.css_attributes_to_save = ['display'];
       this.contentBlock.loadCss(this.contentBlock);
-      $o(this.el).append(this.checkbox());
-      $o(this.el).append(this.label());
-      $o(this.el).append(this.contentBlock);
-      return $o(this.el).bind('click', function(e) {
+      this.$el.append(this.checkbox());
+      this.$el.append(this.label());
+      this.$el.append(this.contentBlock);
+      return this.$el.bind('click', function(e) {
         e.stopPropagation();
         return _this.checkbox.click();
       });
@@ -13111,6 +13117,7 @@ function style(element, styles) {
 
     ContentDivManagementBlock.prototype.initialize = function() {
       var _this = this;
+      this.$el = $o(this.el);
       this.page_container_div = $o('<div />', {
         id: 'overlay_me_page_container'
       })[0];
@@ -13128,7 +13135,7 @@ function style(element, styles) {
           return $o('#zindex-toggle')[0].checked = true;
         }
       }, 500);
-      $o(this.el).on('change', '#contentSlider', function() {
+      this.$el.on('change', '#contentSlider', function() {
         var $slider, opacity;
         $slider = $o('#contentSlider');
         opacity = parseInt($slider.val(), 10) / 100;
@@ -13154,8 +13161,7 @@ function style(element, styles) {
     ContentDivManagementBlock.prototype.render = function() {
       var template;
       template = _.template(this.template, {});
-      $o(this.el).html(template);
-      return this.el;
+      return this.$el.html(template);
     };
 
     return ContentDivManagementBlock;
@@ -13197,7 +13203,8 @@ function style(element, styles) {
 
     ImagesManagementDiv.prototype.initialize = function() {
       var _this = this;
-      return $o(this.el).on('click', '.unicorns', function() {
+      this.$el = $o(this.el);
+      return this.$el.on('click', '.unicorns', function() {
         return OverlayMe.dyn_manager.addImage(OverlayMe.unicorns[Math.floor(Math.random() * OverlayMe.unicorns.length)], {
           default_css: {
             opacity: 1
@@ -13213,17 +13220,17 @@ function style(element, styles) {
     };
 
     ImagesManagementDiv.prototype.append = function(block) {
-      return $o(this.el).find('.overlays-list').append(block);
+      return this.$el.find('.overlays-list').append(block);
     };
 
     ImagesManagementDiv.prototype.del = function(image_id) {
-      $o(".overlay-image-block[data-img-id=" + image_id + "]", this.el).remove();
+      $o(".overlay-image-block[data-img-id=" + image_id + "]", this.$el).remove();
       return $o("#overlay_me_images_container #" + image_id).remove();
     };
 
     ImagesManagementDiv.prototype.pushImage = function() {
       var $urlInput;
-      $urlInput = $o(this.el).find('.image-url-input');
+      $urlInput = this.$el.find('.image-url-input');
       OverlayMe.dyn_manager.addImage($urlInput.val());
       return $urlInput.val('');
     };
@@ -13231,8 +13238,7 @@ function style(element, styles) {
     ImagesManagementDiv.prototype.render = function() {
       var template;
       template = _.template(this.template, {});
-      $o(this.el).html(template);
-      return this.el;
+      return this.$el.html(template);
     };
 
     return ImagesManagementDiv;

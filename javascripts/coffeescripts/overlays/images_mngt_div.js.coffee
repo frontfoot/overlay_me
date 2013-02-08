@@ -15,7 +15,9 @@ class OverlayMe.Overlays.ImagesManagementDiv extends Backbone.View
   '
 
   initialize: ->
-    $o(@el)
+    @$el = $o(@el)
+
+    @$el
       .on 'click', '.unicorns', ->
         OverlayMe.dyn_manager.addImage(OverlayMe.unicorns[Math.floor(Math.random()*OverlayMe.unicorns.length)], { default_css: { opacity: 1 } })
       .on 'keypress', 'input', (e) =>
@@ -24,19 +26,17 @@ class OverlayMe.Overlays.ImagesManagementDiv extends Backbone.View
         @pushImage()
 
   append: (block) ->
-    $o(@el).find('.overlays-list').append block
+    @$el.find('.overlays-list').append block
 
   del: (image_id) ->
-    $o(".overlay-image-block[data-img-id=#{image_id}]", @el).remove()
+    $o(".overlay-image-block[data-img-id=#{image_id}]", @$el).remove()
     $o("#overlay_me_images_container ##{image_id}").remove()
 
   pushImage: ->
-    $urlInput = $o(@el).find('.image-url-input')
+    $urlInput = @$el.find('.image-url-input')
     OverlayMe.dyn_manager.addImage $urlInput.val()
     $urlInput.val ''
 
   render: ->
     template = _.template @template, {}
-    $o(@el).html template
-    @el
-
+    @$el.html template

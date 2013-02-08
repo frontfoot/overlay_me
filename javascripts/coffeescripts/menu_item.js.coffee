@@ -9,12 +9,14 @@ class OverlayMe.MenuItem extends Backbone.View
   '
 
   initialize: (attributes, options) ->
+    @$el = $o(@el)
+    
     @id = attributes.id
-    $o(@el).addClass attributes.id
+    @$el.addClass attributes.id
 
     @title = attributes.title
 
-    $o(@el)
+    @$el
       .on 'click', '.collapse-button, .title', =>
         @toggleCollapse()
 
@@ -28,9 +30,9 @@ class OverlayMe.MenuItem extends Backbone.View
   setCollapse: (toCollapse) ->
     @collapsed = toCollapse
     if toCollapse
-      $o(@el).addClass 'collapsed'
+      @$el.addClass 'collapsed'
     else
-      $o(@el).removeClass 'collapsed'
+      @$el.removeClass 'collapsed'
 
   append: (childElemt) ->
     @content.push childElemt
@@ -40,7 +42,7 @@ class OverlayMe.MenuItem extends Backbone.View
       title: @title
     }
     template = _.template @template, params
-    $o(@el).html template
+    @$el.html template
 
     $content = $o(@el).find('.item-content')
     _.each @content, (el) ->

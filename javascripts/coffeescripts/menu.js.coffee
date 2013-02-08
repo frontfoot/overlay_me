@@ -18,11 +18,13 @@ class OverlayMe.MenuClass extends OverlayMe.Draggable
   initialize: (attributes) ->
     super(attributes, { default_css: { top: 50 } })
 
+    @$el = $o(@el)
+
     # add it to the page
     $o('body').append @render()
 
     # add listeners
-    $o(@el)
+    @$el
       .on 'mousedown', '.drag-me', (e) =>
         @toggleMove e
 
@@ -39,18 +41,17 @@ class OverlayMe.MenuClass extends OverlayMe.Draggable
         @toggleDisplay()
 
   append: (element) ->
-    $o(@el).find('.menu-list').append element
+    @$el.find('.menu-list').append element
 
   toggleCollapse: ->
-    $o(@el).toggleClass 'collapsed'
+    @$el.toggleClass 'collapsed'
 
   collapsed: ->
-    $o(@el).hasClass 'collapsed'
+    @$el.hasClass 'collapsed'
 
   render: ->
     template = _.template @template, {}
-    $o(@el).html template
-    @el
+    @$el.html template
 
 # create a unique menu if conditions
 if OverlayMe.mustLoad() # dont do it anytime

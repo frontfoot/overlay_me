@@ -24,9 +24,12 @@ class OverlayMe.Overlays.Image extends Backbone.View
 
   initialize: (imageSrc, options) ->
     $o.extend { destroyable: false }, options
+
+    @$el = $o(@el)
+
     @image_src = imageSrc
     @image_id = OverlayMe.Overlays.urlToId imageSrc
-    $o(@el).attr 'data-img-id', @image_id
+    @$el.attr 'data-img-id', @image_id
 
     imagesContainer = new OverlayMe.Overlays.ImagesContainer({ parent_path: options.parent_path })
 
@@ -37,7 +40,7 @@ class OverlayMe.Overlays.Image extends Backbone.View
 
     @destroyable = options.destroyable
 
-    $o(@el)
+    @$el
       .on 'change', '[type=checkbox]', (e) =>
         e.stopPropagation()
         @toggleVisibility()
@@ -45,14 +48,14 @@ class OverlayMe.Overlays.Image extends Backbone.View
       .on 'click', '[type=range]', (e) =>
         e.stopPropagation()
       .on 'change', '[type=range]', (e) =>
-        $o(@image.el).css('opacity', parseInt($o(@el).find('[type=range]').val(), 10) / 100)
+        $o(@image.el).css('opacity', parseInt(@$el.find('[type=range]').val(), 10) / 100)
         @image.saveCss()
       .on 'mouseover', '[type=range]', (e) =>
         e.stopPropagation()
-        $o(@el).addClass 'hovered'
+        @$el.addClass 'hovered'
       .on 'mouseout', '[type=range]', (e) =>
         e.stopPropagation()
-        $o(@el).removeClass 'hovered'
+        @$el.removeClass 'hovered'
 
       .on 'click', '.del-button', (e) =>
         OverlayMe.dyn_manager.delImage @image_id
@@ -62,25 +65,25 @@ class OverlayMe.Overlays.Image extends Backbone.View
         @toggleChechbox()
       .on 'mouseover', (e) =>
         $o(@image.el).addClass 'highlight'
-        $o(@el).addClass 'hovered'
+        @$el.addClass 'hovered'
       .on 'mouseout', (e) =>
         $o(@image.el).removeClass 'highlight'
-        $o(@el).removeClass 'hovered'
+        @$el.removeClass 'hovered'
 
   image: ->
     @image = new OverlayMe.Overlays.DraggableImage { id: @image_id }, { image_src: @image_src, default_css: @default_css }
     @image.render()
 
   toggleChechbox: ->
-    $cb = $o(@el).find('[type=checkbox]')
+    $cb = @$el.find('[type=checkbox]')
     $cb[0].checked = !$cb[0].checked
     @toggleVisibility()
 
   toggleVisibility: ->
-    $cb = $o(@el).find('[type=checkbox]')
+    $cb = @$el.find('[type=checkbox]')
     isChecked = $cb.is(':checked')
     $o(@image.el).toggle isChecked
-    $o(@el).toggleClass 'image--hidden', !isChecked
+    @$el.toggleClass 'image--hidden', !isChecked
     @image.saveCss()
 
   opacity: ->
@@ -98,6 +101,4 @@ class OverlayMe.Overlays.Image extends Backbone.View
       url: @image.src
     }
     template = _.template @template, params
-    $o(@el).html template
-    @el
-
+    @$el.html template

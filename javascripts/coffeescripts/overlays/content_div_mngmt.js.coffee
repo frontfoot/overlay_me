@@ -23,6 +23,8 @@ class OverlayMe.Overlays.ContentDivManagementBlock extends Backbone.View
 
   initialize: ->
 
+    @$el = $o(@el)
+
     # move all page content to a sub-Div
     @page_container_div = $o('<div />', {id: 'overlay_me_page_container' })[0]
     $o('body').append @page_container_div
@@ -37,7 +39,7 @@ class OverlayMe.Overlays.ContentDivManagementBlock extends Backbone.View
       $o('#zindex-toggle')[0].checked = true if parseInt($o("#overlay_me_page_container").css('z-index'), 10) == @over_zindex
     , 500
 
-    $o(@el)
+    @$el
       .on 'change', '#contentSlider', =>
         $slider = $o('#contentSlider')
         opacity = parseInt($slider.val(), 10) / 100
@@ -59,8 +61,7 @@ class OverlayMe.Overlays.ContentDivManagementBlock extends Backbone.View
 
   render: ->
     template = _.template @template, {}
-    $o(@el).html template
-    @el
+    @$el.html template
 
 # extending few mixins - thx Derick - http://stackoverflow.com/questions/7853731/proper-way-of-doing-view-mixins-in-backbone
 _.extend OverlayMe.Overlays.ContentDivManagementBlock.prototype, OverlayMe.Mixin.Storable
