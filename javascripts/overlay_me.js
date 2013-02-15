@@ -13136,7 +13136,7 @@ function style(element, styles) {
       $pageContainer = $o('<div />', {
         id: 'overlay_me_page_container'
       });
-      $o('body').append($pageContainer).each(function(index, element) {
+      $o('body').append($pageContainer).children('*').each(function(index, element) {
         if (!(element.id.match(/^overlay_me/) || element.tagName === 'SCRIPT')) {
           return $pageContainer.append(element);
         }

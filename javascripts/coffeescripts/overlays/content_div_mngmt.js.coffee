@@ -34,9 +34,9 @@ class OverlayMe.Overlays.ContentDivManagementBlock extends Backbone.View
     # move all page content to a sub-div
     $o('body')
       .append($pageContainer)
-      .each (index, element) =>
+      .children('*').each (index, element) =>
         unless element.id.match(/^overlay_me/) || element.tagName == 'SCRIPT'
-           $pageContainer.append element
+          $pageContainer.append element
 
     # load previous css features of that container div
     @loadCss $pageContainer, {'z-index': @zIndexes.normal}
