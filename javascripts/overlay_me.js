@@ -13194,52 +13194,47 @@ function style(element, styles) {
     ImagesManagementDiv.prototype.template = '\
     <div class="overlays-list"></div>\
     <div class="dynamic-adds image-manager__adder" data-behavior="drop-zone">\
-      <div class="unicorns image-manager__adder--unicorns" title="Feeling corny?"></div>\
+      <div class="image-manager__adder__unicorns" data-behavior="add-unicorn" title="Feeling corny?"></div>\
       Add image\
-      <input type="file" class="image-uploader" />\
+      <div class="image-manager__adder__uploader">\
+        <input type="file" data-behavior="uploader" />\
+      </div>\
       <input class="image-url-input" type="text" placeholder="http://">\
       <button>+</button>\
     </div>\
   ';
 
     ImagesManagementDiv.prototype.initialize = function() {
-      var dz,
+      var dz, uploader,
         _this = this;
       this.$el = $o(this.el);
       $o.event.props.push('dataTransfer');
       dz = '[data-behavior~=drop-zone]';
-      return this.$el.on('click', '.unicorns', function(e) {
-        e.stopPropagation();
-        return OverlayMe.dyn_manager.addImage(OverlayMe.unicorns[Math.floor(Math.random() * OverlayMe.unicorns.length)], {
-          default_css: {
-            opacity: 1
-          }
-        });
+      uploader = '[data-behavior~=uploader]';
+      return this.$el.on('click', '[data-behavior~=add-unicorn]', function(e) {
+        return _this.addUnicorn();
       }).on('keypress', 'input', function(e) {
         if (e.keyCode === 13) {
           return _this.pushImage();
         }
       }).on('click', 'button', function(e) {
-        e.stopPropagation();
         return _this.pushImage();
-      }).on('click', function(e) {
-        return _this.$el.find('.image-uploader').trigger('');
-      }).on('change', '.image-uploader', function(e) {
-        return _this.handleUpload(e.target.files);
+      }).on('change', uploader, function(e) {
+        _this.handleUpload(e.target.files);
+        return _this.$el.find(uploader).val('');
       }).on('dragover', dz, function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        return _this.$el.find(dz).addClass('droppable');
+        _this.$el.find(dz).addClass('droppable');
+        return false;
       }).on('dragleave', dz, function(e) {
         return _this.$el.find(dz).removeClass('droppable');
       }).on('drop', dz, function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        return _this.handleUpload(e.dataTransfer.files);
+        _this.handleUpload(e.dataTransfer.files);
+        return false;
       });
     };
 
     ImagesManagementDiv.prototype.handleUpload = function(files) {
+      var _this = this;
       return _.each(files, function(file) {
         var data, reader;
         if (file.type.match('image.*')) {
@@ -13248,7 +13243,7 @@ function style(element, styles) {
             return alert('An error occured while uploading the file.');
           };
           reader.onload = function(e) {
-            return OverlayMe.dyn_manager.addImage(e.target.result);
+            return _this.add(e.target.result);
           };
           return data = reader.readAsDataURL(file);
         }
@@ -13262,6 +13257,23 @@ function style(element, styles) {
     ImagesManagementDiv.prototype.del = function(image_id) {
       $o(".overlay-image-block[data-img-id=" + image_id + "]", this.$el).remove();
       return $o("#overlay_me_images_container #" + image_id).remove();
+    };
+
+    ImagesManagementDiv.prototype.add = function(source, options) {
+      if (options == null) {
+        options = {};
+      }
+      return OverlayMe.dyn_manager.addImage(source, options);
+    };
+
+    ImagesManagementDiv.prototype.addUnicorn = function() {
+      var unicorn;
+      unicorn = _.shuffle(OverlayMe.unicorns)[0];
+      return this.add(unicorn, {
+        default_css: {
+          opacity: 1
+        }
+      });
     };
 
     ImagesManagementDiv.prototype.pushImage = function() {

@@ -7,9 +7,11 @@ class OverlayMe.Overlays.ImagesManagementDiv extends Backbone.View
   template: '
     <div class="overlays-list"></div>
     <div class="dynamic-adds image-manager__adder" data-behavior="drop-zone">
-      <div class="unicorns image-manager__adder--unicorns" title="Feeling corny?"></div>
+      <div class="image-manager__adder__unicorns" data-behavior="add-unicorn" title="Feeling corny?"></div>
       Add image
-      <input type="file" class="image-uploader" />
+      <div class="image-manager__adder__uploader">
+        <input type="file" data-behavior="uploader" />
+      </div>
       <input class="image-url-input" type="text" placeholder="http://">
       <button>+</button>
     </div>
@@ -19,49 +21,47 @@ class OverlayMe.Overlays.ImagesManagementDiv extends Backbone.View
     @$el = $o(@el)
 
     $o.event.props.push 'dataTransfer'
-    dz = '[data-behavior~=drop-zone]'
+    dz       = '[data-behavior~=drop-zone]'
+    uploader = '[data-behavior~=uploader]'
 
     @$el
-      .on 'click', '.unicorns', (e) ->
-        e.stopPropagation()
-        OverlayMe.dyn_manager.addImage(OverlayMe.unicorns[Math.floor(Math.random()*OverlayMe.unicorns.length)], { default_css: { opacity: 1 } })
+      # Add unicorns
+      .on 'click', '[data-behavior~=add-unicorn]', (e) =>
+        @addUnicorn()
       
+      # Add image (via url)
       .on 'keypress', 'input', (e) =>
         @pushImage() if e.keyCode == 13
       
+      # Add image (via upload)
       .on 'click', 'button', (e) =>
-        e.stopPropagation()
         @pushImage()
 
-      .on 'click', (e) =>
-        @$el.find('.image-uploader').trigger ''
-
-      .on 'change', '.image-uploader', (e) =>
+      .on 'change', uploader, (e) =>
         @handleUpload e.target.files
+        @$el.find(uploader).val '' # Reset field value
 
+      # Add image (via drop)
       .on 'dragover', dz, (e) =>
-        e.preventDefault()
-        e.stopPropagation()
         @$el.find(dz).addClass 'droppable'
+        return false
 
       .on 'dragleave', dz, (e) =>
         @$el.find(dz).removeClass 'droppable'
           
       .on 'drop', dz, (e) =>
-        e.preventDefault()
-        e.stopPropagation()
-
         @handleUpload e.dataTransfer.files
+        return false
         
 
   handleUpload: (files) ->
-    _.each files, (file) ->
+    _.each files, (file) =>
       if file.type.match 'image.*'
         reader = new FileReader()
         reader.onerror = ->
           alert 'An error occured while uploading the file.'
-        reader.onload = (e) ->
-          OverlayMe.dyn_manager.addImage e.target.result
+        reader.onload = (e) =>
+          @add e.target.result
         data = reader.readAsDataURL file
 
   append: (block) ->
@@ -70,6 +70,13 @@ class OverlayMe.Overlays.ImagesManagementDiv extends Backbone.View
   del: (image_id) ->
     $o(".overlay-image-block[data-img-id=#{image_id}]", @$el).remove()
     $o("#overlay_me_images_container ##{image_id}").remove()
+
+  add: (source, options = {}) ->
+    OverlayMe.dyn_manager.addImage source, options
+
+  addUnicorn: ->
+    unicorn = _.shuffle(OverlayMe.unicorns)[0]
+    @add unicorn, { default_css: { opacity: 1 } }
 
   pushImage: ->
     $urlInput = @$el.find('.image-url-input')
