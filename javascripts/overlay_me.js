@@ -13107,60 +13107,65 @@ function style(element, styles) {
 
     ContentDivManagementBlock.prototype.css_attributes_to_save = ['z-index', 'opacity'];
 
-    ContentDivManagementBlock.prototype.normal_zindex = 0;
-
-    ContentDivManagementBlock.prototype.over_zindex = 5;
+    ContentDivManagementBlock.prototype.zIndexes = {
+      normal: 0,
+      over: 5
+    };
 
     ContentDivManagementBlock.prototype.template = '\
-    <div class="slider-block">\
-      <label for="contentSlider">Page Opacity</label>\
-      <input id="contentSlider" type="range" value="100">\
+    <div>\
+      <label for="content-opacity">Page Opacity</label>\
+      <input id="content-opacity" type="range" value="100" data-behavior="change-content-opacity">\
     </div>\
-    <div class="zindex-switch">\
-      <label for="zindex-toggle" title="t">Content on top</label>\
-      <input type="checkbox" id="zindex-toggle">\
+    <div>\
+      <label for="content-on-top" title="t">Content on top</label>\
+      <input type="checkbox" id="content-on-top" data-behavior="toggle-content-on-top">\
     </div>\
   ';
 
     ContentDivManagementBlock.prototype.initialize = function() {
-      var _this = this;
+      var $pageContainer, contentTopToggle, opacityField, pageContainer,
+        _this = this;
       this.$el = $o(this.el);
-      this.page_container_div = $o('<div />', {
+      contentTopToggle = '[data-behavior~=toggle-content-on-top]';
+      opacityField = '[data-behavior~=change-content-opacity]';
+      $pageContainer = $o('<div />', {
         id: 'overlay_me_page_container'
-      })[0];
-      $o('body').append(this.page_container_div);
-      $o('body > *').each(function(index, thing) {
-        if (!(thing.id.match(/^overlay_me/) || thing.tagName === 'SCRIPT')) {
-          return $o(_this.page_container_div).append(thing);
+      });
+      pageContainer = $pageContainer[0];
+      $o('body').append($pageContainer);
+      $o('body > *').each(function(index, element) {
+        if (!(element.id.match(/^overlay_me/) || element.tagName === 'SCRIPT')) {
+          return $pageContainer.append(element);
         }
       });
-      this.loadCss(this.page_container_div, {
-        'z-index': this.normal_zindex
+      this.loadCss(pageContainer, {
+        'z-index': this.zIndexes.normal
       });
       setTimeout(function() {
-        if (parseInt($o("#overlay_me_page_container").css('z-index'), 10) === _this.over_zindex) {
-          return $o('#zindex-toggle')[0].checked = true;
+        if (parseInt($pageContainer.css('z-index'), 10) === _this.zIndexes.over) {
+          return $o(contentTopToggle)[0].checked = true;
         }
       }, 500);
-      this.$el.on('change', '#contentSlider', function() {
+      this.$el.on('change', opacityField, function() {
         var $slider, opacity;
-        $slider = $o('#contentSlider');
+        $slider = $o(opacityField);
         opacity = parseInt($slider.val(), 10) / 100;
-        $o("#overlay_me_page_container").css('opacity', opacity);
-        return _this.saveCss(_this.page_container_div);
-      }).on('change', '#zindex-toggle', function() {
+        $pageContainer.css('opacity', opacity);
+        return _this.saveCss(pageContainer);
+      }).on('change', contentTopToggle, function() {
         var isChecked;
-        isChecked = $o('#zindex-toggle').is(':checked');
+        isChecked = $o(contentTopToggle).is(':checked');
         if (isChecked) {
-          $o('#overlay_me_page_container').css('z-index', _this.over_zindex);
+          $pageContainer.css('z-index', _this.zIndexes.over);
         } else {
-          $o('#overlay_me_page_container').css('z-index', _this.normal_zindex);
+          $pageContainer.css('z-index', _this.zIndexes.normal);
         }
-        return _this.saveCss(_this.page_container_div);
+        return _this.saveCss(pageContainer);
       });
       return $o(window).on('keypress', function(e) {
         if (event.charCode === 116) {
-          return $o('#zindex-toggle').trigger('click');
+          return $o(contentTopToggle).trigger('click');
         }
       });
     };
