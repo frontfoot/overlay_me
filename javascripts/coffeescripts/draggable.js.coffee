@@ -13,7 +13,7 @@ class OverlayMe.Draggable extends Backbone.View
     super(attributes, options)
     @$el = $o(@el)
 
-    @loadCss(@el, options.default_css)
+    @loadCss @el, options.css
 
 
   engageMove: (event) ->

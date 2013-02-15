@@ -12183,7 +12183,7 @@ function style(element, styles) {
 (function() {
 
   OverlayMe.Mixin.Storable = {
-    loadCss: function(element, default_css) {
+    loadCss: function(element, css) {
       var cssData;
       if (element == null) {
         element = this.el;
@@ -12194,8 +12194,8 @@ function style(element, styles) {
       if ((cssData = localStorage.getItem(this.id))) {
         return $o(element).css(JSON.parse(cssData));
       } else {
-        if (default_css !== void 0) {
-          return $o(element).css(default_css);
+        if (css !== void 0) {
+          return $o(element).css(css);
         }
       }
     },
@@ -12293,7 +12293,7 @@ function style(element, styles) {
     Draggable.prototype.initialize = function(attributes, options) {
       Draggable.__super__.initialize.call(this, attributes, options);
       this.$el = $o(this.el);
-      return this.loadCss(this.el, options.default_css);
+      return this.loadCss(this.el, options.css);
     };
 
     Draggable.prototype.engageMove = function(event) {
@@ -12387,7 +12387,7 @@ function style(element, styles) {
     MenuClass.prototype.initialize = function(attributes) {
       var _this = this;
       MenuClass.__super__.initialize.call(this, attributes, {
-        default_css: {
+        css: {
           top: 50
         }
       });
@@ -12787,24 +12787,24 @@ function style(element, styles) {
     </div>\
   ';
 
-    Image.prototype.initialize = function(imageSrc, options) {
+    Image.prototype.initialize = function(src, options) {
       var imagesContainer,
         _this = this;
       $o.extend({
         destroyable: false
       }, options);
       this.$el = $o(this.el);
-      this.src = imageSrc;
-      this.image_id = OverlayMe.Overlays.urlToId(imageSrc);
-      this.$el.attr('data-img-id', this.image_id);
+      this.src = src;
+      this.id = OverlayMe.Overlays.urlToId(this.src);
+      this.$el.attr('data-img-id', this.id);
       imagesContainer = new OverlayMe.Overlays.ImagesContainer({
         parent_path: options.parent_path
       });
-      this.default_css = $o.extend({
+      this.css = $o.extend({
         display: 'none',
         opacity: 0.5
-      }, options.default_css);
-      if (!$o(imagesContainer.el).find("#" + this.image_id).length) {
+      }, options.css);
+      if (!$o(imagesContainer.el).find("#" + this.id).length) {
         $o(imagesContainer.el).append(this.image());
       }
       this.destroyable = options.destroyable;
@@ -12823,7 +12823,7 @@ function style(element, styles) {
         e.stopPropagation();
         return _this.$el.removeClass('hovered');
       }).on('click', '.del-button', function(e) {
-        return OverlayMe.dyn_manager.delImage(_this.image_id);
+        return OverlayMe.dyn_manager.delImage(_this.id);
       }).on('click', function(e) {
         e.stopPropagation();
         return _this.toggleChechbox();
@@ -12838,10 +12838,10 @@ function style(element, styles) {
 
     Image.prototype.image = function() {
       this.image = new OverlayMe.Overlays.DraggableImage({
-        id: this.image_id
+        id: this.id
       }, {
         src: this.src,
-        default_css: this.default_css
+        css: this.css
       });
       return this.image.render();
     };
@@ -12997,12 +12997,12 @@ function style(element, styles) {
       }
     };
 
-    DynamicManager.prototype.isPresent = function(image_id) {
+    DynamicManager.prototype.isPresent = function(imageId) {
       var saved, _i, _len, _ref;
       _ref = this.list;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         saved = _ref[_i];
-        if (saved.id === image_id) {
+        if (saved.id === imageId) {
           return true;
         }
       }
@@ -13030,36 +13030,36 @@ function style(element, styles) {
     };
 
     DynamicManager.prototype.loadImage = function(src, options) {
-      var image, image_id, _default_css;
+      var css, image, imageId;
       if (options == null) {
         options = {};
       }
-      image_id = OverlayMe.Overlays.urlToId(src);
-      if (!($o("#overlay_me_images_container #" + image_id).length > 0)) {
-        _default_css = $o.extend({
+      imageId = OverlayMe.Overlays.urlToId(src);
+      if (!($o("#overlay_me_images_container #" + imageId).length > 0)) {
+        css = $o.extend({
           display: 'block'
-        }, options.default_css);
+        }, options.css);
         image = new OverlayMe.Overlays.Image(src, {
           destroyable: true,
-          default_css: _default_css
+          css: css
         });
         OverlayMe.images_management_div.append(image.render());
       }
       return image;
     };
 
-    DynamicManager.prototype.delImage = function(image_id) {
+    DynamicManager.prototype.delImage = function(imageId) {
       var image, _i, _len, _ref;
       _ref = this.list;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         image = _ref[_i];
-        if (image.id === image_id) {
+        if (image.id === imageId) {
           this.list.splice(this.list.indexOf(image), 1);
           this.saveList();
           break;
         }
       }
-      return OverlayMe.images_management_div.del(image_id);
+      return OverlayMe.images_management_div.del(imageId);
     };
 
     DynamicManager.prototype.loadAll = function() {
@@ -13258,9 +13258,9 @@ function style(element, styles) {
       return this.$el.find('.overlays-list').append(block);
     };
 
-    ImagesManagementDiv.prototype.del = function(image_id) {
-      $o(".overlay-image-block[data-img-id=" + image_id + "]", this.$el).remove();
-      return $o("#overlay_me_images_container #" + image_id).remove();
+    ImagesManagementDiv.prototype.del = function(imageId) {
+      $o(".overlay-image-block[data-img-id=" + imageId + "]", this.$el).remove();
+      return $o("#overlay_me_images_container #" + imageId).remove();
     };
 
     ImagesManagementDiv.prototype.add = function(source, options) {
@@ -13274,7 +13274,7 @@ function style(element, styles) {
       var unicorn;
       unicorn = _.shuffle(OverlayMe.unicorns)[0];
       return this.add(unicorn, {
-        default_css: {
+        css: {
           opacity: 1
         }
       });
@@ -13330,7 +13330,7 @@ function style(element, styles) {
       OverlayMe.loadDefaultImage = function() {
         if (OverlayMe.dyn_manager.isEmpty()) {
           return OverlayMe.dyn_manager.addImage('http://octodex.github.com/images/original.jpg', {
-            default_css: {
+            css: {
               left: "" + (window.document.width * .6) + "px"
             }
           });

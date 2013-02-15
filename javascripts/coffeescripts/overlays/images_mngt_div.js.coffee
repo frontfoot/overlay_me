@@ -67,16 +67,16 @@ class OverlayMe.Overlays.ImagesManagementDiv extends Backbone.View
   append: (block) ->
     @$el.find('.overlays-list').append block
 
-  del: (image_id) ->
-    $o(".overlay-image-block[data-img-id=#{image_id}]", @$el).remove()
-    $o("#overlay_me_images_container ##{image_id}").remove()
+  del: (imageId) ->
+    $o(".overlay-image-block[data-img-id=#{imageId}]", @$el).remove()
+    $o("#overlay_me_images_container ##{imageId}").remove()
 
   add: (source, options = {}) ->
     OverlayMe.dyn_manager.addImage source, options
 
   addUnicorn: ->
     unicorn = _.shuffle(OverlayMe.unicorns)[0]
-    @add unicorn, { default_css: { opacity: 1 } }
+    @add unicorn, { css: { opacity: 1 } }
 
   pushImage: ->
     $urlInput = @$el.find('.image-url-input')

@@ -16,7 +16,7 @@ class OverlayMe.MenuClass extends OverlayMe.Draggable
   '
 
   initialize: (attributes) ->
-    super(attributes, { default_css: { top: 50 } })
+    super attributes, { css: { top: 50 } }
 
     @$el = $o(@el)
 

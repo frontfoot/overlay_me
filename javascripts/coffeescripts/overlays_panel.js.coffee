@@ -33,7 +33,7 @@ class OverlayMe.OverlaysPanel extends OverlayMe.MenuItem
     OverlayMe.loadDefaultImage = ->
       # double check that the dynamic loading list is also empty
       if OverlayMe.dyn_manager.isEmpty()
-        OverlayMe.dyn_manager.addImage('http://octodex.github.com/images/original.jpg', {default_css: { left: "#{window.document.width*.6}px"}} )
+        OverlayMe.dyn_manager.addImage('http://octodex.github.com/images/original.jpg', {css: { left: "#{window.document.width*.6}px"}} )
 
     # adding all overlay images
     $o.ajax

@@ -22,20 +22,20 @@ class OverlayMe.Overlays.Image extends Backbone.View
     </div>
   '
 
-  initialize: (imageSrc, options) ->
+  initialize: (src, options) ->
     $o.extend { destroyable: false }, options
 
     @$el = $o(@el)
 
-    @src = imageSrc
-    @image_id  = OverlayMe.Overlays.urlToId imageSrc
-    @$el.attr 'data-img-id', @image_id
+    @src = src
+    @id  = OverlayMe.Overlays.urlToId @src
+    @$el.attr 'data-img-id', @id
 
     imagesContainer = new OverlayMe.Overlays.ImagesContainer({ parent_path: options.parent_path })
 
-    @default_css = $o.extend {display: 'none', opacity: 0.5}, options.default_css
+    @css = $o.extend {display: 'none', opacity: 0.5}, options.css
 
-    unless $o(imagesContainer.el).find("##{@image_id}").length
+    unless $o(imagesContainer.el).find("##{@id}").length
       $o(imagesContainer.el).append @image()
 
     @destroyable = options.destroyable
@@ -58,7 +58,7 @@ class OverlayMe.Overlays.Image extends Backbone.View
         @$el.removeClass 'hovered'
 
       .on 'click', '.del-button', (e) =>
-        OverlayMe.dyn_manager.delImage @image_id
+        OverlayMe.dyn_manager.delImage @id
 
       .on 'click', (e) =>
         e.stopPropagation()
@@ -71,7 +71,7 @@ class OverlayMe.Overlays.Image extends Backbone.View
         @$el.removeClass 'hovered'
 
   image: ->
-    @image = new OverlayMe.Overlays.DraggableImage { id: @image_id }, { src: @src, default_css: @default_css }
+    @image = new OverlayMe.Overlays.DraggableImage { id: @id }, { src: @src, css: @css }
     @image.render()
 
   toggleChechbox: ->

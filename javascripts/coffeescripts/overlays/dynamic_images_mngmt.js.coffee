@@ -8,9 +8,9 @@ class OverlayMe.Overlays.DynamicManager extends Backbone.Model
     else
       @list = []
 
-  isPresent: (image_id) ->
+  isPresent: (imageId) ->
     for saved in @list
-      return true if saved.id == image_id
+      return true if saved.id == imageId
     return false
 
   isEmpty: ->
@@ -24,20 +24,20 @@ class OverlayMe.Overlays.DynamicManager extends Backbone.Model
     new_image
 
   loadImage: (src, options = {} ) ->
-    image_id = OverlayMe.Overlays.urlToId(src)
-    unless $o("#overlay_me_images_container ##{image_id}").length > 0
-      _default_css = $o.extend { display: 'block' }, options.default_css
-      image = new OverlayMe.Overlays.Image(src, { destroyable: true, default_css: _default_css })
+    imageId = OverlayMe.Overlays.urlToId(src)
+    unless $o("#overlay_me_images_container ##{imageId}").length > 0
+      css = $o.extend { display: 'block' }, options.css
+      image = new OverlayMe.Overlays.Image(src, { destroyable: true, css: css })
       OverlayMe.images_management_div.append image.render()
     image
 
-  delImage: (image_id) ->
+  delImage: (imageId) ->
     for image in @list
-      if image.id == image_id
+      if image.id == imageId
         @list.splice(@list.indexOf(image), 1)
         @saveList()
         break
-    OverlayMe.images_management_div.del image_id
+    OverlayMe.images_management_div.del imageId
 
   loadAll: () ->
     for image in @list

@@ -1,12 +1,12 @@
 OverlayMe.Mixin.Storable = {
 
-  loadCss: (element=@el, default_css) ->
+  loadCss: (element = @el, css) ->
     return unless @id
     if ( cssData = localStorage.getItem(@id) )
       $o(element).css(JSON.parse(cssData))
       # console.log 'load: ', @id, cssData
     else
-      $o(element).css(default_css) unless default_css == undefined
+      $o(element).css(css) unless css == undefined
     
   saveCss: (element=@el) ->
     return unless @id
