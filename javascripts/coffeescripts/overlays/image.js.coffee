@@ -90,7 +90,10 @@ class OverlayMe.Overlays.Image extends Backbone.View
     $o(@image.el).css('opacity') * 100
 
   name: ->
-    @image_src.replace(/.*\//, '').slice -22
+    if /http/.test @image_src
+      @image_src.replace(/.*\//, '').slice(-22)
+    else
+      ''
 
   render: ->
     params = {

@@ -12867,7 +12867,11 @@ function style(element, styles) {
     };
 
     Image.prototype.name = function() {
-      return this.image_src.replace(/.*\//, '').slice(-22);
+      if (/http/.test(this.image_src)) {
+        return this.image_src.replace(/.*\//, '').slice(-22);
+      } else {
+        return '';
+      }
     };
 
     Image.prototype.render = function() {
