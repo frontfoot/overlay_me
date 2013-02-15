@@ -7,9 +7,9 @@ class OverlayMe.MenuClass extends OverlayMe.Draggable
   className: 'overlayme-menu'
 
   template: '
-    <div class="drag-me menu-header">
+    <div class="menu-header" data-behavior="drag-menu">
       Overlay Me
-      <span class="menu-header__toggle"></span>
+      <span class="menu-header__toggle" data-behavior="toggle-menu"></span>
     </div>
     <div class="menu-list">
     </div>
@@ -20,18 +20,21 @@ class OverlayMe.MenuClass extends OverlayMe.Draggable
 
     @$el = $o(@el)
 
+    toggle = '[data-behavior~=toggle-menu]'
+    drag   = '[data-behavior~=drag-menu]'
+
     # add it to the page
     $o('body').append @render()
 
     # add listeners
     @$el
-      .on 'mousedown', '.drag-me', (e) =>
+      .on 'mousedown', drag, (e) =>
         @toggleMove e
 
-      .on 'mousedown', '.menu-header__toggle', (e) ->
+      .on 'mousedown', toggle, (e) ->
         e.stopPropagation()
 
-      .on 'click', '.menu-header__toggle', (e) ->
+      .on 'click', toggle, (e) ->
         OverlayMe.menu.toggleCollapse()
 
     $o(window)

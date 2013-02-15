@@ -12376,28 +12376,31 @@ function style(element, styles) {
     MenuClass.prototype.className = 'overlayme-menu';
 
     MenuClass.prototype.template = '\
-    <div class="drag-me menu-header">\
+    <div class="menu-header" data-behavior="drag-menu">\
       Overlay Me\
-      <span class="menu-header__toggle"></span>\
+      <span class="menu-header__toggle" data-behavior="toggle-menu"></span>\
     </div>\
     <div class="menu-list">\
     </div>\
   ';
 
     MenuClass.prototype.initialize = function(attributes) {
-      var _this = this;
+      var drag, toggle,
+        _this = this;
       MenuClass.__super__.initialize.call(this, attributes, {
         css: {
           top: 50
         }
       });
       this.$el = $o(this.el);
+      toggle = '[data-behavior~=toggle-menu]';
+      drag = '[data-behavior~=drag-menu]';
       $o('body').append(this.render());
-      this.$el.on('mousedown', '.drag-me', function(e) {
+      this.$el.on('mousedown', drag, function(e) {
         return _this.toggleMove(e);
-      }).on('mousedown', '.menu-header__toggle', function(e) {
+      }).on('mousedown', toggle, function(e) {
         return e.stopPropagation();
-      }).on('click', '.menu-header__toggle', function(e) {
+      }).on('click', toggle, function(e) {
         return OverlayMe.menu.toggleCollapse();
       });
       return $o(window).on('mouseup', function(e) {
