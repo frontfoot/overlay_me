@@ -13204,6 +13204,7 @@ function style(element, styles) {
     ImagesManagementDiv.prototype.initialize = function() {
       var _this = this;
       this.$el = $o(this.el);
+      $o.event.props.push('dataTransfer');
       return this.$el.on('click', '.unicorns', function() {
         return OverlayMe.dyn_manager.addImage(OverlayMe.unicorns[Math.floor(Math.random() * OverlayMe.unicorns.length)], {
           default_css: {
@@ -13216,6 +13217,28 @@ function style(element, styles) {
         }
       }).on('click', 'button', function(e) {
         return _this.pushImage();
+      }).on('dragover', function(e) {
+        e.preventDefault();
+        return e.stopPropagation();
+      }).on('dragenter', function(e) {
+        e.preventDefault();
+        return e.stopPropagation();
+      }).on('drop', function(e) {
+        var data, file, reader;
+        e.preventDefault();
+        e.stopPropagation();
+        file = e.dataTransfer.files[0];
+        console.log('hello', file);
+        if (file.type.match('image.*')) {
+          reader = new FileReader();
+          reader.onerror = function() {
+            return alert('An error occured while uploading the file.');
+          };
+          reader.onload = function(e) {
+            return OverlayMe.dyn_manager.addImage(e.target.result);
+          };
+          return data = reader.readAsDataURL(file);
+        }
       });
     };
 

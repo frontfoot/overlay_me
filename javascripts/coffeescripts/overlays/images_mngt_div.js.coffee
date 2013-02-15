@@ -17,6 +17,8 @@ class OverlayMe.Overlays.ImagesManagementDiv extends Backbone.View
   initialize: ->
     @$el = $o(@el)
 
+    $o.event.props.push 'dataTransfer'
+
     @$el
       .on 'click', '.unicorns', ->
         OverlayMe.dyn_manager.addImage(OverlayMe.unicorns[Math.floor(Math.random()*OverlayMe.unicorns.length)], { default_css: { opacity: 1 } })
@@ -24,6 +26,31 @@ class OverlayMe.Overlays.ImagesManagementDiv extends Backbone.View
         @pushImage() if e.keyCode == 13
       .on 'click', 'button', (e) =>
         @pushImage()
+
+      .on 'dragover', (e) ->
+        e.preventDefault()
+        e.stopPropagation()
+     
+      .on 'dragenter', (e) ->
+        e.preventDefault()
+        e.stopPropagation()
+          
+      .on 'drop', (e) ->
+        e.preventDefault()
+        e.stopPropagation()
+        
+        file = e.dataTransfer.files[0]
+
+        console.log 'hello', file
+
+        if file.type.match 'image.*'
+          reader = new FileReader()
+          reader.onerror = ->
+            alert 'An error occured while uploading the file.'
+          reader.onload = (e) ->
+            OverlayMe.dyn_manager.addImage e.target.result
+          data = reader.readAsDataURL file
+
 
   append: (block) ->
     @$el.find('.overlays-list').append block
