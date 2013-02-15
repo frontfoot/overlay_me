@@ -19,7 +19,7 @@ class OverlayMe.Overlays.DynamicManager extends Backbone.Model
   addImage: (src, options = {} ) ->
     new_image = @loadImage(src, options)
     if new_image && !@isPresent(new_image.image_id)
-      @list.push { id: new_image.image_id, src: new_image.image_src }
+      @list.push { id: new_image.image_id, src: new_image.src }
       @saveList()
     new_image
 

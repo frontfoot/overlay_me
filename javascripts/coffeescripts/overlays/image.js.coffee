@@ -27,8 +27,8 @@ class OverlayMe.Overlays.Image extends Backbone.View
 
     @$el = $o(@el)
 
-    @image_src = imageSrc
-    @image_id = OverlayMe.Overlays.urlToId imageSrc
+    @src = imageSrc
+    @image_id  = OverlayMe.Overlays.urlToId imageSrc
     @$el.attr 'data-img-id', @image_id
 
     imagesContainer = new OverlayMe.Overlays.ImagesContainer({ parent_path: options.parent_path })
@@ -71,7 +71,7 @@ class OverlayMe.Overlays.Image extends Backbone.View
         @$el.removeClass 'hovered'
 
   image: ->
-    @image = new OverlayMe.Overlays.DraggableImage { id: @image_id }, { image_src: @image_src, default_css: @default_css }
+    @image = new OverlayMe.Overlays.DraggableImage { id: @image_id }, { src: @src, default_css: @default_css }
     @image.render()
 
   toggleChechbox: ->
@@ -90,8 +90,8 @@ class OverlayMe.Overlays.Image extends Backbone.View
     $o(@image.el).css('opacity') * 100
 
   name: ->
-    if /http/.test @image_src
-      @image_src.replace(/.*\//, '').slice(-22)
+    if /http/.test @src
+      @src.replace(/.*\//, '').slice(-22)
     else
       ''
 

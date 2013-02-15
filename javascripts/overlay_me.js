@@ -12710,7 +12710,7 @@ function style(element, styles) {
       DraggableImage.__super__.initialize.call(this, attributes, options);
       this.$el = $o(this.el);
       this.image = new Image();
-      this.src = options.image_src;
+      this.src = options.src;
       $o(this.image).load(function() {
         _this.fitDivToImage();
         return _this.setAsLastMoved();
@@ -12794,7 +12794,7 @@ function style(element, styles) {
         destroyable: false
       }, options);
       this.$el = $o(this.el);
-      this.image_src = imageSrc;
+      this.src = imageSrc;
       this.image_id = OverlayMe.Overlays.urlToId(imageSrc);
       this.$el.attr('data-img-id', this.image_id);
       imagesContainer = new OverlayMe.Overlays.ImagesContainer({
@@ -12840,7 +12840,7 @@ function style(element, styles) {
       this.image = new OverlayMe.Overlays.DraggableImage({
         id: this.image_id
       }, {
-        image_src: this.image_src,
+        src: this.src,
         default_css: this.default_css
       });
       return this.image.render();
@@ -12867,8 +12867,8 @@ function style(element, styles) {
     };
 
     Image.prototype.name = function() {
-      if (/http/.test(this.image_src)) {
-        return this.image_src.replace(/.*\//, '').slice(-22);
+      if (/http/.test(this.src)) {
+        return this.src.replace(/.*\//, '').slice(-22);
       } else {
         return '';
       }
@@ -13022,7 +13022,7 @@ function style(element, styles) {
       if (new_image && !this.isPresent(new_image.image_id)) {
         this.list.push({
           id: new_image.image_id,
-          src: new_image.image_src
+          src: new_image.src
         });
         this.saveList();
       }

@@ -10,7 +10,7 @@ class OverlayMe.Overlays.DraggableImage extends OverlayMe.Draggable
     @$el = $o(@el)
 
     @image = new Image()
-    @src   = options.image_src
+    @src   = options.src
 
     $o(@image).load => # when image loaded
       @fitDivToImage()
