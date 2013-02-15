@@ -6,9 +6,10 @@ class OverlayMe.Overlays.ImagesManagementDiv extends Backbone.View
 
   template: '
     <div class="overlays-list"></div>
-    <div class="dynamic-adds image-manager__adder">
+    <div class="dynamic-adds image-manager__adder" data-behavior="drop-zone">
       <div class="unicorns image-manager__adder--unicorns" title="Feeling corny?"></div>
       Add image
+      <input type="file" class="image-uploader" />
       <input class="image-url-input" type="text" placeholder="http://">
       <button>+</button>
     </div>
@@ -18,39 +19,55 @@ class OverlayMe.Overlays.ImagesManagementDiv extends Backbone.View
     @$el = $o(@el)
 
     $o.event.props.push 'dataTransfer'
+    dz = '[data-behavior~=drop-zone]'
 
     @$el
-      .on 'click', '.unicorns', ->
+      .on 'click', '.unicorns', (e) ->
+        e.stopPropagation()
         OverlayMe.dyn_manager.addImage(OverlayMe.unicorns[Math.floor(Math.random()*OverlayMe.unicorns.length)], { default_css: { opacity: 1 } })
+      
       .on 'keypress', 'input', (e) =>
         @pushImage() if e.keyCode == 13
+      
       .on 'click', 'button', (e) =>
+        e.stopPropagation()
         @pushImage()
 
-      .on 'dragover', (e) ->
+      .on 'click', (e) =>
+        @$el.find('.image-uploader').trigger ''
+
+      .on 'change', '.image-uploader', (e) =>
+        @handleUpload e.target.files
+
+      .on 'dragover', dz, (e) =>
         e.preventDefault()
         e.stopPropagation()
+        @$el.find(dz).addClass 'droppable'
      
-      .on 'dragenter', (e) ->
+      .on 'dragenter', dz, (e) ->
         e.preventDefault()
         e.stopPropagation()
+
+      .on 'dragleave', dz, (e) =>
+        @$el.find(dz).removeClass 'droppable'
           
-      .on 'drop', (e) ->
+      .on 'drop', dz, (e) =>
         e.preventDefault()
         e.stopPropagation()
+
+        @handleUpload e.dataTransfer.files
         
-        file = e.dataTransfer.files[0]
 
-        console.log 'hello', file
+  handleUpload: (files) ->
+    file = files[0]
 
-        if file.type.match 'image.*'
-          reader = new FileReader()
-          reader.onerror = ->
-            alert 'An error occured while uploading the file.'
-          reader.onload = (e) ->
-            OverlayMe.dyn_manager.addImage e.target.result
-          data = reader.readAsDataURL file
-
+    if file.type.match 'image.*'
+      reader = new FileReader()
+      reader.onerror = ->
+        alert 'An error occured while uploading the file.'
+      reader.onload = (e) ->
+        OverlayMe.dyn_manager.addImage e.target.result
+      data = reader.readAsDataURL file
 
   append: (block) ->
     @$el.find('.overlays-list').append block

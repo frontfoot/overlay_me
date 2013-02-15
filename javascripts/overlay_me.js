@@ -13193,19 +13193,23 @@ function style(element, styles) {
 
     ImagesManagementDiv.prototype.template = '\
     <div class="overlays-list"></div>\
-    <div class="dynamic-adds image-manager__adder">\
+    <div class="dynamic-adds image-manager__adder" data-behavior="drop-zone">\
       <div class="unicorns image-manager__adder--unicorns" title="Feeling corny?"></div>\
       Add image\
+      <input type="file" class="image-uploader" />\
       <input class="image-url-input" type="text" placeholder="http://">\
       <button>+</button>\
     </div>\
   ';
 
     ImagesManagementDiv.prototype.initialize = function() {
-      var _this = this;
+      var dz,
+        _this = this;
       this.$el = $o(this.el);
       $o.event.props.push('dataTransfer');
-      return this.$el.on('click', '.unicorns', function() {
+      dz = '[data-behavior~=drop-zone]';
+      return this.$el.on('click', '.unicorns', function(e) {
+        e.stopPropagation();
         return OverlayMe.dyn_manager.addImage(OverlayMe.unicorns[Math.floor(Math.random() * OverlayMe.unicorns.length)], {
           default_css: {
             opacity: 1
@@ -13216,30 +13220,41 @@ function style(element, styles) {
           return _this.pushImage();
         }
       }).on('click', 'button', function(e) {
+        e.stopPropagation();
         return _this.pushImage();
-      }).on('dragover', function(e) {
-        e.preventDefault();
-        return e.stopPropagation();
-      }).on('dragenter', function(e) {
-        e.preventDefault();
-        return e.stopPropagation();
-      }).on('drop', function(e) {
-        var data, file, reader;
+      }).on('click', function(e) {
+        return _this.$el.find('.image-uploader').trigger('');
+      }).on('change', '.image-uploader', function(e) {
+        return _this.handleUpload(e.target.files);
+      }).on('dragover', dz, function(e) {
         e.preventDefault();
         e.stopPropagation();
-        file = e.dataTransfer.files[0];
-        console.log('hello', file);
-        if (file.type.match('image.*')) {
-          reader = new FileReader();
-          reader.onerror = function() {
-            return alert('An error occured while uploading the file.');
-          };
-          reader.onload = function(e) {
-            return OverlayMe.dyn_manager.addImage(e.target.result);
-          };
-          return data = reader.readAsDataURL(file);
-        }
+        return _this.$el.find(dz).addClass('droppable');
+      }).on('dragenter', dz, function(e) {
+        e.preventDefault();
+        return e.stopPropagation();
+      }).on('dragleave', dz, function(e) {
+        return _this.$el.find(dz).removeClass('droppable');
+      }).on('drop', dz, function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        return _this.handleUpload(e.dataTransfer.files);
       });
+    };
+
+    ImagesManagementDiv.prototype.handleUpload = function(files) {
+      var data, file, reader;
+      file = files[0];
+      if (file.type.match('image.*')) {
+        reader = new FileReader();
+        reader.onerror = function() {
+          return alert('An error occured while uploading the file.');
+        };
+        reader.onload = function(e) {
+          return OverlayMe.dyn_manager.addImage(e.target.result);
+        };
+        return data = reader.readAsDataURL(file);
+      }
     };
 
     ImagesManagementDiv.prototype.append = function(block) {
