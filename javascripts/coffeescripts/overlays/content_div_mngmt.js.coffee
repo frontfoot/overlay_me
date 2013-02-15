@@ -24,20 +24,19 @@ class OverlayMe.Overlays.ContentDivManagementBlock extends Backbone.View
   '
 
   initialize: ->
-
     @$el = $o(@el)
 
     contentTopToggle = '[data-behavior~=toggle-content-on-top]'
     opacityField     = '[data-behavior~=change-content-opacity]'
 
     $pageContainer = $o('<div />', {id: 'overlay_me_page_container' }) 
-    pageContainer  = $pageContainer[0]
     
     # move all page content to a sub-div
-    $o('body').append $pageContainer
-    $o('body > *').each (index, element) =>
-      unless element.id.match(/^overlay_me/) || element.tagName == 'SCRIPT'
-         $pageContainer.append element
+    $o('body')
+      .append($pageContainer)
+      .each (index, element) =>
+        unless element.id.match(/^overlay_me/) || element.tagName == 'SCRIPT'
+           $pageContainer.append element
 
     # load previous css features of that container div
     @loadCss $pageContainer, {'z-index': @zIndexes.normal}
@@ -54,21 +53,16 @@ class OverlayMe.Overlays.ContentDivManagementBlock extends Backbone.View
         @saveCss $pageContainer
 
       .on 'change', contentTopToggle, =>
-        isChecked = $o(contentTopToggle).is ':checked'
-        if isChecked  
-          $pageContainer.css 'z-index', @zIndexes.over 
-        else 
-          $pageContainer.css 'z-index',@zIndexes.normal
+        zIndex = if $o(contentTopToggle).is ':checked' then @zIndexes.over else @zIndexes.normal
+        $pageContainer.css 'z-index', zIndex
         @saveCss $pageContainer
 
     # if click is kind of boring
     $o(window).on 'keypress', (e) =>
       $o(contentTopToggle).trigger('click') if event.charCode == 116 # t
 
-
   render: ->
     template = _.template @template, {}
     @$el.html template
 
-# extending few mixins - thx Derick - http://stackoverflow.com/questions/7853731/proper-way-of-doing-view-mixins-in-backbone
 _.extend OverlayMe.Overlays.ContentDivManagementBlock.prototype, OverlayMe.Mixin.Storable

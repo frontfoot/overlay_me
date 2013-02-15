@@ -13127,7 +13127,7 @@ function style(element, styles) {
   ';
 
     ContentDivManagementBlock.prototype.initialize = function() {
-      var $pageContainer, contentTopToggle, opacityField, pageContainer,
+      var $pageContainer, contentTopToggle, opacityField,
         _this = this;
       this.$el = $o(this.el);
       contentTopToggle = '[data-behavior~=toggle-content-on-top]';
@@ -13135,9 +13135,7 @@ function style(element, styles) {
       $pageContainer = $o('<div />', {
         id: 'overlay_me_page_container'
       });
-      pageContainer = $pageContainer[0];
-      $o('body').append($pageContainer);
-      $o('body > *').each(function(index, element) {
+      $o('body').append($pageContainer).each(function(index, element) {
         if (!(element.id.match(/^overlay_me/) || element.tagName === 'SCRIPT')) {
           return $pageContainer.append(element);
         }
@@ -13157,13 +13155,9 @@ function style(element, styles) {
         $pageContainer.css('opacity', opacity);
         return _this.saveCss($pageContainer);
       }).on('change', contentTopToggle, function() {
-        var isChecked;
-        isChecked = $o(contentTopToggle).is(':checked');
-        if (isChecked) {
-          $pageContainer.css('z-index', _this.zIndexes.over);
-        } else {
-          $pageContainer.css('z-index', _this.zIndexes.normal);
-        }
+        var zIndex;
+        zIndex = $o(contentTopToggle).is(':checked') ? _this.zIndexes.over : _this.zIndexes.normal;
+        $pageContainer.css('z-index', zIndex);
         return _this.saveCss($pageContainer);
       });
       return $o(window).on('keypress', function(e) {
