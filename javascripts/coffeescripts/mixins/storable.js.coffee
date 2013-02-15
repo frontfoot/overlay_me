@@ -1,23 +1,23 @@
-OverlayMe.Mixin.Storable = {
-
-  loadCss: (element = @el, css) ->
+OverlayMe.Mixin.Storable =
+  loadCss: (el = @el, css) ->
     return unless @id
-    if ( cssData = localStorage.getItem(@id) )
-      $o(element).css(JSON.parse(cssData))
-      # console.log 'load: ', @id, cssData
+
+    $el = $o(el)
+
+    if cssData = localStorage.getItem(@id)
+      $el.css JSON.parse(cssData)
     else
-      $o(element).css(css) unless css == undefined
+      $el.css css if css?
     
-  saveCss: (element = @el) ->
+  saveCss: (el = @el) ->
     return unless @id
 
-    element = element[0] if element instanceof OMjQuery
+    el = el[0] if el instanceof OMjQuery
 
-    @css_attributes_to_save = ['top', 'left', 'display', 'opacity'] unless @css_attributes_to_save
+    @savableCss = ['top', 'left', 'display', 'opacity'] unless @savableCss
     cssData = {}
-    for css_attribute in @css_attributes_to_save
-      cssData[css_attribute] = $o(element).css(css_attribute)
-    localStorage.setItem(@id, JSON.stringify(cssData))
-
-}
-
+    
+    for cssProperty in @savableCss
+      cssData[cssProperty] = $o(el).css cssProperty
+    
+    localStorage.setItem @id, JSON.stringify(cssData)

@@ -4,7 +4,7 @@
 class OverlayMe.Draggable extends Backbone.View
 
   tagName: 'div'
-  css_attributes_to_save: ['top', 'left', 'display', 'opacity']
+  savableCss: ['top', 'left', 'display', 'opacity']
 
   events:
     'save': 'save'

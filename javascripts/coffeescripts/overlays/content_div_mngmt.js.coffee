@@ -5,7 +5,7 @@ class OverlayMe.Overlays.ContentDivManagementBlock extends Backbone.View
   tagName: 'div'
   className: 'content-mgnt-block section'
   id: 'content_div_management_block'
-  css_attributes_to_save: ['z-index', 'opacity']
+  savableCss: ['z-index', 'opacity']
 
   zIndexes: {
     normal: 0,

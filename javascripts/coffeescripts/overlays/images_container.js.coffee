@@ -4,7 +4,7 @@
 class OverlayMe.Overlays.ContainerItself extends Backbone.View
 
   tagName: 'div'
-  css_attributes_to_save: ['display']
+  savableCss: ['display']
 
   initialize: (attributes, options) ->
     super(attributes, options)

@@ -12183,41 +12183,42 @@ function style(element, styles) {
 (function() {
 
   OverlayMe.Mixin.Storable = {
-    loadCss: function(element, css) {
-      var cssData;
-      if (element == null) {
-        element = this.el;
+    loadCss: function(el, css) {
+      var $el, cssData;
+      if (el == null) {
+        el = this.el;
       }
       if (!this.id) {
         return;
       }
-      if ((cssData = localStorage.getItem(this.id))) {
-        return $o(element).css(JSON.parse(cssData));
+      $el = $o(el);
+      if (cssData = localStorage.getItem(this.id)) {
+        return $el.css(JSON.parse(cssData));
       } else {
-        if (css !== void 0) {
-          return $o(element).css(css);
+        if (css != null) {
+          return $el.css(css);
         }
       }
     },
-    saveCss: function(element) {
-      var cssData, css_attribute, _i, _len, _ref;
-      if (element == null) {
-        element = this.el;
+    saveCss: function(el) {
+      var cssData, cssProperty, _i, _len, _ref;
+      if (el == null) {
+        el = this.el;
       }
       if (!this.id) {
         return;
       }
-      if (element instanceof OMjQuery) {
-        element = element[0];
+      if (el instanceof OMjQuery) {
+        el = el[0];
       }
-      if (!this.css_attributes_to_save) {
-        this.css_attributes_to_save = ['top', 'left', 'display', 'opacity'];
+      if (!this.savableCss) {
+        this.savableCss = ['top', 'left', 'display', 'opacity'];
       }
       cssData = {};
-      _ref = this.css_attributes_to_save;
+      _ref = this.savableCss;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        css_attribute = _ref[_i];
-        cssData[css_attribute] = $o(element).css(css_attribute);
+        cssProperty = _ref[_i];
+        cssData[cssProperty] = $o(el).css(cssProperty);
       }
       return localStorage.setItem(this.id, JSON.stringify(cssData));
     }
@@ -12287,7 +12288,7 @@ function style(element, styles) {
 
     Draggable.prototype.tagName = 'div';
 
-    Draggable.prototype.css_attributes_to_save = ['top', 'left', 'display', 'opacity'];
+    Draggable.prototype.savableCss = ['top', 'left', 'display', 'opacity'];
 
     Draggable.prototype.events = {
       'save': 'save'
@@ -12609,7 +12610,7 @@ function style(element, styles) {
 
     ContainerItself.prototype.tagName = 'div';
 
-    ContainerItself.prototype.css_attributes_to_save = ['display'];
+    ContainerItself.prototype.savableCss = ['display'];
 
     ContainerItself.prototype.initialize = function(attributes, options) {
       var _this = this;
@@ -12926,7 +12927,7 @@ function style(element, styles) {
       });
       _.extend(this.contentBlock, OverlayMe.Mixin.Hideable);
       _.extend(this.contentBlock, OverlayMe.Mixin.Storable);
-      this.contentBlock.css_attributes_to_save = ['display'];
+      this.contentBlock.savableCss = ['display'];
       this.contentBlock.loadCss(this.contentBlock);
       this.$el.append(this.checkbox());
       this.$el.append(this.label());
@@ -13108,7 +13109,7 @@ function style(element, styles) {
 
     ContentDivManagementBlock.prototype.id = 'content_div_management_block';
 
-    ContentDivManagementBlock.prototype.css_attributes_to_save = ['z-index', 'opacity'];
+    ContentDivManagementBlock.prototype.savableCss = ['z-index', 'opacity'];
 
     ContentDivManagementBlock.prototype.zIndexes = {
       normal: 0,
