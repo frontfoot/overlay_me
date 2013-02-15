@@ -13230,9 +13230,6 @@ function style(element, styles) {
         e.preventDefault();
         e.stopPropagation();
         return _this.$el.find(dz).addClass('droppable');
-      }).on('dragenter', dz, function(e) {
-        e.preventDefault();
-        return e.stopPropagation();
       }).on('dragleave', dz, function(e) {
         return _this.$el.find(dz).removeClass('droppable');
       }).on('drop', dz, function(e) {

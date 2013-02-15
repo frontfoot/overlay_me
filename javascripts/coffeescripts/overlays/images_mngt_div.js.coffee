@@ -43,10 +43,6 @@ class OverlayMe.Overlays.ImagesManagementDiv extends Backbone.View
         e.preventDefault()
         e.stopPropagation()
         @$el.find(dz).addClass 'droppable'
-     
-      .on 'dragenter', dz, (e) ->
-        e.preventDefault()
-        e.stopPropagation()
 
       .on 'dragleave', dz, (e) =>
         @$el.find(dz).removeClass 'droppable'
