@@ -12207,6 +12207,9 @@ function style(element, styles) {
       if (!this.id) {
         return;
       }
+      if (element instanceof OMjQuery) {
+        element = element[0];
+      }
       if (!this.css_attributes_to_save) {
         this.css_attributes_to_save = ['top', 'left', 'display', 'opacity'];
       }
@@ -13139,7 +13142,7 @@ function style(element, styles) {
           return $pageContainer.append(element);
         }
       });
-      this.loadCss(pageContainer, {
+      this.loadCss($pageContainer, {
         'z-index': this.zIndexes.normal
       });
       setTimeout(function() {
@@ -13152,7 +13155,7 @@ function style(element, styles) {
         $slider = $o(opacityField);
         opacity = parseInt($slider.val(), 10) / 100;
         $pageContainer.css('opacity', opacity);
-        return _this.saveCss(pageContainer);
+        return _this.saveCss($pageContainer);
       }).on('change', contentTopToggle, function() {
         var isChecked;
         isChecked = $o(contentTopToggle).is(':checked');
@@ -13161,7 +13164,7 @@ function style(element, styles) {
         } else {
           $pageContainer.css('z-index', _this.zIndexes.normal);
         }
-        return _this.saveCss(pageContainer);
+        return _this.saveCss($pageContainer);
       });
       return $o(window).on('keypress', function(e) {
         if (event.charCode === 116) {

@@ -40,7 +40,7 @@ class OverlayMe.Overlays.ContentDivManagementBlock extends Backbone.View
          $pageContainer.append element
 
     # load previous css features of that container div
-    @loadCss pageContainer, {'z-index': @zIndexes.normal}
+    @loadCss $pageContainer, {'z-index': @zIndexes.normal}
 
     setTimeout => # have to wait a bit to make sure to access the loaded css
       $o(contentTopToggle)[0].checked = true if parseInt($pageContainer.css('z-index'), 10) == @zIndexes.over
@@ -51,7 +51,7 @@ class OverlayMe.Overlays.ContentDivManagementBlock extends Backbone.View
         $slider = $o(opacityField)
         opacity = parseInt($slider.val(), 10) / 100
         $pageContainer.css 'opacity', opacity
-        @saveCss pageContainer
+        @saveCss $pageContainer
 
       .on 'change', contentTopToggle, =>
         isChecked = $o(contentTopToggle).is ':checked'
@@ -59,7 +59,7 @@ class OverlayMe.Overlays.ContentDivManagementBlock extends Backbone.View
           $pageContainer.css 'z-index', @zIndexes.over 
         else 
           $pageContainer.css 'z-index',@zIndexes.normal
-        @saveCss pageContainer
+        @saveCss $pageContainer
 
     # if click is kind of boring
     $o(window).on 'keypress', (e) =>
