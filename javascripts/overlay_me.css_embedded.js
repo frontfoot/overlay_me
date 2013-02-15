@@ -13240,18 +13240,19 @@ function style(element, styles) {
     };
 
     ImagesManagementDiv.prototype.handleUpload = function(files) {
-      var data, file, reader;
-      file = files[0];
-      if (file.type.match('image.*')) {
-        reader = new FileReader();
-        reader.onerror = function() {
-          return alert('An error occured while uploading the file.');
-        };
-        reader.onload = function(e) {
-          return OverlayMe.dyn_manager.addImage(e.target.result);
-        };
-        return data = reader.readAsDataURL(file);
-      }
+      return _.each(files, function(file) {
+        var data, reader;
+        if (file.type.match('image.*')) {
+          reader = new FileReader();
+          reader.onerror = function() {
+            return alert('An error occured while uploading the file.');
+          };
+          reader.onload = function(e) {
+            return OverlayMe.dyn_manager.addImage(e.target.result);
+          };
+          return data = reader.readAsDataURL(file);
+        }
+      });
     };
 
     ImagesManagementDiv.prototype.append = function(block) {

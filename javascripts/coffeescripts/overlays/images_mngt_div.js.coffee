@@ -55,15 +55,14 @@ class OverlayMe.Overlays.ImagesManagementDiv extends Backbone.View
         
 
   handleUpload: (files) ->
-    file = files[0]
-
-    if file.type.match 'image.*'
-      reader = new FileReader()
-      reader.onerror = ->
-        alert 'An error occured while uploading the file.'
-      reader.onload = (e) ->
-        OverlayMe.dyn_manager.addImage e.target.result
-      data = reader.readAsDataURL file
+    _.each files, (file) ->
+      if file.type.match 'image.*'
+        reader = new FileReader()
+        reader.onerror = ->
+          alert 'An error occured while uploading the file.'
+        reader.onload = (e) ->
+          OverlayMe.dyn_manager.addImage e.target.result
+        data = reader.readAsDataURL file
 
   append: (block) ->
     @$el.find('.overlays-list').append block
