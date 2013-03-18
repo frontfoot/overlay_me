@@ -13,7 +13,7 @@ class OverlayMe.Overlays.Image extends Backbone.View
       </div>
     <% } %>
     <div class="media__img">
-      <img src="<%= url %>" height=50 width=50 alt="<%= name %>">
+      <img src="<%= url %>" width=50 alt="<%= name %>">
     </div>
     <div class="media__body">
       <input class="image__toggle" type="checkbox" checked="<%= checked %>">
