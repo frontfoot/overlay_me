@@ -12406,6 +12406,10 @@ function style(element, styles) {
         return e.stopPropagation();
       }).on('click', toggle, function(e) {
         return OverlayMe.menu.toggleCollapse();
+      }).on('mouseenter', function(e) {
+        return $o('body').css('overflow', 'hidden');
+      }).on('mouseleave', function(e) {
+        return $o('body').css('overflow', '');
       });
       return $o(window).on('mouseup', function(e) {
         return _this.endMove(e);

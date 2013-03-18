@@ -37,6 +37,13 @@ class OverlayMe.MenuClass extends OverlayMe.Draggable
       .on 'click', toggle, (e) ->
         OverlayMe.menu.toggleCollapse()
 
+      # Disable scroll on menu hover (to avoid showing scrollbar on chrome)
+      .on 'mouseenter', (e) ->
+        $o('body').css 'overflow', 'hidden'
+
+      .on 'mouseleave', (e) ->
+        $o('body').css 'overflow', ''
+
     $o(window)
       .on 'mouseup', (e) =>
         @endMove e 
