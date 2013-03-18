@@ -8,7 +8,7 @@ class OverlayMe.Overlays.ImagesManagementDiv extends Backbone.View
     <div class="overlays-list"></div>
     <div class="dynamic-adds image-manager__adder" data-behavior="drop-zone">
       <div class="image-manager__adder__unicorns" data-behavior="add-unicorn" title="Feeling corny?"></div>
-      Add image
+      +
       <div class="image-manager__adder__uploader">
         <input type="file" data-behavior="uploader" />
       </div>

@@ -11,6 +11,9 @@ $alt-color: #009af5
   & *, &:before, &:after
     +box-sizing(border-box)
 
+=collapsed
+  .overlayme-menu.collapsed &
+    @content
 
 #overlay_me_page_container
   position: relative
@@ -29,17 +32,49 @@ $alt-color: #009af5
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif
   font-size: 13px
   line-height: 1.5
-  +transition(transform .2s)
 
   &.collapsed
-    +apply-origin(bottom right, false)
-    +rotateZ(-90deg)
-    
-    .menu-list
+    width: 40px
+
+    .menu-header
+      padding: 0 5px 5px
+
+    .menu-header__title
       display: none
 
-    .menu-header__toggle:after
-      content: '+'
+    .menu-header__toggle
+      position: relative
+      right: auto
+      
+      &:after
+        content: '+'
+
+    .basics-options-panel
+      display: none
+
+    .content-mgnt-block
+      display: none
+
+    .overlays-panel
+      padding: 0
+
+    .media__action
+      display: none
+
+    .media__img
+      margin-right: 0
+
+    .media__body
+      display: none
+
+    .image-manager__adder__unicorns
+      display: none
+
+    .image-url-input
+      display: none
+
+    .image-manager__adder button
+      display: none
 
 
   .media, .media__body
@@ -51,6 +86,7 @@ $alt-color: #009af5
 
     img
       display: block
+      max-width: 100%
 
   .media__action
     float: right

@@ -8,7 +8,7 @@ class OverlayMe.MenuClass extends OverlayMe.Draggable
 
   template: '
     <div class="menu-header" data-behavior="drag-menu">
-      Overlay Me
+      <span class="menu-header__title">Overlay Me</span>
       <span class="menu-header__toggle" data-behavior="toggle-menu"></span>
     </div>
     <div class="menu-list">

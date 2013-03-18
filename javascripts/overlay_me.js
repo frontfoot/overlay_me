@@ -12381,7 +12381,7 @@ function style(element, styles) {
 
     MenuClass.prototype.template = '\
     <div class="menu-header" data-behavior="drag-menu">\
-      Overlay Me\
+      <span class="menu-header__title">Overlay Me</span>\
       <span class="menu-header__toggle" data-behavior="toggle-menu"></span>\
     </div>\
     <div class="menu-list">\
@@ -12785,7 +12785,7 @@ function style(element, styles) {
       </div>\
     <% } %>\
     <div class="media__img">\
-      <img src="<%= url %>" height=50 width=50 alt="<%= name %>">\
+      <img src="<%= url %>" width=50 alt="<%= name %>">\
     </div>\
     <div class="media__body">\
       <input class="image__toggle" type="checkbox" checked="<%= checked %>">\
@@ -13205,7 +13205,7 @@ function style(element, styles) {
     <div class="overlays-list"></div>\
     <div class="dynamic-adds image-manager__adder" data-behavior="drop-zone">\
       <div class="image-manager__adder__unicorns" data-behavior="add-unicorn" title="Feeling corny?"></div>\
-      Add image\
+      +\
       <div class="image-manager__adder__uploader">\
         <input type="file" data-behavior="uploader" />\
       </div>\
