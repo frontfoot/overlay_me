@@ -15,6 +15,9 @@ class OverlayMe.MenuClass extends OverlayMe.Draggable
     </div>
   '
 
+  boundaries:
+    top: 0
+
   initialize: (attributes) ->
     super attributes, { css: { top: 50 } }
 

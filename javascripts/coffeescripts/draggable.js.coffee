@@ -6,12 +6,21 @@ class OverlayMe.Draggable extends Backbone.View
   tagName: 'div'
   savableCss: ['top', 'left', 'display', 'opacity']
 
+  defaultBoundaries: 
+    top: null
+    right: null
+    bottom: null
+    left: null
+
   events:
     'save': 'save'
 
   initialize: (attributes, options) ->
     super(attributes, options)
     @$el = $o(@el)
+
+    $o.extend @defaultBoundaries, @boundaries
+    @boundaries = @defaultBoundaries
 
     @loadCss @el, options.css
 
@@ -41,7 +50,11 @@ class OverlayMe.Draggable extends Backbone.View
 
   updatePosition: (x, y) ->
     newX = parseInt(@$el.css('left'), 10) + x
+    newX = 0 if newX < @boundaries.left
+
     newY = parseInt(@$el.css('top'), 10) + y
+    newY = 0 if newY < @boundaries.top
+
     @$el.css { 
       top: newY, 
       left: newX

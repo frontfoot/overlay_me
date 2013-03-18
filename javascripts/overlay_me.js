@@ -12290,6 +12290,13 @@ function style(element, styles) {
 
     Draggable.prototype.savableCss = ['top', 'left', 'display', 'opacity'];
 
+    Draggable.prototype.defaultBoundaries = {
+      top: null,
+      right: null,
+      bottom: null,
+      left: null
+    };
+
     Draggable.prototype.events = {
       'save': 'save'
     };
@@ -12297,6 +12304,8 @@ function style(element, styles) {
     Draggable.prototype.initialize = function(attributes, options) {
       Draggable.__super__.initialize.call(this, attributes, options);
       this.$el = $o(this.el);
+      $o.extend(this.defaultBoundaries, this.boundaries);
+      this.boundaries = this.defaultBoundaries;
       return this.loadCss(this.el, options.css);
     };
 
@@ -12332,7 +12341,13 @@ function style(element, styles) {
     Draggable.prototype.updatePosition = function(x, y) {
       var newX, newY;
       newX = parseInt(this.$el.css('left'), 10) + x;
+      if (newX < this.boundaries.left) {
+        newX = 0;
+      }
       newY = parseInt(this.$el.css('top'), 10) + y;
+      if (newY < this.boundaries.top) {
+        newY = 0;
+      }
       this.$el.css({
         top: newY,
         left: newX
@@ -12387,6 +12402,10 @@ function style(element, styles) {
     <div class="menu-list">\
     </div>\
   ';
+
+    MenuClass.prototype.boundaries = {
+      top: 0
+    };
 
     MenuClass.prototype.initialize = function(attributes) {
       var drag, toggle,
