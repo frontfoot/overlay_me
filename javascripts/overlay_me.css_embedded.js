@@ -12346,7 +12346,7 @@ function style(element, styles) {
 
     Draggable.prototype.updatePosition = function(x, y) {
       var bottom, boundaries, elHeight, elWidth, key, left, position, right, top, value, winHeight, winWidth;
-      boundaries = this.dragConfig.boundaries;
+      boundaries = $o.extend({}, this.dragConfig.boundaries);
       for (key in boundaries) {
         value = boundaries[key];
         if (typeof value === 'function') {

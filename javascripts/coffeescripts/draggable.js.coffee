@@ -54,9 +54,9 @@ class OverlayMe.Draggable extends Backbone.View
       @engageMove(event)
 
   updatePosition: (x, y) ->
-    boundaries = @dragConfig.boundaries
+    boundaries = $o.extend {}, @dragConfig.boundaries
     for key, value of boundaries
-      boundaries[key] = value()  if typeof value is 'function'
+      boundaries[key] = value() if typeof value is 'function'
 
     position = {}
 
