@@ -15,10 +15,13 @@ class OverlayMe.MenuClass extends OverlayMe.Draggable
     </div>
   '
 
-  boundaries:
-    top: 0
-    bottom: ->
-      $o('#overlay_me_menu').outerHeight() - $o('.menu-header').outerHeight() 
+  draggable:
+    axes:
+      x: false
+    boundaries:
+      top: 0
+      bottom: ->
+        - ($o('#overlay_me_menu').outerHeight() - $o('.menu-header').outerHeight())
 
   initialize: (attributes) ->
     super attributes, { css: { top: 50 } }

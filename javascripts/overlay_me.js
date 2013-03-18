@@ -12290,11 +12290,17 @@ function style(element, styles) {
 
     Draggable.prototype.savableCss = ['top', 'left', 'display', 'opacity'];
 
-    Draggable.prototype.defaultBoundaries = {
-      top: null,
-      right: null,
-      bottom: null,
-      left: null
+    Draggable.prototype.defaultDragConfig = {
+      axes: {
+        x: true,
+        y: true
+      },
+      boundaries: {
+        top: null,
+        right: null,
+        bottom: null,
+        left: null
+      }
     };
 
     Draggable.prototype.events = {
@@ -12304,8 +12310,8 @@ function style(element, styles) {
     Draggable.prototype.initialize = function(attributes, options) {
       Draggable.__super__.initialize.call(this, attributes, options);
       this.$el = $o(this.el);
-      $o.extend(this.defaultBoundaries, this.boundaries);
-      this.boundaries = this.defaultBoundaries;
+      this.dragConfig = {};
+      $o.extend(true, this.dragConfig, this.defaultDragConfig, this.draggable);
       return this.loadCss(this.el, options.css);
     };
 
@@ -12339,26 +12345,46 @@ function style(element, styles) {
     };
 
     Draggable.prototype.updatePosition = function(x, y) {
-      var boundaries, key, newX, newY, value;
-      boundaries = this.boundaries;
+      var bottom, boundaries, elHeight, elWidth, key, left, position, right, top, value, winHeight, winWidth;
+      boundaries = this.dragConfig.boundaries;
       for (key in boundaries) {
         value = boundaries[key];
         if (typeof value === 'function') {
           boundaries[key] = value();
         }
       }
-      newX = parseInt(this.$el.css('left'), 10) + x;
-      if (newX < boundaries.left) {
-        newX = 0;
+      position = {};
+      if (this.dragConfig.axes.x) {
+        left = parseInt(this.$el.css('left'), 10) + x;
+        if ((boundaries.left != null) && left < boundaries.left) {
+          left = boundaries.left;
+        }
+        if (boundaries.right != null) {
+          winWidth = $o(window).width();
+          elWidth = $o(this.el).outerWidth();
+          right = winWidth - left - elWidth;
+          if (right < boundaries.right) {
+            left = winWidth - boundaries.left - elWidth;
+          }
+        }
+        position.left = left;
       }
-      newY = parseInt(this.$el.css('top'), 10) + y;
-      if (newY < boundaries.top) {
-        newY = 0;
+      if (this.dragConfig.axes.y) {
+        top = parseInt(this.$el.css('top'), 10) + y;
+        if ((boundaries.top != null) && top < boundaries.top) {
+          top = boundaries.top;
+        }
+        if (boundaries.bottom != null) {
+          winHeight = $o(window).height();
+          elHeight = $o(this.el).outerHeight();
+          bottom = winHeight - top - elHeight;
+          if (bottom < boundaries.bottom) {
+            top = winHeight - boundaries.bottom - elHeight;
+          }
+        }
+        position.top = top;
       }
-      this.$el.css({
-        top: newY,
-        left: newX
-      });
+      this.$el.css(position);
       return this.save();
     };
 
@@ -12410,10 +12436,15 @@ function style(element, styles) {
     </div>\
   ';
 
-    MenuClass.prototype.boundaries = {
-      top: 0,
-      bottom: function() {
-        return $o('#overlay_me_menu').outerHeight() - $o('.menu-header').outerHeight();
+    MenuClass.prototype.draggable = {
+      axes: {
+        x: false
+      },
+      boundaries: {
+        top: 0,
+        bottom: function() {
+          return -($o('#overlay_me_menu').outerHeight() - $o('.menu-header').outerHeight());
+        }
       }
     };
 

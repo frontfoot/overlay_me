@@ -6,11 +6,15 @@ class OverlayMe.Draggable extends Backbone.View
   tagName: 'div'
   savableCss: ['top', 'left', 'display', 'opacity']
 
-  defaultBoundaries: 
-    top: null
-    right: null
-    bottom: null
-    left: null
+  defaultDragConfig: 
+    axes:
+      x: true
+      y: true
+    boundaries:
+      top: null
+      right: null
+      bottom: null
+      left: null
 
   events:
     'save': 'save'
@@ -19,8 +23,9 @@ class OverlayMe.Draggable extends Backbone.View
     super(attributes, options)
     @$el = $o(@el)
 
-    $o.extend @defaultBoundaries, @boundaries
-    @boundaries = @defaultBoundaries
+    # Get configuration (deep extend)
+    @dragConfig = {}
+    $o.extend true, @dragConfig, @defaultDragConfig, @draggable
 
     @loadCss @el, options.css
 
@@ -49,20 +54,33 @@ class OverlayMe.Draggable extends Backbone.View
       @engageMove(event)
 
   updatePosition: (x, y) ->
-    boundaries = @boundaries
+    boundaries = @dragConfig.boundaries
     for key, value of boundaries
       boundaries[key] = value()  if typeof value is 'function'
 
-    newX = parseInt(@$el.css('left'), 10) + x
-    newX = 0 if newX < boundaries.left
+    position = {}
 
-    newY = parseInt(@$el.css('top'), 10) + y
-    newY = 0 if newY < boundaries.top
+    if @dragConfig.axes.x
+      left = parseInt(@$el.css('left'), 10) + x
+      left = boundaries.left if boundaries.left? && left < boundaries.left
+      if boundaries.right?
+        winWidth = $o(window).width()
+        elWidth  = $o(@el).outerWidth()
+        right    = winWidth - left - elWidth
+        left     = winWidth - boundaries.left - elWidth if right < boundaries.right
+      position.left = left
 
-    @$el.css { 
-      top: newY, 
-      left: newX
-    }
+    if @dragConfig.axes.y
+      top = parseInt(@$el.css('top'), 10) + y
+      top = boundaries.top if boundaries.top? && top < boundaries.top
+      if boundaries.bottom?
+        winHeight      = $o(window).height()
+        elHeight       = $o(@el).outerHeight()
+        bottom         = winHeight - top - elHeight
+        top            = winHeight - boundaries.bottom - elHeight if bottom < boundaries.bottom
+      position.top = top
+
+    @$el.css position
     @save()
 
   setAsLastMoved: ->
