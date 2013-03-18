@@ -163,6 +163,14 @@
   border-radius: 2px 2px 0 0;
   background: #c2e8ff;
 }
+.overlayme-menu .image.hovered .image__destroy {
+  background-color: white;
+  color: #009af5;
+}
+.overlayme-menu .image.hovered .image__destroy:hover {
+  color: white;
+  background-color: #333235;
+}
 .overlayme-menu .image--hidden {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=20);
   opacity: 0.2;
