@@ -13232,6 +13232,10 @@ function style(element, styles) {
       }).on('change', uploader, function(e) {
         _this.handleUpload(e.target.files);
         return _this.$el.find(uploader).val('');
+      }).on('click', "" + uploader + ", .image-url-input", function(e) {
+        return e.stopPropagation();
+      }).on('click', dz, function(e) {
+        return $o(uploader).trigger('click');
       }).on('dragover', dz, function(e) {
         _this.$el.find(dz).addClass('droppable');
         return false;

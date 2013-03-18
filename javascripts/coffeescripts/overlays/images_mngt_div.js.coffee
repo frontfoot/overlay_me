@@ -33,13 +33,19 @@ class OverlayMe.Overlays.ImagesManagementDiv extends Backbone.View
       .on 'keypress', 'input', (e) =>
         @pushImage() if e.keyCode == 13
       
-      # Add image (via upload)
       .on 'click', 'button', (e) =>
         @pushImage()
 
+      # Add image (via upload)
       .on 'change', uploader, (e) =>
         @handleUpload e.target.files
         @$el.find(uploader).val '' # Reset field value
+
+      .on 'click', "#{uploader}, .image-url-input", (e) =>
+        e.stopPropagation()
+
+      .on 'click', dz, (e) =>
+        $o(uploader).trigger('click')
 
       # Add image (via drop)
       .on 'dragover', dz, (e) =>
