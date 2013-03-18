@@ -23,10 +23,11 @@ class OverlayMe.Overlays.ImagesManagementDiv extends Backbone.View
     $o.event.props.push 'dataTransfer'
     dz       = '[data-behavior~=drop-zone]'
     uploader = '[data-behavior~=uploader]'
+    unicorns = '[data-behavior~=add-unicorn]'
 
     @$el
       # Add unicorns
-      .on 'click', '[data-behavior~=add-unicorn]', (e) =>
+      .on 'click', unicorns, (e) =>
         @addUnicorn()
       
       # Add image (via url)
@@ -41,7 +42,7 @@ class OverlayMe.Overlays.ImagesManagementDiv extends Backbone.View
         @handleUpload e.target.files
         @$el.find(uploader).val '' # Reset field value
 
-      .on 'click', "#{uploader}, .image-url-input", (e) =>
+      .on 'click', "#{uploader}, .image-url-input, #{unicorns}", (e) =>
         e.stopPropagation()
 
       .on 'click', dz, (e) =>

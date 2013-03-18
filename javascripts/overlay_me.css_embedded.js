@@ -13215,13 +13215,14 @@ function style(element, styles) {
   ';
 
     ImagesManagementDiv.prototype.initialize = function() {
-      var dz, uploader,
+      var dz, unicorns, uploader,
         _this = this;
       this.$el = $o(this.el);
       $o.event.props.push('dataTransfer');
       dz = '[data-behavior~=drop-zone]';
       uploader = '[data-behavior~=uploader]';
-      return this.$el.on('click', '[data-behavior~=add-unicorn]', function(e) {
+      unicorns = '[data-behavior~=add-unicorn]';
+      return this.$el.on('click', unicorns, function(e) {
         return _this.addUnicorn();
       }).on('keypress', 'input', function(e) {
         if (e.keyCode === 13) {
@@ -13232,7 +13233,7 @@ function style(element, styles) {
       }).on('change', uploader, function(e) {
         _this.handleUpload(e.target.files);
         return _this.$el.find(uploader).val('');
-      }).on('click', "" + uploader + ", .image-url-input", function(e) {
+      }).on('click', "" + uploader + ", .image-url-input, " + unicorns, function(e) {
         return e.stopPropagation();
       }).on('click', dz, function(e) {
         return $o(uploader).trigger('click');
