@@ -68,6 +68,9 @@
 .overlayme-menu.collapsed .image-url-input {
   display: none;
 }
+.overlayme-menu.collapsed .image-manager__adder {
+  padding: 0;
+}
 .overlayme-menu.collapsed .image-manager__adder button {
   display: none;
 }
