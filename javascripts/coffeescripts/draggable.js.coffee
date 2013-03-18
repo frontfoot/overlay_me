@@ -49,11 +49,15 @@ class OverlayMe.Draggable extends Backbone.View
       @engageMove(event)
 
   updatePosition: (x, y) ->
+    boundaries = @boundaries
+    for key, value of boundaries
+      boundaries[key] = value()  if typeof value is 'function'
+
     newX = parseInt(@$el.css('left'), 10) + x
-    newX = 0 if newX < @boundaries.left
+    newX = 0 if newX < boundaries.left
 
     newY = parseInt(@$el.css('top'), 10) + y
-    newY = 0 if newY < @boundaries.top
+    newY = 0 if newY < boundaries.top
 
     @$el.css { 
       top: newY, 

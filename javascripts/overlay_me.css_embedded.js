@@ -12339,13 +12339,20 @@ function style(element, styles) {
     };
 
     Draggable.prototype.updatePosition = function(x, y) {
-      var newX, newY;
+      var boundaries, key, newX, newY, value;
+      boundaries = this.boundaries;
+      for (key in boundaries) {
+        value = boundaries[key];
+        if (typeof value === 'function') {
+          boundaries[key] = value();
+        }
+      }
       newX = parseInt(this.$el.css('left'), 10) + x;
-      if (newX < this.boundaries.left) {
+      if (newX < boundaries.left) {
         newX = 0;
       }
       newY = parseInt(this.$el.css('top'), 10) + y;
-      if (newY < this.boundaries.top) {
+      if (newY < boundaries.top) {
         newY = 0;
       }
       this.$el.css({
@@ -12404,7 +12411,10 @@ function style(element, styles) {
   ';
 
     MenuClass.prototype.boundaries = {
-      top: 0
+      top: 0,
+      bottom: function() {
+        return $o('#overlay_me_menu').outerHeight() - $o('.menu-header').outerHeight();
+      }
     };
 
     MenuClass.prototype.initialize = function(attributes) {

@@ -17,6 +17,8 @@ class OverlayMe.MenuClass extends OverlayMe.Draggable
 
   boundaries:
     top: 0
+    bottom: ->
+      $o('#overlay_me_menu').outerHeight() - $o('.menu-header').outerHeight() 
 
   initialize: (attributes) ->
     super attributes, { css: { top: 50 } }
