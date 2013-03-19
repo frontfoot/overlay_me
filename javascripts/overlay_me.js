@@ -12347,7 +12347,7 @@ function style(element, styles) {
     };
 
     Draggable.prototype.updatePosition = function(x, y) {
-      var bottom, boundaries, elHeight, elWidth, key, left, position, right, top, value, winHeight, winWidth;
+      var boundaries, key, position, value;
       if (x == null) {
         x = 0;
       }
@@ -12363,37 +12363,42 @@ function style(element, styles) {
       }
       position = {};
       if (this.dragConfig.axes.x) {
-        left = parseInt(this.$el.css('left'), 10) + x;
-        if ((boundaries.left != null) && left < boundaries.left) {
-          left = boundaries.left;
-        }
-        if (boundaries.right != null) {
-          winWidth = $o(window).width();
-          elWidth = $o(this.el).outerWidth();
-          right = winWidth - left - elWidth;
-          if (right < boundaries.right) {
-            left = winWidth - boundaries.left - elWidth;
-          }
-        }
-        position.left = left;
+        position.left = this.updatedAxe('x', x, boundaries);
       }
       if (this.dragConfig.axes.y) {
-        top = parseInt(this.$el.css('top'), 10) + y;
-        if ((boundaries.top != null) && top < boundaries.top) {
-          top = boundaries.top;
-        }
-        if (boundaries.bottom != null) {
-          winHeight = $o(window).height();
-          elHeight = $o(this.el).outerHeight();
-          bottom = winHeight - top - elHeight;
-          if (bottom < boundaries.bottom) {
-            top = winHeight - boundaries.bottom - elHeight;
-          }
-        }
-        position.top = top;
+        position.top = this.updatedAxe('y', y, boundaries);
       }
       this.$el.css(position);
       return this.save();
+    };
+
+    Draggable.prototype.updatedAxe = function(axe, move, boundaries) {
+      var dimension, elDim, opposite, oppositePosition, origin, outerMethod, position, winDim;
+      if (axe === 'x') {
+        origin = 'left';
+        opposite = 'right';
+        dimension = 'width';
+      } else if (axe === 'y') {
+        origin = 'top';
+        opposite = 'bottom';
+        dimension = 'height';
+      } else {
+        return false;
+      }
+      outerMethod = "outer" + (dimension.charAt(0).toUpperCase()) + (dimension.slice(1));
+      position = parseInt(this.$el.css(origin), 10) + move;
+      if ((boundaries[origin] != null) && position < boundaries[origin]) {
+        position = boundaries['origin'];
+      }
+      if (boundaries[opposite] != null) {
+        winDim = $o(window)[dimension]();
+        elDim = this.$el[outerMethod]();
+        oppositePosition = winDim - position - elDim;
+        if (oppositePosition < boundaries[opposite]) {
+          position = winDim - boundaries[opposite] - elDim;
+        }
+      }
+      return position;
     };
 
     Draggable.prototype.setAsLastMoved = function() {

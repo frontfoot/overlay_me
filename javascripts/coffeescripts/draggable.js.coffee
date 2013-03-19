@@ -10,10 +10,10 @@ class OverlayMe.Draggable extends Backbone.View
       x: true
       y: true
     boundaries:
-      top: null
-      right: null
+      top:    null
+      right:  null
       bottom: null
-      left: null
+      left:   null
 
   events:
     'save': 'save'
@@ -62,28 +62,35 @@ class OverlayMe.Draggable extends Backbone.View
 
     position = {}
 
-    if @dragConfig.axes.x
-      left = parseInt(@$el.css('left'), 10) + x
-      left = boundaries.left if boundaries.left? && left < boundaries.left
-      if boundaries.right?
-        winWidth = $o(window).width()
-        elWidth  = $o(@el).outerWidth()
-        right    = winWidth - left - elWidth
-        left     = winWidth - boundaries.left - elWidth if right < boundaries.right
-      position.left = left
-
-    if @dragConfig.axes.y
-      top = parseInt(@$el.css('top'), 10) + y
-      top = boundaries.top if boundaries.top? && top < boundaries.top
-      if boundaries.bottom?
-        winHeight      = $o(window).height()
-        elHeight       = $o(@el).outerHeight()
-        bottom         = winHeight - top - elHeight
-        top            = winHeight - boundaries.bottom - elHeight if bottom < boundaries.bottom
-      position.top = top
+    position.left = @updatedAxe('x', x, boundaries) if @dragConfig.axes.x
+    position.top  = @updatedAxe('y', y, boundaries) if @dragConfig.axes.y
 
     @$el.css position
     @save()
+
+  # Get the updated position on a given axe, given boundaries
+  updatedAxe: (axe, move, boundaries) ->
+    if axe == 'x'
+      origin    = 'left'
+      opposite  = 'right'
+      dimension = 'width'
+    else if axe == 'y'
+      origin    = 'top'
+      opposite  = 'bottom'
+      dimension = 'height'
+    else
+      return false
+
+    outerMethod = "outer#{dimension.charAt(0).toUpperCase()}#{dimension.slice(1)}"
+
+    position = parseInt(@$el.css(origin), 10) + move
+    position = boundaries['origin'] if boundaries[origin]? && position < boundaries[origin]
+    if boundaries[opposite]?
+      winDim           = $o(window)[dimension]()
+      elDim            = @$el[outerMethod]()
+      oppositePosition = winDim - position - elDim
+      position         = winDim - boundaries[opposite] - elDim if oppositePosition < boundaries[opposite]
+    position
 
   setAsLastMoved: ->
     localStorage.setItem "last-moved", @id
