@@ -1,5 +1,4 @@
 #= require 'menu'
-#= require 'menu_item'
 #= require 'overlays/init'
 #= require 'overlays/image'
 #= require 'overlays/images_directory'
@@ -7,17 +6,27 @@
 #= require 'overlays/content_div_mngmt'
 #= require 'overlays/images_mngt_div'
 
-class OverlayMe.OverlaysPanel extends OverlayMe.MenuItem
+class OverlayMe.OverlaysPanel extends Backbone.View
+
+  render: ->
+    $content = $o(@el)
+    _.each @content, (el) ->
+      $content.append $o(el)
+
+    @el
 
   initialize: (attributes, options) ->
-    super({id: "overlays-panel", title: "Overlays" }, options)
-
-    # adding the #container management block
-    @append new OverlayMe.Overlays.ContentDivManagementBlock().render()
+    @$el = $o(@el)
+    @$el.addClass 'overlays-panel'
 
     # adding image management block
     OverlayMe.images_management_div = new OverlayMe.Overlays.ImagesManagementDiv()
-    @append OverlayMe.images_management_div.render()
+
+    # add #container management & image management blocks
+    @content = [
+      new OverlayMe.Overlays.ContentDivManagementBlock().render(),
+      OverlayMe.images_management_div.render()
+    ]
 
     # add the panel to the page menu
     OverlayMe.menu.append @render()

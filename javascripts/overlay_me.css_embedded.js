@@ -12542,83 +12542,6 @@ function style(element, styles) {
 
 }).call(this);
 (function() {
-  var __hasProp = {}.hasOwnProperty,
-    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
-
-  OverlayMe.MenuItem = (function(_super) {
-
-    __extends(MenuItem, _super);
-
-    MenuItem.name = 'MenuItem';
-
-    function MenuItem() {
-      return MenuItem.__super__.constructor.apply(this, arguments);
-    }
-
-    MenuItem.prototype.tagName = 'section';
-
-    MenuItem.prototype.className = 'menu-item section';
-
-    MenuItem.prototype.template = '\
-    <a class="collapse-button"></a>\
-    <div class="item-content"></div>\
-  ';
-
-    MenuItem.prototype.initialize = function(attributes, options) {
-      var _this = this;
-      this.$el = $o(this.el);
-      this.id = attributes.id;
-      this.$el.addClass(attributes.id);
-      this.title = attributes.title;
-      this.$el.on('click', '.collapse-button, .title', function() {
-        return _this.toggleCollapse();
-      });
-      this.content = [];
-      return this.setCollapse(localStorage.getItem("" + this.id + "-collapsed") === '1');
-    };
-
-    MenuItem.prototype.toggleCollapse = function() {
-      this.setCollapse(!this.collapsed);
-      return this.saveState();
-    };
-
-    MenuItem.prototype.setCollapse = function(toCollapse) {
-      this.collapsed = toCollapse;
-      if (toCollapse) {
-        return this.$el.addClass('collapsed');
-      } else {
-        return this.$el.removeClass('collapsed');
-      }
-    };
-
-    MenuItem.prototype.append = function(childElemt) {
-      return this.content.push(childElemt);
-    };
-
-    MenuItem.prototype.render = function() {
-      var $content, params, template;
-      params = {
-        title: this.title
-      };
-      template = _.template(this.template, params);
-      this.$el.html(template);
-      $content = $o(this.el).find('.item-content');
-      _.each(this.content, function(el) {
-        return $content.append($o(el));
-      });
-      return this.el;
-    };
-
-    MenuItem.prototype.saveState = function() {
-      return localStorage.setItem("" + this.id + "-collapsed", (this.collapsed ? 1 : 0));
-    };
-
-    return MenuItem;
-
-  })(Backbone.View);
-
-}).call(this);
-(function() {
 
   OverlayMe.Overlays = {};
 
@@ -13359,15 +13282,21 @@ function style(element, styles) {
       return OverlaysPanel.__super__.constructor.apply(this, arguments);
     }
 
+    OverlaysPanel.prototype.render = function() {
+      var $content;
+      $content = $o(this.el);
+      _.each(this.content, function(el) {
+        return $content.append($o(el));
+      });
+      return this.el;
+    };
+
     OverlaysPanel.prototype.initialize = function(attributes, options) {
       var buildTree, displayTree, files_tree, shiftTofiles;
-      OverlaysPanel.__super__.initialize.call(this, {
-        id: "overlays-panel",
-        title: "Overlays"
-      }, options);
-      this.append(new OverlayMe.Overlays.ContentDivManagementBlock().render());
+      this.$el = $o(this.el);
+      this.$el.addClass('overlays-panel');
       OverlayMe.images_management_div = new OverlayMe.Overlays.ImagesManagementDiv();
-      this.append(OverlayMe.images_management_div.render());
+      this.content = [new OverlayMe.Overlays.ContentDivManagementBlock().render(), OverlayMe.images_management_div.render()];
       OverlayMe.menu.append(this.render());
       $o(window).bind('mousemove', function(event) {
         return $o(window).trigger('om-mousemove', event);
@@ -13471,7 +13400,7 @@ function style(element, styles) {
 
     return OverlaysPanel;
 
-  })(OverlayMe.MenuItem);
+  })(Backbone.View);
 
   $o(function() {
     if (!OverlayMe.overlay_panel) {
