@@ -13287,8 +13287,7 @@ function style(element, styles) {
       <div class="image-manager__adder__uploader">\
         <input type="file" data-behavior="uploader" />\
       </div>\
-      <input class="image-url-input" type="text" placeholder="http://">\
-      <button>+</button>\
+      <input class="image-url-input" type="text" placeholder="http://"><button>+</button>\
     </div>\
   ';
 
@@ -13307,6 +13306,8 @@ function style(element, styles) {
           return _this.pushImage();
         }
       }).on('click', 'button', function(e) {
+        e.stopPropagation();
+        e.preventDefault();
         return _this.pushImage();
       }).on('change', uploader, function(e) {
         _this.handleUpload(e.target.files);

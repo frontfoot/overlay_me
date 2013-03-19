@@ -12,8 +12,7 @@ class OverlayMe.Overlays.ImagesManagementDiv extends Backbone.View
       <div class="image-manager__adder__uploader">
         <input type="file" data-behavior="uploader" />
       </div>
-      <input class="image-url-input" type="text" placeholder="http://">
-      <button>+</button>
+      <input class="image-url-input" type="text" placeholder="http://"><button>+</button>
     </div>
   '
 
@@ -35,6 +34,8 @@ class OverlayMe.Overlays.ImagesManagementDiv extends Backbone.View
         @pushImage() if e.keyCode == 13
       
       .on 'click', 'button', (e) =>
+        e.stopPropagation()
+        e.preventDefault()
         @pushImage()
 
       # Add image (via upload)

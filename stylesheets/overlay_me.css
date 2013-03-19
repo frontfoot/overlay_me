@@ -232,6 +232,20 @@
   height: 1px;
   overflow: hidden;
 }
+.overlayme-menu .image-url-input, .overlayme-menu button {
+  margin: 0;
+  border: 2px solid #dddddd;
+  background: white;
+}
+.overlayme-menu .image-url-input {
+  padding: 0 5px;
+  line-height: 20px;
+}
+.overlayme-menu button {
+  cursor: pointer;
+  border-left: none;
+  height: 24px;
+}
 
 .overlayme-images-container {
   position: absolute;
