@@ -12326,7 +12326,7 @@ function style(element, styles) {
       this.moving = true;
       this.lastX = event.clientX;
       this.lastY = event.clientY;
-      $o(window).bind('mymousemove', function(event, mouseEvent) {
+      $o(window).bind('om-mousemove', function(event, mouseEvent) {
         _this.updatePosition(mouseEvent.clientX - _this.lastX, mouseEvent.clientY - _this.lastY);
         _this.lastX = mouseEvent.clientX;
         return _this.lastY = mouseEvent.clientY;
@@ -12336,7 +12336,7 @@ function style(element, styles) {
 
     Draggable.prototype.endMove = function(event) {
       this.moving = false;
-      $o(window).unbind('mymousemove');
+      $o(window).unbind('om-mousemove');
       return this.$el.removeClass('on-move');
     };
 
@@ -13409,7 +13409,7 @@ function style(element, styles) {
       this.append(OverlayMe.images_management_div.render());
       OverlayMe.menu.append(this.render());
       $o(window).bind('mousemove', function(event) {
-        return $o(window).trigger('mymousemove', event);
+        return $o(window).trigger('om-mousemove', event);
       });
       OverlayMe.dyn_manager = new OverlayMe.Overlays.DynamicManager();
       OverlayMe.dyn_manager.loadAll();

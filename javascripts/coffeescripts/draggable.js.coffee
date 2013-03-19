@@ -32,14 +32,14 @@ class OverlayMe.Draggable extends Backbone.View
     $o(window).on 'resize', =>
       @updatePosition()
 
-
   engageMove: (event) ->
     event.preventDefault()
     @setAsLastMoved()
     @moving = true
     @lastX = event.clientX
     @lastY = event.clientY
-    $o(window).bind 'mymousemove', (event, mouseEvent) =>
+    
+    $o(window).bind 'om-mousemove', (event, mouseEvent) =>
       @updatePosition(mouseEvent.clientX - @lastX, mouseEvent.clientY - @lastY)
       @lastX = mouseEvent.clientX
       @lastY = mouseEvent.clientY
@@ -47,7 +47,7 @@ class OverlayMe.Draggable extends Backbone.View
 
   endMove: (event) ->
     @moving = false
-    $o(window).unbind('mymousemove')
+    $o(window).unbind('om-mousemove')
     @$el.removeClass 'on-move'
 
   toggleMove: (event) ->

@@ -23,8 +23,9 @@ class OverlayMe.OverlaysPanel extends OverlayMe.MenuItem
     OverlayMe.menu.append @render()
     
     # repeating original window#mousemove event
+    # to be able to unbind it without interfering with window event
     $o(window).bind 'mousemove', (event) ->
-      $o(window).trigger('mymousemove', event)
+      $o(window).trigger('om-mousemove', event)
 
     # once everything rendered, load dynamicly added images
     OverlayMe.dyn_manager = new OverlayMe.Overlays.DynamicManager()
