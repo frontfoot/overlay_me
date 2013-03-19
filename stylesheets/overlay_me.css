@@ -207,13 +207,14 @@
 }
 .overlayme-menu .image-manager__adder:hover {
   color: #009af5;
+  border-color: #c4c4c4;
 }
 .overlayme-menu .image-manager__adder:hover .image-manager__adder__unicorns {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
   opacity: 1;
 }
 .overlayme-menu .image-manager__adder.droppable {
-  border-color: #c4c4c4;
+  border-color: #009af5;
 }
 .overlayme-menu .image-manager__adder__unicorns {
   cursor: pointer;

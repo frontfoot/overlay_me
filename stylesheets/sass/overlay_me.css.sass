@@ -196,12 +196,13 @@ $alt-color: #009af5
 
     &:hover
       color: $alt-color
+      border-color: darken(#ddd, 10%)
 
       .image-manager__adder__unicorns
         +opacity(1)
 
     &.droppable
-      border-color: darken(#ddd, 10%)
+      border-color: $alt-color
 
   .image-manager__adder__unicorns
     cursor: pointer
