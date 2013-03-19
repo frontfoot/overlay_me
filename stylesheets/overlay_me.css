@@ -206,6 +206,9 @@
   text-align: center;
   color: #cccccc;
 }
+.overlayme-menu .image-manager__adder:hover {
+  color: #009af5;
+}
 .overlayme-menu .image-manager__adder:hover .image-manager__adder__unicorns {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
   opacity: 1;
@@ -240,6 +243,13 @@
 .overlayme-menu .image-url-input {
   padding: 0 5px;
   line-height: 20px;
+}
+.overlayme-menu .image-url-input:focus, .overlayme-menu .image-url-input:focus + button {
+  outline: none;
+  border-color: #009af5;
+}
+.overlayme-menu .image-url-input:focus + button {
+  color: #009af5;
 }
 .overlayme-menu button {
   cursor: pointer;

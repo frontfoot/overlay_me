@@ -195,6 +195,8 @@ $alt-color: #009af5
     color: #ccc
 
     &:hover
+      color: $alt-color
+      
       .image-manager__adder__unicorns
         +opacity(1)
 
@@ -224,6 +226,13 @@ $alt-color: #009af5
   .image-url-input
     padding: 0 5px
     line-height: 20px
+
+    &:focus, &:focus + button
+      outline: none
+      border-color: $alt-color
+
+    &:focus + button
+      color: $alt-color
 
   button
     cursor: pointer
