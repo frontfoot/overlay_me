@@ -3,7 +3,6 @@
 
 class OverlayMe.Draggable extends Backbone.View
 
-  tagName: 'div'
   savableCss: ['top', 'left', 'display', 'opacity']
 
   defaultDragConfig: 

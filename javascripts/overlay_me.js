@@ -12286,8 +12286,6 @@ function style(element, styles) {
       return Draggable.__super__.constructor.apply(this, arguments);
     }
 
-    Draggable.prototype.tagName = 'div';
-
     Draggable.prototype.savableCss = ['top', 'left', 'display', 'opacity'];
 
     Draggable.prototype.defaultDragConfig = {
