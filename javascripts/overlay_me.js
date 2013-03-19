@@ -12448,7 +12448,7 @@ function style(element, styles) {
     MenuClass.prototype.template = '\
     <div class=menu-header data-behavior=drag-menu>\
       <span class=menu-header__title>Overlay Me</span>\
-      <span class=menu-header__reset data-behavior=reset-all>r</span>\
+      <span class=menu-header__reset data-behavior=reset-all></span>\
       <span class=menu-header__toggle data-behavior=toggle-menu></span>\
     </div>\
     <div class="menu-list">\
