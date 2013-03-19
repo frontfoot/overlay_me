@@ -29,6 +29,9 @@ class OverlayMe.Draggable extends Backbone.View
 
     @loadCss @el, options.css
 
+    $o(window).on 'resize', =>
+      @updatePosition()
+
 
   engageMove: (event) ->
     event.preventDefault()

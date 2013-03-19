@@ -12308,11 +12308,15 @@ function style(element, styles) {
     };
 
     Draggable.prototype.initialize = function(attributes, options) {
+      var _this = this;
       Draggable.__super__.initialize.call(this, attributes, options);
       this.$el = $o(this.el);
       this.dragConfig = {};
       $o.extend(true, this.dragConfig, this.defaultDragConfig, this.draggable);
-      return this.loadCss(this.el, options.css);
+      this.loadCss(this.el, options.css);
+      return $o(window).on('resize', function() {
+        return _this.updatePosition();
+      });
     };
 
     Draggable.prototype.engageMove = function(event) {
