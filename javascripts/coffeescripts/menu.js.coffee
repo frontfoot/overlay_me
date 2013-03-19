@@ -7,9 +7,10 @@ class OverlayMe.MenuClass extends OverlayMe.Draggable
   className: 'overlayme-menu'
 
   template: '
-    <div class="menu-header" data-behavior="drag-menu">
-      <span class="menu-header__title">Overlay Me</span>
-      <span class="menu-header__toggle" data-behavior="toggle-menu"></span>
+    <div class=menu-header data-behavior=drag-menu>
+      <span class=menu-header__title>Overlay Me</span>
+      <span class=menu-header__reset data-behavior=reset-all>r</span>
+      <span class=menu-header__toggle data-behavior=toggle-menu></span>
     </div>
     <div class="menu-list">
     </div>
@@ -29,7 +30,16 @@ class OverlayMe.MenuClass extends OverlayMe.Draggable
     @$el = $o(@el)
 
     toggle = '[data-behavior~=toggle-menu]'
+    reset  = '[data-behavior~=reset-all]'
     drag   = '[data-behavior~=drag-menu]'
+
+    # add listeners using keypress - thx to https://github.com/madrobby/keymaster
+    key 'h', ->
+      OverlayMe.toggle()
+    key 'c', ->
+      OverlayMe.menu.toggleCollapse()
+    key 'r', ->
+      OverlayMe.clearAndReload()
 
     # add it to the page
     $o('body').append @render()
@@ -39,11 +49,14 @@ class OverlayMe.MenuClass extends OverlayMe.Draggable
       .on 'mousedown', drag, (e) =>
         @toggleMove e
 
-      .on 'mousedown', toggle, (e) ->
+      .on 'mousedown', "#{toggle}, #{reset}", (e) ->
         e.stopPropagation()
 
       .on 'click', toggle, (e) ->
         OverlayMe.menu.toggleCollapse()
+
+      .on 'click', reset, (e) ->
+        OverlayMe.clearAndReload()
 
       # Disable scroll on menu hover (to avoid showing scrollbar on chrome)
       .on 'mouseenter', (e) ->

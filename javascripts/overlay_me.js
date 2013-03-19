@@ -12141,6 +12141,11 @@ function style(element, styles) {
     return OverlayMe.pageReload();
   };
 
+  OverlayMe.toggle = function() {
+    $o(window).trigger('overlay_me:toggle_all_display');
+    return $o(window).trigger('overlay_me:toggle_overlay_me_images_container_display');
+  };
+
   OverlayMe.pageReload = function() {
     return window.location.reload();
   };
@@ -12441,9 +12446,10 @@ function style(element, styles) {
     MenuClass.prototype.className = 'overlayme-menu';
 
     MenuClass.prototype.template = '\
-    <div class="menu-header" data-behavior="drag-menu">\
-      <span class="menu-header__title">Overlay Me</span>\
-      <span class="menu-header__toggle" data-behavior="toggle-menu"></span>\
+    <div class=menu-header data-behavior=drag-menu>\
+      <span class=menu-header__title>Overlay Me</span>\
+      <span class=menu-header__reset data-behavior=reset-all>r</span>\
+      <span class=menu-header__toggle data-behavior=toggle-menu></span>\
     </div>\
     <div class="menu-list">\
     </div>\
@@ -12462,7 +12468,7 @@ function style(element, styles) {
     };
 
     MenuClass.prototype.initialize = function(attributes) {
-      var drag, toggle,
+      var drag, reset, toggle,
         _this = this;
       MenuClass.__super__.initialize.call(this, attributes, {
         css: {
@@ -12471,14 +12477,26 @@ function style(element, styles) {
       });
       this.$el = $o(this.el);
       toggle = '[data-behavior~=toggle-menu]';
+      reset = '[data-behavior~=reset-all]';
       drag = '[data-behavior~=drag-menu]';
+      key('h', function() {
+        return OverlayMe.toggle();
+      });
+      key('c', function() {
+        return OverlayMe.menu.toggleCollapse();
+      });
+      key('r', function() {
+        return OverlayMe.clearAndReload();
+      });
       $o('body').append(this.render());
       this.$el.on('mousedown', drag, function(e) {
         return _this.toggleMove(e);
-      }).on('mousedown', toggle, function(e) {
+      }).on('mousedown', "" + toggle + ", " + reset, function(e) {
         return e.stopPropagation();
       }).on('click', toggle, function(e) {
         return OverlayMe.menu.toggleCollapse();
+      }).on('click', reset, function(e) {
+        return OverlayMe.clearAndReload();
       }).on('mouseenter', function(e) {
         return $o('body').css('overflow', 'hidden');
       }).on('mouseleave', function(e) {
@@ -12620,34 +12638,21 @@ function style(element, styles) {
   ';
 
     BasicsPanel.prototype.initialize = function(attributes, options) {
-      var template, toggle_all_display,
+      var template,
         _this = this;
       BasicsPanel.__super__.initialize.call(this, {
         id: "basics-options-panel",
         title: "Basics"
       }, options);
       this.$el = $o(this.el);
-      toggle_all_display = function() {
-        $o(window).trigger('overlay_me:toggle_all_display');
-        return $o(window).trigger('overlay_me:toggle_overlay_me_images_container_display');
-      };
       this.$el.on('click', '.reset', function(e) {
         return OverlayMe.clearAndReload();
       }).on('click', '.hide', function(e) {
-        return toggle_all_display();
+        return OverlayMe.toggle();
       });
       template = _.template(this.panelContent, {});
       this.append(template);
-      OverlayMe.menu.append(this.render());
-      key('h', function() {
-        return toggle_all_display();
-      });
-      key('c', function() {
-        return OverlayMe.menu.toggleCollapse();
-      });
-      return key('r', function() {
-        return OverlayMe.clearAndReload();
-      });
+      return OverlayMe.menu.append(this.render());
     };
 
     return BasicsPanel;

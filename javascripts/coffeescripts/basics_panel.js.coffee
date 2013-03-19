@@ -13,29 +13,17 @@ class OverlayMe.BasicsPanel extends OverlayMe.MenuItem
 
     @$el = $o(@el)
 
-    toggle_all_display = ->
-      $o(window).trigger 'overlay_me:toggle_all_display'
-      $o(window).trigger 'overlay_me:toggle_overlay_me_images_container_display'
-
     @$el
       .on 'click', '.reset', (e) =>
         OverlayMe.clearAndReload()
       .on 'click', '.hide', (e) =>
-        toggle_all_display()
+        OverlayMe.toggle()
 
     template = _.template @panelContent, {}
     @append template
 
     # add the element to the menu (so yes it has to be there!)
     OverlayMe.menu.append @render()
-
-    # add listeners using keypress - thx to https://github.com/madrobby/keymaster
-    key 'h', ->
-      toggle_all_display()
-    key 'c', ->
-      OverlayMe.menu.toggleCollapse()
-    key 'r', ->
-      OverlayMe.clearAndReload()
 
 # create one at DOM loaded
 $o ->

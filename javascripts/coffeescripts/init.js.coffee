@@ -32,6 +32,10 @@ OverlayMe.clearAndReload = ->
   localStorage.clear()
   OverlayMe.pageReload()
 
+OverlayMe.toggle = ->
+  $o(window).trigger 'overlay_me:toggle_all_display'
+  $o(window).trigger 'overlay_me:toggle_overlay_me_images_container_display'
+
 # separate system calls in a local functions (allow tests stubing)
 OverlayMe.pageReload = ->
   window.location.reload()
