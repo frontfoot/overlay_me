@@ -12346,6 +12346,12 @@ function style(element, styles) {
 
     Draggable.prototype.updatePosition = function(x, y) {
       var bottom, boundaries, elHeight, elWidth, key, left, position, right, top, value, winHeight, winWidth;
+      if (x == null) {
+        x = 0;
+      }
+      if (y == null) {
+        y = 0;
+      }
       boundaries = $o.extend({}, this.dragConfig.boundaries);
       for (key in boundaries) {
         value = boundaries[key];
@@ -12483,7 +12489,8 @@ function style(element, styles) {
     };
 
     MenuClass.prototype.toggleCollapse = function() {
-      return this.$el.toggleClass('collapsed');
+      this.$el.toggleClass('collapsed');
+      return this.updatePosition();
     };
 
     MenuClass.prototype.collapsed = function() {

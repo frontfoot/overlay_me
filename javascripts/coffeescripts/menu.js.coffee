@@ -63,6 +63,7 @@ class OverlayMe.MenuClass extends OverlayMe.Draggable
 
   toggleCollapse: ->
     @$el.toggleClass 'collapsed'
+    @updatePosition()
 
   collapsed: ->
     @$el.hasClass 'collapsed'
