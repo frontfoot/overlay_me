@@ -12619,54 +12619,6 @@ function style(element, styles) {
 
 }).call(this);
 (function() {
-  var __hasProp = {}.hasOwnProperty,
-    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
-
-  OverlayMe.BasicsPanel = (function(_super) {
-
-    __extends(BasicsPanel, _super);
-
-    BasicsPanel.name = 'BasicsPanel';
-
-    function BasicsPanel() {
-      return BasicsPanel.__super__.constructor.apply(this, arguments);
-    }
-
-    BasicsPanel.prototype.panelContent = '\
-    <span class="reset menu-action" title="Reset All (r)">Reset All</span><!--\
-    --><span class="hide menu-action" title="Hide (h)">Hide</span>\
-  ';
-
-    BasicsPanel.prototype.initialize = function(attributes, options) {
-      var template,
-        _this = this;
-      BasicsPanel.__super__.initialize.call(this, {
-        id: "basics-options-panel",
-        title: "Basics"
-      }, options);
-      this.$el = $o(this.el);
-      this.$el.on('click', '.reset', function(e) {
-        return OverlayMe.clearAndReload();
-      }).on('click', '.hide', function(e) {
-        return OverlayMe.toggle();
-      });
-      template = _.template(this.panelContent, {});
-      this.append(template);
-      return OverlayMe.menu.append(this.render());
-    };
-
-    return BasicsPanel;
-
-  })(OverlayMe.MenuItem);
-
-  $o(function() {
-    if (!OverlayMe.basics_panel) {
-      return OverlayMe.basics_panel = new OverlayMe.BasicsPanel();
-    }
-  });
-
-}).call(this);
-(function() {
 
   OverlayMe.Overlays = {};
 

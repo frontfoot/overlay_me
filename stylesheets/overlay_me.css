@@ -118,22 +118,6 @@
 .overlayme-menu .menu-header__toggle:after {
   content: "-";
 }
-.overlayme-menu .menu-action {
-  display: inline-block;
-  cursor: pointer;
-  width: 50%;
-  text-align: center;
-  line-height: 30px;
-  height: 30px;
-  background: #212123;
-  border-left: 1px solid #333235;
-}
-.overlayme-menu .menu-action:first-child {
-  border-left: none;
-}
-.overlayme-menu .menu-action:hover {
-  background: #262628;
-}
 .overlayme-menu .overlays-panel {
   padding: 5px;
 }
