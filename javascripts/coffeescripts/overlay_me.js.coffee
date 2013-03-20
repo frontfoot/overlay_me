@@ -16,7 +16,7 @@
 #= require 'views/draggable_image'
 #= require 'views/image'
 #= require 'views/images_directory'
-#= require 'views/content_div_mngmt'
+#= require 'views/page_settings'
 #= require 'views/images_mngt_div'
 #= require 'overlays_panel'
 

@@ -13049,30 +13049,30 @@ function style(element, styles) {
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
 
-  OverlayMe.Overlays.ContentDivManagementBlock = (function(_super) {
+  OverlayMe.Overlays.PageSettings = (function(_super) {
 
-    __extends(ContentDivManagementBlock, _super);
+    __extends(PageSettings, _super);
 
-    ContentDivManagementBlock.name = 'ContentDivManagementBlock';
+    PageSettings.name = 'PageSettings';
 
-    function ContentDivManagementBlock() {
-      return ContentDivManagementBlock.__super__.constructor.apply(this, arguments);
+    function PageSettings() {
+      return PageSettings.__super__.constructor.apply(this, arguments);
     }
 
-    ContentDivManagementBlock.prototype.tagName = 'div';
+    PageSettings.prototype.tagName = 'div';
 
-    ContentDivManagementBlock.prototype.className = 'content-mgnt-block section';
+    PageSettings.prototype.className = 'content-mgnt-block section';
 
-    ContentDivManagementBlock.prototype.id = 'content_div_management_block';
+    PageSettings.prototype.id = 'content_div_management_block';
 
-    ContentDivManagementBlock.prototype.savableCss = ['z-index', 'opacity'];
+    PageSettings.prototype.savableCss = ['z-index', 'opacity'];
 
-    ContentDivManagementBlock.prototype.zIndexes = {
+    PageSettings.prototype.zIndexes = {
       normal: 0,
       over: 5
     };
 
-    ContentDivManagementBlock.prototype.template = '\
+    PageSettings.prototype.template = '\
     <div>\
       <label for="content-opacity">Page Opacity</label>\
       <input id="content-opacity" type="range" value="100" data-behavior="change-content-opacity">\
@@ -13083,7 +13083,7 @@ function style(element, styles) {
     </div>\
   ';
 
-    ContentDivManagementBlock.prototype.initialize = function() {
+    PageSettings.prototype.initialize = function() {
       var $pageContainer, contentTopToggle, opacityField,
         _this = this;
       this.$el = $o(this.el);
@@ -13124,17 +13124,17 @@ function style(element, styles) {
       });
     };
 
-    ContentDivManagementBlock.prototype.render = function() {
+    PageSettings.prototype.render = function() {
       var template;
       template = _.template(this.template, {});
       return this.$el.html(template);
     };
 
-    return ContentDivManagementBlock;
+    return PageSettings;
 
   })(Backbone.View);
 
-  _.extend(OverlayMe.Overlays.ContentDivManagementBlock.prototype, OverlayMe.Mixin.Storable);
+  _.extend(OverlayMe.Overlays.PageSettings.prototype, OverlayMe.Mixin.Storable);
 
 }).call(this);
 (function() {
@@ -13294,7 +13294,7 @@ function style(element, styles) {
       this.$el = $o(this.el);
       this.$el.addClass('overlays-panel');
       OverlayMe.images_management_div = new OverlayMe.Overlays.ImagesManagementDiv();
-      this.content = [new OverlayMe.Overlays.ContentDivManagementBlock().render(), OverlayMe.images_management_div.render()];
+      this.content = [new OverlayMe.Overlays.PageSettings().render(), OverlayMe.images_management_div.render()];
       OverlayMe.menu.append(this.render());
       $o(window).bind('mousemove', function(event) {
         return $o(window).trigger('om-mousemove', event);

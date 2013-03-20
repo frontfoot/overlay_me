@@ -16,7 +16,7 @@ class OverlayMe.OverlaysPanel extends Backbone.View
 
     # add #container management & image management blocks
     @content = [
-      new OverlayMe.Overlays.ContentDivManagementBlock().render(),
+      new OverlayMe.Overlays.PageSettings().render(),
       OverlayMe.images_management_div.render()
     ]
 
