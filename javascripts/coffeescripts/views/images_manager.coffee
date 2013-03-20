@@ -83,7 +83,7 @@ class OverlayMe.Views.ImagesManager extends Backbone.View
     OverlayMe.dyn_manager.addImage source, options
 
   addUnicorn: ->
-    unicorn = _.shuffle(OverlayMe.unicorns)[0]
+    unicorn = OverlayMe.Helpers.unicornUrl()
     @add unicorn, { css: { opacity: 1 } }
 
   pushImage: ->
