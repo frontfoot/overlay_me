@@ -43,19 +43,24 @@ OverlayMe.userAgent = ->
   navigator.userAgent
 
 # move last image touched by keypress
-OverlayMe.moveLast = (relative_move_coords, multiplier = 1) ->
-  last_moved_id = localStorage.getItem "last-moved"
-  image = $o("##{last_moved_id}")
-  image.css 'left', image.position().left + relative_move_coords[0] * multiplier
-  image.css 'top', image.position().top + relative_move_coords[1] * multiplier
-  image.trigger 'save'
+OverlayMe.moveLast = (dirs, multiplier = 1) ->
+  lastMovedId = localStorage.getItem 'last-moved'
+  image = $o("##{lastMovedId}")
+  image.css 
+    left: image.position().left + dirs[0] * multiplier
+    top:  image.position().top  + dirs[1] * multiplier
+  .trigger 'save'
 
-# bind some global keypress - thx to https://github.com/madrobby/keymaster
-moves = { 'left': [-1, 0], 'right': [1, 0], 'down': [0, 1], 'up': [0, -1] }
-$o.each moves, (key_string, move_comb) ->
-  key key_string, ->
-    OverlayMe.moveLast move_comb
+moves =
+  'left':  [-1, 0], 
+  'right': [1, 0], 
+  'down':  [0, 1], 
+  'up':    [0, -1] 
+
+$o.each moves, (keyPressed, dirs) ->
+  key keyPressed, ->
+    OverlayMe.moveLast dirs
     false
-  key 'shift+'+key_string, ->
-    OverlayMe.moveLast move_comb, 15
+  key "shift+#{keyPressed}", ->
+    OverlayMe.moveLast dirs, 15
     false

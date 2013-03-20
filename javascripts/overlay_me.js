@@ -12154,16 +12154,17 @@ function style(element, styles) {
     return navigator.userAgent;
   };
 
-  OverlayMe.moveLast = function(relative_move_coords, multiplier) {
-    var image, last_moved_id;
+  OverlayMe.moveLast = function(dirs, multiplier) {
+    var image, lastMovedId;
     if (multiplier == null) {
       multiplier = 1;
     }
-    last_moved_id = localStorage.getItem("last-moved");
-    image = $o("#" + last_moved_id);
-    image.css('left', image.position().left + relative_move_coords[0] * multiplier);
-    image.css('top', image.position().top + relative_move_coords[1] * multiplier);
-    return image.trigger('save');
+    lastMovedId = localStorage.getItem('last-moved');
+    image = $o("#" + lastMovedId);
+    return image.css({
+      left: image.position().left + dirs[0] * multiplier,
+      top: image.position().top + dirs[1] * multiplier
+    }).trigger('save');
   };
 
   moves = {
@@ -12173,13 +12174,13 @@ function style(element, styles) {
     'up': [0, -1]
   };
 
-  $o.each(moves, function(key_string, move_comb) {
-    key(key_string, function() {
-      OverlayMe.moveLast(move_comb);
+  $o.each(moves, function(keyPressed, dirs) {
+    key(keyPressed, function() {
+      OverlayMe.moveLast(dirs);
       return false;
     });
-    return key('shift+' + key_string, function() {
-      OverlayMe.moveLast(move_comb, 15);
+    return key("shift+" + keyPressed, function() {
+      OverlayMe.moveLast(dirs, 15);
       return false;
     });
   });
