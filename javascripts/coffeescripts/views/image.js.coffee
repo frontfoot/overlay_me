@@ -25,7 +25,7 @@ class OverlayMe.Views.Image extends Backbone.View
     @$el = $o(@el)
 
     @src = src
-    @id  = OverlayMe.Overlays.urlToId @src
+    @id  = OverlayMe.Helpers.urlToId @src
     @$el.attr 'data-img-id', @id
 
     imagesContainer = new OverlayMe.Views.ImagesContainer({ parent_path: options.parent_path })

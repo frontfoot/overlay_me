@@ -22,7 +22,7 @@ class OverlayMe.Models.ImagesManager extends Backbone.Model
     new_image
 
   loadImage: (src, options = {} ) ->
-    imageId = OverlayMe.Overlays.urlToId(src)
+    imageId = OverlayMe.Helpers.urlToId(src)
     unless $o("#overlay_me_images_container ##{imageId}").length > 0
       css = $o.extend { display: 'block' }, options.css
       image = new OverlayMe.Views.Image(src, { destroyable: true, css: css })

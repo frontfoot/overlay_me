@@ -4,6 +4,7 @@ OverlayMe.Models   = {}
 OverlayMe.Views    = {}
 OverlayMe.Mixin    = {}
 OverlayMe.Overlays = {}
+OverlayMe.Helpers  = {}
 
 OverlayMe.isLoaded = false
 
@@ -52,9 +53,6 @@ OverlayMe.initKeyMoves = ->
     key "shift+#{keyPressed}", ->
       OverlayMe.moveLast dirs, 15
       false
-
-OverlayMe.Overlays.urlToId = (url) ->
-  return url.replace(/[.:\/]/g, '_').replace(/[^a-zA-Z0-9_\-]/g, '')
 
 OverlayMe.unicorns = [
   "http://fc07.deviantart.net/fs49/f/2009/200/b/3/Fat_Unicorn_and_the_Rainbow_by_la_ratta.jpg",

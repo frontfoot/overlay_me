@@ -10,6 +10,8 @@
 #= require 'mixins/storable'
 #= require 'views/draggable'
 
+#= require 'helpers/url_to_id'
+
 #= require 'views/menu'
 #= require 'models/images_manager'
 #= require 'views/images_container'
