@@ -59,4 +59,3 @@ $o.each moves, (key_string, move_comb) ->
   key 'shift+'+key_string, ->
     OverlayMe.moveLast move_comb, 15
     false
-

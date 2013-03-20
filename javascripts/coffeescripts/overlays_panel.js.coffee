@@ -30,7 +30,7 @@ class OverlayMe.OverlaysPanel extends Backbone.View
 
     # add the panel to the page menu
     OverlayMe.menu.append @render()
-    
+
     # repeating original window#mousemove event
     # to be able to unbind it without interfering with window event
     $o(window).bind 'mousemove', (event) ->

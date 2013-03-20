@@ -5,7 +5,7 @@ class OverlayMe.Draggable extends Backbone.View
 
   savableCss: ['top', 'left', 'display', 'opacity']
 
-  defaultDragConfig: 
+  defaultDragConfig:
     axes:
       x: true
       y: true
@@ -37,7 +37,7 @@ class OverlayMe.Draggable extends Backbone.View
     @moving = true
     @lastX = event.clientX
     @lastY = event.clientY
-    
+
     $o(window).bind 'om-mousemove', (event, mouseEvent) =>
       @updatePosition(mouseEvent.clientX - @lastX, mouseEvent.clientY - @lastY)
       @lastX = mouseEvent.clientX

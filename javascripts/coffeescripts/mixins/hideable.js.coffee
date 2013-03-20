@@ -2,7 +2,7 @@ OverlayMe.Mixin.Hideable =
   isDisplayed: ->
     el = @el || this
     $o(el).css('display') != 'none'
-  
+
   toggleDisplay: ->
     if @isDisplayed()
       @hide()

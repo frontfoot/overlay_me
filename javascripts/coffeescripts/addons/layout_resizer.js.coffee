@@ -1,7 +1,6 @@
 ## require menu.coffee and menu_item.coffee to be loaded first !!
 # Need the page content to be in #content
 
-
 # available layouts
 layouts = {
   smartphone_portrait: 320,
@@ -38,5 +37,3 @@ _.each layouts, (width, name) ->
 
 # add the element to the page menu
 OverlayMe.menu.append layout_menu.render()
-
-

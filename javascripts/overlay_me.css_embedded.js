@@ -12199,10 +12199,8 @@ function style(element, styles) {
       $el = $o(el);
       if (cssData = localStorage.getItem(this.id)) {
         return $el.css(JSON.parse(cssData));
-      } else {
-        if (css != null) {
-          return $el.css(css);
-        }
+      } else if (css != null) {
+        return $el.css(css);
       }
     },
     saveCss: function(el) {

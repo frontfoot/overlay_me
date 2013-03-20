@@ -67,7 +67,7 @@ class OverlayMe.MenuClass extends OverlayMe.Draggable
 
     $o(window)
       .on 'mouseup', (e) =>
-        @endMove e 
+        @endMove e
       .on 'overlay_me:toggle_all_display', =>
         @toggleDisplay()
 
