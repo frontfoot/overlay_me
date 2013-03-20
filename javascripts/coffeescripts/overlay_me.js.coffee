@@ -21,7 +21,7 @@
 #= require 'overlays_panel'
 
 OverlayMe.init = ->
-  return unless @mustLoad()
+  return if OverlayMe.isLoaded or OverlayMe.isMobile()
   @injectCSS()
   @initKeyMoves()
 

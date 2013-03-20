@@ -14,11 +14,7 @@ OverlayMe.injectCSS = ->
 
 # check if browser is a mobile device
 OverlayMe.isMobile = ->
-  OverlayMe.userAgent().match /(iPhone|iPod|iPad|Android)/
-
-# give a shortName method for checks in the app
-OverlayMe.mustLoad = ->
-  !OverlayMe.isLoaded && !OverlayMe.isMobile()
+  /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)
 
 # helper to clear all stored informations and reload the page
 OverlayMe.clearAndReload = ->
@@ -32,8 +28,6 @@ OverlayMe.toggle = ->
 # separate system calls in a local functions (allow tests stubing)
 OverlayMe.pageReload = ->
   window.location.reload()
-OverlayMe.userAgent = ->
-  navigator.userAgent
 
 # move last image touched by keypress
 OverlayMe.moveLast = (dirs, multiplier = 1) ->

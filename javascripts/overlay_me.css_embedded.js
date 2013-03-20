@@ -12130,11 +12130,7 @@ function style(element, styles) {
   };
 
   OverlayMe.isMobile = function() {
-    return OverlayMe.userAgent().match(/(iPhone|iPod|iPad|Android)/);
-  };
-
-  OverlayMe.mustLoad = function() {
-    return !OverlayMe.isLoaded && !OverlayMe.isMobile();
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent);
   };
 
   OverlayMe.clearAndReload = function() {
@@ -12149,10 +12145,6 @@ function style(element, styles) {
 
   OverlayMe.pageReload = function() {
     return window.location.reload();
-  };
-
-  OverlayMe.userAgent = function() {
-    return navigator.userAgent;
   };
 
   OverlayMe.moveLast = function(dirs, multiplier) {
@@ -13403,7 +13395,7 @@ function style(element, styles) {
 
   OverlayMe.init = function() {
     var _this = this;
-    if (!this.mustLoad()) {
+    if (OverlayMe.isLoaded || OverlayMe.isMobile()) {
       return;
     }
     this.injectCSS();
