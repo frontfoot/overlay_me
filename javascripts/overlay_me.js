@@ -12115,24 +12115,18 @@ function style(element, styles) {
 
   this.OverlayMe = {};
 
-  this.OverlayMe.Models = {};
+  OverlayMe.Models = {};
 
-  this.OverlayMe.Views = {};
+  OverlayMe.Views = {};
 
-  this.OverlayMe.Mixin = {};
+  OverlayMe.Mixin = {};
 
-  this.OverlayMe.Overlays = {};
+  OverlayMe.Overlays = {};
+
+  OverlayMe.isLoaded = false;
 
   OverlayMe.injectCSS = function() {
     return $o('head').append('<style rel="stylesheet" type="text/css">#CSS_BLOB#</style>');
-  };
-
-  OverlayMe.isLoaded = function() {
-    return window.overlay_me_loaded;
-  };
-
-  OverlayMe.setLoaded = function() {
-    return window.overlay_me_loaded = true;
   };
 
   OverlayMe.isMobile = function() {
@@ -12140,7 +12134,7 @@ function style(element, styles) {
   };
 
   OverlayMe.mustLoad = function() {
-    return !OverlayMe.isLoaded() && !OverlayMe.isMobile();
+    return !OverlayMe.isLoaded && !OverlayMe.isMobile();
   };
 
   OverlayMe.clearAndReload = function() {
@@ -13422,7 +13416,7 @@ function style(element, styles) {
         return _this.overlay_panel = new _this.OverlaysPanel();
       }
     });
-    return this.setLoaded();
+    return this.isLoaded = true;
   };
 
   OverlayMe.init();

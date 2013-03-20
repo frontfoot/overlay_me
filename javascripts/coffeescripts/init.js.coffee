@@ -1,21 +1,16 @@
 # initialize Models/Views namespaces
-this.OverlayMe = {}
-this.OverlayMe.Models = {}
-this.OverlayMe.Views = {}
-this.OverlayMe.Mixin = {}
-this.OverlayMe.Overlays = {}
+this.OverlayMe     = {}
+OverlayMe.Models   = {}
+OverlayMe.Views    = {}
+OverlayMe.Mixin    = {}
+OverlayMe.Overlays = {}
+
+OverlayMe.isLoaded = false
 
 # to build the 1 file minified version, we insert the minified CSS directly there
 # dirty but so convenient!
 OverlayMe.injectCSS = ->
   $o('head').append('<style rel="stylesheet" type="text/css">#CSS_BLOB#</style>')
-
-# add a flag to stop crazy bookmarklet clicking
-OverlayMe.isLoaded = ->
-  window.overlay_me_loaded
-
-OverlayMe.setLoaded = ->
-  window.overlay_me_loaded = true
 
 # check if browser is a mobile device
 OverlayMe.isMobile = ->
@@ -23,7 +18,7 @@ OverlayMe.isMobile = ->
 
 # give a shortName method for checks in the app
 OverlayMe.mustLoad = ->
-  !OverlayMe.isLoaded() && !OverlayMe.isMobile()
+  !OverlayMe.isLoaded && !OverlayMe.isMobile()
 
 # helper to clear all stored informations and reload the page
 OverlayMe.clearAndReload = ->

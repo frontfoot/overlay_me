@@ -29,6 +29,6 @@ OverlayMe.init = ->
     @menu          = new @Views.MenuClass() unless @menu
     @overlay_panel = new @OverlaysPanel() unless @overlay_panel
 
-  @setLoaded()
+  @isLoaded = true
 
 OverlayMe.init()
