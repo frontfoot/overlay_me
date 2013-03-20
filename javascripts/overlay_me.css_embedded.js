@@ -12234,44 +12234,34 @@ function style(element, styles) {
 
   OverlayMe.Mixin.Hideable = {
     isDisplayed: function() {
-      var element;
-      element = this.el || this;
-      return $o(element).css('display') !== 'none';
+      var el;
+      el = this.el || this;
+      return $o(el).css('display') !== 'none';
     },
-    toggleDisplay: function(default_display_type) {
-      if (default_display_type == null) {
-        default_display_type = 'block';
-      }
+    toggleDisplay: function() {
       if (this.isDisplayed()) {
         return this.hide();
       } else {
-        return this.show(default_display_type);
+        return this.show();
       }
     },
-    show: function(default_display_type) {
-      var element;
-      if (default_display_type == null) {
-        default_display_type = 'block';
-      }
-      element = this.el || this;
-      $o(element).css({
-        display: default_display_type
-      });
+    show: function() {
+      var el;
+      el = this.el || this;
+      $o(el).css('display', '');
       return this.saveState();
     },
     hide: function() {
-      var element;
-      element = this.el || this;
-      $o(element).css({
-        display: 'none'
-      });
+      var el;
+      el = this.el || this;
+      $o(el).hide();
       return this.saveState();
     },
     saveState: function() {
-      var element;
-      element = this.el || this;
+      var el;
+      el = this.el || this;
       if (this.saveCss) {
-        return this.saveCss(element);
+        return this.saveCss(el);
       }
     }
   };
