@@ -10,7 +10,6 @@
 #= require_tree './mixins'
 #= require_tree './models'
 #= require_tree './views'
-#= require 'overlays_panel'
 
 OverlayMe.init = ->
   return if OverlayMe.isLoaded or OverlayMe.isMobile()
@@ -18,8 +17,8 @@ OverlayMe.init = ->
   @initKeyMoves()
 
   $o =>
-    @menu          = new @Views.MenuClass() unless @menu
-    @overlay_panel = new @OverlaysPanel() unless @overlay_panel
+    @menu  = new @Views.MenuClass() unless @menu
+    @panel = new @Views.Panel() unless @panel
 
   @isLoaded = true
 

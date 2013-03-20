@@ -1,4 +1,4 @@
-class OverlayMe.OverlaysPanel extends Backbone.View
+class OverlayMe.Views.Panel extends Backbone.View
 
   render: ->
     $content = $o(@el)

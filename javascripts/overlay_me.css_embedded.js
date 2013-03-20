@@ -13191,17 +13191,17 @@ function style(element, styles) {
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
 
-  OverlayMe.OverlaysPanel = (function(_super) {
+  OverlayMe.Views.Panel = (function(_super) {
 
-    __extends(OverlaysPanel, _super);
+    __extends(Panel, _super);
 
-    OverlaysPanel.name = 'OverlaysPanel';
+    Panel.name = 'Panel';
 
-    function OverlaysPanel() {
-      return OverlaysPanel.__super__.constructor.apply(this, arguments);
+    function Panel() {
+      return Panel.__super__.constructor.apply(this, arguments);
     }
 
-    OverlaysPanel.prototype.render = function() {
+    Panel.prototype.render = function() {
       var $content;
       $content = $o(this.el);
       _.each(this.content, function(el) {
@@ -13210,7 +13210,7 @@ function style(element, styles) {
       return this.el;
     };
 
-    OverlaysPanel.prototype.initialize = function(attributes, options) {
+    Panel.prototype.initialize = function(attributes, options) {
       this.$el = $o(this.el);
       this.$el.addClass('overlays-panel');
       OverlayMe.images_management_div = new OverlayMe.Views.ImagesManager();
@@ -13233,7 +13233,7 @@ function style(element, styles) {
       return OverlayMe.loadDefaultImage();
     };
 
-    return OverlaysPanel;
+    return Panel;
 
   })(Backbone.View);
 
@@ -13251,8 +13251,8 @@ function style(element, styles) {
       if (!_this.menu) {
         _this.menu = new _this.Views.MenuClass();
       }
-      if (!_this.overlay_panel) {
-        return _this.overlay_panel = new _this.OverlaysPanel();
+      if (!_this.panel) {
+        return _this.panel = new _this.Views.Panel();
       }
     });
     return this.isLoaded = true;
