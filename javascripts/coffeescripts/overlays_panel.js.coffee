@@ -95,6 +95,3 @@ class OverlayMe.OverlaysPanel extends Backbone.View
         for img in tree.files
           parent.append new OverlayMe.Overlays.Image(tree.parent_path+img, { parent_path: tree.parent_path }).render()
 
-# create one at DOM loaded
-$o ->
-  OverlayMe.overlay_panel = new OverlayMe.OverlaysPanel() unless OverlayMe.overlay_panel

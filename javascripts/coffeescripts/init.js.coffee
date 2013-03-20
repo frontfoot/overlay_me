@@ -4,13 +4,14 @@
 #= require 'lib/keymaster.js'
 #= require 'lib/html5slider.js'
 
-# to build the 1 file minified version, we insert the minified CSS directly there
-# dirty but so convenient!
-$o('head').append('<style rel="stylesheet" type="text/css">#CSS_BLOB#</style>')
-
 # initialize Models/Views namespaces
 window.OverlayMe = {}
 window.OverlayMe.Mixin = {}
+
+# to build the 1 file minified version, we insert the minified CSS directly there
+# dirty but so convenient!
+OverlayMe.injectCSS = ->
+  $o('head').append('<style rel="stylesheet" type="text/css">#CSS_BLOB#</style>')
 
 # add a flag to stop crazy bookmarklet clicking
 OverlayMe.isLoaded = ->

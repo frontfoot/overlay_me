@@ -84,9 +84,3 @@ class OverlayMe.MenuClass extends OverlayMe.Draggable
   render: ->
     template = _.template @template, {}
     @$el.html template
-
-# create a unique menu if conditions
-if OverlayMe.mustLoad() # dont do it anytime
-  # at DOM loaded
-  $o ->
-    OverlayMe.menu = new OverlayMe.MenuClass() unless OverlayMe.menu

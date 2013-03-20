@@ -1,5 +1,14 @@
 #= require 'init'
 #= require 'overlays_panel'
 
-# flag as loaded
-OverlayMe.setLoaded()
+OverlayMe.init = ->
+  return unless @mustLoad()
+  @injectCSS()
+
+  $o =>
+    @menu          = new @MenuClass() unless @menu
+    @overlay_panel = new @OverlaysPanel() unless @overlay_panel
+
+  @setLoaded()
+  
+OverlayMe.init()

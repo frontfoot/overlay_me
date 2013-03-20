@@ -12114,11 +12114,13 @@ function style(element, styles) {
 (function() {
   var moves;
 
-  $o('head').append('<style rel="stylesheet" type="text/css">#CSS_BLOB#</style>');
-
   window.OverlayMe = {};
 
   window.OverlayMe.Mixin = {};
+
+  OverlayMe.injectCSS = function() {
+    return $o('head').append('<style rel="stylesheet" type="text/css">#CSS_BLOB#</style>');
+  };
 
   OverlayMe.isLoaded = function() {
     return window.overlay_me_loaded;
@@ -12520,14 +12522,6 @@ function style(element, styles) {
     return MenuClass;
 
   })(OverlayMe.Draggable);
-
-  if (OverlayMe.mustLoad()) {
-    $o(function() {
-      if (!OverlayMe.menu) {
-        return OverlayMe.menu = new OverlayMe.MenuClass();
-      }
-    });
-  }
 
 }).call(this);
 (function() {
@@ -13391,15 +13385,26 @@ function style(element, styles) {
 
   })(Backbone.View);
 
-  $o(function() {
-    if (!OverlayMe.overlay_panel) {
-      return OverlayMe.overlay_panel = new OverlayMe.OverlaysPanel();
-    }
-  });
-
 }).call(this);
 (function() {
 
-  OverlayMe.setLoaded();
+  OverlayMe.init = function() {
+    var _this = this;
+    if (!this.mustLoad()) {
+      return;
+    }
+    this.injectCSS();
+    $o(function() {
+      if (!_this.menu) {
+        _this.menu = new _this.MenuClass();
+      }
+      if (!_this.overlay_panel) {
+        return _this.overlay_panel = new _this.OverlaysPanel();
+      }
+    });
+    return this.setLoaded();
+  };
+
+  OverlayMe.init();
 
 }).call(this);
