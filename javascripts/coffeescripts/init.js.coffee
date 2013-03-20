@@ -1,9 +1,3 @@
-#= require 'lib/jquery.js'
-#= require 'lib/underscore.js'
-#= require 'lib/backbone.js'
-#= require 'lib/keymaster.js'
-#= require 'lib/html5slider.js'
-
 # initialize Models/Views namespaces
 window.OverlayMe = {}
 window.OverlayMe.Mixin = {}

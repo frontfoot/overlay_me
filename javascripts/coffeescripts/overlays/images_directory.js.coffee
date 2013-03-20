@@ -1,5 +1,3 @@
-#= require 'mixins/hideable'
-
 class OverlayMe.Overlays.ImagesDirectory extends Backbone.View
 
   tagName: 'div'

@@ -1,6 +1,3 @@
-#= require 'overlays/images_container'
-#= require 'overlays/draggable_image'
-
 class OverlayMe.Overlays.Image extends Backbone.View
 
   tagName: 'article'

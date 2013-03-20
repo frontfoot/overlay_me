@@ -1,5 +1,3 @@
-#= require 'mixins/storable'
-
 class OverlayMe.Overlays.ContentDivManagementBlock extends Backbone.View
 
   tagName: 'div'

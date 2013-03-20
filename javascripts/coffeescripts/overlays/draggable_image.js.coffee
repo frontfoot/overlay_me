@@ -1,5 +1,3 @@
-#= require 'draggable'
-
 class OverlayMe.Overlays.DraggableImage extends OverlayMe.Draggable
 
   className: 'image'

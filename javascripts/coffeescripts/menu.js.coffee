@@ -1,5 +1,3 @@
-#= require 'draggable'
-
 class OverlayMe.MenuClass extends OverlayMe.Draggable
 
   id: 'overlay_me_menu'

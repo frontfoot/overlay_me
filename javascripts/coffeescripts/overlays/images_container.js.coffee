@@ -1,6 +1,3 @@
-#= require 'mixins/storable'
-#= require 'mixins/hideable'
-
 class OverlayMe.Overlays.ContainerItself extends Backbone.View
 
   tagName: 'div'

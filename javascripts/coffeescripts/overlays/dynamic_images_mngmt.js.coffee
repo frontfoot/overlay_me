@@ -1,5 +1,3 @@
-#= require 'overlays/image'
-
 class OverlayMe.Overlays.DynamicManager extends Backbone.Model
   
   initialize: () ->

@@ -1,6 +1,3 @@
-#= require 'mixins/storable'
-#= require 'mixins/hideable'
-
 class OverlayMe.Draggable extends Backbone.View
 
   savableCss: ['top', 'left', 'display', 'opacity']

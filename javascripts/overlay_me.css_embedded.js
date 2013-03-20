@@ -12191,6 +12191,43 @@ function style(element, styles) {
 }).call(this);
 (function() {
 
+  OverlayMe.Mixin.Hideable = {
+    isDisplayed: function() {
+      var el;
+      el = this.el || this;
+      return $o(el).css('display') !== 'none';
+    },
+    toggleDisplay: function() {
+      if (this.isDisplayed()) {
+        return this.hide();
+      } else {
+        return this.show();
+      }
+    },
+    show: function() {
+      var el;
+      el = this.el || this;
+      $o(el).css('display', '');
+      return this.saveState();
+    },
+    hide: function() {
+      var el;
+      el = this.el || this;
+      $o(el).hide();
+      return this.saveState();
+    },
+    saveState: function() {
+      var el;
+      el = this.el || this;
+      if (this.saveCss) {
+        return this.saveCss(el);
+      }
+    }
+  };
+
+}).call(this);
+(function() {
+
   OverlayMe.Mixin.Storable = {
     loadCss: function(el, css) {
       var $el, cssData;
@@ -12228,43 +12265,6 @@ function style(element, styles) {
         cssData[cssProperty] = $o(el).css(cssProperty);
       }
       return localStorage.setItem(this.id, JSON.stringify(cssData));
-    }
-  };
-
-}).call(this);
-(function() {
-
-  OverlayMe.Mixin.Hideable = {
-    isDisplayed: function() {
-      var el;
-      el = this.el || this;
-      return $o(el).css('display') !== 'none';
-    },
-    toggleDisplay: function() {
-      if (this.isDisplayed()) {
-        return this.hide();
-      } else {
-        return this.show();
-      }
-    },
-    show: function() {
-      var el;
-      el = this.el || this;
-      $o(el).css('display', '');
-      return this.saveState();
-    },
-    hide: function() {
-      var el;
-      el = this.el || this;
-      $o(el).hide();
-      return this.saveState();
-    },
-    saveState: function() {
-      var el;
-      el = this.el || this;
-      if (this.saveCss) {
-        return this.saveCss(el);
-      }
     }
   };
 
