@@ -52,16 +52,18 @@ OverlayMe.moveLast = (dirs, multiplier = 1) ->
     top:  image.position().top  + dirs[1] * multiplier
   .trigger 'save'
 
-moves =
-  'left':  [-1, 0], 
-  'right': [1, 0], 
-  'down':  [0, 1], 
-  'up':    [0, -1] 
 
-$o.each moves, (keyPressed, dirs) ->
-  key keyPressed, ->
-    OverlayMe.moveLast dirs
-    false
-  key "shift+#{keyPressed}", ->
-    OverlayMe.moveLast dirs, 15
-    false
+OverlayMe.initKeyMoves = ->
+  moves =
+    'left':  [-1, 0], 
+    'right': [1, 0], 
+    'down':  [0, 1], 
+    'up':    [0, -1] 
+
+  $o.each moves, (keyPressed, dirs) ->
+    key keyPressed, ->
+      OverlayMe.moveLast dirs
+      false
+    key "shift+#{keyPressed}", ->
+      OverlayMe.moveLast dirs, 15
+      false
