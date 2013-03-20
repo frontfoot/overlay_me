@@ -8,9 +8,9 @@
 
 #= require 'mixins/hideable'
 #= require 'mixins/storable'
-#= require 'draggable'
+#= require 'views/draggable'
 
-#= require 'menu'
+#= require 'views/menu'
 #= require 'models/images_manager'
 #= require 'views/images_container'
 #= require 'views/draggable_image'

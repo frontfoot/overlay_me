@@ -12194,6 +12194,8 @@ function style(element, styles) {
     return url.replace(/[.:\/]/g, '_').replace(/[^a-zA-Z0-9_\-]/g, '');
   };
 
+  OverlayMe.unicorns = ["http://fc07.deviantart.net/fs49/f/2009/200/b/3/Fat_Unicorn_and_the_Rainbow_by_la_ratta.jpg", "http://www.deviantart.com/download/126388773/Unicorn_Pukes_Rainbow_by_Angel35W.jpg", "http://macmcrae.com/wp-content/uploads/2010/02/unicorn.jpg", "http://4.bp.blogspot.com/-uPLiez-m9vY/TacC_Bmsn3I/AAAAAAAAAyg/jusQIA8aAME/s1600/Behold_A_Rainbow_Unicorn_Ninja_by_Jess4921.jpg", "http://www.everquestdragon.com/everquestdragon/main/image.axd?picture=2009%2F9%2FPaperPaperNewrainbow.png"];
+
 }).call(this);
 (function() {
 
@@ -12537,8 +12539,111 @@ function style(element, styles) {
 
 }).call(this);
 (function() {
+  var __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
 
+  OverlayMe.Overlays.ImagesManager = (function(_super) {
 
+    __extends(ImagesManager, _super);
+
+    ImagesManager.name = 'ImagesManager';
+
+    function ImagesManager() {
+      return ImagesManager.__super__.constructor.apply(this, arguments);
+    }
+
+    ImagesManager.prototype.initialize = function() {
+      var listJSON;
+      if ((listJSON = localStorage.getItem('dyn_image_list'))) {
+        return this.list = JSON.parse(listJSON);
+      } else {
+        return this.list = [];
+      }
+    };
+
+    ImagesManager.prototype.isPresent = function(imageId) {
+      var saved, _i, _len, _ref;
+      _ref = this.list;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        saved = _ref[_i];
+        if (saved.id === imageId) {
+          return true;
+        }
+      }
+      return false;
+    };
+
+    ImagesManager.prototype.isEmpty = function() {
+      return this.list.length === 0;
+    };
+
+    ImagesManager.prototype.addImage = function(src, options) {
+      var new_image;
+      if (options == null) {
+        options = {};
+      }
+      new_image = this.loadImage(src, options);
+      if (new_image && !this.isPresent(new_image.image_id)) {
+        this.list.push({
+          id: new_image.image_id,
+          src: new_image.src
+        });
+        this.saveList();
+      }
+      return new_image;
+    };
+
+    ImagesManager.prototype.loadImage = function(src, options) {
+      var css, image, imageId;
+      if (options == null) {
+        options = {};
+      }
+      imageId = OverlayMe.Overlays.urlToId(src);
+      if (!($o("#overlay_me_images_container #" + imageId).length > 0)) {
+        css = $o.extend({
+          display: 'block'
+        }, options.css);
+        image = new OverlayMe.Overlays.Image(src, {
+          destroyable: true,
+          css: css
+        });
+        OverlayMe.images_management_div.append(image.render());
+      }
+      return image;
+    };
+
+    ImagesManager.prototype.delImage = function(imageId) {
+      var image, _i, _len, _ref;
+      _ref = this.list;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        image = _ref[_i];
+        if (image.id === imageId) {
+          this.list.splice(this.list.indexOf(image), 1);
+          this.saveList();
+          break;
+        }
+      }
+      return OverlayMe.images_management_div.del(imageId);
+    };
+
+    ImagesManager.prototype.loadAll = function() {
+      var image, _i, _len, _ref, _results;
+      _ref = this.list;
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        image = _ref[_i];
+        _results.push(this.addImage(image.src));
+      }
+      return _results;
+    };
+
+    ImagesManager.prototype.saveList = function() {
+      return localStorage.setItem('dyn_image_list', JSON.stringify(this.list));
+    };
+
+    return ImagesManager;
+
+  })(Backbone.Model);
 
 }).call(this);
 (function() {
@@ -12944,114 +13049,6 @@ function style(element, styles) {
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
 
-  OverlayMe.Overlays.DynamicManager = (function(_super) {
-
-    __extends(DynamicManager, _super);
-
-    DynamicManager.name = 'DynamicManager';
-
-    function DynamicManager() {
-      return DynamicManager.__super__.constructor.apply(this, arguments);
-    }
-
-    DynamicManager.prototype.initialize = function() {
-      var listJSON;
-      if ((listJSON = localStorage.getItem('dyn_image_list'))) {
-        return this.list = JSON.parse(listJSON);
-      } else {
-        return this.list = [];
-      }
-    };
-
-    DynamicManager.prototype.isPresent = function(imageId) {
-      var saved, _i, _len, _ref;
-      _ref = this.list;
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        saved = _ref[_i];
-        if (saved.id === imageId) {
-          return true;
-        }
-      }
-      return false;
-    };
-
-    DynamicManager.prototype.isEmpty = function() {
-      return this.list.length === 0;
-    };
-
-    DynamicManager.prototype.addImage = function(src, options) {
-      var new_image;
-      if (options == null) {
-        options = {};
-      }
-      new_image = this.loadImage(src, options);
-      if (new_image && !this.isPresent(new_image.image_id)) {
-        this.list.push({
-          id: new_image.image_id,
-          src: new_image.src
-        });
-        this.saveList();
-      }
-      return new_image;
-    };
-
-    DynamicManager.prototype.loadImage = function(src, options) {
-      var css, image, imageId;
-      if (options == null) {
-        options = {};
-      }
-      imageId = OverlayMe.Overlays.urlToId(src);
-      if (!($o("#overlay_me_images_container #" + imageId).length > 0)) {
-        css = $o.extend({
-          display: 'block'
-        }, options.css);
-        image = new OverlayMe.Overlays.Image(src, {
-          destroyable: true,
-          css: css
-        });
-        OverlayMe.images_management_div.append(image.render());
-      }
-      return image;
-    };
-
-    DynamicManager.prototype.delImage = function(imageId) {
-      var image, _i, _len, _ref;
-      _ref = this.list;
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        image = _ref[_i];
-        if (image.id === imageId) {
-          this.list.splice(this.list.indexOf(image), 1);
-          this.saveList();
-          break;
-        }
-      }
-      return OverlayMe.images_management_div.del(imageId);
-    };
-
-    DynamicManager.prototype.loadAll = function() {
-      var image, _i, _len, _ref, _results;
-      _ref = this.list;
-      _results = [];
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        image = _ref[_i];
-        _results.push(this.addImage(image.src));
-      }
-      return _results;
-    };
-
-    DynamicManager.prototype.saveList = function() {
-      return localStorage.setItem('dyn_image_list', JSON.stringify(this.list));
-    };
-
-    return DynamicManager;
-
-  })(Backbone.Model);
-
-}).call(this);
-(function() {
-  var __hasProp = {}.hasOwnProperty,
-    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
-
   OverlayMe.Overlays.ContentDivManagementBlock = (function(_super) {
 
     __extends(ContentDivManagementBlock, _super);
@@ -13302,7 +13299,7 @@ function style(element, styles) {
       $o(window).bind('mousemove', function(event) {
         return $o(window).trigger('om-mousemove', event);
       });
-      OverlayMe.dyn_manager = new OverlayMe.Overlays.DynamicManager();
+      OverlayMe.dyn_manager = new OverlayMe.Overlays.ImagesManager();
       OverlayMe.dyn_manager.loadAll();
       OverlayMe.loadDefaultImage = function() {
         if (OverlayMe.dyn_manager.isEmpty()) {
