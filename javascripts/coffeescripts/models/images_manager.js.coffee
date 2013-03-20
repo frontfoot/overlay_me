@@ -1,4 +1,4 @@
-class OverlayMe.Overlays.DynamicManager extends Backbone.Model
+class OverlayMe.Overlays.ImagesManager extends Backbone.Model
   
   initialize: () ->
     if ( listJSON = localStorage.getItem('dyn_image_list') )

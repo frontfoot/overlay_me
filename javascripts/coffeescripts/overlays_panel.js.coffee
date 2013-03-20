@@ -37,7 +37,7 @@ class OverlayMe.OverlaysPanel extends Backbone.View
       $o(window).trigger('om-mousemove', event)
 
     # once everything rendered, load dynamicly added images
-    OverlayMe.dyn_manager = new OverlayMe.Overlays.DynamicManager()
+    OverlayMe.dyn_manager = new OverlayMe.Overlays.ImagesManager()
     OverlayMe.dyn_manager.loadAll()
 
     OverlayMe.loadDefaultImage = ->

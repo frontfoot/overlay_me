@@ -11,11 +11,11 @@
 #= require 'draggable'
 
 #= require 'menu'
+#= require 'models/images_manager'
 #= require 'views/images_container'
 #= require 'views/draggable_image'
 #= require 'views/image'
 #= require 'views/images_directory'
-#= require 'models/dynamic_images_mngmt'
 #= require 'views/content_div_mngmt'
 #= require 'views/images_mngt_div'
 #= require 'overlays_panel'
