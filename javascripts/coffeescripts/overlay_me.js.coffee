@@ -11,13 +11,13 @@
 #= require 'draggable'
 
 #= require 'menu'
-#= require 'overlays/images_container'
-#= require 'overlays/draggable_image'
-#= require 'overlays/image'
-#= require 'overlays/images_directory'
-#= require 'overlays/dynamic_images_mngmt'
-#= require 'overlays/content_div_mngmt'
-#= require 'overlays/images_mngt_div'
+#= require 'views/images_container'
+#= require 'views/draggable_image'
+#= require 'views/image'
+#= require 'views/images_directory'
+#= require 'models/dynamic_images_mngmt'
+#= require 'views/content_div_mngmt'
+#= require 'views/images_mngt_div'
 #= require 'overlays_panel'
 
 OverlayMe.init = ->
