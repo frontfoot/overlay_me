@@ -55,7 +55,7 @@ class OverlayMe.Views.Image extends Backbone.View
         @$el.removeClass 'hovered'
 
       .on 'click', '.del-button', (e) =>
-        OverlayMe.dyn_manager.delImage @id
+        OverlayMe.imageManager.delete @id
 
       .on 'click', (e) =>
         e.stopPropagation()

@@ -28,11 +28,11 @@ class OverlayMe.Views.ImagesManager extends Backbone.View
       # Add unicorns
       .on 'click', unicorns, (e) =>
         @addUnicorn()
-      
+
       # Add image (via url)
       .on 'keypress', 'input', (e) =>
         @pushImage() if e.keyCode == 13
-      
+
       .on 'click', 'button', (e) =>
         e.stopPropagation()
         e.preventDefault()
@@ -56,11 +56,11 @@ class OverlayMe.Views.ImagesManager extends Backbone.View
 
       .on 'dragleave', dz, (e) =>
         @$el.find(dz).removeClass 'droppable'
-          
+
       .on 'drop', dz, (e) =>
         @handleUpload e.dataTransfer.files
         return false
-        
+
 
   handleUpload: (files) ->
     _.each files, (file) =>
@@ -75,12 +75,12 @@ class OverlayMe.Views.ImagesManager extends Backbone.View
   append: (block) ->
     @$el.find('.overlays-list').append block
 
-  del: (imageId) ->
-    $o(".overlay-image-block[data-img-id=#{imageId}]", @$el).remove()
-    $o("#overlay_me_images_container ##{imageId}").remove()
+  delete: (id) ->
+    $o(".overlay-image-block[data-img-id=#{id}]", @$el).remove()
+    $o("#overlay_me_images_container ##{id}").remove()
 
   add: (source, options = {}) ->
-    OverlayMe.dyn_manager.addImage source, options
+    OverlayMe.imageManager.add source, options
 
   addUnicorn: ->
     unicorn = OverlayMe.Helpers.unicornUrl()
@@ -88,7 +88,7 @@ class OverlayMe.Views.ImagesManager extends Backbone.View
 
   pushImage: ->
     $urlInput = @$el.find('.image-url-input')
-    OverlayMe.dyn_manager.addImage $urlInput.val()
+    OverlayMe.imageManager.add $urlInput.val()
     $urlInput.val ''
 
   render: ->

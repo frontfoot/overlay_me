@@ -6,40 +6,46 @@ class OverlayMe.Models.ImagesManager extends Backbone.Model
     else
       @list = []
 
-  isPresent: (imageId) ->
+  isPresent: (id) ->
     for saved in @list
-      return true if saved.id == imageId
-    return false
+      return true if saved.id == id
+    false
 
   isEmpty: ->
-    return @list.length == 0
+    @list.length == 0
 
-  addImage: (src, options = {} ) ->
-    new_image = @loadImage(src, options)
-    if new_image && !@isPresent(new_image.image_id)
-      @list.push { id: new_image.image_id, src: new_image.src }
+  add: (src, options = {} ) ->
+    image = @load(src, options)
+    if image && !@isPresent(image.image_id)
+      @list.push
+        id: image.image_id, 
+        src: image.src
       @saveList()
-    new_image
+    image
 
-  loadImage: (src, options = {} ) ->
+  load: (src, options = {} ) ->
     imageId = OverlayMe.Helpers.urlToId(src)
+
     unless $o("#overlay_me_images_container ##{imageId}").length > 0
       css = $o.extend { display: 'block' }, options.css
       image = new OverlayMe.Views.Image(src, { destroyable: true, css: css })
-      OverlayMe.images_management_div.append image.render()
+      OverlayMe.imagesManagerView.append image.render()
+    
     image
 
-  delImage: (imageId) ->
+  delete: (id) ->
     for image in @list
-      if image.id == imageId
-        @list.splice(@list.indexOf(image), 1)
-        @saveList()
-        break
-    OverlayMe.images_management_div.del imageId
+      continue unless image.id == id
+
+      @list.splice(@list.indexOf(image), 1)
+      @saveList()
+      break
+
+    OverlayMe.imagesManagerView.delete id
 
   loadAll: () ->
     for image in @list
-      @addImage(image.src)
+      @add(image.src)
 
   saveList: ->
     localStorage.setItem('dyn_image_list', JSON.stringify(@list))

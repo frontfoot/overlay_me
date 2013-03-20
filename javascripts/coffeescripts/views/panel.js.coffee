@@ -12,12 +12,12 @@ class OverlayMe.Views.Panel extends Backbone.View
     @$el.addClass 'overlays-panel'
 
     # adding image management block
-    OverlayMe.images_management_div = new OverlayMe.Views.ImagesManager()
+    OverlayMe.imagesManagerView = new OverlayMe.Views.ImagesManager()
 
     # add #container management & image management blocks
     @content = [
       new OverlayMe.Views.PageSettings().render(),
-      OverlayMe.images_management_div.render()
+      OverlayMe.imagesManagerView.render()
     ]
 
     # add the panel to the page menu
@@ -29,12 +29,12 @@ class OverlayMe.Views.Panel extends Backbone.View
       $o(window).trigger('om-mousemove', event)
 
     # once everything rendered, load dynamicly added images
-    OverlayMe.dyn_manager = new OverlayMe.Models.ImagesManager()
-    OverlayMe.dyn_manager.loadAll()
+    OverlayMe.imageManager = new OverlayMe.Models.ImagesManager()
+    OverlayMe.imageManager.loadAll()
 
     OverlayMe.loadDefaultImage = ->
       # double check that the dynamic loading list is also empty
-      if OverlayMe.dyn_manager.isEmpty()
-        OverlayMe.dyn_manager.addImage('http://octodex.github.com/images/original.jpg', {css: { left: "#{window.document.width*.6}px"}} )
+      if OverlayMe.imageManager.isEmpty()
+        OverlayMe.imageManager.add('http://octodex.github.com/images/original.jpg', {css: { left: "#{window.document.width*.6}px"}} )
 
     OverlayMe.loadDefaultImage()

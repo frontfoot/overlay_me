@@ -12300,12 +12300,12 @@ function style(element, styles) {
       }
     };
 
-    ImagesManager.prototype.isPresent = function(imageId) {
+    ImagesManager.prototype.isPresent = function(id) {
       var saved, _i, _len, _ref;
       _ref = this.list;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         saved = _ref[_i];
-        if (saved.id === imageId) {
+        if (saved.id === id) {
           return true;
         }
       }
@@ -12316,23 +12316,23 @@ function style(element, styles) {
       return this.list.length === 0;
     };
 
-    ImagesManager.prototype.addImage = function(src, options) {
-      var new_image;
+    ImagesManager.prototype.add = function(src, options) {
+      var image;
       if (options == null) {
         options = {};
       }
-      new_image = this.loadImage(src, options);
-      if (new_image && !this.isPresent(new_image.image_id)) {
+      image = this.load(src, options);
+      if (image && !this.isPresent(image.image_id)) {
         this.list.push({
-          id: new_image.image_id,
-          src: new_image.src
+          id: image.image_id,
+          src: image.src
         });
         this.saveList();
       }
-      return new_image;
+      return image;
     };
 
-    ImagesManager.prototype.loadImage = function(src, options) {
+    ImagesManager.prototype.load = function(src, options) {
       var css, image, imageId;
       if (options == null) {
         options = {};
@@ -12346,23 +12346,24 @@ function style(element, styles) {
           destroyable: true,
           css: css
         });
-        OverlayMe.images_management_div.append(image.render());
+        OverlayMe.imagesManagerView.append(image.render());
       }
       return image;
     };
 
-    ImagesManager.prototype.delImage = function(imageId) {
+    ImagesManager.prototype["delete"] = function(id) {
       var image, _i, _len, _ref;
       _ref = this.list;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         image = _ref[_i];
-        if (image.id === imageId) {
-          this.list.splice(this.list.indexOf(image), 1);
-          this.saveList();
-          break;
+        if (image.id !== id) {
+          continue;
         }
+        this.list.splice(this.list.indexOf(image), 1);
+        this.saveList();
+        break;
       }
-      return OverlayMe.images_management_div.del(imageId);
+      return OverlayMe.imagesManagerView["delete"](id);
     };
 
     ImagesManager.prototype.loadAll = function() {
@@ -12371,7 +12372,7 @@ function style(element, styles) {
       _results = [];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         image = _ref[_i];
-        _results.push(this.addImage(image.src));
+        _results.push(this.add(image.src));
       }
       return _results;
     };
@@ -12689,7 +12690,7 @@ function style(element, styles) {
         e.stopPropagation();
         return _this.$el.removeClass('hovered');
       }).on('click', '.del-button', function(e) {
-        return OverlayMe.dyn_manager.delImage(_this.id);
+        return OverlayMe.imageManager["delete"](_this.id);
       }).on('click', function(e) {
         e.stopPropagation();
         return _this.toggleChechbox();
@@ -12949,16 +12950,16 @@ function style(element, styles) {
       return this.$el.find('.overlays-list').append(block);
     };
 
-    ImagesManager.prototype.del = function(imageId) {
-      $o(".overlay-image-block[data-img-id=" + imageId + "]", this.$el).remove();
-      return $o("#overlay_me_images_container #" + imageId).remove();
+    ImagesManager.prototype["delete"] = function(id) {
+      $o(".overlay-image-block[data-img-id=" + id + "]", this.$el).remove();
+      return $o("#overlay_me_images_container #" + id).remove();
     };
 
     ImagesManager.prototype.add = function(source, options) {
       if (options == null) {
         options = {};
       }
-      return OverlayMe.dyn_manager.addImage(source, options);
+      return OverlayMe.imageManager.add(source, options);
     };
 
     ImagesManager.prototype.addUnicorn = function() {
@@ -12974,7 +12975,7 @@ function style(element, styles) {
     ImagesManager.prototype.pushImage = function() {
       var $urlInput;
       $urlInput = this.$el.find('.image-url-input');
-      OverlayMe.dyn_manager.addImage($urlInput.val());
+      OverlayMe.imageManager.add($urlInput.val());
       return $urlInput.val('');
     };
 
@@ -13213,17 +13214,17 @@ function style(element, styles) {
     Panel.prototype.initialize = function(attributes, options) {
       this.$el = $o(this.el);
       this.$el.addClass('overlays-panel');
-      OverlayMe.images_management_div = new OverlayMe.Views.ImagesManager();
-      this.content = [new OverlayMe.Views.PageSettings().render(), OverlayMe.images_management_div.render()];
+      OverlayMe.imagesManagerView = new OverlayMe.Views.ImagesManager();
+      this.content = [new OverlayMe.Views.PageSettings().render(), OverlayMe.imagesManagerView.render()];
       OverlayMe.menu.append(this.render());
       $o(window).bind('mousemove', function(event) {
         return $o(window).trigger('om-mousemove', event);
       });
-      OverlayMe.dyn_manager = new OverlayMe.Models.ImagesManager();
-      OverlayMe.dyn_manager.loadAll();
+      OverlayMe.imageManager = new OverlayMe.Models.ImagesManager();
+      OverlayMe.imageManager.loadAll();
       OverlayMe.loadDefaultImage = function() {
-        if (OverlayMe.dyn_manager.isEmpty()) {
-          return OverlayMe.dyn_manager.addImage('http://octodex.github.com/images/original.jpg', {
+        if (OverlayMe.imageManager.isEmpty()) {
+          return OverlayMe.imageManager.add('http://octodex.github.com/images/original.jpg', {
             css: {
               left: "" + (window.document.width * .6) + "px"
             }
