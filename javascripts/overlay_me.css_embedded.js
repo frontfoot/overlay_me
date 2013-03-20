@@ -12115,6 +12115,10 @@ function style(element, styles) {
 
   this.OverlayMe = {};
 
+  this.OverlayMe.Models = {};
+
+  this.OverlayMe.Views = {};
+
   this.OverlayMe.Mixin = {};
 
   this.OverlayMe.Overlays = {};
@@ -12436,7 +12440,7 @@ function style(element, styles) {
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
 
-  OverlayMe.MenuClass = (function(_super) {
+  OverlayMe.Views.MenuClass = (function(_super) {
 
     __extends(MenuClass, _super);
 
@@ -12542,7 +12546,7 @@ function style(element, styles) {
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
 
-  OverlayMe.Overlays.ImagesManager = (function(_super) {
+  OverlayMe.Models.ImagesManager = (function(_super) {
 
     __extends(ImagesManager, _super);
 
@@ -12603,7 +12607,7 @@ function style(element, styles) {
         css = $o.extend({
           display: 'block'
         }, options.css);
-        image = new OverlayMe.Overlays.Image(src, {
+        image = new OverlayMe.Views.Image(src, {
           destroyable: true,
           css: css
         });
@@ -12650,7 +12654,7 @@ function style(element, styles) {
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
 
-  OverlayMe.Overlays.ContainerItself = (function(_super) {
+  OverlayMe.Views.ContainerItself = (function(_super) {
 
     __extends(ContainerItself, _super);
 
@@ -12685,11 +12689,11 @@ function style(element, styles) {
 
   })(Backbone.View);
 
-  _.extend(OverlayMe.Overlays.ContainerItself.prototype, OverlayMe.Mixin.Storable);
+  _.extend(OverlayMe.Views.ContainerItself.prototype, OverlayMe.Mixin.Storable);
 
-  _.extend(OverlayMe.Overlays.ContainerItself.prototype, OverlayMe.Mixin.Hideable);
+  _.extend(OverlayMe.Views.ContainerItself.prototype, OverlayMe.Mixin.Hideable);
 
-  OverlayMe.Overlays.ImagesContainer = (function(_super) {
+  OverlayMe.Views.ImagesContainer = (function(_super) {
 
     __extends(ImagesContainer, _super);
 
@@ -12702,7 +12706,7 @@ function style(element, styles) {
     ImagesContainer.prototype.initialize = function(options) {
       var container;
       if (!OverlayMe.images_container) {
-        OverlayMe.images_container = new OverlayMe.Overlays.ContainerItself({
+        OverlayMe.images_container = new OverlayMe.Views.ContainerItself({
           id: 'overlay_me_images_container',
           className: 'overlayme-images-container'
         });
@@ -12730,7 +12734,7 @@ function style(element, styles) {
       }
       sub_container = $o("#overlay_me_images_container " + sub_container_parent_post_string + " #" + (the_dir + '_container'));
       if (sub_container.length < 1) {
-        sub_container = new OverlayMe.Overlays.ContainerItself({
+        sub_container = new OverlayMe.Views.ContainerItself({
           id: the_dir + '_container'
         });
         $o("#overlay_me_images_container " + sub_container_parent_post_string).append(sub_container.el);
@@ -12752,7 +12756,7 @@ function style(element, styles) {
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
 
-  OverlayMe.Overlays.DraggableImage = (function(_super) {
+  OverlayMe.Views.DraggableImage = (function(_super) {
 
     __extends(DraggableImage, _super);
 
@@ -12828,7 +12832,7 @@ function style(element, styles) {
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
 
-  OverlayMe.Overlays.Image = (function(_super) {
+  OverlayMe.Views.Image = (function(_super) {
 
     __extends(Image, _super);
 
@@ -12868,7 +12872,7 @@ function style(element, styles) {
       this.src = src;
       this.id = OverlayMe.Overlays.urlToId(this.src);
       this.$el.attr('data-img-id', this.id);
-      imagesContainer = new OverlayMe.Overlays.ImagesContainer({
+      imagesContainer = new OverlayMe.Views.ImagesContainer({
         parent_path: options.parent_path
       });
       this.css = $o.extend({
@@ -12908,7 +12912,7 @@ function style(element, styles) {
     };
 
     Image.prototype.image = function() {
-      this.image = new OverlayMe.Overlays.DraggableImage({
+      this.image = new OverlayMe.Views.DraggableImage({
         id: this.id
       }, {
         src: this.src,
@@ -12967,7 +12971,7 @@ function style(element, styles) {
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
 
-  OverlayMe.Overlays.ImagesDirectory = (function(_super) {
+  OverlayMe.Views.ImagesDirectory = (function(_super) {
 
     __extends(ImagesDirectory, _super);
 
@@ -13049,7 +13053,7 @@ function style(element, styles) {
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
 
-  OverlayMe.Overlays.PageSettings = (function(_super) {
+  OverlayMe.Views.PageSettings = (function(_super) {
 
     __extends(PageSettings, _super);
 
@@ -13134,14 +13138,14 @@ function style(element, styles) {
 
   })(Backbone.View);
 
-  _.extend(OverlayMe.Overlays.PageSettings.prototype, OverlayMe.Mixin.Storable);
+  _.extend(OverlayMe.Views.PageSettings.prototype, OverlayMe.Mixin.Storable);
 
 }).call(this);
 (function() {
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
 
-  OverlayMe.Overlays.ImagesManagementDiv = (function(_super) {
+  OverlayMe.Views.ImagesManagementDiv = (function(_super) {
 
     __extends(ImagesManagementDiv, _super);
 
@@ -13293,13 +13297,13 @@ function style(element, styles) {
       var buildTree, displayTree, files_tree, shiftTofiles;
       this.$el = $o(this.el);
       this.$el.addClass('overlays-panel');
-      OverlayMe.images_management_div = new OverlayMe.Overlays.ImagesManagementDiv();
-      this.content = [new OverlayMe.Overlays.PageSettings().render(), OverlayMe.images_management_div.render()];
+      OverlayMe.images_management_div = new OverlayMe.Views.ImagesManagementDiv();
+      this.content = [new OverlayMe.Views.PageSettings().render(), OverlayMe.images_management_div.render()];
       OverlayMe.menu.append(this.render());
       $o(window).bind('mousemove', function(event) {
         return $o(window).trigger('om-mousemove', event);
       });
-      OverlayMe.dyn_manager = new OverlayMe.Overlays.ImagesManager();
+      OverlayMe.dyn_manager = new OverlayMe.Models.ImagesManager();
       OverlayMe.dyn_manager.loadAll();
       OverlayMe.loadDefaultImage = function() {
         if (OverlayMe.dyn_manager.isEmpty()) {
@@ -13378,7 +13382,7 @@ function style(element, styles) {
           if (dir === 'files' || dir === 'parent_path') {
             continue;
           }
-          sub_dir = new OverlayMe.Overlays.ImagesDirectory(dir);
+          sub_dir = new OverlayMe.Views.ImagesDirectory(dir);
           parent.append(sub_dir.render());
           displayTree(sub_dir, tree[dir]);
         }
@@ -13387,7 +13391,7 @@ function style(element, styles) {
           _results = [];
           for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
             img = _ref1[_j];
-            _results.push(parent.append(new OverlayMe.Overlays.Image(tree.parent_path + img, {
+            _results.push(parent.append(new OverlayMe.Views.Image(tree.parent_path + img, {
               parent_path: tree.parent_path
             }).render()));
           }
@@ -13412,7 +13416,7 @@ function style(element, styles) {
     this.initKeyMoves();
     $o(function() {
       if (!_this.menu) {
-        _this.menu = new _this.MenuClass();
+        _this.menu = new _this.Views.MenuClass();
       }
       if (!_this.overlay_panel) {
         return _this.overlay_panel = new _this.OverlaysPanel();

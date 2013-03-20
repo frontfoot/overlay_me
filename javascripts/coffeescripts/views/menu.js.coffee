@@ -1,4 +1,4 @@
-class OverlayMe.MenuClass extends OverlayMe.DraggableView
+class OverlayMe.Views.MenuClass extends OverlayMe.DraggableView
 
   id: 'overlay_me_menu'
 

@@ -1,5 +1,7 @@
 # initialize Models/Views namespaces
 this.OverlayMe = {}
+this.OverlayMe.Models = {}
+this.OverlayMe.Views = {}
 this.OverlayMe.Mixin = {}
 this.OverlayMe.Overlays = {}
 

@@ -26,7 +26,7 @@ OverlayMe.init = ->
   @initKeyMoves()
 
   $o =>
-    @menu          = new @MenuClass() unless @menu
+    @menu          = new @Views.MenuClass() unless @menu
     @overlay_panel = new @OverlaysPanel() unless @overlay_panel
 
   @setLoaded()

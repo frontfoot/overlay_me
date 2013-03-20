@@ -1,4 +1,4 @@
-class OverlayMe.Overlays.DraggableImage extends OverlayMe.DraggableView
+class OverlayMe.Views.DraggableImage extends OverlayMe.DraggableView
 
   className: 'image'
 

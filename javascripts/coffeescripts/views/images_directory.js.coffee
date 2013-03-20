@@ -1,4 +1,4 @@
-class OverlayMe.Overlays.ImagesDirectory extends Backbone.View
+class OverlayMe.Views.ImagesDirectory extends Backbone.View
 
   tagName: 'div'
   className: 'images_dir'

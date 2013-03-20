@@ -1,4 +1,4 @@
-class OverlayMe.Overlays.ImagesManager extends Backbone.Model
+class OverlayMe.Models.ImagesManager extends Backbone.Model
   
   initialize: () ->
     if ( listJSON = localStorage.getItem('dyn_image_list') )
@@ -25,7 +25,7 @@ class OverlayMe.Overlays.ImagesManager extends Backbone.Model
     imageId = OverlayMe.Overlays.urlToId(src)
     unless $o("#overlay_me_images_container ##{imageId}").length > 0
       css = $o.extend { display: 'block' }, options.css
-      image = new OverlayMe.Overlays.Image(src, { destroyable: true, css: css })
+      image = new OverlayMe.Views.Image(src, { destroyable: true, css: css })
       OverlayMe.images_management_div.append image.render()
     image
 

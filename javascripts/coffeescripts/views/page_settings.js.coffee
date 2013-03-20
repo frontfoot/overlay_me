@@ -1,4 +1,4 @@
-class OverlayMe.Overlays.PageSettings extends Backbone.View
+class OverlayMe.Views.PageSettings extends Backbone.View
 
   tagName: 'div'
   className: 'content-mgnt-block section'
@@ -63,4 +63,4 @@ class OverlayMe.Overlays.PageSettings extends Backbone.View
     template = _.template @template, {}
     @$el.html template
 
-_.extend OverlayMe.Overlays.PageSettings.prototype, OverlayMe.Mixin.Storable
+_.extend OverlayMe.Views.PageSettings.prototype, OverlayMe.Mixin.Storable

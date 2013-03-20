@@ -1,4 +1,4 @@
-class OverlayMe.Overlays.Image extends Backbone.View
+class OverlayMe.Views.Image extends Backbone.View
 
   tagName: 'article'
   className: 'overlay-image-block image media'
@@ -28,7 +28,7 @@ class OverlayMe.Overlays.Image extends Backbone.View
     @id  = OverlayMe.Overlays.urlToId @src
     @$el.attr 'data-img-id', @id
 
-    imagesContainer = new OverlayMe.Overlays.ImagesContainer({ parent_path: options.parent_path })
+    imagesContainer = new OverlayMe.Views.ImagesContainer({ parent_path: options.parent_path })
 
     @css = $o.extend {display: 'none', opacity: 0.5}, options.css
 
@@ -68,7 +68,7 @@ class OverlayMe.Overlays.Image extends Backbone.View
         @$el.removeClass 'hovered'
 
   image: ->
-    @image = new OverlayMe.Overlays.DraggableImage { id: @id }, { src: @src, css: @css }
+    @image = new OverlayMe.Views.DraggableImage { id: @id }, { src: @src, css: @css }
     @image.render()
 
   toggleChechbox: ->

@@ -12,11 +12,11 @@ class OverlayMe.OverlaysPanel extends Backbone.View
     @$el.addClass 'overlays-panel'
 
     # adding image management block
-    OverlayMe.images_management_div = new OverlayMe.Overlays.ImagesManagementDiv()
+    OverlayMe.images_management_div = new OverlayMe.Views.ImagesManagementDiv()
 
     # add #container management & image management blocks
     @content = [
-      new OverlayMe.Overlays.PageSettings().render(),
+      new OverlayMe.Views.PageSettings().render(),
       OverlayMe.images_management_div.render()
     ]
 
@@ -29,7 +29,7 @@ class OverlayMe.OverlaysPanel extends Backbone.View
       $o(window).trigger('om-mousemove', event)
 
     # once everything rendered, load dynamicly added images
-    OverlayMe.dyn_manager = new OverlayMe.Overlays.ImagesManager()
+    OverlayMe.dyn_manager = new OverlayMe.Models.ImagesManager()
     OverlayMe.dyn_manager.loadAll()
 
     OverlayMe.loadDefaultImage = ->
@@ -80,10 +80,10 @@ class OverlayMe.OverlaysPanel extends Backbone.View
     displayTree = (parent, tree) ->
       for dir in Object.keys(tree)
         continue if dir == 'files' || dir == 'parent_path'
-        sub_dir = new OverlayMe.Overlays.ImagesDirectory(dir)
+        sub_dir = new OverlayMe.Views.ImagesDirectory(dir)
         parent.append sub_dir.render()
         displayTree(sub_dir, tree[dir])
       if tree.files
         for img in tree.files
-          parent.append new OverlayMe.Overlays.Image(tree.parent_path+img, { parent_path: tree.parent_path }).render()
+          parent.append new OverlayMe.Views.Image(tree.parent_path+img, { parent_path: tree.parent_path }).render()
 
