@@ -12,7 +12,7 @@ class OverlayMe.OverlaysPanel extends Backbone.View
     @$el.addClass 'overlays-panel'
 
     # adding image management block
-    OverlayMe.images_management_div = new OverlayMe.Views.ImagesManagementDiv()
+    OverlayMe.images_management_div = new OverlayMe.Views.ImagesManager()
 
     # add #container management & image management blocks
     @content = [

@@ -17,7 +17,7 @@
 #= require 'views/image'
 #= require 'views/images_directory'
 #= require 'views/page_settings'
-#= require 'views/images_mngt_div'
+#= require 'views/images_manager'
 #= require 'overlays_panel'
 
 OverlayMe.init = ->

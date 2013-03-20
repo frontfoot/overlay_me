@@ -13145,23 +13145,23 @@ function style(element, styles) {
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
 
-  OverlayMe.Views.ImagesManagementDiv = (function(_super) {
+  OverlayMe.Views.ImagesManager = (function(_super) {
 
-    __extends(ImagesManagementDiv, _super);
+    __extends(ImagesManager, _super);
 
-    ImagesManagementDiv.name = 'ImagesManagementDiv';
+    ImagesManager.name = 'ImagesManager';
 
-    function ImagesManagementDiv() {
-      return ImagesManagementDiv.__super__.constructor.apply(this, arguments);
+    function ImagesManager() {
+      return ImagesManager.__super__.constructor.apply(this, arguments);
     }
 
-    ImagesManagementDiv.prototype.tagName = 'div';
+    ImagesManager.prototype.tagName = 'div';
 
-    ImagesManagementDiv.prototype.id = 'images_mgnt';
+    ImagesManager.prototype.id = 'images_mgnt';
 
-    ImagesManagementDiv.prototype.className = 'images-manager';
+    ImagesManager.prototype.className = 'images-manager';
 
-    ImagesManagementDiv.prototype.template = '\
+    ImagesManager.prototype.template = '\
     <div class="overlays-list"></div>\
     <div class="dynamic-adds image-manager__adder" data-behavior="drop-zone">\
       <div class="image-manager__adder__unicorns" data-behavior="add-unicorn" title="Feeling corny?"></div>\
@@ -13173,7 +13173,7 @@ function style(element, styles) {
     </div>\
   ';
 
-    ImagesManagementDiv.prototype.initialize = function() {
+    ImagesManager.prototype.initialize = function() {
       var dz, unicorns, uploader,
         _this = this;
       this.$el = $o(this.el);
@@ -13209,7 +13209,7 @@ function style(element, styles) {
       });
     };
 
-    ImagesManagementDiv.prototype.handleUpload = function(files) {
+    ImagesManager.prototype.handleUpload = function(files) {
       var _this = this;
       return _.each(files, function(file) {
         var data, reader;
@@ -13226,23 +13226,23 @@ function style(element, styles) {
       });
     };
 
-    ImagesManagementDiv.prototype.append = function(block) {
+    ImagesManager.prototype.append = function(block) {
       return this.$el.find('.overlays-list').append(block);
     };
 
-    ImagesManagementDiv.prototype.del = function(imageId) {
+    ImagesManager.prototype.del = function(imageId) {
       $o(".overlay-image-block[data-img-id=" + imageId + "]", this.$el).remove();
       return $o("#overlay_me_images_container #" + imageId).remove();
     };
 
-    ImagesManagementDiv.prototype.add = function(source, options) {
+    ImagesManager.prototype.add = function(source, options) {
       if (options == null) {
         options = {};
       }
       return OverlayMe.dyn_manager.addImage(source, options);
     };
 
-    ImagesManagementDiv.prototype.addUnicorn = function() {
+    ImagesManager.prototype.addUnicorn = function() {
       var unicorn;
       unicorn = _.shuffle(OverlayMe.unicorns)[0];
       return this.add(unicorn, {
@@ -13252,20 +13252,20 @@ function style(element, styles) {
       });
     };
 
-    ImagesManagementDiv.prototype.pushImage = function() {
+    ImagesManager.prototype.pushImage = function() {
       var $urlInput;
       $urlInput = this.$el.find('.image-url-input');
       OverlayMe.dyn_manager.addImage($urlInput.val());
       return $urlInput.val('');
     };
 
-    ImagesManagementDiv.prototype.render = function() {
+    ImagesManager.prototype.render = function() {
       var template;
       template = _.template(this.template, {});
       return this.$el.html(template);
     };
 
-    return ImagesManagementDiv;
+    return ImagesManager;
 
   })(Backbone.View);
 
@@ -13297,7 +13297,7 @@ function style(element, styles) {
       var buildTree, displayTree, files_tree, shiftTofiles;
       this.$el = $o(this.el);
       this.$el.addClass('overlays-panel');
-      OverlayMe.images_management_div = new OverlayMe.Views.ImagesManagementDiv();
+      OverlayMe.images_management_div = new OverlayMe.Views.ImagesManager();
       this.content = [new OverlayMe.Views.PageSettings().render(), OverlayMe.images_management_div.render()];
       OverlayMe.menu.append(this.render());
       $o(window).bind('mousemove', function(event) {
