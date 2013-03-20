@@ -1,6 +1,7 @@
 # initialize Models/Views namespaces
-window.OverlayMe = {}
-window.OverlayMe.Mixin = {}
+this.OverlayMe = {}
+this.OverlayMe.Mixin = {}
+this.OverlayMe.Overlays = {}
 
 # to build the 1 file minified version, we insert the minified CSS directly there
 # dirty but so convenient!
@@ -46,7 +47,6 @@ OverlayMe.moveLast = (dirs, multiplier = 1) ->
     top:  image.position().top  + dirs[1] * multiplier
   .trigger 'save'
 
-
 OverlayMe.initKeyMoves = ->
   moves =
     'left':  [-1, 0], 
@@ -61,3 +61,6 @@ OverlayMe.initKeyMoves = ->
     key "shift+#{keyPressed}", ->
       OverlayMe.moveLast dirs, 15
       false
+
+OverlayMe.Overlays.urlToId = (url) ->
+  return url.replace(/[.:\/]/g, '_').replace(/[^a-zA-Z0-9_\-]/g, '')
