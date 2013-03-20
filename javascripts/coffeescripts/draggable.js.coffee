@@ -6,6 +6,9 @@ class OverlayMe.Draggable extends Backbone.View
   savableCss: ['top', 'left', 'display', 'opacity']
 
   defaultDragConfig:
+    callbacks:
+      beforeMove: ->
+      afterMove: ->
     axes:
       x: true
       y: true
@@ -33,7 +36,7 @@ class OverlayMe.Draggable extends Backbone.View
 
   engageMove: (event) ->
     event.preventDefault()
-    @setAsLastMoved()
+    @dragConfig.callbacks.beforeMove.call(@) if typeof @dragConfig.callbacks.beforeMove == 'function'
     @moving = true
     @lastX = event.clientX
     @lastY = event.clientY
@@ -48,6 +51,7 @@ class OverlayMe.Draggable extends Backbone.View
     @moving = false
     $o(window).unbind('om-mousemove')
     @$el.removeClass 'on-move'
+    @dragConfig.callbacks.afterMove.call(@) if typeof @dragConfig.callbacks.afterMove == 'function'
 
   toggleMove: (event) ->
     if @moving
@@ -91,9 +95,6 @@ class OverlayMe.Draggable extends Backbone.View
       oppositePosition = winDim - position - elDim
       position         = winDim - boundaries[opposite] - elDim if oppositePosition < boundaries[opposite]
     position
-
-  setAsLastMoved: ->
-    localStorage.setItem "last-moved", @id
 
   save: ->
     @saveCss()

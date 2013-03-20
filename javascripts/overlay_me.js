@@ -12112,7 +12112,6 @@ function style(element, styles) {
 
 })();
 (function() {
-  var moves;
 
   window.OverlayMe = {};
 
@@ -12169,23 +12168,25 @@ function style(element, styles) {
     }).trigger('save');
   };
 
-  moves = {
-    'left': [-1, 0],
-    'right': [1, 0],
-    'down': [0, 1],
-    'up': [0, -1]
+  OverlayMe.initKeyMoves = function() {
+    var moves;
+    moves = {
+      'left': [-1, 0],
+      'right': [1, 0],
+      'down': [0, 1],
+      'up': [0, -1]
+    };
+    return $o.each(moves, function(keyPressed, dirs) {
+      key(keyPressed, function() {
+        OverlayMe.moveLast(dirs);
+        return false;
+      });
+      return key("shift+" + keyPressed, function() {
+        OverlayMe.moveLast(dirs, 15);
+        return false;
+      });
+    });
   };
-
-  $o.each(moves, function(keyPressed, dirs) {
-    key(keyPressed, function() {
-      OverlayMe.moveLast(dirs);
-      return false;
-    });
-    return key("shift+" + keyPressed, function() {
-      OverlayMe.moveLast(dirs, 15);
-      return false;
-    });
-  });
 
 }).call(this);
 (function() {
@@ -12285,6 +12286,10 @@ function style(element, styles) {
     Draggable.prototype.savableCss = ['top', 'left', 'display', 'opacity'];
 
     Draggable.prototype.defaultDragConfig = {
+      callbacks: {
+        beforeMove: function() {},
+        afterMove: function() {}
+      },
       axes: {
         x: true,
         y: true
@@ -12316,7 +12321,9 @@ function style(element, styles) {
     Draggable.prototype.engageMove = function(event) {
       var _this = this;
       event.preventDefault();
-      this.setAsLastMoved();
+      if (typeof this.dragConfig.callbacks.beforeMove === 'function') {
+        this.dragConfig.callbacks.beforeMove.call(this);
+      }
       this.moving = true;
       this.lastX = event.clientX;
       this.lastY = event.clientY;
@@ -12331,7 +12338,10 @@ function style(element, styles) {
     Draggable.prototype.endMove = function(event) {
       this.moving = false;
       $o(window).unbind('om-mousemove');
-      return this.$el.removeClass('on-move');
+      this.$el.removeClass('on-move');
+      if (typeof this.dragConfig.callbacks.afterMove === 'function') {
+        return this.dragConfig.callbacks.afterMove.call(this);
+      }
     };
 
     Draggable.prototype.toggleMove = function(event) {
@@ -12395,10 +12405,6 @@ function style(element, styles) {
         }
       }
       return position;
-    };
-
-    Draggable.prototype.setAsLastMoved = function() {
-      return localStorage.setItem("last-moved", this.id);
     };
 
     Draggable.prototype.save = function() {
@@ -12653,6 +12659,14 @@ function style(element, styles) {
 
     DraggableImage.prototype.className = 'image';
 
+    DraggableImage.prototype.draggable = {
+      callbacks: {
+        beforeMove: function() {
+          return this.setAsLastMoved();
+        }
+      }
+    };
+
     DraggableImage.prototype.initialize = function(attributes, options) {
       var _this = this;
       DraggableImage.__super__.initialize.call(this, attributes, options);
@@ -12690,6 +12704,10 @@ function style(element, styles) {
           height: this.image.height
         });
       }
+    };
+
+    DraggableImage.prototype.setAsLastMoved = function() {
+      return localStorage.setItem('last-moved', this.id);
     };
 
     DraggableImage.prototype.render = function() {
@@ -13394,6 +13412,7 @@ function style(element, styles) {
       return;
     }
     this.injectCSS();
+    this.initKeyMoves();
     $o(function() {
       if (!_this.menu) {
         _this.menu = new _this.MenuClass();

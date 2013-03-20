@@ -4,6 +4,11 @@ class OverlayMe.Overlays.DraggableImage extends OverlayMe.Draggable
 
   className: 'image'
 
+  draggable:
+    callbacks:
+      beforeMove: ->
+        @setAsLastMoved()
+
   initialize: (attributes, options) ->
     super(attributes, options)
 
@@ -39,6 +44,9 @@ class OverlayMe.Overlays.DraggableImage extends OverlayMe.Draggable
       @$el.css 
         width: @image.width
         height: @image.height
+
+  setAsLastMoved: ->
+    localStorage.setItem 'last-moved', @id
 
   render: ->
     @$el
