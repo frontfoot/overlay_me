@@ -12187,6 +12187,13 @@ function style(element, styles) {
 }).call(this);
 (function() {
 
+  OverlayMe.Helpers.urlToId = function(url) {
+    return url.replace(/[.:\/]/g, '_').replace(/[^a-zA-Z0-9_\-]/g, '');
+  };
+
+}).call(this);
+(function() {
+
   OverlayMe.Mixin.Hideable = {
     isDisplayed: function() {
       var el;
@@ -12263,6 +12270,114 @@ function style(element, styles) {
       return localStorage.setItem(this.id, JSON.stringify(cssData));
     }
   };
+
+}).call(this);
+(function() {
+  var __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+
+  OverlayMe.Models.ImagesManager = (function(_super) {
+
+    __extends(ImagesManager, _super);
+
+    ImagesManager.name = 'ImagesManager';
+
+    function ImagesManager() {
+      return ImagesManager.__super__.constructor.apply(this, arguments);
+    }
+
+    ImagesManager.prototype.initialize = function() {
+      var listJSON;
+      if ((listJSON = localStorage.getItem('dyn_image_list'))) {
+        return this.list = JSON.parse(listJSON);
+      } else {
+        return this.list = [];
+      }
+    };
+
+    ImagesManager.prototype.isPresent = function(imageId) {
+      var saved, _i, _len, _ref;
+      _ref = this.list;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        saved = _ref[_i];
+        if (saved.id === imageId) {
+          return true;
+        }
+      }
+      return false;
+    };
+
+    ImagesManager.prototype.isEmpty = function() {
+      return this.list.length === 0;
+    };
+
+    ImagesManager.prototype.addImage = function(src, options) {
+      var new_image;
+      if (options == null) {
+        options = {};
+      }
+      new_image = this.loadImage(src, options);
+      if (new_image && !this.isPresent(new_image.image_id)) {
+        this.list.push({
+          id: new_image.image_id,
+          src: new_image.src
+        });
+        this.saveList();
+      }
+      return new_image;
+    };
+
+    ImagesManager.prototype.loadImage = function(src, options) {
+      var css, image, imageId;
+      if (options == null) {
+        options = {};
+      }
+      imageId = OverlayMe.Helpers.urlToId(src);
+      if (!($o("#overlay_me_images_container #" + imageId).length > 0)) {
+        css = $o.extend({
+          display: 'block'
+        }, options.css);
+        image = new OverlayMe.Views.Image(src, {
+          destroyable: true,
+          css: css
+        });
+        OverlayMe.images_management_div.append(image.render());
+      }
+      return image;
+    };
+
+    ImagesManager.prototype.delImage = function(imageId) {
+      var image, _i, _len, _ref;
+      _ref = this.list;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        image = _ref[_i];
+        if (image.id === imageId) {
+          this.list.splice(this.list.indexOf(image), 1);
+          this.saveList();
+          break;
+        }
+      }
+      return OverlayMe.images_management_div.del(imageId);
+    };
+
+    ImagesManager.prototype.loadAll = function() {
+      var image, _i, _len, _ref, _results;
+      _ref = this.list;
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        image = _ref[_i];
+        _results.push(this.addImage(image.src));
+      }
+      return _results;
+    };
+
+    ImagesManager.prototype.saveList = function() {
+      return localStorage.setItem('dyn_image_list', JSON.stringify(this.list));
+    };
+
+    return ImagesManager;
+
+  })(Backbone.Model);
 
 }).call(this);
 (function() {
@@ -12418,329 +12533,6 @@ function style(element, styles) {
   _.extend(OverlayMe.DraggableView.prototype, OverlayMe.Mixin.Storable);
 
   _.extend(OverlayMe.DraggableView.prototype, OverlayMe.Mixin.Hideable);
-
-}).call(this);
-(function() {
-
-  OverlayMe.Helpers.urlToId = function(url) {
-    return url.replace(/[.:\/]/g, '_').replace(/[^a-zA-Z0-9_\-]/g, '');
-  };
-
-}).call(this);
-(function() {
-  var __hasProp = {}.hasOwnProperty,
-    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
-
-  OverlayMe.Views.MenuClass = (function(_super) {
-
-    __extends(MenuClass, _super);
-
-    MenuClass.name = 'MenuClass';
-
-    function MenuClass() {
-      return MenuClass.__super__.constructor.apply(this, arguments);
-    }
-
-    MenuClass.prototype.id = 'overlay_me_menu';
-
-    MenuClass.prototype.className = 'overlayme-menu';
-
-    MenuClass.prototype.template = '\
-    <div class=menu-header data-behavior=drag-menu>\
-      <span class=menu-header__title>Overlay Me</span>\
-      <span class=menu-header__reset data-behavior=reset-all></span>\
-      <span class=menu-header__toggle data-behavior=toggle-menu></span>\
-    </div>\
-    <div class="menu-list">\
-    </div>\
-  ';
-
-    MenuClass.prototype.draggable = {
-      axes: {
-        x: false
-      },
-      boundaries: {
-        top: 0,
-        bottom: function() {
-          return -($o('#overlay_me_menu').outerHeight() - $o('.menu-header').outerHeight());
-        }
-      }
-    };
-
-    MenuClass.prototype.initialize = function(attributes) {
-      var drag, reset, toggle,
-        _this = this;
-      MenuClass.__super__.initialize.call(this, attributes, {
-        css: {
-          top: 50
-        }
-      });
-      this.$el = $o(this.el);
-      toggle = '[data-behavior~=toggle-menu]';
-      reset = '[data-behavior~=reset-all]';
-      drag = '[data-behavior~=drag-menu]';
-      key('h', function() {
-        return OverlayMe.toggle();
-      });
-      key('c', function() {
-        return OverlayMe.menu.toggleCollapse();
-      });
-      key('r', function() {
-        return OverlayMe.clearAndReload();
-      });
-      $o('body').append(this.render());
-      this.$el.on('mousedown', drag, function(e) {
-        return _this.toggleMove(e);
-      }).on('mousedown', "" + toggle + ", " + reset, function(e) {
-        return e.stopPropagation();
-      }).on('click', toggle, function(e) {
-        return OverlayMe.menu.toggleCollapse();
-      }).on('click', reset, function(e) {
-        return OverlayMe.clearAndReload();
-      }).on('mouseenter', function(e) {
-        return $o('body').css('overflow', 'hidden');
-      }).on('mouseleave', function(e) {
-        return $o('body').css('overflow', '');
-      });
-      return $o(window).on('mouseup', function(e) {
-        return _this.endMove(e);
-      }).on('overlay_me:toggle_all_display', function() {
-        return _this.toggleDisplay();
-      });
-    };
-
-    MenuClass.prototype.append = function(element) {
-      return this.$el.find('.menu-list').append(element);
-    };
-
-    MenuClass.prototype.toggleCollapse = function() {
-      this.$el.toggleClass('collapsed');
-      return this.updatePosition();
-    };
-
-    MenuClass.prototype.collapsed = function() {
-      return this.$el.hasClass('collapsed');
-    };
-
-    MenuClass.prototype.render = function() {
-      var template;
-      template = _.template(this.template, {});
-      return this.$el.html(template);
-    };
-
-    return MenuClass;
-
-  })(OverlayMe.DraggableView);
-
-}).call(this);
-(function() {
-  var __hasProp = {}.hasOwnProperty,
-    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
-
-  OverlayMe.Models.ImagesManager = (function(_super) {
-
-    __extends(ImagesManager, _super);
-
-    ImagesManager.name = 'ImagesManager';
-
-    function ImagesManager() {
-      return ImagesManager.__super__.constructor.apply(this, arguments);
-    }
-
-    ImagesManager.prototype.initialize = function() {
-      var listJSON;
-      if ((listJSON = localStorage.getItem('dyn_image_list'))) {
-        return this.list = JSON.parse(listJSON);
-      } else {
-        return this.list = [];
-      }
-    };
-
-    ImagesManager.prototype.isPresent = function(imageId) {
-      var saved, _i, _len, _ref;
-      _ref = this.list;
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        saved = _ref[_i];
-        if (saved.id === imageId) {
-          return true;
-        }
-      }
-      return false;
-    };
-
-    ImagesManager.prototype.isEmpty = function() {
-      return this.list.length === 0;
-    };
-
-    ImagesManager.prototype.addImage = function(src, options) {
-      var new_image;
-      if (options == null) {
-        options = {};
-      }
-      new_image = this.loadImage(src, options);
-      if (new_image && !this.isPresent(new_image.image_id)) {
-        this.list.push({
-          id: new_image.image_id,
-          src: new_image.src
-        });
-        this.saveList();
-      }
-      return new_image;
-    };
-
-    ImagesManager.prototype.loadImage = function(src, options) {
-      var css, image, imageId;
-      if (options == null) {
-        options = {};
-      }
-      imageId = OverlayMe.Helpers.urlToId(src);
-      if (!($o("#overlay_me_images_container #" + imageId).length > 0)) {
-        css = $o.extend({
-          display: 'block'
-        }, options.css);
-        image = new OverlayMe.Views.Image(src, {
-          destroyable: true,
-          css: css
-        });
-        OverlayMe.images_management_div.append(image.render());
-      }
-      return image;
-    };
-
-    ImagesManager.prototype.delImage = function(imageId) {
-      var image, _i, _len, _ref;
-      _ref = this.list;
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        image = _ref[_i];
-        if (image.id === imageId) {
-          this.list.splice(this.list.indexOf(image), 1);
-          this.saveList();
-          break;
-        }
-      }
-      return OverlayMe.images_management_div.del(imageId);
-    };
-
-    ImagesManager.prototype.loadAll = function() {
-      var image, _i, _len, _ref, _results;
-      _ref = this.list;
-      _results = [];
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        image = _ref[_i];
-        _results.push(this.addImage(image.src));
-      }
-      return _results;
-    };
-
-    ImagesManager.prototype.saveList = function() {
-      return localStorage.setItem('dyn_image_list', JSON.stringify(this.list));
-    };
-
-    return ImagesManager;
-
-  })(Backbone.Model);
-
-}).call(this);
-(function() {
-  var __hasProp = {}.hasOwnProperty,
-    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
-
-  OverlayMe.Views.ContainerItself = (function(_super) {
-
-    __extends(ContainerItself, _super);
-
-    ContainerItself.name = 'ContainerItself';
-
-    function ContainerItself() {
-      return ContainerItself.__super__.constructor.apply(this, arguments);
-    }
-
-    ContainerItself.prototype.tagName = 'div';
-
-    ContainerItself.prototype.savableCss = ['display'];
-
-    ContainerItself.prototype.initialize = function(attributes, options) {
-      var _this = this;
-      ContainerItself.__super__.initialize.call(this, attributes, options);
-      this.loadCss();
-      return $o(window).bind("overlay_me:toggle_" + this.id + "_display", function(event, options) {
-        if (options) {
-          if (options.show) {
-            return _this.show();
-          } else {
-            return _this.hide();
-          }
-        } else {
-          return _this.toggleDisplay();
-        }
-      });
-    };
-
-    return ContainerItself;
-
-  })(Backbone.View);
-
-  _.extend(OverlayMe.Views.ContainerItself.prototype, OverlayMe.Mixin.Storable);
-
-  _.extend(OverlayMe.Views.ContainerItself.prototype, OverlayMe.Mixin.Hideable);
-
-  OverlayMe.Views.ImagesContainer = (function(_super) {
-
-    __extends(ImagesContainer, _super);
-
-    ImagesContainer.name = 'ImagesContainer';
-
-    function ImagesContainer() {
-      return ImagesContainer.__super__.constructor.apply(this, arguments);
-    }
-
-    ImagesContainer.prototype.initialize = function(options) {
-      var container;
-      if (!OverlayMe.images_container) {
-        OverlayMe.images_container = new OverlayMe.Views.ContainerItself({
-          id: 'overlay_me_images_container',
-          className: 'overlayme-images-container'
-        });
-        $o('body').append(OverlayMe.images_container.el);
-      }
-      if (options.parent_path) {
-        container = this.subDirContainer(options.parent_path);
-      } else {
-        container = OverlayMe.images_container;
-      }
-      return this.el = container.el || container;
-    };
-
-    ImagesContainer.prototype.subDirContainer = function(path, done_bits) {
-      var path_bits, sub_container, sub_container_parent_post_string, the_dir;
-      if (done_bits == null) {
-        done_bits = [];
-      }
-      path_bits = _.difference(path.split('/'), _.union(done_bits, ''));
-      the_dir = path_bits.slice(0, 1).toString();
-      if (done_bits.length > 0) {
-        sub_container_parent_post_string = done_bits.join(' ').replace(/\ ?(\w+)/g, ' #$1_container');
-      } else {
-        sub_container_parent_post_string = '';
-      }
-      sub_container = $o("#overlay_me_images_container " + sub_container_parent_post_string + " #" + (the_dir + '_container'));
-      if (sub_container.length < 1) {
-        sub_container = new OverlayMe.Views.ContainerItself({
-          id: the_dir + '_container'
-        });
-        $o("#overlay_me_images_container " + sub_container_parent_post_string).append(sub_container.el);
-      }
-      if (path_bits.length > 1) {
-        done_bits.push(the_dir);
-        return this.subDirContainer(path, done_bits);
-      } else {
-        return sub_container;
-      }
-    };
-
-    return ImagesContainer;
-
-  })(Backbone.View);
 
 }).call(this);
 (function() {
@@ -12962,6 +12754,108 @@ function style(element, styles) {
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
 
+  OverlayMe.Views.ContainerItself = (function(_super) {
+
+    __extends(ContainerItself, _super);
+
+    ContainerItself.name = 'ContainerItself';
+
+    function ContainerItself() {
+      return ContainerItself.__super__.constructor.apply(this, arguments);
+    }
+
+    ContainerItself.prototype.tagName = 'div';
+
+    ContainerItself.prototype.savableCss = ['display'];
+
+    ContainerItself.prototype.initialize = function(attributes, options) {
+      var _this = this;
+      ContainerItself.__super__.initialize.call(this, attributes, options);
+      this.loadCss();
+      return $o(window).bind("overlay_me:toggle_" + this.id + "_display", function(event, options) {
+        if (options) {
+          if (options.show) {
+            return _this.show();
+          } else {
+            return _this.hide();
+          }
+        } else {
+          return _this.toggleDisplay();
+        }
+      });
+    };
+
+    return ContainerItself;
+
+  })(Backbone.View);
+
+  _.extend(OverlayMe.Views.ContainerItself.prototype, OverlayMe.Mixin.Storable);
+
+  _.extend(OverlayMe.Views.ContainerItself.prototype, OverlayMe.Mixin.Hideable);
+
+  OverlayMe.Views.ImagesContainer = (function(_super) {
+
+    __extends(ImagesContainer, _super);
+
+    ImagesContainer.name = 'ImagesContainer';
+
+    function ImagesContainer() {
+      return ImagesContainer.__super__.constructor.apply(this, arguments);
+    }
+
+    ImagesContainer.prototype.initialize = function(options) {
+      var container;
+      if (!OverlayMe.images_container) {
+        OverlayMe.images_container = new OverlayMe.Views.ContainerItself({
+          id: 'overlay_me_images_container',
+          className: 'overlayme-images-container'
+        });
+        $o('body').append(OverlayMe.images_container.el);
+      }
+      if (options.parent_path) {
+        container = this.subDirContainer(options.parent_path);
+      } else {
+        container = OverlayMe.images_container;
+      }
+      return this.el = container.el || container;
+    };
+
+    ImagesContainer.prototype.subDirContainer = function(path, done_bits) {
+      var path_bits, sub_container, sub_container_parent_post_string, the_dir;
+      if (done_bits == null) {
+        done_bits = [];
+      }
+      path_bits = _.difference(path.split('/'), _.union(done_bits, ''));
+      the_dir = path_bits.slice(0, 1).toString();
+      if (done_bits.length > 0) {
+        sub_container_parent_post_string = done_bits.join(' ').replace(/\ ?(\w+)/g, ' #$1_container');
+      } else {
+        sub_container_parent_post_string = '';
+      }
+      sub_container = $o("#overlay_me_images_container " + sub_container_parent_post_string + " #" + (the_dir + '_container'));
+      if (sub_container.length < 1) {
+        sub_container = new OverlayMe.Views.ContainerItself({
+          id: the_dir + '_container'
+        });
+        $o("#overlay_me_images_container " + sub_container_parent_post_string).append(sub_container.el);
+      }
+      if (path_bits.length > 1) {
+        done_bits.push(the_dir);
+        return this.subDirContainer(path, done_bits);
+      } else {
+        return sub_container;
+      }
+    };
+
+    return ImagesContainer;
+
+  })(Backbone.View);
+
+}).call(this);
+(function() {
+  var __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+
   OverlayMe.Views.ImagesDirectory = (function(_super) {
 
     __extends(ImagesDirectory, _super);
@@ -13038,98 +12932,6 @@ function style(element, styles) {
     return ImagesDirectory;
 
   })(Backbone.View);
-
-}).call(this);
-(function() {
-  var __hasProp = {}.hasOwnProperty,
-    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
-
-  OverlayMe.Views.PageSettings = (function(_super) {
-
-    __extends(PageSettings, _super);
-
-    PageSettings.name = 'PageSettings';
-
-    function PageSettings() {
-      return PageSettings.__super__.constructor.apply(this, arguments);
-    }
-
-    PageSettings.prototype.tagName = 'div';
-
-    PageSettings.prototype.className = 'content-mgnt-block section';
-
-    PageSettings.prototype.id = 'content_div_management_block';
-
-    PageSettings.prototype.savableCss = ['z-index', 'opacity'];
-
-    PageSettings.prototype.zIndexes = {
-      normal: 0,
-      over: 5
-    };
-
-    PageSettings.prototype.template = '\
-    <div>\
-      <label for="content-opacity">Page Opacity</label>\
-      <input id="content-opacity" type="range" value="100" data-behavior="change-content-opacity">\
-    </div>\
-    <div>\
-      <label for="content-on-top" title="t">Content on top</label>\
-      <input type="checkbox" id="content-on-top" data-behavior="toggle-content-on-top">\
-    </div>\
-  ';
-
-    PageSettings.prototype.initialize = function() {
-      var $pageContainer, contentTopToggle, opacityField,
-        _this = this;
-      this.$el = $o(this.el);
-      contentTopToggle = '[data-behavior~=toggle-content-on-top]';
-      opacityField = '[data-behavior~=change-content-opacity]';
-      $pageContainer = $o('<div />', {
-        id: 'overlay_me_page_container'
-      });
-      $o('body').append($pageContainer).children('*').each(function(index, element) {
-        if (!(element.id.match(/^overlay_me/) || element.tagName === 'SCRIPT')) {
-          return $pageContainer.append(element);
-        }
-      });
-      this.loadCss($pageContainer, {
-        'z-index': this.zIndexes.normal
-      });
-      setTimeout(function() {
-        if (parseInt($pageContainer.css('z-index'), 10) === _this.zIndexes.over) {
-          return $o(contentTopToggle)[0].checked = true;
-        }
-      }, 500);
-      this.$el.on('change', opacityField, function() {
-        var $slider, opacity;
-        $slider = $o(opacityField);
-        opacity = parseInt($slider.val(), 10) / 100;
-        $pageContainer.css('opacity', opacity);
-        return _this.saveCss($pageContainer);
-      }).on('change', contentTopToggle, function() {
-        var zIndex;
-        zIndex = $o(contentTopToggle).is(':checked') ? _this.zIndexes.over : _this.zIndexes.normal;
-        $pageContainer.css('z-index', zIndex);
-        return _this.saveCss($pageContainer);
-      });
-      return $o(window).on('keypress', function(e) {
-        if (event.charCode === 116) {
-          return $o(contentTopToggle).trigger('click');
-        }
-      });
-    };
-
-    PageSettings.prototype.render = function() {
-      var template;
-      template = _.template(this.template, {});
-      return this.$el.html(template);
-    };
-
-    return PageSettings;
-
-  })(Backbone.View);
-
-  _.extend(OverlayMe.Views.PageSettings.prototype, OverlayMe.Mixin.Storable);
 
 }).call(this);
 (function() {
@@ -13259,6 +13061,204 @@ function style(element, styles) {
     return ImagesManager;
 
   })(Backbone.View);
+
+}).call(this);
+(function() {
+  var __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+
+  OverlayMe.Views.MenuClass = (function(_super) {
+
+    __extends(MenuClass, _super);
+
+    MenuClass.name = 'MenuClass';
+
+    function MenuClass() {
+      return MenuClass.__super__.constructor.apply(this, arguments);
+    }
+
+    MenuClass.prototype.id = 'overlay_me_menu';
+
+    MenuClass.prototype.className = 'overlayme-menu';
+
+    MenuClass.prototype.template = '\
+    <div class=menu-header data-behavior=drag-menu>\
+      <span class=menu-header__title>Overlay Me</span>\
+      <span class=menu-header__reset data-behavior=reset-all></span>\
+      <span class=menu-header__toggle data-behavior=toggle-menu></span>\
+    </div>\
+    <div class="menu-list">\
+    </div>\
+  ';
+
+    MenuClass.prototype.draggable = {
+      axes: {
+        x: false
+      },
+      boundaries: {
+        top: 0,
+        bottom: function() {
+          return -($o('#overlay_me_menu').outerHeight() - $o('.menu-header').outerHeight());
+        }
+      }
+    };
+
+    MenuClass.prototype.initialize = function(attributes) {
+      var drag, reset, toggle,
+        _this = this;
+      MenuClass.__super__.initialize.call(this, attributes, {
+        css: {
+          top: 50
+        }
+      });
+      this.$el = $o(this.el);
+      toggle = '[data-behavior~=toggle-menu]';
+      reset = '[data-behavior~=reset-all]';
+      drag = '[data-behavior~=drag-menu]';
+      key('h', function() {
+        return OverlayMe.toggle();
+      });
+      key('c', function() {
+        return OverlayMe.menu.toggleCollapse();
+      });
+      key('r', function() {
+        return OverlayMe.clearAndReload();
+      });
+      $o('body').append(this.render());
+      this.$el.on('mousedown', drag, function(e) {
+        return _this.toggleMove(e);
+      }).on('mousedown', "" + toggle + ", " + reset, function(e) {
+        return e.stopPropagation();
+      }).on('click', toggle, function(e) {
+        return OverlayMe.menu.toggleCollapse();
+      }).on('click', reset, function(e) {
+        return OverlayMe.clearAndReload();
+      }).on('mouseenter', function(e) {
+        return $o('body').css('overflow', 'hidden');
+      }).on('mouseleave', function(e) {
+        return $o('body').css('overflow', '');
+      });
+      return $o(window).on('mouseup', function(e) {
+        return _this.endMove(e);
+      }).on('overlay_me:toggle_all_display', function() {
+        return _this.toggleDisplay();
+      });
+    };
+
+    MenuClass.prototype.append = function(element) {
+      return this.$el.find('.menu-list').append(element);
+    };
+
+    MenuClass.prototype.toggleCollapse = function() {
+      this.$el.toggleClass('collapsed');
+      return this.updatePosition();
+    };
+
+    MenuClass.prototype.collapsed = function() {
+      return this.$el.hasClass('collapsed');
+    };
+
+    MenuClass.prototype.render = function() {
+      var template;
+      template = _.template(this.template, {});
+      return this.$el.html(template);
+    };
+
+    return MenuClass;
+
+  })(OverlayMe.DraggableView);
+
+}).call(this);
+(function() {
+  var __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+
+  OverlayMe.Views.PageSettings = (function(_super) {
+
+    __extends(PageSettings, _super);
+
+    PageSettings.name = 'PageSettings';
+
+    function PageSettings() {
+      return PageSettings.__super__.constructor.apply(this, arguments);
+    }
+
+    PageSettings.prototype.tagName = 'div';
+
+    PageSettings.prototype.className = 'content-mgnt-block section';
+
+    PageSettings.prototype.id = 'content_div_management_block';
+
+    PageSettings.prototype.savableCss = ['z-index', 'opacity'];
+
+    PageSettings.prototype.zIndexes = {
+      normal: 0,
+      over: 5
+    };
+
+    PageSettings.prototype.template = '\
+    <div>\
+      <label for="content-opacity">Page Opacity</label>\
+      <input id="content-opacity" type="range" value="100" data-behavior="change-content-opacity">\
+    </div>\
+    <div>\
+      <label for="content-on-top" title="t">Content on top</label>\
+      <input type="checkbox" id="content-on-top" data-behavior="toggle-content-on-top">\
+    </div>\
+  ';
+
+    PageSettings.prototype.initialize = function() {
+      var $pageContainer, contentTopToggle, opacityField,
+        _this = this;
+      this.$el = $o(this.el);
+      contentTopToggle = '[data-behavior~=toggle-content-on-top]';
+      opacityField = '[data-behavior~=change-content-opacity]';
+      $pageContainer = $o('<div />', {
+        id: 'overlay_me_page_container'
+      });
+      $o('body').append($pageContainer).children('*').each(function(index, element) {
+        if (!(element.id.match(/^overlay_me/) || element.tagName === 'SCRIPT')) {
+          return $pageContainer.append(element);
+        }
+      });
+      this.loadCss($pageContainer, {
+        'z-index': this.zIndexes.normal
+      });
+      setTimeout(function() {
+        if (parseInt($pageContainer.css('z-index'), 10) === _this.zIndexes.over) {
+          return $o(contentTopToggle)[0].checked = true;
+        }
+      }, 500);
+      this.$el.on('change', opacityField, function() {
+        var $slider, opacity;
+        $slider = $o(opacityField);
+        opacity = parseInt($slider.val(), 10) / 100;
+        $pageContainer.css('opacity', opacity);
+        return _this.saveCss($pageContainer);
+      }).on('change', contentTopToggle, function() {
+        var zIndex;
+        zIndex = $o(contentTopToggle).is(':checked') ? _this.zIndexes.over : _this.zIndexes.normal;
+        $pageContainer.css('z-index', zIndex);
+        return _this.saveCss($pageContainer);
+      });
+      return $o(window).on('keypress', function(e) {
+        if (event.charCode === 116) {
+          return $o(contentTopToggle).trigger('click');
+        }
+      });
+    };
+
+    PageSettings.prototype.render = function() {
+      var template;
+      template = _.template(this.template, {});
+      return this.$el.html(template);
+    };
+
+    return PageSettings;
+
+  })(Backbone.View);
+
+  _.extend(OverlayMe.Views.PageSettings.prototype, OverlayMe.Mixin.Storable);
 
 }).call(this);
 (function() {

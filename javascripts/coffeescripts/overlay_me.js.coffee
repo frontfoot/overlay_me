@@ -6,20 +6,10 @@
 
 #= require 'init'
 
-#= require 'mixins/hideable'
-#= require 'mixins/storable'
-#= require 'views/draggable'
-
-#= require 'helpers/url_to_id'
-
-#= require 'views/menu'
-#= require 'models/images_manager'
-#= require 'views/images_container'
-#= require 'views/draggable_image'
-#= require 'views/image'
-#= require 'views/images_directory'
-#= require 'views/page_settings'
-#= require 'views/images_manager'
+#= require_tree './helpers'
+#= require_tree './mixins'
+#= require_tree './models'
+#= require_tree './views'
 #= require 'overlays_panel'
 
 OverlayMe.init = ->
