@@ -12565,7 +12565,8 @@ function style(element, styles) {
     };
 
     DraggableImage.prototype.initialize = function(attributes, options) {
-      var _this = this;
+      var pos, _i, _len, _ref,
+        _this = this;
       DraggableImage.__super__.initialize.call(this, attributes, options);
       this.$el = $o(this.el);
       this.image = new Image();
@@ -12576,11 +12577,12 @@ function style(element, styles) {
       });
       $o(this.image).attr('src', this.src);
       this.$el.append(this.image);
-      if ($o(this.el).css('left') === 'auto' || this.$el.css('left') === '') {
-        this.$el.css('left', 0);
-      }
-      if ($o(this.el).css('top') === 'auto' || this.$el.css('top') === '') {
-        this.$el.css('top', 0);
+      _ref = ['left', 'top'];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        pos = _ref[_i];
+        if (this.$el.css(pos) === 'auto' || this.$el.css(pos) === '') {
+          this.$el.css(pos, 0);
+        }
       }
       this.$el.on('mousedown', function(e) {
         return _this.toggleMove(e);
@@ -12595,12 +12597,13 @@ function style(element, styles) {
     };
 
     DraggableImage.prototype.fitDivToImage = function() {
-      if (this.image.width > 0) {
-        return this.$el.css({
-          width: this.image.width,
-          height: this.image.height
-        });
+      if (!this.image.width) {
+        return;
       }
+      return this.$el.css({
+        width: this.image.width,
+        height: this.image.height
+      });
     };
 
     DraggableImage.prototype.setAsLastMoved = function() {

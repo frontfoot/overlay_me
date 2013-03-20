@@ -23,8 +23,8 @@ class OverlayMe.Views.DraggableImage extends OverlayMe.DraggableView
     @$el.append @image
 
     # force positioning to 0 by default
-    @$el.css('left', 0) if $o(@el).css('left') == 'auto' || @$el.css('left') == ''
-    @$el.css('top', 0) if $o(@el).css('top') == 'auto' || @$el.css('top') == ''
+    for pos in ['left', 'top']
+      @$el.css(pos, 0) if @$el.css(pos) == 'auto' || @$el.css(pos) == ''
 
     @$el
       .on 'mousedown', (e) =>
@@ -38,10 +38,10 @@ class OverlayMe.Views.DraggableImage extends OverlayMe.DraggableView
       @endMove e
 
   fitDivToImage: ->
-    if @image.width > 0
-      @$el.css 
-        width: @image.width
-        height: @image.height
+    return unless @image.width
+    @$el.css 
+      width: @image.width
+      height: @image.height
 
   setAsLastMoved: ->
     localStorage.setItem 'last-moved', @id
