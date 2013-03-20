@@ -12182,6 +12182,16 @@ function style(element, styles) {
     });
   };
 
+  OverlayMe.loadDefaultImage = function() {
+    if (OverlayMe.imageManager.isEmpty()) {
+      return OverlayMe.imageManager.add('http://octodex.github.com/images/original.jpg', {
+        css: {
+          left: "" + (window.document.width * .6) + "px"
+        }
+      });
+    }
+  };
+
 }).call(this);
 (function() {
 
@@ -13222,15 +13232,6 @@ function style(element, styles) {
       });
       OverlayMe.imageManager = new OverlayMe.Models.ImagesManager();
       OverlayMe.imageManager.loadAll();
-      OverlayMe.loadDefaultImage = function() {
-        if (OverlayMe.imageManager.isEmpty()) {
-          return OverlayMe.imageManager.add('http://octodex.github.com/images/original.jpg', {
-            css: {
-              left: "" + (window.document.width * .6) + "px"
-            }
-          });
-        }
-      };
       return OverlayMe.loadDefaultImage();
     };
 

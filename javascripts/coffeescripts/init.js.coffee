@@ -53,3 +53,9 @@ OverlayMe.initKeyMoves = ->
     key "shift+#{keyPressed}", ->
       OverlayMe.moveLast dirs, 15
       false
+
+OverlayMe.loadDefaultImage = ->
+  # double check that the dynamic loading list is also empty
+  if OverlayMe.imageManager.isEmpty()
+    OverlayMe.imageManager.add('http://octodex.github.com/images/original.jpg', {css: { left: "#{window.document.width*.6}px"}} )
+
