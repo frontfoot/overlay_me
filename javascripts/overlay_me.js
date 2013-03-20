@@ -12137,16 +12137,16 @@ function style(element, styles) {
 
   OverlayMe.clearAndReload = function() {
     localStorage.clear();
-    return OverlayMe.pageReload();
+    return OverlayMe.reloadPage();
+  };
+
+  OverlayMe.reloadPage = function() {
+    return window.location.reload();
   };
 
   OverlayMe.toggle = function() {
     $o(window).trigger('overlay_me:toggle_all_display');
     return $o(window).trigger('overlay_me:toggle_overlay_me_images_container_display');
-  };
-
-  OverlayMe.pageReload = function() {
-    return window.location.reload();
   };
 
   OverlayMe.moveLast = function(dirs, multiplier) {

@@ -20,15 +20,15 @@ OverlayMe.isMobile = ->
 # helper to clear all stored informations and reload the page
 OverlayMe.clearAndReload = ->
   localStorage.clear()
-  OverlayMe.pageReload()
+  OverlayMe.reloadPage()
+
+# separate system calls in a local functions (allow tests stubing)
+OverlayMe.reloadPage = ->
+  window.location.reload()
 
 OverlayMe.toggle = ->
   $o(window).trigger 'overlay_me:toggle_all_display'
   $o(window).trigger 'overlay_me:toggle_overlay_me_images_container_display'
-
-# separate system calls in a local functions (allow tests stubing)
-OverlayMe.pageReload = ->
-  window.location.reload()
 
 # move last image touched by keypress
 OverlayMe.moveLast = (dirs, multiplier = 1) ->
