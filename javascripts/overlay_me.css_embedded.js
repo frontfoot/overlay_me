@@ -12864,88 +12864,6 @@ function style(element, styles) {
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
 
-  OverlayMe.Views.ImagesDirectory = (function(_super) {
-
-    __extends(ImagesDirectory, _super);
-
-    ImagesDirectory.name = 'ImagesDirectory';
-
-    function ImagesDirectory() {
-      return ImagesDirectory.__super__.constructor.apply(this, arguments);
-    }
-
-    ImagesDirectory.prototype.tagName = 'div';
-
-    ImagesDirectory.prototype.className = 'images_dir';
-
-    ImagesDirectory.prototype.initialize = function(dirname) {
-      var _this = this;
-      this.$el = $o(this.el);
-      this.dirname = dirname;
-      this.contentBlock = this.make('div', {
-        id: this.dirname,
-        "class": 'sub-block'
-      });
-      _.extend(this.contentBlock, OverlayMe.Mixins.Hideable);
-      _.extend(this.contentBlock, OverlayMe.Mixins.Storable);
-      this.contentBlock.savableCss = ['display'];
-      this.contentBlock.loadCss(this.contentBlock);
-      this.$el.append(this.checkbox());
-      this.$el.append(this.label());
-      this.$el.append(this.contentBlock);
-      return this.$el.bind('click', function(e) {
-        e.stopPropagation();
-        return _this.checkbox.click();
-      });
-    };
-
-    ImagesDirectory.prototype.checkbox = function() {
-      var _this = this;
-      this.checkbox = this.make('input', {
-        type: "checkbox"
-      });
-      if (this.contentBlock.isDisplayed()) {
-        this.checkbox.checked = true;
-      }
-      $o(this.checkbox).bind('click', function(e) {
-        e.stopPropagation();
-        return _this.flickVisibility();
-      });
-      return this.checkbox;
-    };
-
-    ImagesDirectory.prototype.flickVisibility = function() {
-      if (this.checkbox.checked) {
-        this.contentBlock.show();
-      } else {
-        this.contentBlock.hide();
-      }
-      return $o(window).trigger("overlay_me:toggle_" + this.dirname + "_container_display", {
-        show: this.checkbox.checked
-      });
-    };
-
-    ImagesDirectory.prototype.label = function() {
-      return this.label = this.make('label', {}, '/' + this.dirname + '/');
-    };
-
-    ImagesDirectory.prototype.append = function(block) {
-      return this.contentBlock.appendChild(block);
-    };
-
-    ImagesDirectory.prototype.render = function() {
-      return this.el;
-    };
-
-    return ImagesDirectory;
-
-  })(Backbone.View);
-
-}).call(this);
-(function() {
-  var __hasProp = {}.hasOwnProperty,
-    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
-
   OverlayMe.Views.ImagesManager = (function(_super) {
 
     __extends(ImagesManager, _super);
@@ -13293,7 +13211,6 @@ function style(element, styles) {
     };
 
     OverlaysPanel.prototype.initialize = function(attributes, options) {
-      var buildTree, displayTree, files_tree, shiftTofiles;
       this.$el = $o(this.el);
       this.$el.addClass('overlays-panel');
       OverlayMe.images_management_div = new OverlayMe.Views.ImagesManager();
@@ -13313,90 +13230,7 @@ function style(element, styles) {
           });
         }
       };
-      $o.ajax({
-        url: '/overlay_images',
-        dataType: 'json',
-        success: function(data) {
-          if (data.length === 0) {
-            return OverlayMe.loadDefaultImage();
-          } else {
-            return buildTree(data);
-          }
-        },
-        error: function() {
-          return OverlayMe.loadDefaultImage();
-        }
-      });
-      files_tree = {};
-      buildTree = function(data) {
-        $o.each(data, function(index, img_path) {
-          var bit, bits, parent_path, position, _results;
-          bits = img_path.split('/');
-          position = files_tree;
-          parent_path = '/';
-          _results = [];
-          while (bits.length > 0) {
-            bit = bits[0];
-            bits = bits.slice(1);
-            if (bit === "") {
-              continue;
-            }
-            parent_path += bit + '/';
-            if (position[bit] === void 0) {
-              if (bits.length > 0) {
-                position[bit] = {
-                  parent_path: parent_path
-                };
-              } else {
-                if (position['files'] === void 0) {
-                  position['files'] = [];
-                }
-                position['files'].push(bit);
-              }
-            }
-            _results.push(position = position[bit]);
-          }
-          return _results;
-        });
-        files_tree = shiftTofiles(files_tree);
-        return displayTree(OverlayMe.images_management_div, files_tree);
-      };
-      shiftTofiles = function(tree) {
-        var keys;
-        if (tree.files) {
-          return tree;
-        }
-        keys = Object.keys(tree);
-        if (keys.length > 2) {
-          return tree;
-        }
-        keys = _.without(keys, 'parent_path');
-        return shiftTofiles(tree[keys[0]]);
-      };
-      return displayTree = function(parent, tree) {
-        var dir, img, sub_dir, _i, _j, _len, _len1, _ref, _ref1, _results;
-        _ref = Object.keys(tree);
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          dir = _ref[_i];
-          if (dir === 'files' || dir === 'parent_path') {
-            continue;
-          }
-          sub_dir = new OverlayMe.Views.ImagesDirectory(dir);
-          parent.append(sub_dir.render());
-          displayTree(sub_dir, tree[dir]);
-        }
-        if (tree.files) {
-          _ref1 = tree.files;
-          _results = [];
-          for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
-            img = _ref1[_j];
-            _results.push(parent.append(new OverlayMe.Views.Image(tree.parent_path + img, {
-              parent_path: tree.parent_path
-            }).render()));
-          }
-          return _results;
-        }
-      };
+      return OverlayMe.loadDefaultImage();
     };
 
     return OverlaysPanel;
