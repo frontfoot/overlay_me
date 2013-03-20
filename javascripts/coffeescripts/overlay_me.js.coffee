@@ -11,7 +11,6 @@
 #= require 'draggable'
 
 #= require 'menu'
-#= require 'overlays/init'
 #= require 'overlays/images_container'
 #= require 'overlays/draggable_image'
 #= require 'overlays/image'
