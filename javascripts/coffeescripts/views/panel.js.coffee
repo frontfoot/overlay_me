@@ -43,7 +43,7 @@ class OverlayMe.Views.Panel extends OverlayMe.DraggableView
     key 'h', ->
       OverlayMe.toggle()
     key 'c', ->
-      OverlayMe.menu.toggleCollapse()
+      OverlayMe.panel.toggleCollapse()
     key 'r', ->
       OverlayMe.clearAndReload()
 
@@ -56,7 +56,7 @@ class OverlayMe.Views.Panel extends OverlayMe.DraggableView
         e.stopPropagation()
 
       .on 'click', toggle, (e) ->
-        OverlayMe.menu.toggleCollapse()
+        OverlayMe.panel.toggleCollapse()
 
       .on 'click', reset, (e) ->
         OverlayMe.clearAndReload()

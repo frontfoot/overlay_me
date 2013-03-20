@@ -13152,7 +13152,7 @@ function style(element, styles) {
         return OverlayMe.toggle();
       });
       key('c', function() {
-        return OverlayMe.menu.toggleCollapse();
+        return OverlayMe.panel.toggleCollapse();
       });
       key('r', function() {
         return OverlayMe.clearAndReload();
@@ -13162,7 +13162,7 @@ function style(element, styles) {
       }).on('mousedown', "" + toggle + ", " + reset, function(e) {
         return e.stopPropagation();
       }).on('click', toggle, function(e) {
-        return OverlayMe.menu.toggleCollapse();
+        return OverlayMe.panel.toggleCollapse();
       }).on('click', reset, function(e) {
         return OverlayMe.clearAndReload();
       }).on('mouseenter', function(e) {
