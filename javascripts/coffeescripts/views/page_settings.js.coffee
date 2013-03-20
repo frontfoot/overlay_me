@@ -63,4 +63,4 @@ class OverlayMe.Views.PageSettings extends Backbone.View
     template = _.template @template, {}
     @$el.html template
 
-_.extend OverlayMe.Views.PageSettings.prototype, OverlayMe.Mixin.Storable
+_.extend OverlayMe.Views.PageSettings.prototype, OverlayMe.Mixins.Storable

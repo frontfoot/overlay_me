@@ -2,7 +2,7 @@
 this.OverlayMe     = {}
 OverlayMe.Models   = {}
 OverlayMe.Views    = {}
-OverlayMe.Mixin    = {}
+OverlayMe.Mixins   = {}
 OverlayMe.Overlays = {}
 OverlayMe.Helpers  = {}
 

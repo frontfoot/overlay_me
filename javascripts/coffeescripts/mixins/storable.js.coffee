@@ -1,4 +1,4 @@
-OverlayMe.Mixin.Storable =
+OverlayMe.Mixins.Storable =
   loadCss: (el = @el, css) ->
     return unless @id
 

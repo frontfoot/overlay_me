@@ -8,8 +8,8 @@ class OverlayMe.Views.ImagesDirectory extends Backbone.View
 
     @dirname = dirname
     @contentBlock = @make 'div', { id: @dirname, class: 'sub-block' }
-    _.extend @contentBlock, OverlayMe.Mixin.Hideable
-    _.extend @contentBlock, OverlayMe.Mixin.Storable
+    _.extend @contentBlock, OverlayMe.Mixins.Hideable
+    _.extend @contentBlock, OverlayMe.Mixins.Storable
     @contentBlock.savableCss = ['display']
     @contentBlock.loadCss(@contentBlock)
     @$el.append @checkbox()

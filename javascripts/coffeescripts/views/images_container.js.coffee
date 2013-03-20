@@ -12,8 +12,8 @@ class OverlayMe.Views.ContainerItself extends Backbone.View
       else
         @toggleDisplay()
 
-_.extend OverlayMe.Views.ContainerItself.prototype, OverlayMe.Mixin.Storable
-_.extend OverlayMe.Views.ContainerItself.prototype, OverlayMe.Mixin.Hideable
+_.extend OverlayMe.Views.ContainerItself.prototype, OverlayMe.Mixins.Storable
+_.extend OverlayMe.Views.ContainerItself.prototype, OverlayMe.Mixins.Hideable
 
 
 

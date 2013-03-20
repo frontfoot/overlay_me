@@ -12119,7 +12119,7 @@ function style(element, styles) {
 
   OverlayMe.Views = {};
 
-  OverlayMe.Mixin = {};
+  OverlayMe.Mixins = {};
 
   OverlayMe.Overlays = {};
 
@@ -12199,7 +12199,7 @@ function style(element, styles) {
 }).call(this);
 (function() {
 
-  OverlayMe.Mixin.Hideable = {
+  OverlayMe.Mixins.Hideable = {
     isDisplayed: function() {
       var el;
       el = this.el || this;
@@ -12236,7 +12236,7 @@ function style(element, styles) {
 }).call(this);
 (function() {
 
-  OverlayMe.Mixin.Storable = {
+  OverlayMe.Mixins.Storable = {
     loadCss: function(el, css) {
       var $el, cssData;
       if (el == null) {
@@ -12535,9 +12535,9 @@ function style(element, styles) {
 
   })(Backbone.View);
 
-  _.extend(OverlayMe.DraggableView.prototype, OverlayMe.Mixin.Storable);
+  _.extend(OverlayMe.DraggableView.prototype, OverlayMe.Mixins.Storable);
 
-  _.extend(OverlayMe.DraggableView.prototype, OverlayMe.Mixin.Hideable);
+  _.extend(OverlayMe.DraggableView.prototype, OverlayMe.Mixins.Hideable);
 
 }).call(this);
 (function() {
@@ -12794,9 +12794,9 @@ function style(element, styles) {
 
   })(Backbone.View);
 
-  _.extend(OverlayMe.Views.ContainerItself.prototype, OverlayMe.Mixin.Storable);
+  _.extend(OverlayMe.Views.ContainerItself.prototype, OverlayMe.Mixins.Storable);
 
-  _.extend(OverlayMe.Views.ContainerItself.prototype, OverlayMe.Mixin.Hideable);
+  _.extend(OverlayMe.Views.ContainerItself.prototype, OverlayMe.Mixins.Hideable);
 
   OverlayMe.Views.ImagesContainer = (function(_super) {
 
@@ -12883,8 +12883,8 @@ function style(element, styles) {
         id: this.dirname,
         "class": 'sub-block'
       });
-      _.extend(this.contentBlock, OverlayMe.Mixin.Hideable);
-      _.extend(this.contentBlock, OverlayMe.Mixin.Storable);
+      _.extend(this.contentBlock, OverlayMe.Mixins.Hideable);
+      _.extend(this.contentBlock, OverlayMe.Mixins.Storable);
       this.contentBlock.savableCss = ['display'];
       this.contentBlock.loadCss(this.contentBlock);
       this.$el.append(this.checkbox());
@@ -13263,7 +13263,7 @@ function style(element, styles) {
 
   })(Backbone.View);
 
-  _.extend(OverlayMe.Views.PageSettings.prototype, OverlayMe.Mixin.Storable);
+  _.extend(OverlayMe.Views.PageSettings.prototype, OverlayMe.Mixins.Storable);
 
 }).call(this);
 (function() {

@@ -1,4 +1,4 @@
-OverlayMe.Mixin.Hideable =
+OverlayMe.Mixins.Hideable =
   isDisplayed: ->
     el = @el || this
     $o(el).css('display') != 'none'
