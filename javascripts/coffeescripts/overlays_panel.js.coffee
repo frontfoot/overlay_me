@@ -1,11 +1,3 @@
-#= require 'menu'
-#= require 'overlays/init'
-#= require 'overlays/image'
-#= require 'overlays/images_directory'
-#= require 'overlays/dynamic_images_mngmt'
-#= require 'overlays/content_div_mngmt'
-#= require 'overlays/images_mngt_div'
-
 class OverlayMe.OverlaysPanel extends Backbone.View
 
   render: ->
