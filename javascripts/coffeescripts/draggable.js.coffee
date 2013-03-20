@@ -1,4 +1,4 @@
-class OverlayMe.Draggable extends Backbone.View
+class OverlayMe.DraggableView extends Backbone.View
 
   savableCss: ['top', 'left', 'display', 'opacity']
 
@@ -100,6 +100,6 @@ class OverlayMe.Draggable extends Backbone.View
     @$el
 
 # extending few mixins - thx Derick - http://stackoverflow.com/questions/7853731/proper-way-of-doing-view-mixins-in-backbone
-_.extend OverlayMe.Draggable.prototype, OverlayMe.Mixin.Storable
-_.extend OverlayMe.Draggable.prototype, OverlayMe.Mixin.Hideable
+_.extend OverlayMe.DraggableView.prototype, OverlayMe.Mixin.Storable
+_.extend OverlayMe.DraggableView.prototype, OverlayMe.Mixin.Hideable
 

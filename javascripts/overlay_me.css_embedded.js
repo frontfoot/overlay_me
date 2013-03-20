@@ -12113,9 +12113,11 @@ function style(element, styles) {
 })();
 (function() {
 
-  window.OverlayMe = {};
+  this.OverlayMe = {};
 
-  window.OverlayMe.Mixin = {};
+  this.OverlayMe.Mixin = {};
+
+  this.OverlayMe.Overlays = {};
 
   OverlayMe.injectCSS = function() {
     return $o('head').append('<style rel="stylesheet" type="text/css">#overlay_me_page_container{position:relative}.overlayme-menu{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;position:fixed;right:0;z-index:990;width:200px;border:5px solid rgba(0,0,0,0.2);border-right:none;background-color:#333235;background-image:-webkit-gradient(linear,0% 50%,100% 50%,color-stop(0%,#38373a),color-stop(100%,#2e2d30));background-image:-webkit-linear-gradient(left,#38373a,#2e2d30);background-image:-moz-linear-gradient(left,#38373a,#2e2d30);background-image:-o-linear-gradient(left,#38373a,#2e2d30);background-image:linear-gradient(left,#38373a,#2e2d30);color:white;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:13px;line-height:1.5}.overlayme-menu *,.overlayme-menu:before,.overlayme-menu:after{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box}.overlayme-menu.collapsed{width:40px}.overlayme-menu.collapsed .menu-header{padding:0 5px 5px;text-align:center}.overlayme-menu.collapsed .menu-header__title{display:none}.overlayme-menu.collapsed .menu-header__toggle{position:relative;right:auto}.overlayme-menu.collapsed .menu-header__toggle:after{content:"+"}.overlayme-menu.collapsed .menu-header__reset{display:none}.overlayme-menu.collapsed .basics-options-panel{display:none}.overlayme-menu.collapsed .content-mgnt-block{display:none}.overlayme-menu.collapsed .overlays-panel{padding:0}.overlayme-menu.collapsed .media__action{display:none}.overlayme-menu.collapsed .media__img{margin-right:0}.overlayme-menu.collapsed .media__body{display:none}.overlayme-menu.collapsed .image-manager__adder__unicorns{display:none}.overlayme-menu.collapsed .image-url-input{display:none}.overlayme-menu.collapsed .image-manager__adder{padding:0}.overlayme-menu.collapsed .image-manager__adder button{display:none}.overlayme-menu .media,.overlayme-menu .media__body{overflow:hidden;*zoom:1}.overlayme-menu .media__img{float:left;margin-right:10px}.overlayme-menu .media__img img{display:block;max-width:100%}.overlayme-menu .media__action{float:right;margin-left:10px}.overlayme-menu .menu-header{position:relative;padding:8px 12px;letter-spacing:2px;cursor:move;font-size:16px;text-shadow:1px 1px 1px black;background-image:-webkit-gradient(linear,50% 0,50% 100%,color-stop(0%,rgba(51,50,53,0)),color-stop(100%,#2d2c2e));background-image:-webkit-linear-gradient(rgba(51,50,53,0),#2d2c2e);background-image:-moz-linear-gradient(rgba(51,50,53,0),#2d2c2e);background-image:-o-linear-gradient(rgba(51,50,53,0),#2d2c2e);background-image:linear-gradient(rgba(51,50,53,0),#2d2c2e)}.overlayme-menu .menu-header__toggle{text-align:center;cursor:pointer;position:absolute;right:10px;font-weight:bold;font-size:20px;line-height:24px;width:24px;height:24px;text-shadow:none}.overlayme-menu .menu-header__toggle:after{content:"-"}.overlayme-menu .menu-header__reset{cursor:pointer;position:absolute;right:44px;width:13px;height:24px;background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoTWFjaW50b3NoKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpFMTgxQTZGMzg4ODMxMUUyOUVBN0RCM0ZEOEYzNjY3RSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpFMTgxQTZGNDg4ODMxMUUyOUVBN0RCM0ZEOEYzNjY3RSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkUxODFBNkYxODg4MzExRTI5RUE3REIzRkQ4RjM2NjdFIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkUxODFBNkYyODg4MzExRTI5RUE3REIzRkQ4RjM2NjdFIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+8Y44HgAAAbhJREFUeNq8lTtLA0EUhZNVVAIxXdqAlYWID1BXklIRxUIERcHGLvgPbG1to9hLhKCCIqRLo0WwcE0iWlgFrAQhQbEQYTwjd3WIM7vX7OqBD7LzOpnHvdcSQkR8sME2KIOG+FaD2mTfJIh6rJH1MpgFjuDLoTk/TITBIA7yon0VQK9qojNKgooIrhrYVBs+z5UUBxdgMPIH6lR+7/mYOKAI6vSdAjNghOWkXLxJVZDxeDRpzqNxB5sGnoEYIwS6/cwsbMoGQ5rN1sASeGUczLphjS9Jo0VD3wbTJAt2/AZJo7Th4s/DMnFfXb+mvciYOwCmwQnXKKFprzPm3oAFbhxZkX+SNGpq2lMB1oyBLVACOZB0A7asefZXjNgxcazJex0W5bdWDYNMG7uZ0NybfDSj0ujIMClHx8BVF9g19L2FlYJ6wKlHQYyGkVTH6U5Nmpfj1HqUByvMMvEO+sAUGPOYsw/W1DLhlvAwqqurW5Bw11cD9pn+YTWE+Lyj9NQ0ZYZHSrIHAUwKdJwPfilI7mwVzIHrXxhUqLQvg5fWTvUxmGRTzUpTppdJWE56AvcU8Ifg0muRDwEGAKOS2CIyPS7cAAAAAElFTkSuQmCC);background-size:13px;background-repeat:no-repeat;background-position:center}.overlayme-menu .overlays-panel{padding:5px}.overlayme-menu .images-manager{background:white;color:#333235;-webkit-border-radius:2px;-moz-border-radius:2px;-ms-border-radius:2px;-o-border-radius:2px;border-radius:2px;padding-bottom:1px}.overlayme-menu .image{padding:7px 5px;cursor:pointer;border-top:1px solid #eee}.overlayme-menu .image:first-child{border-top:none}.overlayme-menu .image.hovered{-webkit-border-radius:2px 2px 0 0;-moz-border-radius:2px 2px 0 0;-ms-border-radius:2px 2px 0 0;-o-border-radius:2px 2px 0 0;border-radius:2px 2px 0 0;background:#c2e8ff}.overlayme-menu .image.hovered .image__destroy{background-color:white;color:#009af5}.overlayme-menu .image.hovered .image__destroy:hover{color:white;background-color:#333235}.overlayme-menu .image--hidden{filter:alpha(opacity=20);opacity:.2}.overlayme-menu .image__toggle{display:none}.overlayme-menu .image__destroy{display:block;height:15px;width:15px;line-height:15px;font-size:11px;text-align:center}.overlayme-menu .image__opacity-controller{width:100%}.overlayme-menu .image-manager__adder{position:relative;-webkit-user-select:none;-moz-user-select:none;user-select:none;cursor:pointer;padding:5px;margin:5px;-webkit-border-radius:4px;-moz-border-radius:4px;-ms-border-radius:4px;-o-border-radius:4px;border-radius:4px;border:2px dashed #ddd;text-align:center;color:#ccc}.overlayme-menu .image-manager__adder:hover{color:#009af5;border-color:#c4c4c4}.overlayme-menu .image-manager__adder:hover .image-manager__adder__unicorns{filter:alpha(opacity=100);opacity:1}.overlayme-menu .image-manager__adder.droppable{border-color:#009af5}.overlayme-menu .image-manager__adder__unicorns{cursor:pointer;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAklJREFUeNqEks1u00AQx3d27V3HdezY+SBpkKBFoBZxQEKIOwfegBs3rtwoPABvw3sgceKAuFWtUBBSaT6ctvHXer2zOElTVaoKI/2lWWl/O//ZGZi8jgSPxFv3JX93+CJvfJ4/09++vzH6S/SVH59+IohH5JagxBilC4zNHHigSLvtTCPRnLYxtB4b29ojGglBc1PG1PAyLfUxzszIX7B86MwLP/iVkS566DWeEgo+gfrWdV1VJoZgpUdqon84p1a+wxI1CA+l3Z+yqu89N5a9v65EVgK8TOpgH/edZS6JAZ97/AkfKjF3pTpRkUrlfQFnoGlaHNc2F0sAzPIFWIl9WMEGTYUZJfyB12ED2l9UE6bkDAcoy+0QznXJ8nIEBosNuIb3xLoBNIlRhNlc7Ho9dDA6l1OC8gKGUGEnhAyBFmpSu8zqf9jAzqZ/RIUxFDR0G2LQ6ueIwUzGFIuE95livS4p2RaUVQYas/p+xQ4eiavPqO2nKPUcCrvlCR50uqlirXGeiUWeua4uva6vebNDwHIJErq2fW0Mdfcxpjqmqe37Nnd73US64Ummt8a5bCpZhh5UrZanfS9gBw/5tcorGSz1TJ/rCTljoomOGDTLsh+NUz8Ypdz/ndBwlpFeIdn7Hevm9miD9QNxdVGNSQzGSR3ao6Duekm23fqT3Al/Ju3waAEnr1xyayxnymhgNcU9Z7sx5LtWA+6bquxXaeLr5J+wMZebRQwDiwW2x0O7I1y7ZxOrS+X/4Y0DXJ0pANhgM4sKRv4KMACD6UDbVgTzkgAAAABJRU5ErkJggg==) no-repeat center center;width:15px;height:15px;position:absolute;right:0;top:0;filter:alpha(opacity=0);opacity:0;-webkit-transition:linear .2s;-moz-transition:linear .2s;-o-transition:linear .2s;transition:linear .2s}.overlayme-menu .image-manager__adder__uploader{height:1px;overflow:hidden}.overlayme-menu .image-url-input,.overlayme-menu button{margin:0;border:2px solid #ddd;background:white}.overlayme-menu .image-url-input{padding:0 5px;line-height:20px}.overlayme-menu .image-url-input:focus,.overlayme-menu .image-url-input:focus+button{outline:none;border-color:#009af5}.overlayme-menu .image-url-input:focus+button{color:#009af5}.overlayme-menu button{cursor:pointer;border-left:none;height:24px}.overlayme-images-container{position:absolute;z-index:4;top:0;left:0}.overlayme-images-container .image{cursor:move;position:absolute;border:2px solid transparent;margin-top:-2px;margin-left:-2px}.overlayme-images-container .image.highlight{border-color:#009af5;cursor:move}.overlayme-images-container img{position:absolute;top:0;left:0}</style>');
@@ -12186,6 +12188,10 @@ function style(element, styles) {
         return false;
       });
     });
+  };
+
+  OverlayMe.Overlays.urlToId = function(url) {
+    return url.replace(/[.:\/]/g, '_').replace(/[^a-zA-Z0-9_\-]/g, '');
   };
 
 }).call(this);
@@ -12273,19 +12279,19 @@ function style(element, styles) {
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
 
-  OverlayMe.Draggable = (function(_super) {
+  OverlayMe.DraggableView = (function(_super) {
 
-    __extends(Draggable, _super);
+    __extends(DraggableView, _super);
 
-    Draggable.name = 'Draggable';
+    DraggableView.name = 'DraggableView';
 
-    function Draggable() {
-      return Draggable.__super__.constructor.apply(this, arguments);
+    function DraggableView() {
+      return DraggableView.__super__.constructor.apply(this, arguments);
     }
 
-    Draggable.prototype.savableCss = ['top', 'left', 'display', 'opacity'];
+    DraggableView.prototype.savableCss = ['top', 'left', 'display', 'opacity'];
 
-    Draggable.prototype.defaultDragConfig = {
+    DraggableView.prototype.defaultDragConfig = {
       callbacks: {
         beforeMove: function() {},
         afterMove: function() {}
@@ -12302,13 +12308,13 @@ function style(element, styles) {
       }
     };
 
-    Draggable.prototype.events = {
+    DraggableView.prototype.events = {
       'save': 'save'
     };
 
-    Draggable.prototype.initialize = function(attributes, options) {
+    DraggableView.prototype.initialize = function(attributes, options) {
       var _this = this;
-      Draggable.__super__.initialize.call(this, attributes, options);
+      DraggableView.__super__.initialize.call(this, attributes, options);
       this.$el = $o(this.el);
       this.dragConfig = {};
       $o.extend(true, this.dragConfig, this.defaultDragConfig, this.draggable);
@@ -12318,7 +12324,7 @@ function style(element, styles) {
       });
     };
 
-    Draggable.prototype.engageMove = function(event) {
+    DraggableView.prototype.engageMove = function(event) {
       var _this = this;
       event.preventDefault();
       if (typeof this.dragConfig.callbacks.beforeMove === 'function') {
@@ -12335,7 +12341,7 @@ function style(element, styles) {
       return this.$el.addClass('on-move');
     };
 
-    Draggable.prototype.endMove = function(event) {
+    DraggableView.prototype.endMove = function(event) {
       this.moving = false;
       $o(window).unbind('om-mousemove');
       this.$el.removeClass('on-move');
@@ -12344,7 +12350,7 @@ function style(element, styles) {
       }
     };
 
-    Draggable.prototype.toggleMove = function(event) {
+    DraggableView.prototype.toggleMove = function(event) {
       if (this.moving) {
         return this.endMove(event);
       } else {
@@ -12352,7 +12358,7 @@ function style(element, styles) {
       }
     };
 
-    Draggable.prototype.updatePosition = function(x, y) {
+    DraggableView.prototype.updatePosition = function(x, y) {
       var boundaries, key, position, value;
       if (x == null) {
         x = 0;
@@ -12378,7 +12384,7 @@ function style(element, styles) {
       return this.save();
     };
 
-    Draggable.prototype.updatedAxe = function(axe, move, boundaries) {
+    DraggableView.prototype.updatedAxe = function(axe, move, boundaries) {
       var dimension, elDim, opposite, oppositePosition, origin, outerMethod, position, winDim;
       if (axe === 'x') {
         origin = 'left';
@@ -12407,21 +12413,21 @@ function style(element, styles) {
       return position;
     };
 
-    Draggable.prototype.save = function() {
+    DraggableView.prototype.save = function() {
       return this.saveCss();
     };
 
-    Draggable.prototype.render = function() {
+    DraggableView.prototype.render = function() {
       return this.$el;
     };
 
-    return Draggable;
+    return DraggableView;
 
   })(Backbone.View);
 
-  _.extend(OverlayMe.Draggable.prototype, OverlayMe.Mixin.Storable);
+  _.extend(OverlayMe.DraggableView.prototype, OverlayMe.Mixin.Storable);
 
-  _.extend(OverlayMe.Draggable.prototype, OverlayMe.Mixin.Hideable);
+  _.extend(OverlayMe.DraggableView.prototype, OverlayMe.Mixin.Hideable);
 
 }).call(this);
 (function() {
@@ -12527,16 +12533,10 @@ function style(element, styles) {
 
     return MenuClass;
 
-  })(OverlayMe.Draggable);
+  })(OverlayMe.DraggableView);
 
 }).call(this);
 (function() {
-
-  OverlayMe.Overlays = {};
-
-  OverlayMe.Overlays.urlToId = function(url) {
-    return url.replace(/[.:\/]/g, '_').replace(/[^a-zA-Z0-9_\-]/g, '');
-  };
 
   OverlayMe.unicorns = ["http://fc07.deviantart.net/fs49/f/2009/200/b/3/Fat_Unicorn_and_the_Rainbow_by_la_ratta.jpg", "http://www.deviantart.com/download/126388773/Unicorn_Pukes_Rainbow_by_Angel35W.jpg", "http://macmcrae.com/wp-content/uploads/2010/02/unicorn.jpg", "http://4.bp.blogspot.com/-uPLiez-m9vY/TacC_Bmsn3I/AAAAAAAAAyg/jusQIA8aAME/s1600/Behold_A_Rainbow_Unicorn_Ninja_by_Jess4921.jpg", "http://www.everquestdragon.com/everquestdragon/main/image.axd?picture=2009%2F9%2FPaperPaperNewrainbow.png"];
 
@@ -12716,7 +12716,7 @@ function style(element, styles) {
 
     return DraggableImage;
 
-  })(OverlayMe.Draggable);
+  })(OverlayMe.DraggableView);
 
 }).call(this);
 (function() {

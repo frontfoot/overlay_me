@@ -12113,9 +12113,11 @@ function style(element, styles) {
 })();
 (function() {
 
-  window.OverlayMe = {};
+  this.OverlayMe = {};
 
-  window.OverlayMe.Mixin = {};
+  this.OverlayMe.Mixin = {};
+
+  this.OverlayMe.Overlays = {};
 
   OverlayMe.injectCSS = function() {
     return $o('head').append('<style rel="stylesheet" type="text/css">#CSS_BLOB#</style>');
@@ -12186,6 +12188,10 @@ function style(element, styles) {
         return false;
       });
     });
+  };
+
+  OverlayMe.Overlays.urlToId = function(url) {
+    return url.replace(/[.:\/]/g, '_').replace(/[^a-zA-Z0-9_\-]/g, '');
   };
 
 }).call(this);
@@ -12273,19 +12279,19 @@ function style(element, styles) {
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
 
-  OverlayMe.Draggable = (function(_super) {
+  OverlayMe.DraggableView = (function(_super) {
 
-    __extends(Draggable, _super);
+    __extends(DraggableView, _super);
 
-    Draggable.name = 'Draggable';
+    DraggableView.name = 'DraggableView';
 
-    function Draggable() {
-      return Draggable.__super__.constructor.apply(this, arguments);
+    function DraggableView() {
+      return DraggableView.__super__.constructor.apply(this, arguments);
     }
 
-    Draggable.prototype.savableCss = ['top', 'left', 'display', 'opacity'];
+    DraggableView.prototype.savableCss = ['top', 'left', 'display', 'opacity'];
 
-    Draggable.prototype.defaultDragConfig = {
+    DraggableView.prototype.defaultDragConfig = {
       callbacks: {
         beforeMove: function() {},
         afterMove: function() {}
@@ -12302,13 +12308,13 @@ function style(element, styles) {
       }
     };
 
-    Draggable.prototype.events = {
+    DraggableView.prototype.events = {
       'save': 'save'
     };
 
-    Draggable.prototype.initialize = function(attributes, options) {
+    DraggableView.prototype.initialize = function(attributes, options) {
       var _this = this;
-      Draggable.__super__.initialize.call(this, attributes, options);
+      DraggableView.__super__.initialize.call(this, attributes, options);
       this.$el = $o(this.el);
       this.dragConfig = {};
       $o.extend(true, this.dragConfig, this.defaultDragConfig, this.draggable);
@@ -12318,7 +12324,7 @@ function style(element, styles) {
       });
     };
 
-    Draggable.prototype.engageMove = function(event) {
+    DraggableView.prototype.engageMove = function(event) {
       var _this = this;
       event.preventDefault();
       if (typeof this.dragConfig.callbacks.beforeMove === 'function') {
@@ -12335,7 +12341,7 @@ function style(element, styles) {
       return this.$el.addClass('on-move');
     };
 
-    Draggable.prototype.endMove = function(event) {
+    DraggableView.prototype.endMove = function(event) {
       this.moving = false;
       $o(window).unbind('om-mousemove');
       this.$el.removeClass('on-move');
@@ -12344,7 +12350,7 @@ function style(element, styles) {
       }
     };
 
-    Draggable.prototype.toggleMove = function(event) {
+    DraggableView.prototype.toggleMove = function(event) {
       if (this.moving) {
         return this.endMove(event);
       } else {
@@ -12352,7 +12358,7 @@ function style(element, styles) {
       }
     };
 
-    Draggable.prototype.updatePosition = function(x, y) {
+    DraggableView.prototype.updatePosition = function(x, y) {
       var boundaries, key, position, value;
       if (x == null) {
         x = 0;
@@ -12378,7 +12384,7 @@ function style(element, styles) {
       return this.save();
     };
 
-    Draggable.prototype.updatedAxe = function(axe, move, boundaries) {
+    DraggableView.prototype.updatedAxe = function(axe, move, boundaries) {
       var dimension, elDim, opposite, oppositePosition, origin, outerMethod, position, winDim;
       if (axe === 'x') {
         origin = 'left';
@@ -12407,21 +12413,21 @@ function style(element, styles) {
       return position;
     };
 
-    Draggable.prototype.save = function() {
+    DraggableView.prototype.save = function() {
       return this.saveCss();
     };
 
-    Draggable.prototype.render = function() {
+    DraggableView.prototype.render = function() {
       return this.$el;
     };
 
-    return Draggable;
+    return DraggableView;
 
   })(Backbone.View);
 
-  _.extend(OverlayMe.Draggable.prototype, OverlayMe.Mixin.Storable);
+  _.extend(OverlayMe.DraggableView.prototype, OverlayMe.Mixin.Storable);
 
-  _.extend(OverlayMe.Draggable.prototype, OverlayMe.Mixin.Hideable);
+  _.extend(OverlayMe.DraggableView.prototype, OverlayMe.Mixin.Hideable);
 
 }).call(this);
 (function() {
@@ -12527,16 +12533,10 @@ function style(element, styles) {
 
     return MenuClass;
 
-  })(OverlayMe.Draggable);
+  })(OverlayMe.DraggableView);
 
 }).call(this);
 (function() {
-
-  OverlayMe.Overlays = {};
-
-  OverlayMe.Overlays.urlToId = function(url) {
-    return url.replace(/[.:\/]/g, '_').replace(/[^a-zA-Z0-9_\-]/g, '');
-  };
 
   OverlayMe.unicorns = ["http://fc07.deviantart.net/fs49/f/2009/200/b/3/Fat_Unicorn_and_the_Rainbow_by_la_ratta.jpg", "http://www.deviantart.com/download/126388773/Unicorn_Pukes_Rainbow_by_Angel35W.jpg", "http://macmcrae.com/wp-content/uploads/2010/02/unicorn.jpg", "http://4.bp.blogspot.com/-uPLiez-m9vY/TacC_Bmsn3I/AAAAAAAAAyg/jusQIA8aAME/s1600/Behold_A_Rainbow_Unicorn_Ninja_by_Jess4921.jpg", "http://www.everquestdragon.com/everquestdragon/main/image.axd?picture=2009%2F9%2FPaperPaperNewrainbow.png"];
 
@@ -12716,7 +12716,7 @@ function style(element, styles) {
 
     return DraggableImage;
 
-  })(OverlayMe.Draggable);
+  })(OverlayMe.DraggableView);
 
 }).call(this);
 (function() {
