@@ -13004,112 +13004,6 @@ function style(element, styles) {
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
 
-  OverlayMe.Views.MenuClass = (function(_super) {
-
-    __extends(MenuClass, _super);
-
-    MenuClass.name = 'MenuClass';
-
-    function MenuClass() {
-      return MenuClass.__super__.constructor.apply(this, arguments);
-    }
-
-    MenuClass.prototype.id = 'overlay_me_menu';
-
-    MenuClass.prototype.className = 'overlayme-menu';
-
-    MenuClass.prototype.template = '\
-    <div class=menu-header data-behavior=drag-menu>\
-      <span class=menu-header__title>Overlay Me</span>\
-      <span class=menu-header__reset data-behavior=reset-all></span>\
-      <span class=menu-header__toggle data-behavior=toggle-menu></span>\
-    </div>\
-    <div class="menu-list">\
-    </div>\
-  ';
-
-    MenuClass.prototype.draggable = {
-      axes: {
-        x: false
-      },
-      boundaries: {
-        top: 0,
-        bottom: function() {
-          return -($o('#overlay_me_menu').outerHeight() - $o('.menu-header').outerHeight());
-        }
-      }
-    };
-
-    MenuClass.prototype.initialize = function(attributes) {
-      var drag, reset, toggle,
-        _this = this;
-      MenuClass.__super__.initialize.call(this, attributes, {
-        css: {
-          top: 50
-        }
-      });
-      this.$el = $o(this.el);
-      toggle = '[data-behavior~=toggle-menu]';
-      reset = '[data-behavior~=reset-all]';
-      drag = '[data-behavior~=drag-menu]';
-      key('h', function() {
-        return OverlayMe.toggle();
-      });
-      key('c', function() {
-        return OverlayMe.menu.toggleCollapse();
-      });
-      key('r', function() {
-        return OverlayMe.clearAndReload();
-      });
-      $o('body').append(this.render());
-      this.$el.on('mousedown', drag, function(e) {
-        return _this.toggleMove(e);
-      }).on('mousedown', "" + toggle + ", " + reset, function(e) {
-        return e.stopPropagation();
-      }).on('click', toggle, function(e) {
-        return OverlayMe.menu.toggleCollapse();
-      }).on('click', reset, function(e) {
-        return OverlayMe.clearAndReload();
-      }).on('mouseenter', function(e) {
-        return $o('body').css('overflow', 'hidden');
-      }).on('mouseleave', function(e) {
-        return $o('body').css('overflow', '');
-      });
-      return $o(window).on('mouseup', function(e) {
-        return _this.endMove(e);
-      }).on('overlay_me:toggle_all_display', function() {
-        return _this.toggleDisplay();
-      });
-    };
-
-    MenuClass.prototype.append = function(element) {
-      return this.$el.find('.menu-list').append(element);
-    };
-
-    MenuClass.prototype.toggleCollapse = function() {
-      this.$el.toggleClass('collapsed');
-      return this.updatePosition();
-    };
-
-    MenuClass.prototype.collapsed = function() {
-      return this.$el.hasClass('collapsed');
-    };
-
-    MenuClass.prototype.render = function() {
-      var template;
-      template = _.template(this.template, {});
-      return this.$el.html(template);
-    };
-
-    return MenuClass;
-
-  })(OverlayMe.DraggableView);
-
-}).call(this);
-(function() {
-  var __hasProp = {}.hasOwnProperty,
-    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
-
   OverlayMe.Views.PageSettings = (function(_super) {
 
     __extends(PageSettings, _super);
@@ -13212,32 +13106,99 @@ function style(element, styles) {
       return Panel.__super__.constructor.apply(this, arguments);
     }
 
-    Panel.prototype.render = function() {
-      var $content;
-      $content = $o(this.el);
-      _.each(this.content, function(el) {
-        return $content.append($o(el));
-      });
-      return this.el;
+    Panel.prototype.id = 'overlay_me_menu';
+
+    Panel.prototype.className = 'overlayme-menu';
+
+    Panel.prototype.template = '\
+    <div class=menu-header data-behavior=drag-menu>\
+      <span class=menu-header__title>Overlay Me</span>\
+      <span class=menu-header__reset data-behavior=reset-all></span>\
+      <span class=menu-header__toggle data-behavior=toggle-menu></span>\
+    </div>\
+    <div class="overlays-panel">\
+    </div>\
+  ';
+
+    Panel.prototype.draggable = {
+      axes: {
+        x: false
+      },
+      boundaries: {
+        top: 0,
+        bottom: function() {
+          return -($o('#overlay_me_menu').outerHeight() - $o('.menu-header').outerHeight());
+        }
+      }
     };
 
-    Panel.prototype.initialize = function(attributes, options) {
-      this.$el = $o(this.el);
-      this.$el.addClass('overlays-panel');
-      OverlayMe.imagesManagerView = new OverlayMe.Views.ImagesManager();
-      this.content = [new OverlayMe.Views.PageSettings().render(), OverlayMe.imagesManagerView.render()];
-      OverlayMe.menu.append(this.render());
-      $o(window).bind('mousemove', function(event) {
-        return $o(window).trigger('om-mousemove', event);
+    Panel.prototype.initialize = function(attributes) {
+      var drag, reset, toggle,
+        _this = this;
+      Panel.__super__.initialize.call(this, attributes, {
+        css: {
+          top: 50
+        }
       });
-      OverlayMe.imageManager = new OverlayMe.Models.ImagesManager();
-      OverlayMe.imageManager.loadAll();
-      return OverlayMe.loadDefaultImage();
+      this.$el = $o(this.el);
+      $o('body').append(this.render());
+      OverlayMe.imagesManagerView = new OverlayMe.Views.ImagesManager();
+      this.append(new OverlayMe.Views.PageSettings().render());
+      this.append(OverlayMe.imagesManagerView.render());
+      toggle = '[data-behavior~=toggle-menu]';
+      reset = '[data-behavior~=reset-all]';
+      drag = '[data-behavior~=drag-menu]';
+      key('h', function() {
+        return OverlayMe.toggle();
+      });
+      key('c', function() {
+        return OverlayMe.menu.toggleCollapse();
+      });
+      key('r', function() {
+        return OverlayMe.clearAndReload();
+      });
+      this.$el.on('mousedown', drag, function(e) {
+        return _this.toggleMove(e);
+      }).on('mousedown', "" + toggle + ", " + reset, function(e) {
+        return e.stopPropagation();
+      }).on('click', toggle, function(e) {
+        return OverlayMe.menu.toggleCollapse();
+      }).on('click', reset, function(e) {
+        return OverlayMe.clearAndReload();
+      }).on('mouseenter', function(e) {
+        return $o('body').css('overflow', 'hidden');
+      }).on('mouseleave', function(e) {
+        return $o('body').css('overflow', '');
+      });
+      return $o(window).on('mouseup', function(e) {
+        return _this.endMove(e);
+      }).on('overlay_me:toggle_all_display', function() {
+        return _this.toggleDisplay();
+      });
+    };
+
+    Panel.prototype.append = function(element) {
+      return this.$el.find('.overlays-panel').append(element);
+    };
+
+    Panel.prototype.toggleCollapse = function() {
+      this.$el.toggleClass('collapsed');
+      return this.updatePosition();
+    };
+
+    Panel.prototype.collapsed = function() {
+      return this.$el.hasClass('collapsed');
+    };
+
+    Panel.prototype.render = function() {
+      var template;
+      template = _.template(this.template, {});
+      return this.$el.html(template);
     };
 
     return Panel;
 
-  })(Backbone.View);
+  })(OverlayMe.DraggableView);
 
 }).call(this);
 (function() {
@@ -13249,13 +13210,16 @@ function style(element, styles) {
     }
     this.injectCSS();
     this.initKeyMoves();
+    $o(window).bind('mousemove', function(event) {
+      return $o(window).trigger('om-mousemove', event);
+    });
     $o(function() {
-      if (!_this.menu) {
-        _this.menu = new _this.Views.MenuClass();
-      }
       if (!_this.panel) {
-        return _this.panel = new _this.Views.Panel();
+        _this.panel = new _this.Views.Panel();
       }
+      OverlayMe.imageManager = new OverlayMe.Models.ImagesManager();
+      OverlayMe.imageManager.loadAll();
+      return OverlayMe.loadDefaultImage();
     });
     return this.isLoaded = true;
   };

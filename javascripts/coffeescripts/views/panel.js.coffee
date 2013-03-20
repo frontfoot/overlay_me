@@ -1,35 +1,89 @@
-class OverlayMe.Views.Panel extends Backbone.View
+class OverlayMe.Views.Panel extends OverlayMe.DraggableView
 
-  render: ->
-    $content = $o(@el)
-    _.each @content, (el) ->
-      $content.append $o(el)
+  id: 'overlay_me_menu'
 
-    @el
+  className: 'overlayme-menu'
 
-  initialize: (attributes, options) ->
+  template: '
+    <div class=menu-header data-behavior=drag-menu>
+      <span class=menu-header__title>Overlay Me</span>
+      <span class=menu-header__reset data-behavior=reset-all></span>
+      <span class=menu-header__toggle data-behavior=toggle-menu></span>
+    </div>
+    <div class="overlays-panel">
+    </div>
+  '
+
+  draggable:
+    axes:
+      x: false
+    boundaries:
+      top: 0
+      bottom: ->
+        - ($o('#overlay_me_menu').outerHeight() - $o('.menu-header').outerHeight())
+
+  initialize: (attributes) ->
+    super attributes, { css: { top: 50 } }
+
     @$el = $o(@el)
-    @$el.addClass 'overlays-panel'
+
+    # add it to the page
+    $o('body').append @render()
 
     # adding image management block
     OverlayMe.imagesManagerView = new OverlayMe.Views.ImagesManager()
+    @append new OverlayMe.Views.PageSettings().render()
+    @append OverlayMe.imagesManagerView.render()
 
-    # add #container management & image management blocks
-    @content = [
-      new OverlayMe.Views.PageSettings().render(),
-      OverlayMe.imagesManagerView.render()
-    ]
+    toggle = '[data-behavior~=toggle-menu]'
+    reset  = '[data-behavior~=reset-all]'
+    drag   = '[data-behavior~=drag-menu]'
 
-    # add the panel to the page menu
-    OverlayMe.menu.append @render()
+    # add listeners using keypress - thx to https://github.com/madrobby/keymaster
+    key 'h', ->
+      OverlayMe.toggle()
+    key 'c', ->
+      OverlayMe.menu.toggleCollapse()
+    key 'r', ->
+      OverlayMe.clearAndReload()
 
-    # repeating original window#mousemove event
-    # to be able to unbind it without interfering with window event
-    $o(window).bind 'mousemove', (event) ->
-      $o(window).trigger('om-mousemove', event)
+    # add listeners
+    @$el
+      .on 'mousedown', drag, (e) =>
+        @toggleMove e
 
-    # once everything rendered, load dynamicly added images
-    OverlayMe.imageManager = new OverlayMe.Models.ImagesManager()
-    OverlayMe.imageManager.loadAll()
+      .on 'mousedown', "#{toggle}, #{reset}", (e) ->
+        e.stopPropagation()
 
-    OverlayMe.loadDefaultImage()
+      .on 'click', toggle, (e) ->
+        OverlayMe.menu.toggleCollapse()
+
+      .on 'click', reset, (e) ->
+        OverlayMe.clearAndReload()
+
+      # Disable scroll on menu hover (to avoid showing scrollbar on chrome)
+      .on 'mouseenter', (e) ->
+        $o('body').css 'overflow', 'hidden'
+
+      .on 'mouseleave', (e) ->
+        $o('body').css 'overflow', ''
+
+    $o(window)
+      .on 'mouseup', (e) =>
+        @endMove e
+      .on 'overlay_me:toggle_all_display', =>
+        @toggleDisplay()
+
+  append: (element) ->
+    @$el.find('.overlays-panel').append element
+
+  toggleCollapse: ->
+    @$el.toggleClass 'collapsed'
+    @updatePosition()
+
+  collapsed: ->
+    @$el.hasClass 'collapsed'
+
+  render: ->
+    template = _.template @template, {}
+    @$el.html template

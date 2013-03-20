@@ -16,9 +16,18 @@ OverlayMe.init = ->
   @injectCSS()
   @initKeyMoves()
 
+   # repeating original window#mousemove event
+  # to be able to unbind it without interfering with window event
+  $o(window).bind 'mousemove', (event) ->
+    $o(window).trigger('om-mousemove', event)
+
   $o =>
-    @menu  = new @Views.MenuClass() unless @menu
-    @panel = new @Views.Panel() unless @panel
+    @panel  = new @Views.Panel() unless @panel
+    # @panel = new @Views.Panel() unless @panel
+    # once everything rendered, load dynamicly added images
+    OverlayMe.imageManager = new OverlayMe.Models.ImagesManager()
+    OverlayMe.imageManager.loadAll()
+    OverlayMe.loadDefaultImage()
 
   @isLoaded = true
 
