@@ -12310,12 +12310,12 @@ function style(element, styles) {
       }
     };
 
-    ImagesManager.prototype.isPresent = function(id) {
+    ImagesManager.prototype.isPresent = function(image) {
       var saved, _i, _len, _ref;
       _ref = this.list;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         saved = _ref[_i];
-        if (saved.id === id) {
+        if (saved.id === image.id) {
           return true;
         }
       }
@@ -12332,7 +12332,7 @@ function style(element, styles) {
         options = {};
       }
       image = this.load(src, options);
-      if (image && !this.isPresent(image.id)) {
+      if (image && !this.isPresent(image)) {
         this.list.push({
           id: image.id,
           src: image.src

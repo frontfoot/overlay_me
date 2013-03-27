@@ -6,9 +6,9 @@ class OverlayMe.Models.ImagesManager extends Backbone.Model
     else
       @list = []
 
-  isPresent: (id) ->
+  isPresent: (image) ->
     for saved in @list
-      return true if saved.id == id
+      return true if saved.id == image.id
     false
 
   isEmpty: ->
@@ -16,7 +16,7 @@ class OverlayMe.Models.ImagesManager extends Backbone.Model
 
   add: (src, options = {} ) ->
     image = @load(src, options)
-    if image && !@isPresent(image.id)
+    if image && !@isPresent(image)
       @list.push 
         id: image.id
         src: image.src
