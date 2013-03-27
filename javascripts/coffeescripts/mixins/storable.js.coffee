@@ -4,7 +4,7 @@ OverlayMe.Mixins.Storable =
 
     $el = $o(el)
 
-    if cssData = localStorage.getItem(@id)
+    if cssData = localStorage.getItem("overlayme-#{@id}")
       $el.css JSON.parse(cssData)
     else if css?
       $el.css css
@@ -20,4 +20,4 @@ OverlayMe.Mixins.Storable =
     for cssProperty in @savableCss
       cssData[cssProperty] = $o(el).css cssProperty
 
-    localStorage.setItem @id, JSON.stringify(cssData)
+    localStorage.setItem "overlayme-#{@id}", JSON.stringify(cssData)

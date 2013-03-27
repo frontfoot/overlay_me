@@ -32,7 +32,7 @@ OverlayMe.toggle = ->
 
 # move last image touched by keypress
 OverlayMe.moveLast = (dirs, multiplier = 1) ->
-  lastMovedId = localStorage.getItem 'last-moved'
+  lastMovedId = localStorage.getItem 'overlayme-last-moved'
   image = $o("##{lastMovedId}")
   image.css 
     left: image.position().left + dirs[0] * multiplier

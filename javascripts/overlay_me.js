@@ -12154,7 +12154,7 @@ function style(element, styles) {
     if (multiplier == null) {
       multiplier = 1;
     }
-    lastMovedId = localStorage.getItem('last-moved');
+    lastMovedId = localStorage.getItem('overlayme-last-moved');
     image = $o("#" + lastMovedId);
     return image.css({
       left: image.position().left + dirs[0] * multiplier,
@@ -12256,7 +12256,7 @@ function style(element, styles) {
         return;
       }
       $el = $o(el);
-      if (cssData = localStorage.getItem(this.id)) {
+      if (cssData = localStorage.getItem("overlayme-" + this.id)) {
         return $el.css(JSON.parse(cssData));
       } else if (css != null) {
         return $el.css(css);
@@ -12282,7 +12282,7 @@ function style(element, styles) {
         cssProperty = _ref[_i];
         cssData[cssProperty] = $o(el).css(cssProperty);
       }
-      return localStorage.setItem(this.id, JSON.stringify(cssData));
+      return localStorage.setItem("overlayme-" + this.id, JSON.stringify(cssData));
     }
   };
 
@@ -12617,7 +12617,7 @@ function style(element, styles) {
     };
 
     DraggableImage.prototype.setAsLastMoved = function() {
-      return localStorage.setItem('last-moved', this.id);
+      return localStorage.setItem('overlayme-last-moved', this.id);
     };
 
     DraggableImage.prototype.render = function() {

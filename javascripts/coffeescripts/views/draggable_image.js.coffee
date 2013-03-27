@@ -44,7 +44,7 @@ class OverlayMe.Views.DraggableImage extends OverlayMe.DraggableView
       height: @image.height
 
   setAsLastMoved: ->
-    localStorage.setItem 'last-moved', @id
+    localStorage.setItem 'overlayme-last-moved', @id
 
   render: ->
     @$el
