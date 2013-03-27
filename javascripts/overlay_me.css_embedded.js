@@ -12303,7 +12303,7 @@ function style(element, styles) {
 
     ImagesManager.prototype.initialize = function() {
       var listJSON;
-      if ((listJSON = localStorage.getItem('dyn_image_list'))) {
+      if ((listJSON = localStorage.getItem('overlayme-images'))) {
         return this.list = JSON.parse(listJSON);
       } else {
         return this.list = [];
@@ -12332,9 +12332,9 @@ function style(element, styles) {
         options = {};
       }
       image = this.load(src, options);
-      if (image && !this.isPresent(image.image_id)) {
+      if (image && !this.isPresent(image.id)) {
         this.list.push({
-          id: image.image_id,
+          id: image.id,
           src: image.src
         });
         this.saveList();
@@ -12370,9 +12370,9 @@ function style(element, styles) {
           continue;
         }
         this.list.splice(this.list.indexOf(image), 1);
-        this.saveList();
         break;
       }
+      this.saveList();
       return OverlayMe.imagesManagerView["delete"](id);
     };
 
@@ -12388,7 +12388,7 @@ function style(element, styles) {
     };
 
     ImagesManager.prototype.saveList = function() {
-      return localStorage.setItem('dyn_image_list', JSON.stringify(this.list));
+      return localStorage.setItem('overlayme-images', JSON.stringify(this.list));
     };
 
     return ImagesManager;

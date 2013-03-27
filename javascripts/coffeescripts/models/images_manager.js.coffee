@@ -1,7 +1,7 @@
 class OverlayMe.Models.ImagesManager extends Backbone.Model
   
   initialize: () ->
-    if ( listJSON = localStorage.getItem('dyn_image_list') )
+    if ( listJSON = localStorage.getItem('overlayme-images') )
       @list = JSON.parse(listJSON)
     else
       @list = []
@@ -38,9 +38,9 @@ class OverlayMe.Models.ImagesManager extends Backbone.Model
       continue unless image.id == id
 
       @list.splice(@list.indexOf(image), 1)
-      @saveList()
       break
-
+    
+    @saveList()
     OverlayMe.imagesManagerView.delete id
 
   loadAll: () ->
@@ -48,5 +48,5 @@ class OverlayMe.Models.ImagesManager extends Backbone.Model
       @add(image.src)
 
   saveList: ->
-    localStorage.setItem('dyn_image_list', JSON.stringify(@list))
+    localStorage.setItem('overlayme-images', JSON.stringify(@list))
 
