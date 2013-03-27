@@ -16,9 +16,9 @@ class OverlayMe.Models.ImagesManager extends Backbone.Model
 
   add: (src, options = {} ) ->
     image = @load(src, options)
-    if image && !@isPresent(image.image_id)
-      @list.push
-        id: image.image_id, 
+    if image && !@isPresent(image.id)
+      @list.push 
+        id: image.id
         src: image.src
       @saveList()
     image
