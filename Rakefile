@@ -8,12 +8,10 @@ require 'yui/compressor'
 
 namespace :assets do
 
-  ENV['js_sprocket'] = "javascripts/overlay_me.js"
-  ENV['js_with_css'] = "javascripts/overlay_me.css_embedded.js"
-  ENV['js_minified'] = "vendor/assets/javascripts/overlay_me/overlay_me.min.js"
+  ENV['js_sprocket'] = "lib/overlay_me.js"
+  ENV['js_with_css'] = "lib/overlay_me.css_embedded.js"
   ENV['css_sprocket'] = "stylesheets/overlay_me.css"
   ENV['css_minified'] = "stylesheets/overlay_me.min.css"
-  ENV['addon_layout_resizer'] = "vendor/assets/javascripts/overlay_me/addons/layout_resizer.js"
 
   # config to remove the original filenames into generated css (bloody useful for dev though)
   Sprockets::Sass.options[:line_comments] = false
@@ -22,7 +20,7 @@ namespace :assets do
   puts "\n** Sprocketting #{ENV['js_sprocket']}, #{ENV['css_sprocket']}, #{ENV['addon_layout_resizer']} **"
   task :compile do
     environment = Sprockets::Environment.new
-    environment.append_path 'javascripts/coffeescripts'
+    environment.append_path 'src'
     environment.append_path 'stylesheets/sass'
 
     File.open(ENV['js_sprocket'], 'w'){ |f| f.write(environment[File.basename(f.path)].to_s) }
