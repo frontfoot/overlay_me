@@ -25,7 +25,6 @@ namespace :assets do
 
     File.open(ENV['js_sprocket'], 'w'){ |f| f.write(environment[File.basename(f.path)].to_s) }
     File.open(ENV['css_sprocket'], 'w'){ |f| f.write(environment[File.basename(f.path)].to_s) }
-    File.open(ENV['addon_layout_resizer'], 'w'){ |f| f.write(environment["addons/"+File.basename(f.path)].to_s) }
   end
 
   desc "minify the assets"
