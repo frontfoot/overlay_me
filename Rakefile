@@ -5,6 +5,7 @@ require 'sprockets-sass'
 require 'compass'
 require 'jsmin'
 require 'yui/compressor'
+require 'pry'
 
 namespace :assets do
 
@@ -34,7 +35,6 @@ namespace :assets do
 
   desc "minify the assets"
   namespace :minify do
-
     task :css do
       puts "\n** Minify CSS file #{ENV['css_sprocket']} -> #{ENV['css_minified']} **"
       File.open(ENV['css_minified'], 'w') do |file|

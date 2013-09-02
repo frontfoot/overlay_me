@@ -18,4 +18,4 @@ gem 'rb-fsevent'
 gem 'guard-rake'
 
 # debug
-gem 'debugger'
+gem 'pry'
