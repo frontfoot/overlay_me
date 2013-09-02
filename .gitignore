@@ -7,5 +7,5 @@ manifest.json
 node_modules
 
 # the generated assets
-lib
+assets
 

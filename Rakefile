@@ -9,14 +9,16 @@ require 'pry'
 
 namespace :assets do
 
-  # ensure lib directory is present
-  Dir.mkdir("lib") unless Dir.exists?("lib")
+  assets_dir = 'assets'
 
-  ENV['js_sprocket'] = "lib/overlay_me.js"
-  ENV['js_with_css'] = "lib/overlay_me.css_embedded.js"
-  ENV['js_minified'] = "lib/overlay_me.min.js"
-  ENV['css_sprocket'] = "lib/overlay_me.css"
-  ENV['css_minified'] = "lib/overlay_me.min.css"
+  # ensure assets directory is present
+  Dir.mkdir(assets_dir) unless Dir.exists?(assets_dir)
+
+  ENV['js_sprocket']  = File.join(assets_dir, "overlay_me.js")
+  ENV['js_with_css']  = File.join(assets_dir, "overlay_me.css_embedded.js")
+  ENV['js_minified']  = File.join(assets_dir, "overlay_me.min.js")
+  ENV['css_sprocket'] = File.join(assets_dir, "overlay_me.css")
+  ENV['css_minified'] = File.join(assets_dir, "overlay_me.min.css")
 
   # config to remove the original filenames into generated css (bloody useful for dev though)
   Sprockets::Sass.options[:line_comments] = false
