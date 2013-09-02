@@ -2,3 +2,4 @@
 *.gem
 .sass-cache
 manifest.json
+lib

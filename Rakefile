@@ -8,6 +8,9 @@ require 'yui/compressor'
 
 namespace :assets do
 
+  # ensure lib directory is present
+  Dir.mkdir("lib") unless Dir.exists?("lib")
+
   ENV['js_sprocket'] = "lib/overlay_me.js"
   ENV['js_with_css'] = "lib/overlay_me.css_embedded.js"
   ENV['css_sprocket'] = "lib/overlay_me.css"
