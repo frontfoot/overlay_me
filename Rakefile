@@ -21,8 +21,9 @@ namespace :assets do
   Sprockets::Sass.options[:line_comments] = false
 
   desc "sprockets compiling/jamming"
-  puts "\n** Sprocketting #{ENV['js_sprocket']}, #{ENV['css_sprocket']}, #{ENV['addon_layout_resizer']} **"
   task :compile do
+    puts "\n** Sprocketting #{ENV['js_sprocket']}, #{ENV['css_sprocket']}, #{ENV['addon_layout_resizer']} **"
+    
     environment = Sprockets::Environment.new
     environment.append_path 'src'
     environment.append_path 'src/stylesheets'
