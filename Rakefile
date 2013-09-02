@@ -13,6 +13,7 @@ namespace :assets do
 
   ENV['js_sprocket'] = "lib/overlay_me.js"
   ENV['js_with_css'] = "lib/overlay_me.css_embedded.js"
+  ENV['js_minified'] = "lib/overlay_me.min.js"
   ENV['css_sprocket'] = "lib/overlay_me.css"
   ENV['css_minified'] = "lib/overlay_me.min.css"
 
