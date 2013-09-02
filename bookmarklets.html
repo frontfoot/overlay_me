@@ -16,29 +16,37 @@
       height: 18px;
       position: absolute;
     }
+    .space-me-away { padding: 10px 10px 10px 20px; }
+    body { padding: 20px; }
+    h3 { padding-top: 20px; }
+    .container { padding-left: 20px; }
   </style>  
 </head>
   <body>
-    <div id="container">
 
-      <h2>OverlayMe bookmarklets </h2>
+    <h2>OverlayMe bookmarklets </h2>
 
-      <h3>Latest stable (v1.0)</h3>
-      <p>Drag and drop <a class="this_link" href="javascript:(function(){if(!window.overlay_me_loaded){document.body.appendChild(document.createElement('script')).src='http://frontfoot.github.io/overlay_me/releases/overlay_me.min.js';}})();">overlay_me</a> to your bookmarks, then go on any web page and click it!</p>
+    <div class="container">
+
+      <h3>Latest (v1.0)</h3>
+      <p>Drag and drop <a class="this_link" href="javascript:(function(){if(!window.overlay_me_loaded){document.body.appendChild(document.createElement('script')).src='http://frontfoot.github.io/overlay_me/releases/overlay_me.min.js';}})();">overlay_me</a> to your bookmarks, like shown:</p>
+      <img class="space-me-away" src="bookmark-drag-drop.gif" />
+      <p>Then go on any web page and click it to load overlay_me :)</p>
 
       <h3>By versions</h3>
       <ul>
         <li>
-          <p>v1.0.0 <a href="javascript:(function(){if(!window.overlay_me_loaded){document.body.appendChild(document.createElement('script')).src='http://frontfoot.github.io/overlay_me/releases/overlay_me-1.x.min.js';}})();">overlay_me</a> (155K) - <a href="http://frontfoot.github.io/overlay_me/releases/overlay_me-1.x.min.js">raw file</a></p>
+          <p>latest v1.x <a href="javascript:(function(){if(!window.overlay_me_loaded){document.body.appendChild(document.createElement('script')).src='http://frontfoot.github.io/overlay_me/releases/overlay_me-1.x.min.js';}})();">overlay_me</a> (155K) - <a href="http://frontfoot.github.io/overlay_me/releases/overlay_me-1.x.min.js">raw file</a></p>
 
         </li>
         <li>
-          <p>v0.14.1 <a href="javascript:(function(){if(!window.overlay_me_loaded){document.body.appendChild(document.createElement('script')).src='http://frontfoot.github.io/overlay_me/releases/overlay_me-0.x.min.js';}})();">overlay_me</a> (224K) - <a href="http://frontfoot.github.io/overlay_me/releases/overlay_me-0.x.min.js">raw file</a></p>
+          <p>latest v0.x <a href="javascript:(function(){if(!window.overlay_me_loaded){document.body.appendChild(document.createElement('script')).src='http://frontfoot.github.io/overlay_me/releases/overlay_me-0.x.min.js';}})();">overlay_me</a> (224K) - <a href="http://frontfoot.github.io/overlay_me/releases/overlay_me-0.x.min.js">raw file</a></p>
 
         </li>
       </ul>
 
       <p>Full project here: <a href="https://github.com/frontfoot/overlay_me">https://github.com/frontfoot/overlay_me</a></p>
+
     </div>
   </body>
 </html>
