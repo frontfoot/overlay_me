@@ -64,7 +64,10 @@ namespace :assets do
     task :prepend_header do
       puts "\n** Prepend header to compiled files **"
 
-      header  = "// OverlayMe v#{OverlayMe::VERSION}\n"
+			# assuming last tag is last version number
+			version = `git tag`.split(/\r?\n|\r/).map{|v| Gem::Version.new v.gsub(/^v/, '')}.max.to_s
+
+      header  = "// OverlayMe v#{version}\n"
       header += "// http://github.com/frontfoot/overlay_me\n"
       header += "//\n"
       header += "// #{File.open('LICENSE'){|f| f.readline().chomp() }}\n"
