@@ -1,10 +1,7 @@
-#= require 'mixins/storable'
-#= require 'mixins/hideable'
-
-class OverlayMe.Overlays.ContainerItself extends Backbone.View
+class OverlayMe.Views.ContainerItself extends Backbone.View
 
   tagName: 'div'
-  css_attributes_to_save: ['display']
+  savableCss: ['display']
 
   initialize: (attributes, options) ->
     super(attributes, options)
@@ -15,18 +12,18 @@ class OverlayMe.Overlays.ContainerItself extends Backbone.View
       else
         @toggleDisplay()
 
-_.extend OverlayMe.Overlays.ContainerItself.prototype, OverlayMe.Mixin.Storable
-_.extend OverlayMe.Overlays.ContainerItself.prototype, OverlayMe.Mixin.Hideable
+_.extend OverlayMe.Views.ContainerItself.prototype, OverlayMe.Mixins.Storable
+_.extend OverlayMe.Views.ContainerItself.prototype, OverlayMe.Mixins.Hideable
 
 
 
 
-class OverlayMe.Overlays.ImagesContainer extends Backbone.View
+class OverlayMe.Views.ImagesContainer extends Backbone.View
 
   initialize: (options) ->
     # the master image_container will be referenced publicly
     unless OverlayMe.images_container
-      OverlayMe.images_container = new OverlayMe.Overlays.ContainerItself id:'overlay_me_images_container'
+      OverlayMe.images_container = new OverlayMe.Views.ContainerItself id:'overlay_me_images_container', className: 'overlayme-images-container'
       $o('body').append OverlayMe.images_container.el
 
     # if it's a local file, we build its eventual multi-directories structure
@@ -50,7 +47,7 @@ class OverlayMe.Overlays.ImagesContainer extends Backbone.View
 
     sub_container = $o("#overlay_me_images_container #{sub_container_parent_post_string} ##{the_dir+'_container'}")
     if sub_container.length < 1 # if the sub_container div doesn't already exist
-      sub_container = new OverlayMe.Overlays.ContainerItself id: the_dir+'_container'
+      sub_container = new OverlayMe.Views.ContainerItself id: the_dir+'_container'
       $o("#overlay_me_images_container #{sub_container_parent_post_string}").append sub_container.el
 
     if path_bits.length > 1

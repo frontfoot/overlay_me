@@ -1,0 +1,266 @@
+@import compass
+@import "compass/css3/user-interface"
+
+$menu-width: 200px
+$background-color: #333235
+$color: #fff
+$alt-color: #009af5
+
+=set-box-sizing
+  +box-sizing(border-box)
+  & *, &:before, &:after
+    +box-sizing(border-box)
+
+=collapsed
+  .overlayme-menu.collapsed &
+    @content
+
+#overlay_me_page_container
+  position: relative
+
+.overlayme-menu
+  +set-box-sizing
+  position: fixed
+  right: 0
+  z-index: 990
+  width: $menu-width
+  border: 5px solid rgba(#000, .2)
+  border-right: none
+  background-color: $background-color
+  +background-image(linear-gradient(left, lighten($background-color, 2%), darken($background-color, 2%)))
+  color: #fff
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif
+  font-size: 13px
+  line-height: 1.5
+
+  &.collapsed
+    width: 40px
+
+    .menu-header
+      padding: 0 5px 5px
+      text-align: center
+
+    .menu-header__title
+      display: none
+
+    .menu-header__toggle
+      position: relative
+      right: auto
+      
+      &:after
+        content: '+'
+
+    .menu-header__reset
+      display: none
+
+    .basics-options-panel
+      display: none
+
+    .content-mgnt-block
+      display: none
+
+    .overlays-panel
+      padding: 0
+
+    .media__action
+      display: none
+
+    .media__img
+      margin-right: 0
+
+    .media__body
+      display: none
+
+    .image-manager__adder__unicorns
+      display: none
+
+    .image-url-input
+      display: none
+
+    .image-manager__adder
+      padding: 0
+      button
+        display: none
+
+
+  .media, .media__body
+    +clearfix
+
+  .media__img
+    float: left
+    margin-right: 10px
+
+    img
+      display: block
+      max-width: 100%
+
+  .media__action
+    float: right
+    margin-left: 10px
+
+
+
+  .menu-header
+    position: relative
+    padding: 8px 12px
+    letter-spacing: 2px
+    cursor: move
+    font-size: 16px
+    +text-shadow(1px 1px 1px #000)
+    +background-image(linear-gradient(rgba($background-color, 0), darken($background-color, 2.5%)))
+
+
+  .menu-header__toggle
+    text-align: center
+    cursor: pointer
+    position: absolute
+    right: 10px
+    font-weight: bold
+    font-size: 20px
+    line-height: 24px
+    width: 24px
+    height: 24px
+    +text-shadow(none)
+
+    &:after
+      content: '-'
+
+  .menu-header__reset
+    cursor: pointer
+    position: absolute
+    right: 10px + 24px + 10px
+    width: 13px
+    height: 24px
+    background:
+      image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoTWFjaW50b3NoKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpFMTgxQTZGMzg4ODMxMUUyOUVBN0RCM0ZEOEYzNjY3RSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpFMTgxQTZGNDg4ODMxMUUyOUVBN0RCM0ZEOEYzNjY3RSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkUxODFBNkYxODg4MzExRTI5RUE3REIzRkQ4RjM2NjdFIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkUxODFBNkYyODg4MzExRTI5RUE3REIzRkQ4RjM2NjdFIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+8Y44HgAAAbhJREFUeNq8lTtLA0EUhZNVVAIxXdqAlYWID1BXklIRxUIERcHGLvgPbG1to9hLhKCCIqRLo0WwcE0iWlgFrAQhQbEQYTwjd3WIM7vX7OqBD7LzOpnHvdcSQkR8sME2KIOG+FaD2mTfJIh6rJH1MpgFjuDLoTk/TITBIA7yon0VQK9qojNKgooIrhrYVBs+z5UUBxdgMPIH6lR+7/mYOKAI6vSdAjNghOWkXLxJVZDxeDRpzqNxB5sGnoEYIwS6/cwsbMoGQ5rN1sASeGUczLphjS9Jo0VD3wbTJAt2/AZJo7Th4s/DMnFfXb+mvciYOwCmwQnXKKFprzPm3oAFbhxZkX+SNGpq2lMB1oyBLVACOZB0A7asefZXjNgxcazJex0W5bdWDYNMG7uZ0NybfDSj0ujIMClHx8BVF9g19L2FlYJ6wKlHQYyGkVTH6U5Nmpfj1HqUByvMMvEO+sAUGPOYsw/W1DLhlvAwqqurW5Bw11cD9pn+YTWE+Lyj9NQ0ZYZHSrIHAUwKdJwPfilI7mwVzIHrXxhUqLQvg5fWTvUxmGRTzUpTppdJWE56AvcU8Ifg0muRDwEGAKOS2CIyPS7cAAAAAElFTkSuQmCC)
+      size: 13px
+      repeat: no-repeat
+      position: center
+
+  .overlays-panel
+    padding: 5px
+
+  .images-manager
+    background: $color
+    color: $background-color
+    +border-radius(2px)
+    padding-bottom: 1px
+
+  .image
+    padding: 7px 5px
+    cursor: pointer
+    border-top: 1px solid #eee
+
+    &:first-child
+      border-top: none
+
+    &.hovered
+      +border-radius(2px 2px 0 0)
+      background: lighten($alt-color, 40%)
+
+      .image__destroy
+        background-color: $color
+        color: $alt-color
+
+        &:hover
+          color: $color
+          background-color: $background-color
+
+  .image--hidden
+    +opacity(0.2)
+
+  .image__toggle
+    display: none
+
+  .image__destroy
+    display: block
+    height: 15px
+    width: 15px
+    line-height: 15px
+    font-size: 11px
+    text-align: center
+
+  .image__opacity-controller
+    width: 100%
+
+  .image-manager__adder
+    position: relative
+    +user-select(none)
+    cursor: pointer
+    padding: 5px
+    margin: 5px
+    +border-radius(4px)
+    border: 2px dashed #ddd
+    text-align: center
+    color: #ccc
+
+    &:hover
+      color: $alt-color
+      border-color: darken(#ddd, 10%)
+
+      .image-manager__adder__unicorns
+        +opacity(1)
+
+    &.droppable
+      border-color: $alt-color
+
+  .image-manager__adder__unicorns
+    cursor: pointer
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAklJREFUeNqEks1u00AQx3d27V3HdezY+SBpkKBFoBZxQEKIOwfegBs3rtwoPABvw3sgceKAuFWtUBBSaT6ctvHXer2zOElTVaoKI/2lWWl/O//ZGZi8jgSPxFv3JX93+CJvfJ4/09++vzH6S/SVH59+IohH5JagxBilC4zNHHigSLvtTCPRnLYxtB4b29ojGglBc1PG1PAyLfUxzszIX7B86MwLP/iVkS566DWeEgo+gfrWdV1VJoZgpUdqon84p1a+wxI1CA+l3Z+yqu89N5a9v65EVgK8TOpgH/edZS6JAZ97/AkfKjF3pTpRkUrlfQFnoGlaHNc2F0sAzPIFWIl9WMEGTYUZJfyB12ED2l9UE6bkDAcoy+0QznXJ8nIEBosNuIb3xLoBNIlRhNlc7Ho9dDA6l1OC8gKGUGEnhAyBFmpSu8zqf9jAzqZ/RIUxFDR0G2LQ6ueIwUzGFIuE95livS4p2RaUVQYas/p+xQ4eiavPqO2nKPUcCrvlCR50uqlirXGeiUWeua4uva6vebNDwHIJErq2fW0Mdfcxpjqmqe37Nnd73US64Ummt8a5bCpZhh5UrZanfS9gBw/5tcorGSz1TJ/rCTljoomOGDTLsh+NUz8Ypdz/ndBwlpFeIdn7Hevm9miD9QNxdVGNSQzGSR3ao6Duekm23fqT3Al/Ju3waAEnr1xyayxnymhgNcU9Z7sx5LtWA+6bquxXaeLr5J+wMZebRQwDiwW2x0O7I1y7ZxOrS+X/4Y0DXJ0pANhgM4sKRv4KMACD6UDbVgTzkgAAAABJRU5ErkJggg==) no-repeat center center
+    width: 15px
+    height: 15px
+    position: absolute
+    right: 0
+    top: 0
+    +opacity(0)
+    +transition(linear .2s)
+
+  .image-manager__adder__uploader
+    height: 1px
+    overflow: hidden
+
+  .image-url-input, button
+    margin: 0
+    border: 2px solid #ddd
+    background: $color
+
+  .image-url-input
+    padding: 0 5px
+    line-height: 20px
+
+    &:focus, &:focus + button
+      outline: none
+      border-color: $alt-color
+
+    &:focus + button
+      color: $alt-color
+
+  button
+    cursor: pointer
+    border-left: none
+    height: 24px
+
+
+
+.overlayme-images-container
+  position: absolute
+  z-index: 4
+  top: 0
+  left: 0
+
+  .image
+    cursor: move
+    position: absolute
+    border: 2px solid transparent
+    margin:
+      top: -2px
+      left: -2px
+
+    &.highlight
+      border-color: $alt-color
+      cursor: move
+
+  img
+    position: absolute
+    top: 0
+    left: 0

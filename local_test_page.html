@@ -1,13 +1,32 @@
 <html>
 <head>
-  <script src="/javascripts/overlay_me.css_embedded.js"></script>
+  <meta charset=utf-8>
+  <title>Overlay Me - dev page</title>
+  <script src="./assets/overlay_me.css_embedded.js"></script>
 </head>
   <body>
-    <div id="container">
+    <div>
 
       <h2>OverlayMe auto-loaded LOCAL DEV PAGE</h2>
 
-      <p>Bookmarklet links: <a href="javascript:(function(){if(!window.overlay_me_loaded){document.body.appendChild(document.createElement('script')).src='http://overlay_me.dev/javascripts/overlay_me.css_embedded.js';}})();">overlay_me local unminified</a> and <a href="javascript:(function(){if(!window.overlay_me_loaded){document.body.appendChild(document.createElement('script')).src='http://overlay_me.dev/vendor/assets/javascripts/overlay_me/overlay_me.min.js';}})();">overlay_me local minified</a></p>
+      <p>Bookmarklet links: 
+				
+				<li>
+					<a href="javascript:(function(){if(!window.overlay_me_loaded){document.body.appendChild(document.createElement('script')).src='http://localhost:8000/assets/overlay_me.css_embedded.js';}})();">overlay_me local unminified</a> (bookmarklet loading <a href="http://localhost:8000/assets/overlay_me.css_embedded.js">http://localhost:8000/assets/overlay_me.css_embedded.js</a>)
+				</li>
+				
+				<li>
+					<a href="javascript:(function(){if(!window.overlay_me_loaded){document.body.appendChild(document.createElement('script')).src='http://localhost:8000/assets/overlay_me.min.js';}})();">overlay_me local minified</a> (bookmarklet loading <a href="http://localhost:8000/assets/overlay_me.min.js">http://localhost:8000/assets/overlay_me.min.js</a>)
+				</li>
+			</p>
+
+			<p>
+				Note: To pop the files on my localhost:8000, I simply run
+				<blockquote>
+					python -m SimpleHTTPServer
+				</blockquote>
+			</p>
+
     </div>
   </body>
 </html>

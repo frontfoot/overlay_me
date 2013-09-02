@@ -2,13 +2,11 @@
 
 Store the bookmarklet from [this page](http://frontfoot.github.com/overlay_me/demo_page.html) and load OverlayMe on top of any web page!
 
-If you just want download the compiled, minified archive: [overlay_me.min.js](https://raw.github.com/frontfoot/overlay_me/master/vendor/assets/javascripts/overlay_me/overlay_me.min.js) (CSS embedded!)
-
-note: javascripts/*.js and stylesheets/*.css are both generated unminified archives, original source code is in respective coofeescripts and scss subfolders
+If you just want download the compiled, minified archive: check the [releases](https://github.com/frontfoot/overlay_me/releases)
 
 ## Screenshot
 
-![Screenshot](http://github.com/frontfoot/overlay_me/raw/master/screenshot_frontfoot_website.jpg)
+![Screenshot](http://github.com/frontfoot/overlay_me/raw/new-design/screenshot_awesomeness_in_action.png)
 
 
 ## Why
@@ -21,21 +19,21 @@ We were struggling to see the gap between designers photoshop files and our HTML
 ## Features
 
 - overlay images over a web page
-  - move each image by mouse drag or using the arrows (shift arrow to move quicker)
-  - position and opacity of each image is saved locally to the browser (using HTML5 localStorage)
-  - images can be loaded from a project directory (see Project base use underneath)
-  - an image can be added on the fly with its absolute url
-  - hideable / collapsible toolbox ('h' and 'c' keys)
+    * move each image by mouse drag or using the arrows (shift arrow to move quicker)
+    * position and opacity of each image is saved
+    * images can be added on the fly, and will remained
+    * hideable / collapsible menu ('h' and 'c' keys)
 - HTML on top of the overlays
-  - page content can be brought back on top of the overlays ('t' key switch)
-  - control the opacity of the page content
-  - keep on playing with the CSS while having the visual overlay by transparency
-- addon layout_resizer: switch between pre-recorded devices format
+    * page content can be brought back on top of the overlays ('t' key)
+    * control the opacity of the page content
+    * keep on playing with the CSS while having the visual overlay by transparency
+
+note: All persistence is made locally to your browser (using HTML5 localStorage)
 
 
 ## Compare
 
-I've found 2 other similar tools
+I've found 2 other similar tools so far
 
 - [http://makiapp.com/](http://makiapp.com/) - really nice if you're not a dev guy and want to upload local files
 - [http://pixelperfectplugin.com/](http://pixelperfectplugin.com/) - same idea than overlay_me but firefox only (extension) and really less smooth on the dragging
@@ -44,98 +42,14 @@ I've found 2 other similar tools
 ## Todo
 
 - fix styles for firefox and IE (may not happen)
-- allow local image uploading - http://css-tricks.com/html5-drag-and-drop-avatar-changer-with-resizing-and-cropping/
-- add another dragging bar at the bottom (or not)
-- prevent the dragging bar(s) to be out of reach
-- write more tests
-  - tests - in progress (forever ?)
-    - more tests!!
-    - and the gem side ? - maybe [this](http://rakeroutes.com/blog/write-a-gem-for-the-rails-asset-pipeline/)
-  - why not a CI service - see [travis-ci.org](http://travis-ci.org/#!/michelson/lazy_high_charts/builds/527014)
-- investigate non working sites
-  - http://www.informit.com/articles/article.aspx?p=1383760
-- addons
-  - the layout_resizer addon does not work anymore...
+- patch for non-compliant sites
+    * the css of some pages break the toolbox css
+    * the non working at all sites - http://www.informit.com/articles/article.aspx?p=1383760
 
 
-## Usage
+## Rack/Rails project integration
 
-- You can use this tool on the go, over any site, via [the bookmarket](http://frontfoot.github.com/overlay_me/demo_page.html)
-
-- If you want to include it in a non-Ruby project, use the precompiled/minified script ([overlay_me.min.js](https://raw.github.com/frontfoot/overlay_me/master/vendor/assets/javascripts/overlay_me/overlay_me.min.js))
-  
-- And if you're using Ruby, install the gem :)
-
-if using bundler:
-
-    #Gemfile
-    
-    gem "overlay_me"
-
-
-### Load the script at the end of your body tag
-
-under a rails app:
-
-    = javascript_include_tag 'overlay_me/overlay_me.min.js'
-
-or in a simpler project, (we are using [middleman](http://middlemanapp.com/))
-  
-    %script{ :src => '/javascripts/overlay_me/overlay_me.min.js', :type => 'text/javascript', :charset => 'utf-8' }
-
-
-### Extended use - share overlay images to your work team, keep images sets per project
-
-By default the script will try to load the list of images from /overlay_images
-
-List your images in JSON, simply:
-
-    [
-      "/images/overlays/Home_1024r_1.png",
-      "/images/overlays/Home_1100r_1.jpg",
-      "/images/overlays/Home_1300r_1.png",
-      "/images/overlays/Home_320r_1.jpg",
-      "/images/overlays/Home_480r_1.png",
-      "/images/overlays/Home_720r_1.png",
-      "/images/overlays/Home_768r_1.png"
-    ]
-
-If you're using the gem, I made a simple Rack app to build that JSON list for you
-
-Here is how to initialise the path and the feed route
-
-using rails
-
-    #config/initializers/overlay_me.rb
-
-    if defined?(OverlayMe)
-      OverlayMe.root_dir = Dir[Rails.root.join("public")].to_s
-      OverlayMe.overlays_directory = 'images/overlays' 
-    end
-
-    #config/routes.rb
-
-    if ["development", "test"].include? Rails.env
-      match "/overlay_images" => OverlayMe::App
-    end
-
-using middleman
-
-    #config.rb:
-    
-    OverlayMe.root_dir = Dir.pwd + '/source'
-    OverlayMe.overlays_directory = 'images/overlays'
-
-    map "/overlay_images" do
-      run OverlayMe::App
-    end
-
-
-## Plug on!
-
-You can add some app specific menu for specific project.. Have a look at layout_resizer.coffee addon to have a quick view of how to use OverlayMe.Menu and OverlayMe.MenuItem
-
-    = javascript_include_tag 'overlay_me/addons/layout_resizer.js'
+There is a gem [rack-overlay_me](https://github.com/frontfoot/rack-overlay_me) that can help you :)
 
     
 ## Known problems
@@ -144,16 +58,12 @@ You can add some app specific menu for specific project.. Have a look at layout_
 - you see the overlay but can't drag it? the 'Content on Top' option is probably on (press 't')
 
 
-## Author
-
-- Joseph Boiteau - FrontFoot Media Solutions
-
-
 ## Contributors
 
-- Rufus Post - former workmate at the origin of the ovelaying concept
-- Lachlan Sylvester - Ruby advisor - Frontfoot Media Solutions
-- Dan Smith - User Experience Strategist and Califloridian - former workmate
+- Tim Petricola - did refactor/clean most of the code, and came up with a nicer design
+- Rufus Post - at the origin of the ovelaying concept using CSS
+- Dan Smith - User Experience Strategist and Califloridian
+- Joseph Boiteau - original author
 
 
 ## License

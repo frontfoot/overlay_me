@@ -30,12 +30,7 @@ describe "MenuItem", ->
     expect(menu_item.collapsed).toEqual false
 
   it "should have a collapsing button (link)", ->
-    expect($o('a.collaps-button', menu_item.el).length).toEqual 1
-
-  it "should have an append method appending stuff inside it", ->
-    test_span = $o('<span id="test-append-span">Just a test :)</span>')[0] # todo: mock a better test item
-    menu_item.append test_span
-    expect($o('#test-append-span', menu_item.el).length).toEqual 1
+    expect($o('a.collapse-button', menu_item.render()).length).toEqual 1
 
   it "should have a saveState method", ->
     expect(menu_item.saveState).toBeDefined()
