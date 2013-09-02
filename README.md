@@ -1,10 +1,6 @@
 ## Use it now!
 
-Store the bookmarklet from [this page](http://frontfoot.github.com/overlay_me/demo_page.html) and load OverlayMe on top of any web page!
-
-If you just want download the compiled, minified archive: check the [releases](https://github.com/frontfoot/overlay_me/releases)
-
-## Screenshot
+Store the bookmarklet from [this page](http://frontfoot.github.com/overlay_me/bookmarklets.html) and load OverlayMe on top of any web page!
 
 ![Screenshot](http://github.com/frontfoot/overlay_me/raw/master/screenshot_awesomeness_in_action.png)
 
