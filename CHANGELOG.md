@@ -1,7 +1,7 @@
 ### 1.0.0 - [Diff](https://github.com/frontfoot/overlay_me/compare/v0.14.1...1.0.0)
 - merged awesome work from Tim
-		* new design
-		* refactored code
+    * new design
+    * refactored code
 - deleted Ruby stuff moved into rack-overlay_me project
 - kept previous version available - see [bookmarkets page](http://frontfoot.github.io/overlay_me/bookmarklets.html)
 
