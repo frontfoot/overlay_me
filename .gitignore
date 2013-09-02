@@ -1,4 +1,11 @@
+# the Mac noise
 .DS_Store
-*.gem
+
+# the cache noise
 .sass-cache
 manifest.json
+node_modules
+
+# the generated assets
+assets
+
