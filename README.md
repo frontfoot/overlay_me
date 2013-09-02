@@ -6,7 +6,7 @@ If you just want download the compiled, minified archive: check the [releases](h
 
 ## Screenshot
 
-![Screenshot](http://github.com/frontfoot/overlay_me/raw/new-design/screenshot_awesomeness_in_action.png)
+![Screenshot](http://github.com/frontfoot/overlay_me/raw/master/screenshot_awesomeness_in_action.png)
 
 
 ## Why

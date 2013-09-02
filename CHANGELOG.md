@@ -1,3 +1,10 @@
+### 1.0.0 - [Diff](https://github.com/frontfoot/overlay_me/compare/v0.14.1...1.0.0)
+- merged awesome work from Tim
+		* new design
+		* refactored code
+- deleted Ruby stuff moved into rack-overlay_me project
+- kept previous version available - see [demo page](http://frontfoot.github.io/overlay_me/demo_page.html)
+
 ### 0.14.1 - [Diff](https://github.com/frontfoot/overlay_me/compare/v0.13.4...v0.14.1)
 - move overlays pixel by pixel using keyboard arrows (+Shift = x15)
 
