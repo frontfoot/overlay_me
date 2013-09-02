@@ -3,7 +3,7 @@ require "bundler/setup"
 require 'sprockets'
 require 'sprockets-sass'
 require 'compass'
-require 'jsmin'
+require 'uglifier'
 require 'yui/compressor'
 require 'pry'
 
@@ -54,7 +54,7 @@ namespace :assets do
     task :js do
       puts "\n** Minify JS file #{ENV['js_with_css']} -> #{ENV['js_minified']} **"
       File.open(ENV['js_minified'], 'w') do |file|
-        file.write(JSMin.minify(File.read(ENV['js_with_css'])))
+        file.write(Uglifier.compile(File.read(ENV['js_with_css'])))
       end
     end
 

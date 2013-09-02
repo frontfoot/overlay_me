@@ -9,8 +9,8 @@ gem 'sprockets-sass'
 gem 'compass'
 
 ## packaging
-gem 'jsmin'
 gem 'yui-compressor'
+gem 'uglifier'
 
 ## tests
 gem 'guard-coffeescript', "~>1.2.0"
